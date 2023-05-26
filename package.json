@@ -1,0 +1,35 @@
+{
+  "name": "real_estate",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.341.0",
+    "@aws-sdk/lib-storage": "^3.341.0",
+    "bcrypt": "^5.1.0",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-rate-limit": "^6.7.0",
+    "formidable": "^2.1.1",
+    "joi": "^17.9.2",
+    "multer": "^1.4.5-lts.1",
+    "pg": "^8.11.0"
+  },
+  "devDependencies": {
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.22"
+  },
+  "engines": {
+    "node": "18.*.*"
+  },
+  "license": "ISC"
+}
