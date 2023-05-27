@@ -5,10 +5,13 @@ import cors from 'cors';
 import rateLimit from "express-rate-limit";
 import morgan from "morgan";
 import routes from './routes.js';
+import connectDB from './config/dbConfig.js';
 
 config({ path: './.env' });
 const app = express();
 app.use(cors());
+
+connectDB();
 
 const limiter = rateLimit({
     max: 100,
