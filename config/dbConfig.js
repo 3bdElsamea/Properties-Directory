@@ -1,5 +1,5 @@
 import { Sequelize } from 'sequelize';
-
+// import sequelize from "./database.js";
 const connectDB = async () => {
   const sequelize = new Sequelize(process.env.DATABASE_URL);
   try {
