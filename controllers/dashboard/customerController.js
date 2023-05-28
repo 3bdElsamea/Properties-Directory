@@ -1,6 +1,8 @@
 import bcrypt from 'bcrypt';
 import Customer from '../../models/Customer.js';
 
+const saltRounds = 10;
+const salt = bcrypt.genSaltSync(saltRounds);
 const getAllCustomers = async (req, res) => {
   try {
     const customers = await Customer.findAll();
@@ -25,7 +27,7 @@ const createCustomer = async (req, res) => {
       name: req.body.name,
       email: req.body.email,
       phone: req.body.phone,
-      password: bcrypt.hashSync(req.body.password, 8),
+      password: bcrypt.hashSync(req.body.password, salt),
       image: req.body.image,
       username: req.body.username,
     });
@@ -39,13 +41,16 @@ const updateCustomer = async (req, res) => {
   try {
     const customer = await Customer.findByPk(req.params.id);
     if (customer) {
-      customer.name = req.body.name;
-      customer.email = req.body.email;
-      customer.phone = req.body.phone;
-      customer.password = bcrypt.hashSync(req.body.password, 8);
-      customer.image = req.body.image;
-      customer.username = req.body.username;
-      const updatedCustomer = await customer.save();
+      const updatedCustomer = await customer.update({
+        name: req.body.name,
+        email: req.body.email,
+        phone: req.body.phone,
+        password: req.body.password
+          ? bcrypt.hashSync(req.body.password, salt)
+          : customer.password,
+        image: req.body.image,
+        username: req.body.username,
+      });
       res.json(updatedCustomer);
     } else {
       res.status(404).json({ error: 'Customer not found' });
