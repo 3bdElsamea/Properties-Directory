@@ -17,6 +17,9 @@ const Customer = sequelize.define(
       type: DataTypes.STRING(255),
       allowNull: false,
       unique: true,
+      validate: {
+        isEmail: true,
+      },
     },
     phone: {
       type: DataTypes.STRING(255),
@@ -26,6 +29,9 @@ const Customer = sequelize.define(
     password: {
       type: DataTypes.STRING(255),
       allowNull: false,
+      validate: {
+        is: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/i,
+      },
     },
     image: {
       type: DataTypes.STRING(255),

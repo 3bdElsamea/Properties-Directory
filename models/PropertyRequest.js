@@ -1,5 +1,7 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/DBConnection';
+import Customer from './Customer.js';
+import Property from './Property.js';
 
 const PropertyRequest = sequelize.define(
   'PropertyRequest',
