@@ -9,8 +9,9 @@ import connectDB from './config/dbConfig.js';
 import AppError from './utils/appError.js';
 import globalErrorHandler from './controllers/errorController.js' ;
 
-config({ path: './.env' });
 const app = express();
+
+config({ path: './.env' });
 app.use(cors());
 
 connectDB();
@@ -42,3 +43,4 @@ app.listen(process.env.PORT, () => {
     console.log(`App running on port ${process.env.PORT}...`);
 });
 
+export default app;
