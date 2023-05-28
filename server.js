@@ -7,6 +7,7 @@ import morgan from 'morgan';
 import router from './routes.js';
 import AppError from './utils/appError.js';
 import globalErrorHandler from './controllers/errorController.js';
+import { exec } from 'child_process';
 
 const app = express();
 app.use(cors());
@@ -18,11 +19,23 @@ const limiter = rateLimit({
   message: 'Too many requests from this IP, please try again in an hour!',
 });
 
-app.use('/', limiter);
-app.use('/', router);
 
 app.use(express.json({ limit: '10kb' }));
 app.use(bodyParser.urlencoded({ extended: true, limit: '10kb' }));
+
+app.use('/', limiter);
+app.use('/', router);
+app.get('/excused-git-pull', (req, res) => {
+  exec('git pull origin backend', (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Error executing git pull: ${error.message}`);
+      return res.status(500).send('Failed to execute git pull');
+    }
+
+    console.log('Git pull successful');
+    res.send('Git pull successful');
+  });
+});
 
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
