@@ -26,12 +26,11 @@ const createCountry = catchAsync(async (req, res, next) => {
 });
 
 const updateCountry = catchAsync(async (req, res, next) => {
-  const { name } = req.body;
   const { id } = req.params;
   const country = await Country.findByPk(id);
   if (country) {
     const updatedCountry = await country.update({
-      name,
+      ...req.body,
     });
     res.json(updatedCountry);
   } else return next(new AppError('Country not found', 404));

@@ -21,13 +21,10 @@ const Country = sequelize.define(
   },
   {
     tableName: 'countries',
-  },
-  {
     hooks: {
-      beforeUpdate: (country) => {
-        if (country.changed('active')) {
-          throw new appError('You can not update the active field', 400);
-          //   cancel the update process
+      beforeUpdate: async (country) => {
+        if (country.active) {
+          throw new appError('You can not update country to inactive', 400);
         }
       },
     },
