@@ -8,7 +8,11 @@ import { exec } from 'child_process';
 
 const app = express();
 app.use(cors());
+
+
 config();
+
+
 
 app.use('/', router);
 
