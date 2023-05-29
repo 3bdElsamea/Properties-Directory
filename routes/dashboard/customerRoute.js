@@ -11,9 +11,11 @@ import validateCustomer from '../../validation/validateCustomer.js';
 
 const router = express.Router();
 
-router.route('/')
+router
+  .route('/')
   .get(getAllCustomers)
-  .post(validateCustomer, createCustomer);
+  // .post(validateCustomer, createCustomer);
+  .post(createCustomer);
 
 router
   .route('/:id')

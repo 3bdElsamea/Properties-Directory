@@ -1,5 +1,6 @@
 import Sequelize from 'sequelize';
 import { config } from 'dotenv';
+import catchAsync from '../utils/catchAsync.js';
 
 config();
 
@@ -24,6 +25,7 @@ const sequelize = new Sequelize(
   },
 );
 
+// connect use async await with catchAsync
 async function testConnection() {
   try {
     await sequelize.authenticate();
@@ -34,5 +36,4 @@ async function testConnection() {
 }
 
 testConnection();
-
 export default sequelize;
