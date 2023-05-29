@@ -6,7 +6,6 @@ import AppError from './utils/appError.js';
 import globalErrorHandler from './controllers/errorController.js';
 import rateLimit from 'express-rate-limit';
 import trimMiddleware from './middlewares/trimMiddleware.js';
-import categoryRoute from './routes/dashboard/categoryRoute.js';
 
 const router = express.Router();
 
@@ -23,8 +22,6 @@ router.use(trimMiddleware);
 
 router.use('/', websiteRoute);
 router.use('/dashboard', dashboardRoute);
-router.use('/dashboard/categories', categoryRoute);
-
 
 router.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));

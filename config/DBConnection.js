@@ -3,9 +3,10 @@ import { config } from 'dotenv';
 
 config();
 
-
 const sequelize = new Sequelize(
-  'postgresql://ahmedelshaar:rLiTXWeNZ5b4@ep-solitary-morning-295039.eu-central-1.aws.neon.tech/neondb?sslmode=require',
+  process.env.DB_NAME,
+  process.env.DB_USER,
+  process.env.DB_PASSWORD,
   {
     host: process.env.DB_HOST,
     dialect: 'postgres',
@@ -35,5 +36,3 @@ async function testConnection() {
 testConnection();
 
 export default sequelize;
-
-
