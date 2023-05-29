@@ -27,7 +27,13 @@ const devError = (err, res) => {
 };
 
 const prodError = (err, res) => {
-  if(err.isOperational) {
+  if(err.isValidationError) {
+    return res.status(err.statusCode).json({
+      status: err.status,
+      message: err.message,
+      errors: err.errors
+    });
+  } else if (err.isOperational) {
     return res.status(err.statusCode).json({
       status: err.status,
       message: err.message,

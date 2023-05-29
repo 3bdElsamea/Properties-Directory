@@ -7,15 +7,14 @@ import {
   deleteCustomer,
 } from '../../controllers/dashboard/customerController.js';
 import idParmaMiddleware from '../../middlewares/idParmaMiddleware.js';
-import validateCustomer from '../../validation/validateCustomer.js';
+import { customerCreate } from '../../validation/validateCustomer.js';
 
 const router = express.Router();
 
 router
   .route('/')
   .get(getAllCustomers)
-  // .post(validateCustomer, createCustomer);
-  .post(createCustomer);
+  .post(customerCreate, createCustomer);
 
 router
   .route('/:id')
