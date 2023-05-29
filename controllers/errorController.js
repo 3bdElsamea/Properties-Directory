@@ -1,4 +1,3 @@
-// Development error handler
 const devError = (err, res) => {
   return res.status(err.statusCode).json({
     status: err.status,
@@ -8,21 +7,18 @@ const devError = (err, res) => {
   });
 };
 
-// Production error handler
 const prodError = (err, res) => {
-  // if(err.isOperational) {
-  return res.status(err.statusCode).json({
-    status: err.status,
-    message: err.message,
-  });
-  // }
-  // else {
-  //     console.error('ERROR 💥', err);
-  //     return res.status(500).json({
-  //         status: 'error',
-  //         message: 'Something went wrong!'
-  //     })
-  // }
+  if(err.isOperational) {
+    return res.status(err.statusCode).json({
+      status: err.status,
+      message: err.message,
+    });
+  } else {
+      return res.status(500).json({
+          status: 'error',
+          message: 'Something went wrong!'
+      })
+  }
 };
 
 export default (err, req, res, next) => {

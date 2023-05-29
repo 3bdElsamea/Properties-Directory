@@ -41,12 +41,6 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
-app.all('*', (req, res, next) => {
-  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
-});
-
-app.use(globalErrorHandler);
-
 app.listen(process.env.PORT, () => {
   console.log(`App running on port ${process.env.PORT}...`);
 });

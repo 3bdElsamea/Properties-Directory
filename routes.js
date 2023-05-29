@@ -1,20 +1,18 @@
 import express from 'express';
 import dashboardRoute from './routes/dashboard.js';
 import websiteRoute from './routes/dashboard.js';
+import AppError from './utils/appError.js';
+import globalErrorHandler from './controllers/errorController.js';
 
 const router = express.Router();
 
 router.use('/', websiteRoute);
 router.use('/dashboard', dashboardRoute);
 
-// Error handling
-router.use((err, req, res, next) => {
-  if (process.env.NODE_ENV === 'production') {
-    return res.status(500).json({ error: 'Internal Server Error' });
-  } else {
-    console.error(err);
-    return res.status(500).json({ error: err });
-  }
+router.all('*', (req, res, next) => {
+  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
+
+router.use(globalErrorHandler);
 
 export default router;

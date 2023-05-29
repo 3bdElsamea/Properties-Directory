@@ -1,5 +1,6 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/DBConnection.js';
+import bcrypt from 'bcrypt';
 
 const Customer = sequelize.define(
   'Customer',
@@ -46,6 +47,20 @@ const Customer = sequelize.define(
   },
   {
     tableName: 'customers',
+    hooks: {
+      beforeCreate: async (customer) => {
+        if (customer.password) {
+          const salt = await bcrypt.genSaltSync(10);
+          customer.password = bcrypt.hashSync(customer.password, salt);
+        }
+      },
+      beforeUpdate:async (customer) => {
+        if (customer.password) {
+          const salt = await bcrypt.genSaltSync(10);
+          customer.password = bcrypt.hashSync(customer.password, salt);
+        }
+      }
+    }
   },
 );
 
