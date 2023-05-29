@@ -11,10 +11,14 @@ import {
   customerCreate,
   customerUpdate,
 } from '../../validation/validateCustomer.js';
+import upload from '../../utils/uploadImage.js';
 
 const router = express.Router();
 
-router.route('/').get(getAllCustomers).post(customerCreate, createCustomer);
+router
+  .route('/')
+  .get(getAllCustomers)
+  .post(customerCreate, upload.single('image'), createCustomer);
 
 router
   .route('/:id')

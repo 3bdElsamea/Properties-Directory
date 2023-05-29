@@ -4,7 +4,7 @@ const schema = {
   name: { type: 'string', minLength: 3 },
   email: { type: 'string', format: 'email' },
   password: { type: 'string', minLength: 8 },
-  phone: { type: 'number' },
+  phone: { type: 'git ' },
   image: { type: 'string' },
   username: { type: 'string', minLength: 3 },
   password_token: { type: 'string' },
