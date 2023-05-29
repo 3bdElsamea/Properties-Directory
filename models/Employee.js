@@ -63,8 +63,7 @@ const Employee = sequelize.define(
           employee.password = bcrypt.hashSync(employee.password, salt);
         }
       },
-
-    }
+    },
   },
 );
 

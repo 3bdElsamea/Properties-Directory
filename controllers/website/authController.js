@@ -11,7 +11,9 @@ export const login = async (req, res) => {
       return res.status(401).json({ message: 'Invalid email or password' });
     }
 
-    const token = jwt.sign({ customerId: customer.id }, 'your-secret-key', { expiresIn: '1h' });
+    const token = jwt.sign({ customerId: customer.id }, 'your-secret-key', {
+      expiresIn: '1h',
+    });
 
     res.json({ token });
   } catch (error) {
@@ -39,7 +41,11 @@ export const forgetPassword = async (req, res) => {
     }
 
     // Generate and save a password reset token
-    const resetToken = jwt.sign({ customerId: customer.id }, 'your-secret-key', { expiresIn: '15m' });
+    const resetToken = jwt.sign(
+      { customerId: customer.id },
+      'your-secret-key',
+      { expiresIn: '15m' },
+    );
     customer.password_token = resetToken;
     customer.password_token_expires_at = new Date(Date.now() + 15 * 60 * 1000); // 15 minutes
     await customer.save();
@@ -58,7 +64,9 @@ export const resetPassword = async (req, res) => {
   const { token, newPassword } = req.body;
 
   try {
-    const customer = await Customer.findOne({ where: { password_token: token } });
+    const customer = await Customer.findOne({
+      where: { password_token: token },
+    });
 
     if (!customer || customer.password_token_expires_at < new Date()) {
       return res.status(400).json({ message: 'Invalid or expired token' });
@@ -78,7 +86,6 @@ export const resetPassword = async (req, res) => {
 };
 
 export const myProfile = async (req, res) => {
-
   const { customerId } = req.user;
 
   try {

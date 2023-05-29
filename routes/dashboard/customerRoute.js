@@ -7,20 +7,20 @@ import {
   deleteCustomer,
 } from '../../controllers/dashboard/customerController.js';
 import idParmaMiddleware from '../../middlewares/idParmaMiddleware.js';
-import { customerCreate } from '../../validation/validateCustomer.js';
+import {
+  customerCreate,
+  customerUpdate,
+} from '../../validation/validateCustomer.js';
 
 const router = express.Router();
 
-router
-  .route('/')
-  .get(getAllCustomers)
-  .post(customerCreate, createCustomer);
+router.route('/').get(getAllCustomers).post(customerCreate, createCustomer);
 
 router
   .route('/:id')
   .all(idParmaMiddleware)
   .get(getCustomerById)
-  .patch(updateCustomer)
+  .patch(customerUpdate, updateCustomer)
   .delete(deleteCustomer);
 
 export default router;

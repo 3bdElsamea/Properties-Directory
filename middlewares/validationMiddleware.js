@@ -5,17 +5,34 @@ const ajv = new Ajv({ allErrors: true });
 addFormats(ajv);
 
 export default (req, res, next, schema) => {
-  const valid = ajv.validate(
-    schema,
-    req.body,
-  );
+  const valid = ajv.validate(schema, req.body);
 
-  const errors = {};
-  ajv.errors.forEach((error) => {
-    errors[error.instancePath.replace('/','')] = error.message;
-  });
+  if (!valid) {
+    const errors = {};
 
-  if (!valid) next(new validationError(errors));
+    const errorsRequired = ajv.errors
+      .filter((error) => {
+        if (error.keyword === 'required') {
+          return error;
+        }
+      })
+      .map((error) => {
+        return error.message;
+      });
+
+    if (errorsRequired.length > 0) {
+      errors.required = errorsRequired;
+    }
+
+    ajv.errors.forEach((error) => {
+      const key = error.instancePath.replace('/', '');
+      if (error.keyword !== 'required') {
+        errors[key] = error.message;
+      }
+    });
+
+    next(new validationError(errors));
+  }
 
   next();
 };

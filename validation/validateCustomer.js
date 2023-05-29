@@ -1,41 +1,32 @@
 import validationMiddleware from '../middlewares/validationMiddleware.js';
 
+const schema = {
+  name: { type: 'string', minLength: 3 },
+  email: { type: 'string', format: 'email' },
+  password: { type: 'string', minLength: 8 },
+  phone: { type: 'number' },
+  image: { type: 'string' },
+  username: { type: 'string', minLength: 3 },
+  password_token: { type: 'string' },
+  password_token_expires_at: { type: 'string', format: 'date-time' },
+  created_at: { type: 'string', format: 'date-time' },
+  updated_at: { type: 'string', format: 'date-time' },
+};
+
 const customerCreate = (req, res, next) => {
   validationMiddleware(req, res, next, {
     type: 'object',
-    properties: {
-      name: { type: 'string', minLength: 10 },
-      email: { type: 'string', format: 'email' },
-      password: { type: 'string', minLength: 60 },
-      image: { type: 'string' },
-      username: { type: 'string', minLength: 1 },
-      password_token: { type: 'string' },
-      password_token_expires_at: { type: 'string', format: 'date-time' },
-      created_at: { type: 'string', format: 'date-time' },
-      updated_at: { type: 'string', format: 'date-time' },
-    },
+    properties: schema,
     required: ['name', 'email', 'password', 'username'],
-  })
+  });
 };
 
 const customerUpdate = (req, res, next) => {
   validationMiddleware(req, res, next, {
     type: 'object',
-    properties: {
-      name: { type: 'string', minLength: 10 },
-      email: { type: 'string', format: 'email' },
-      password: { type: 'string', minLength: 60 },
-      image: { type: 'string' },
-      username: { type: 'string', minLength: 1 },
-      password_token: { type: 'string' },
-      password_token_expires_at: { type: 'string', format: 'date-time' },
-      created_at: { type: 'string', format: 'date-time' },
-      updated_at: { type: 'string', format: 'date-time' },
-    },
+    properties: schema,
     required: [],
-  })
-}
+  });
+};
 
-export {
-  customerCreate
-}
+export { customerCreate, customerUpdate };
