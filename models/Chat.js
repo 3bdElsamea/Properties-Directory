@@ -1,5 +1,7 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/DBConnection';
+import Customer from './Customer.js';
+import Employee from './Employee.js';
 
 const Chat = sequelize.define(
   'Chat',

@@ -1,5 +1,6 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/DBConnection';
+import Country from './Country.js';
 
 const City = sequelize.define(
   'City',

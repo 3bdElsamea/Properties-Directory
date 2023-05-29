@@ -13,28 +13,40 @@ const Customer = sequelize.define(
     name: {
       type: DataTypes.STRING(255),
       allowNull: false,
+      defaultValue: '',
     },
     email: {
       type: DataTypes.STRING(255),
       allowNull: false,
       unique: true,
+      defaultValue: '',
+      validate: {
+        isEmail: true,
+      },
     },
     phone: {
       type: DataTypes.STRING(255),
       allowNull: false,
+      defaultValue: '',
       unique: true,
     },
     password: {
       type: DataTypes.STRING(255),
       allowNull: false,
+      defaultValue: '',
+      // validate: {
+      //   is: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/i,
+      // },
     },
     image: {
       type: DataTypes.STRING(255),
+      defaultValue: '',
     },
     username: {
       type: DataTypes.STRING(255),
       allowNull: false,
       unique: true,
+      defaultValue: '',
     },
     password_token: {
       type: DataTypes.STRING(255),
