@@ -20,7 +20,7 @@ const Customer = sequelize.define(
             throw new Error('Name must be between 2 and 30 characters');
           }
         },
-      }
+      },
     },
     email: {
       type: DataTypes.STRING(255),
@@ -39,7 +39,7 @@ const Customer = sequelize.define(
     password: {
       type: DataTypes.STRING(255),
       allowNull: false,
-      defaultValue: '',
+      // defaultValue: '',
       // validate: {
       //   is: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/i,
       // },
@@ -52,7 +52,7 @@ const Customer = sequelize.define(
       type: DataTypes.STRING(255),
       allowNull: false,
       unique: true,
-      defaultValue: '',
+      // defaultValue: '',
     },
     password_token: {
       type: DataTypes.STRING(255),
@@ -72,13 +72,13 @@ const Customer = sequelize.define(
           customer.password = bcrypt.hashSync(customer.password, salt);
         }
       },
-      beforeUpdate:async (customer) => {
+      beforeUpdate: async (customer) => {
         if (customer.password) {
           const salt = await bcrypt.genSaltSync(10);
           customer.password = bcrypt.hashSync(customer.password, salt);
         }
-      }
-    }
+      },
+    },
   },
 );
 

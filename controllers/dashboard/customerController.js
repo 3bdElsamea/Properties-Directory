@@ -17,13 +17,15 @@ const getCustomerById = catchAsync(async (req, res, next) => {
 });
 
 const createCustomer = catchAsync(async (req, res) => {
+  req.body.image = req.file.location;
   const customer = await Customer.create({
-    name: req.body.name,
-    email: req.body.email,
-    phone: req.body.phone,
-    password: req.body.password,
-    image: req.body.image,
-    username: req.body.username,
+    // name: req.body.name,
+    // email: req.body.email,
+    // phone: req.body.phone,
+    // password: req.body.password,
+    // image: req.body.image,
+    // username: req.body.username,
+    ...req.body,
   });
   res.json(customer);
 });
@@ -32,12 +34,7 @@ const updateCustomer = catchAsync(async (req, res) => {
   const customer = await Customer.findByPk(req.params.id);
   if (customer) {
     const updatedCustomer = await customer.update({
-      name: req.body.name,
-      email: req.body.email,
-      phone: req.body.phone,
-      password: req.body.password,
-      image: req.body.image,
-      username: req.body.username,
+      ...req.body,
     });
     res.json(updatedCustomer);
   } else {
