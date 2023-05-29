@@ -4,7 +4,7 @@ const schema = {
   name: { type: 'string', minLength: 3 },
   email: { type: 'string', format: 'email' },
   password: { type: 'string', minLength: 8 },
-  phone: { type: 'git ' },
+  phone: { type: 'integer' },
   image: { type: 'string' },
   username: { type: 'string', minLength: 3 },
   password_token: { type: 'string' },
@@ -17,7 +17,7 @@ const customerCreate = (req, res, next) => {
   validationMiddleware(req, res, next, {
     type: 'object',
     properties: schema,
-    required: ['name', 'email', 'password', 'username'],
+    required: ['name', 'email', 'password', 'username', "phone"],
   });
 };
 

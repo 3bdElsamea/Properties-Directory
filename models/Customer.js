@@ -13,14 +13,6 @@ const Customer = sequelize.define(
     name: {
       type: DataTypes.STRING(255),
       allowNull: false,
-      validate: {
-        is: /^[a-zA-Z ]{2,30}$/i,
-        length(value) {
-          if (value.length < 2 || value.length > 30) {
-            throw new Error('Name must be between 2 and 30 characters');
-          }
-        },
-      },
     },
     email: {
       type: DataTypes.STRING(255),
@@ -39,10 +31,14 @@ const Customer = sequelize.define(
     password: {
       type: DataTypes.STRING(255),
       allowNull: false,
+<<<<<<< HEAD
+      defaultValue: '',
+=======
       // defaultValue: '',
       // validate: {
       //   is: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/i,
       // },
+>>>>>>> 7a1fcf3b593846d7e6b4cf0043f72b4b07c8f8b9
     },
     image: {
       type: DataTypes.STRING(255),
@@ -73,7 +69,7 @@ const Customer = sequelize.define(
         }
       },
       beforeUpdate: async (customer) => {
-        if (customer.password) {
+        if (customer.changed('password')) {
           const salt = await bcrypt.genSaltSync(10);
           customer.password = bcrypt.hashSync(customer.password, salt);
         }

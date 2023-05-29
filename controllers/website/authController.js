@@ -1,29 +1,26 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import Customer from '../../models/Employee.js';
+import catchAsync from '../../utils/catchAsync.js';
 
-export const login = async (req, res) => {
+export const login = catchAsync(async (req, res) => {
   const { email, password } = req.body;
-  try {
-    const customer = await Customer.findOne({ where: { email } });
+  const customer = await Customer.findOne({ where: { email } });
 
-    if (!customer || !bcrypt.compareSync(password, customer.password)) {
-      return res.status(401).json({ message: 'Invalid email or password' });
-    }
-
-    const token = jwt.sign({ customerId: customer.id }, 'your-secret-key', {
-      expiresIn: '1h',
-    });
-
-    res.json({ token });
-  } catch (error) {
-    console.error('Error during login:', error);
-    res.status(500).json({ message: 'Login failed' });
+  if (!customer || !bcrypt.compareSync(password, customer.password)) {
+    return res.status(401).json({ message: 'Invalid email or password' });
   }
-};
+
+  const token = jwt.sign({ customerId: customer.id }, process.env.TOKEN_SECRET, {
+    expiresIn: process.env.TOKEN_EXPIRE_IN,
+  });
+
+  res.json({ token });
+});
 
 export const logout = async (req, res) => {
-  jwt.destroy(req.token);
+  jwt.
+
   res.json({ message: 'Logout successful' });
 };
 
