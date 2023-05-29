@@ -11,7 +11,9 @@ export const login = catchAsync(async (req, res, next) => {
     return res.status(401).json({ message: 'Invalid email or password' });
   }
 
-  const token = jwt.sign({ customerId: customer.id }, 'your-secret-key', { expiresIn: '1h' });
+  const token = jwt.sign({ customerId: customer.id }, 'your-secret-key', {
+    expiresIn: '1h',
+  });
 
   res.json({ token });
 });
@@ -31,7 +33,9 @@ export const forgetPassword = catchAsync(async (req, res, next) => {
   }
 
   // Generate and save a password reset token
-  const resetToken = jwt.sign({ customerId: customer.id }, 'your-secret-key', { expiresIn: '15m' });
+  const resetToken = jwt.sign({ customerId: customer.id }, 'your-secret-key', {
+    expiresIn: '15m',
+  });
   customer.password_token = resetToken;
   customer.password_token_expires_at = new Date(Date.now() + 15 * 60 * 1000); // 15 minutes
   await customer.save();
@@ -60,7 +64,6 @@ export const resetPassword = catchAsync(async (req, res, next) => {
 });
 
 export const myProfile = catchAsync(async (req, res, next) => {
-
   const { customerId } = req.user;
 
   try {

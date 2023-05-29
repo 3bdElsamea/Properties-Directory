@@ -4,4 +4,4 @@ export default (req, res, next) => {
     return next(new AppError('Invalid ID', 400));
   }
   next();
-}
+};
