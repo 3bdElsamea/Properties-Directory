@@ -13,19 +13,25 @@ const Customer = sequelize.define(
     name: {
       type: DataTypes.STRING(255),
       allowNull: false,
-      defaultValue: '',
+      validate: {
+        is: /^[a-zA-Z ]{2,30}$/i,
+        length(value) {
+          if (value.length < 2 || value.length > 30) {
+            throw new Error('Name must be between 2 and 30 characters');
+          }
+        },
+      }
     },
     email: {
       type: DataTypes.STRING(255),
       allowNull: false,
       unique: true,
-      defaultValue: '',
       validate: {
         isEmail: true,
       },
     },
     phone: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.STRING(50),
       allowNull: false,
       defaultValue: '',
       unique: true,

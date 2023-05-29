@@ -6,12 +6,18 @@ import {
   updateCustomer,
   deleteCustomer,
 } from '../../controllers/dashboard/customerController.js';
+import idParmaMiddleware from '../../middlewares/idParmaMiddleware.js';
+import validateCustomer from '../../validation/validateCustomer.js';
 
 const router = express.Router();
 
-router.route('/').get(getAllCustomers).post(createCustomer);
+router.route('/')
+  .get(getAllCustomers)
+  .post(validateCustomer, createCustomer);
+
 router
   .route('/:id')
+  .all(idParmaMiddleware)
   .get(getCustomerById)
   .patch(updateCustomer)
   .delete(deleteCustomer);
