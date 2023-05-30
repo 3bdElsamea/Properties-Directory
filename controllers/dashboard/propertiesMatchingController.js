@@ -3,7 +3,7 @@ import { Op } from 'sequelize';
 import PropertyGeneralRequest from '../../models/PropertyGeneralRequest.js';
 import catchAsync from '../../utils/catchAsync.js';
 import AppError from '../../utils/appError.js';
-// import ApiFeatures from '../../utils/apiFeatures.js';
+import ApiFeatures from '../../utils/apiFeatures.js';
 import Customer from '../../models/Customer.js';
 import Property from '../../models/Property.js';
 
@@ -45,15 +45,24 @@ const getPropertyById = catchAsync(async (req, res, next) => {
   res.json(getPropertyById);
 });
 
+
 const matchingProperty = catchAsync(async (req, res, next) => {
-  const { year_built } = req.query;
+  const queryStringObj = { ...req.query };
+  const excludesField = ['bathrooms', 'bedrooms', 'year_built' , 'garage' , 'floors'];
+
+  excludesField.forEach((field) =>  queryStringObj[field]);
+
+  console.log('Excluded fields:', excludesField);
+  console.log('Original request query:', req.query);
+  console.log('Filtered query object:', queryStringObj);
+
+  const whereClause = Object.entries(queryStringObj).reduce((acc, [key, value]) => {
+    acc[key] = { [Op.eq]: value };
+    return acc;
+  }, {});
 
   const matchingProperties = await PropertyGeneralRequest.findAll({
-    where: {
-      year_built: {
-        [Op.eq]: year_built,
-      },
-    },
+    where: whereClause,
     include: [
       {
         model: Customer,
@@ -68,5 +77,6 @@ const matchingProperty = catchAsync(async (req, res, next) => {
 
   res.json(matchingProperties);
 });
+
 
 export { getAllProperties, getPropertyById, matchingProperty };
