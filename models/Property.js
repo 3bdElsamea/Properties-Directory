@@ -2,7 +2,6 @@ import { DataTypes } from 'sequelize';
 import sequelize from '../config/DBConnection';
 import Category from './Category.js';
 import City from './City.js';
-import PropertyType from './PropertyType.js';
 import Owner from './Owner.js';
 import Employee from './Employee.js';
 
@@ -62,10 +61,6 @@ const Property = sequelize.define(
       allowNull: false,
     },
     city_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    property_type_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },

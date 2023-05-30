@@ -18,13 +18,6 @@ export const login = catchAsync(async (req, res) => {
   res.json({ token });
 });
 
-export const logout = async (req, res) => {
-  jwt.
-
-  res.json({ message: 'Logout successful' });
-};
-
-// Controller for requesting password reset
 export const forgetPassword = async (req, res) => {
   const { email } = req.body;
 

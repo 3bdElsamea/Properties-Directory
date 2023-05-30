@@ -31,14 +31,6 @@ const Customer = sequelize.define(
     password: {
       type: DataTypes.STRING(255),
       allowNull: false,
-<<<<<<< HEAD
-      defaultValue: '',
-=======
-      // defaultValue: '',
-      // validate: {
-      //   is: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/i,
-      // },
->>>>>>> 7a1fcf3b593846d7e6b4cf0043f72b4b07c8f8b9
     },
     image: {
       type: DataTypes.STRING(255),

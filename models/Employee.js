@@ -58,7 +58,7 @@ const Employee = sequelize.define(
         }
       },
       beforeUpdate: async (employee) => {
-        if (employee.password) {
+        if (employee.changed('password')) {
           const salt = await bcrypt.genSaltSync(10);
           employee.password = bcrypt.hashSync(employee.password, salt);
         }
