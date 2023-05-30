@@ -11,6 +11,7 @@ const sequelize = new Sequelize(
   {
     host: process.env.DB_HOST,
     dialect: 'postgres',
+    timezone: '+02:00',
     dialectOptions: {
       ssl: {
         require: true,

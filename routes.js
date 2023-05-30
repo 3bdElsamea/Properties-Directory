@@ -5,7 +5,7 @@ import websiteRoute from './routes/dashboard.js';
 import AppError from './utils/appError.js';
 import globalErrorHandler from './controllers/errorController.js';
 import rateLimit from 'express-rate-limit';
-import prepareRequestMiddleware from './middlewares/prepareRequestMiddleware.js';
+import trimMiddleware from './middlewares/trimMiddleware.js';
 
 const router = express.Router();
 
@@ -21,7 +21,7 @@ router.use(
   }),
 );
 
-router.use(prepareRequestMiddleware);
+router.use(trimMiddleware);
 
 router.use('/', websiteRoute);
 router.use('/dashboard', dashboardRoute);

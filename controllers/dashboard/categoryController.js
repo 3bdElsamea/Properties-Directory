@@ -1,11 +1,5 @@
-//const slugify = require('slugify');
-// const asyncHandler = require('express-async-handler');
-// const Category = require('../../models/categoryModal');
-// import asyncHandler from 'express-async-handler';
-
 import Category from '../../models/Category.js';
 import catchAsync from '../../utils/catchAsync.js';
-// import ApiFeatures from '../../utils/apiFeatures.js';
 import AppError from '../../utils/appError.js';
 
 const getAllCategories = catchAsync(async (req, res, next) => {
