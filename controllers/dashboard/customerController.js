@@ -28,6 +28,7 @@ const createCustomer = catchAsync(async (req, res) => {
 const updateCustomer = catchAsync(async (req, res) => {
   const customer = await Customer.findByPk(req.params.id);
   if (customer) {
+    req.file ? (req.body.image = req.file.location) : null;
     const updatedCustomer = await customer.update({
       ...req.body,
     });

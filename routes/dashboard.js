@@ -4,6 +4,7 @@ import customerRoute from './dashboard/customerRoute.js';
 import countryRoute from './dashboard/countryRoute.js';
 import cityRoute from './dashboard/cityRoute.js';
 import ownerRoute from './dashboard/ownerRoute.js';
+import propertyRoute from './dashboard/propertyRoute.js';
 import { exec } from 'child_process';
 import app from '../server.js';
 
@@ -14,6 +15,7 @@ router.use('/customers', customerRoute);
 router.use('/countries', countryRoute);
 router.use('/cities', cityRoute);
 router.use('/owners', ownerRoute);
+router.use('/properties', propertyRoute);
 
 router.get('/excused-git-pull', (req, res) => {
   exec('git pull origin backend', (error, stdout, stderr) => {

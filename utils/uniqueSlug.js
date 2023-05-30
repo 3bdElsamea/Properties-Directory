@@ -10,6 +10,10 @@ async function uniqueSlug(Model, name) {
     },
   });
   if (slugExists) {
+    // console.log(slugExists.slug.split('-'));
+    // if (Number(slugExists.slug.split('-').slice(-1))) {
+    //   process.env.SLUG_COUNT = Number(slugExists.slug.split('-').slice(-1));
+    // }
     const newSlug = `${slug}-${process.env.SLUG_COUNT}`;
     process.env.SLUG_COUNT = Number(process.env.SLUG_COUNT) + 1;
     return newSlug;

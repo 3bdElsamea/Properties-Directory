@@ -24,7 +24,7 @@ router
   .route('/:id')
   .all(idParmaMiddleware)
   .get(getCustomerById)
-  .patch(customerUpdate, updateCustomer)
+  .patch(upload.single('image'), customerUpdate, updateCustomer)
   .delete(deleteCustomer);
 
 export default router;
