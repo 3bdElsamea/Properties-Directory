@@ -38,7 +38,7 @@ const checkKeys = catchAsync(async (req, res, next) => {
 const createProperty = catchAsync(async (req, res, next) => {
   await checkKeys(req, res, next);
   const slug = await uniqueSlug(Property, req.body.title);
-  req.body.image = req.file.location;
+  req.file ? (req.body.image = req.file.location) : null;
   const property = await Property.create({
     ...req.body,
     slug,
