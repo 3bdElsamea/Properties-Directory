@@ -18,7 +18,7 @@ const router = express.Router();
 router
   .route('/')
   .get(getAllCustomers)
-  .post(customerCreate, upload.single('image'), createCustomer);
+  .post(upload.single('image'), customerCreate, createCustomer);
 
 router
   .route('/:id')

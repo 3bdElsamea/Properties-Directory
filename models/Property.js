@@ -2,7 +2,6 @@ import { DataTypes } from 'sequelize';
 import sequelize from '../config/DBConnection';
 import Category from './Category.js';
 import City from './City.js';
-import PropertyType from './PropertyType.js';
 import Owner from './Owner.js';
 import Employee from './Employee.js';
 
@@ -65,10 +64,6 @@ const Property = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    property_type_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
     owner_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -84,7 +79,6 @@ const Property = sequelize.define(
 
 Property.belongsTo(Category, { foreignKey: 'category_id' });
 Property.belongsTo(City, { foreignKey: 'city_id' });
-Property.belongsTo(PropertyType, { foreignKey: 'property_type_id' });
 Property.belongsTo(Owner, { foreignKey: 'owner_id' });
 Property.belongsTo(Employee, { foreignKey: 'employee_id' });
 

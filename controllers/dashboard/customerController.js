@@ -18,13 +18,8 @@ const getCustomerById = catchAsync(async (req, res, next) => {
 
 const createCustomer = catchAsync(async (req, res) => {
   req.body.image = req.file.location;
+  console.log(req.body);
   const customer = await Customer.create({
-    // name: req.body.name,
-    // email: req.body.email,
-    // phone: req.body.phone,
-    // password: req.body.password,
-    // image: req.body.image,
-    // username: req.body.username,
     ...req.body,
   });
   res.json(customer);

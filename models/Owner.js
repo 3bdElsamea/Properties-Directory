@@ -1,5 +1,5 @@
 import { DataTypes } from 'sequelize';
-import sequelize from '../config/DBConnection';
+import sequelize from '../config/DBConnection.js';
 
 const Owner = sequelize.define(
   'Owner',
@@ -13,6 +13,11 @@ const Owner = sequelize.define(
       type: DataTypes.STRING(255),
       allowNull: false,
     },
+    slug: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+      // unique: true,
+    },
     email: {
       type: DataTypes.STRING(255),
       allowNull: false,
@@ -21,6 +26,7 @@ const Owner = sequelize.define(
     phone: {
       type: DataTypes.STRING(255),
       allowNull: false,
+      unique: true,
     },
     status: {
       type: DataTypes.ENUM('pending', 'active', 'rejected'),
