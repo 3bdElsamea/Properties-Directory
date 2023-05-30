@@ -1,5 +1,5 @@
 import { DataTypes } from 'sequelize';
-import sequelize from '../config/DBConnection';
+import sequelize from '../config/DBConnection.js';
 import Category from './Category.js';
 import City from './City.js';
 import PropertyType from './PropertyType.js';
