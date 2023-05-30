@@ -1,9 +1,7 @@
 import City from '../../models/City.js';
-import Country from '../../models/Country.js';
 import catchAsync from '../../utils/catchAsync.js';
 import ApiFeatures from '../../utils/apiFeatures.js';
 import AppError from '../../utils/appError.js';
-import checkFkExists from '../../utils/checkFkExists.js';
 
 const getAllCities = catchAsync(async (req, res) => {
   const cities = await new ApiFeatures(City, req.query).get();
@@ -20,7 +18,6 @@ const getCityById = catchAsync(async (req, res, next) => {
 
 const createCity = catchAsync(async (req, res, next) => {
   const { name, country_id } = req.body;
-  // country_id ? await checkFkExists(Country, country_id, req, res, next) : null;
   const city = await City.create({
     name,
     country_id,
@@ -33,12 +30,8 @@ const updateCity = catchAsync(async (req, res, next) => {
   const { id } = req.params;
   const city = await City.findByPk(id);
   if (city) {
-    country_id
-      ? await checkFkExists(Country, country_id, req, res, next)
-      : null;
     const updatedCity = await city.update({
-      name,
-      country_id,
+      ...req.body
     });
     res.json(updatedCity);
   } else return next(new AppError('City not found', 404));
