@@ -1,6 +1,7 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/DBConnection.js';
 import bcrypt from 'bcrypt';
+import Role from './Role.js';
 
 const Employee = sequelize.define(
   'Employee',
@@ -47,6 +48,10 @@ const Employee = sequelize.define(
     password_token_expires_at: {
       type: DataTypes.DATE,
     },
+    role_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    }
   },
   {
     tableName: 'employees',
@@ -58,14 +63,15 @@ const Employee = sequelize.define(
         }
       },
       beforeUpdate: async (employee) => {
-        if (employee.password) {
+        if (employee.changed('password')) {
           const salt = await bcrypt.genSaltSync(10);
           employee.password = bcrypt.hashSync(employee.password, salt);
         }
       },
-
-    }
+    },
   },
 );
+
+Employee.belongsTo(Role, { foreignKey: 'role_id' });
 
 export default Employee;

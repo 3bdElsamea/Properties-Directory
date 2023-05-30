@@ -5,7 +5,8 @@ class ApiFeatures {
     this.query = query;
     this.queryString = queryString;
     this.option = {};
-    this.filter().sort().limitFields().paginate();
+    // this.filter().sort().limitFields().paginate();
+    this.filter().sort().paginate();
   }
 
   filter() {
@@ -20,21 +21,19 @@ class ApiFeatures {
     //   }
     // };
 
-
-
     return this;
   }
 
   sort() {
     if (this.queryString.sort) {
       const sortBy = this.queryString.sort.split(',');
-      if( sortBy[1] === 'asc') {
+      if (sortBy[1] === 'asc') {
         this.option['order'] = [[sortBy[0], 'ASC']];
-      }else{
+      } else {
         this.option['order'] = [[sortBy[0], 'DESC']];
       }
     } else {
-      this.option['order'] = [['created_at', 'DESC']];
+      this.option['order'] = [['created_at', 'ASC']];
     }
 
     return this;

@@ -7,19 +7,24 @@ import {
   deleteCustomer,
 } from '../../controllers/dashboard/customerController.js';
 import idParmaMiddleware from '../../middlewares/idParmaMiddleware.js';
-import validateCustomer from '../../validation/validateCustomer.js';
+import {
+  customerCreate,
+  customerUpdate,
+} from '../../validation/validateCustomer.js';
+import upload from '../../utils/uploadImage.js';
 
 const router = express.Router();
 
-router.route('/')
+router
+  .route('/')
   .get(getAllCustomers)
-  .post(validateCustomer, createCustomer);
+  .post(upload.single('image'), customerCreate, createCustomer);
 
 router
   .route('/:id')
   .all(idParmaMiddleware)
   .get(getCustomerById)
-  .patch(updateCustomer)
+  .patch(upload.single('image'), customerUpdate, updateCustomer)
   .delete(deleteCustomer);
 
 export default router;

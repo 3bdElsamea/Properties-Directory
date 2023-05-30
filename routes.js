@@ -12,11 +12,14 @@ const router = express.Router();
 router.use(express.json({ limit: '10kb' }));
 router.use(bodyParser.urlencoded({ extended: true, limit: '10kb' }));
 
-router.use('/', rateLimit({
-  max: 100,
-  windowMs: 60 * 60 * 1000,
-  message: 'Too many requests from this IP, please try again in an hour!',
-}));
+router.use(
+  '/',
+  rateLimit({
+    max: 100,
+    windowMs: 60 * 60 * 1000,
+    message: 'Too many requests from this IP, please try again in an hour!',
+  }),
+);
 
 router.use(trimMiddleware);
 

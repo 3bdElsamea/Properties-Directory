@@ -1,10 +1,13 @@
 import express from 'express';
-import { exec } from 'child_process';
-import authRoute from './dashboard/userRoute.js';
+import authRoute from './dashboard/authRoute.js';
 import customerRoute from './dashboard/customerRoute.js';
 import categoryRoute from './dashboard/categoryRoute.js';
 import pageRoute from './dashboard/pageRoute.js';
 import propertyMatchingRoute from './dashboard/propertyMatchingRoute.js';
+import countryRoute from './dashboard/countryRoute.js';
+import cityRoute from './dashboard/cityRoute.js';
+import ownerRoute from './dashboard/ownerRoute.js';
+import propertyRoute from './dashboard/propertyRoute.js';
 
 const router = express.Router();
 
@@ -24,5 +27,9 @@ router.get('/excused-git-pull', (req, res) => {
     res.send('Git pull successful');
   });
 });
+router.use('/countries', countryRoute);
+router.use('/cities', cityRoute);
+router.use('/owners', ownerRoute);
+router.use('/properties', propertyRoute);
 
 export default router;

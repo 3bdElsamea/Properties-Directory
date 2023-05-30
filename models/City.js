@@ -13,6 +13,7 @@ const City = sequelize.define(
     name: {
       type: DataTypes.STRING(255),
       allowNull: false,
+      unique: true,
     },
     active: {
       type: DataTypes.SMALLINT,
@@ -21,6 +22,11 @@ const City = sequelize.define(
     country_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      //   Reference Country.id
+      references: {
+        model: Country,
+        key: 'id',
+      },
     },
   },
   {
@@ -28,6 +34,9 @@ const City = sequelize.define(
   },
 );
 
-City.belongsTo(Country, { foreignKey: 'country_id' });
+City.belongsTo(Country, {
+  foreignKey: 'country_id',
+  as: 'country',
+});
 
 export default City;

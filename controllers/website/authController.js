@@ -1,31 +1,23 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import Customer from '../../models/Employee.js';
+import catchAsync from '../../utils/catchAsync.js';
 
-export const login = async (req, res) => {
+export const login = catchAsync(async (req, res) => {
   const { email, password } = req.body;
-  try {
-    const customer = await Customer.findOne({ where: { email } });
+  const customer = await Customer.findOne({ where: { email } });
 
-    if (!customer || !bcrypt.compareSync(password, customer.password)) {
-      return res.status(401).json({ message: 'Invalid email or password' });
-    }
-
-    const token = jwt.sign({ customerId: customer.id }, 'your-secret-key', { expiresIn: '1h' });
-
-    res.json({ token });
-  } catch (error) {
-    console.error('Error during login:', error);
-    res.status(500).json({ message: 'Login failed' });
+  if (!customer || !bcrypt.compareSync(password, customer.password)) {
+    return res.status(401).json({ message: 'Invalid email or password' });
   }
-};
 
-export const logout = async (req, res) => {
-  jwt.destroy(req.token);
-  res.json({ message: 'Logout successful' });
-};
+  const token = jwt.sign({ customerId: customer.id }, process.env.TOKEN_SECRET, {
+    expiresIn: process.env.TOKEN_EXPIRE_IN,
+  });
 
-// Controller for requesting password reset
+  res.json({ token });
+});
+
 export const forgetPassword = async (req, res) => {
   const { email } = req.body;
 
@@ -39,7 +31,11 @@ export const forgetPassword = async (req, res) => {
     }
 
     // Generate and save a password reset token
-    const resetToken = jwt.sign({ customerId: customer.id }, 'your-secret-key', { expiresIn: '15m' });
+    const resetToken = jwt.sign(
+      { customerId: customer.id },
+      'your-secret-key',
+      { expiresIn: '15m' },
+    );
     customer.password_token = resetToken;
     customer.password_token_expires_at = new Date(Date.now() + 15 * 60 * 1000); // 15 minutes
     await customer.save();
@@ -58,7 +54,9 @@ export const resetPassword = async (req, res) => {
   const { token, newPassword } = req.body;
 
   try {
-    const customer = await Customer.findOne({ where: { password_token: token } });
+    const customer = await Customer.findOne({
+      where: { password_token: token },
+    });
 
     if (!customer || customer.password_token_expires_at < new Date()) {
       return res.status(400).json({ message: 'Invalid or expired token' });
@@ -78,7 +76,6 @@ export const resetPassword = async (req, res) => {
 };
 
 export const myProfile = async (req, res) => {
-
   const { customerId } = req.user;
 
   try {

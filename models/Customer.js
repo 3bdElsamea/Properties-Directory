@@ -13,22 +13,11 @@ const Customer = sequelize.define(
     name: {
       type: DataTypes.STRING(255),
       allowNull: false,
-      validate: {
-        is: /^[a-zA-Z ]{2,30}$/i,
-        length(value) {
-          if (value.length < 2 || value.length > 30) {
-            throw new Error('Name must be between 2 and 30 characters');
-          }
-        },
-      }
     },
     email: {
       type: DataTypes.STRING(255),
       allowNull: false,
       unique: true,
-      validate: {
-        isEmail: true,
-      },
     },
     phone: {
       type: DataTypes.STRING(50),
@@ -39,10 +28,6 @@ const Customer = sequelize.define(
     password: {
       type: DataTypes.STRING(255),
       allowNull: false,
-      defaultValue: '',
-      // validate: {
-      //   is: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/i,
-      // },
     },
     image: {
       type: DataTypes.STRING(255),
@@ -52,7 +37,7 @@ const Customer = sequelize.define(
       type: DataTypes.STRING(255),
       allowNull: false,
       unique: true,
-      defaultValue: '',
+      // defaultValue: '',
     },
     password_token: {
       type: DataTypes.STRING(255),
@@ -72,13 +57,13 @@ const Customer = sequelize.define(
           customer.password = bcrypt.hashSync(customer.password, salt);
         }
       },
-      beforeUpdate:async (customer) => {
-        if (customer.password) {
+      beforeUpdate: async (customer) => {
+        if (customer.changed('password')) {
           const salt = await bcrypt.genSaltSync(10);
           customer.password = bcrypt.hashSync(customer.password, salt);
         }
-      }
-    }
+      },
+    },
   },
 );
 
