@@ -6,6 +6,7 @@ import {
   resetPassword,
   updateProfile,
 } from '../../controllers/dashboard/authController.js';
+
 import {
   employeeLogin,
   employeeForgetPassword,
@@ -13,6 +14,9 @@ import {
   employeeUpdateProfile,
 } from '../../validation/validateAuthEmployee.js';
 import authMiddleware from '../../middlewares/authMiddleware.js';
+
+import uploadImage from '../../utils/uploadImage.js';
+
 
 const router = express.Router();
 
@@ -23,6 +27,6 @@ router.post('/reset-password', employeeResetPassword, resetPassword);
 router.route('/me')
   .all(authMiddleware)
   .get(myProfile)
-  .post(employeeUpdateProfile, updateProfile);
+  .post(uploadImage.single('image'), employeeUpdateProfile, updateProfile);
 
 export default router;

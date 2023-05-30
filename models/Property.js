@@ -1,5 +1,5 @@
 import { DataTypes } from 'sequelize';
-import sequelize from '../config/DBConnection';
+import sequelize from '../config/DBConnection.js';
 import Category from './Category.js';
 import City from './City.js';
 import Owner from './Owner.js';
@@ -16,6 +16,11 @@ const Property = sequelize.define(
     title: {
       type: DataTypes.STRING(255),
       allowNull: false,
+    },
+    slug: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+      unique: true,
     },
     description: {
       type: DataTypes.TEXT,
@@ -70,6 +75,7 @@ const Property = sequelize.define(
     },
     employee_id: {
       type: DataTypes.INTEGER,
+      allowNull: false,
     },
   },
   {
@@ -79,7 +85,6 @@ const Property = sequelize.define(
 
 Property.belongsTo(Category, { foreignKey: 'category_id' });
 Property.belongsTo(City, { foreignKey: 'city_id' });
-Property.belongsTo(PropertyType, { foreignKey: 'property_type_id' });
 Property.belongsTo(Owner, { foreignKey: 'owner_id' });
 Property.belongsTo(Employee, { foreignKey: 'employee_id' });
 

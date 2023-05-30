@@ -75,10 +75,11 @@ export const myProfile = catchAsync(async (req, res, next) => {
 });
 
 export const updateProfile = catchAsync(async (req, res, next) => {
+  if (req.file) {
+    req.body.image = req.file.location;
+  }
 
   const { customerId } = req.decodedData;
-
-  console.log(req.body)
 
   const customer = await Employee.findByPk(customerId);
 

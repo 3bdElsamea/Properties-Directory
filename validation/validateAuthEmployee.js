@@ -32,12 +32,13 @@ const employeeUpdateProfile = (req, res, next) => {
     name: Joi.string().min(3).allow(),
     phone: Joi.number().min(10).max(10).allow(),
     password: Joi.string().min(8).allow(),
+    email: Joi.string().email().allow(),
     password_confirmation: Joi.any().equal(Joi.ref('password'))
       .allow()
       .label('Confirm password')
       .options({ messages: { 'any.only': '{{#label}} does not match'} }),
     username: Joi.string().allow(),
-    image: Joi.string().allow(),
+    role_id: Joi.number().allow(),
   }));
 };
 

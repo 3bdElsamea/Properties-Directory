@@ -18,9 +18,6 @@ const Customer = sequelize.define(
       type: DataTypes.STRING(255),
       allowNull: false,
       unique: true,
-      validate: {
-        isEmail: true,
-      },
     },
     phone: {
       type: DataTypes.STRING(50),

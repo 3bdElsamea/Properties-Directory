@@ -11,16 +11,20 @@ import {
   customerCreate,
   customerUpdate,
 } from '../../validation/validateCustomer.js';
+import upload from '../../utils/uploadImage.js';
 
 const router = express.Router();
 
-router.route('/').get(getAllCustomers).post(customerCreate, createCustomer);
+router
+  .route('/')
+  .get(getAllCustomers)
+  .post(upload.single('image'), customerCreate, createCustomer);
 
 router
   .route('/:id')
   .all(idParmaMiddleware)
   .get(getCustomerById)
-  .patch(customerUpdate, updateCustomer)
+  .patch(upload.single('image'), customerUpdate, updateCustomer)
   .delete(deleteCustomer);
 
 export default router;

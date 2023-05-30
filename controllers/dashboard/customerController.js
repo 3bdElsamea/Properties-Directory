@@ -17,29 +17,24 @@ const getCustomerById = catchAsync(async (req, res, next) => {
 });
 
 const createCustomer = catchAsync(async (req, res) => {
-  req.body.image = req.file.location;
+  if (req.file)
+    req.body.image = req.file.location;
   const customer = await Customer.create({
-    // name: req.body.name,
-    // email: req.body.email,
-    // phone: req.body.phone,
-    // password: req.body.password,
-    // image: req.body.image,
-    // username: req.body.username,
     ...req.body,
   });
   res.json(customer);
 });
 
-const updateCustomer = catchAsync(async (req, res) => {
+const updateCustomer = catchAsync(async (req, res, next) => {
   const customer = await Customer.findByPk(req.params.id);
-  if (customer) {
-    const updatedCustomer = await customer.update({
-      ...req.body,
-    });
-    res.json(updatedCustomer);
-  } else {
-    res.status(404).json({ error: 'Customer not found' });
+  if (!customer) {
+    return next(new AppError('Customer not found', 404));
   }
+  if (req.file) req.body.image = req.file.location;
+  const updatedCustomer = await customer.update({
+    ...req.body,
+  });
+  res.json(updatedCustomer);
 });
 
 const deleteCustomer = catchAsync(async (req, res) => {

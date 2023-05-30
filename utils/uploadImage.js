@@ -1,14 +1,14 @@
-// import multer and multer-s3
 import multer from 'multer';
 import multerS3 from 'multer-s3';
 import s3 from './../config/s3.js';
 import path from 'path';
 import { config } from 'dotenv';
+import AppError from './appError.js';
+
 config();
-// console.log(process.env.S3_BUCKET);
 
 const storage = multerS3({
-  s3, ///
+  s3,
   bucket: process.env.S3_BUCKET,
   acl: 'public-read',
   contentType: multerS3.AUTO_CONTENT_TYPE,
@@ -28,13 +28,13 @@ const fileFilter = (req, file, cb) => {
   if (mimetype && extname) {
     return cb(null, true);
   } else {
-    cb(new Error('Invalid file type, only JPEG, PNG and JPG are allowed'));
+    cb(new AppError('Invalid file type, only JPEG, PNG and JPG are allowed', 403));
   }
 };
 
 const upload = multer({
   storage,
-  limits: { fileSize: 1000000 },
+  limits: { fileSize: 1024*1024*2 },
   fileFilter,
 });
 
