@@ -1,32 +1,78 @@
+import Joi from 'joi';
 import validationMiddleware from '../middlewares/validationMiddleware.js';
+const schema = Joi.object({
+  name: Joi.string().label('Name').min(3).when('$operation', {
+    is: 'create',
+    then: Joi.required(),
+    otherwise: Joi.optional(),
+  }),
+  email: Joi.string().label('Email').email().when('$operation', {
+    is: 'create',
+    then: Joi.required(),
+    otherwise: Joi.optional(),
+  }),
+  phone: Joi.string()
+    .label('Phone')
+    .pattern(/^\+[0-9]{10,12}$/)
+    .when('$operation', {
+      is: 'create',
+      then: Joi.required(),
+      otherwise: Joi.optional(),
+    })
+    .messages({
+      'string.pattern.base': 'Phone number must be in the format +XXXXXXXXXXX',
+    }),
+  password: Joi.string()
+    .label('Password')
+    .min(8)
+    .when('$operation', {
+      is: 'create',
+      then: Joi.required(),
+      otherwise: Joi.optional(),
+    })
+    .messages({
+      'string.min': 'Password must be at least 8 characters long',
+    }),
+  //   Password Confirmation Reference to Password
+  // password_confirmation: Joi.any()
+  //   .equal(Joi.ref('password'))
+  //   .required()
+  //   .label('Confirm password')
+  //   .options({ messages: { 'any.only': '{{#label}} does not match' } }),
+  image: Joi.string()
+    .label('Image')
+    .allow('')
+    .pattern(/.(jpg|jpeg|png|JPG|JPEG|PNG)$/)
+    .when('$operation', {
+      is: 'create',
+      then: Joi.required(),
+      otherwise: Joi.optional(),
+    })
+    .messages({
+      'string.pattern.base': 'Image must be in the format jpg, jpeg, png',
+    }),
 
-const schema = {
-  name: { type: 'string', minLength: 3 },
-  email: { type: 'string', format: 'email' },
-  password: { type: 'string', minLength: 8 },
-  // phone: { type: 'integer' },
-  image: { type: 'string' },
-  username: { type: 'string', minLength: 3 },
-  password_token: { type: 'string' },
-  password_token_expires_at: { type: 'string', format: 'date-time' },
-  created_at: { type: 'string', format: 'date-time' },
-  updated_at: { type: 'string', format: 'date-time' },
+  username: Joi.string().when('$operation', {
+    is: 'create',
+    then: Joi.required(),
+    otherwise: Joi.optional(),
+  }),
+});
+
+const validateCustomerCreate = (req, res, next) => {
+  validationMiddleware(
+    req,
+    res,
+    next,
+    schema.messages({
+      'any.required': '{{#label}} is required',
+    }),
+    'create',
+  );
 };
 
-const customerCreate = (req, res, next) => {
-  validationMiddleware(req, res, next, {
-    type: 'object',
-    properties: schema,
-    required: ['name', 'email', 'password', 'username', 'phone'],
-  });
+const validateCustomerUpdate = (req, res, next) => {
+  validationMiddleware(req, res, next, schema, 'update');
 };
 
-const customerUpdate = (req, res, next) => {
-  validationMiddleware(req, res, next, {
-    type: 'object',
-    properties: schema,
-    required: [],
-  });
-};
-
-export { customerCreate, customerUpdate };
+export { validateCustomerCreate, validateCustomerUpdate };

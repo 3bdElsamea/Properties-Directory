@@ -28,14 +28,33 @@ const fileFilter = (req, file, cb) => {
   if (mimetype && extname) {
     return cb(null, true);
   } else {
-    cb(new AppError('Invalid file type, only JPEG, PNG and JPG are allowed', 403));
+    cb(
+      new AppError(
+        'Invalid file type, only JPEG, PNG and JPG are allowed',
+        403,
+      ),
+    );
   }
 };
 
 const upload = multer({
   storage,
-  limits: { fileSize: 1024*1024*2 },
+  limits: { fileSize: 1024 * 1024 * 2 },
   fileFilter,
 });
 
-export default upload;
+// Delete old image from S3
+const deleteImage = async (oldImage) => {
+  const oldImageKey = oldImage.split('/').pop();
+  const params = {
+    Bucket: process.env.S3_BUCKET,
+    Key: oldImageKey,
+  };
+  await s3.deleteObject(params, (err, data) => {
+    if (err) {
+      console.log(err);
+    }
+  });
+};
+
+export { upload, deleteImage };

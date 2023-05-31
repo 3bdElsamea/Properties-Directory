@@ -4,7 +4,7 @@ import {
   deletePropertyImage,
 } from '../../controllers/dashboard/propertyImagesController.js';
 import idParmaMiddleware from '../../middlewares/idParmaMiddleware.js';
-import upload from '../../utils/uploadImage.js';
+import { upload } from '../../utils/uploadImage.js';
 
 const router = express.Router();
 
