@@ -10,7 +10,6 @@ import {
   Row,
   Col,
   Navbar,
-  Button,
 } from "reactstrap";
 import { Link } from "react-router-dom";
 import Btn from "../Btn/Btn";
