@@ -39,17 +39,17 @@ class ApiFeatures {
     return this;
   }
 
-  // limitFields() {
-  //   if (this.queryString.fields) {
-  //     const fields = this.queryString.fields.split(',').map((field) => field.trim());
-  //
-  //     this.query = this.query.attributes(fields);
-  //   } else {
-  //     this.query = this.query.attributes({ exclude: ['__v'] });
-  //   }
-  //
-  //   return this;
-  // }
+  limitFields() {
+    if (this.queryString.fields) {
+      const fields = this.queryString.fields.split(',').map((field) => field.trim());
+
+      // this.query = this.query.attributes(fields);
+    } else {
+      // this.query = this.query.attributes({ exclude: ['__v'] });
+    }
+
+    return this;
+  }
 
   paginate() {
     const page = this.queryString.page * 1 || 1;
