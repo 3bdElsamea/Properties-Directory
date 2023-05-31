@@ -33,3 +33,9 @@ export const sendEmailForgetPasswordEmployee = async (to, token) => {
   const link = `<a href="${resetURL}">Reset Password</a>`;
   await sendEmail(to, 'Password reset token', link);
 };
+
+export const sendEmailForgetPasswordCustomer = async (to, token) => {
+  const resetURL = `${process.env.CLIENT_URL}/auth/reset-password/${token}`;
+  const link = `<a href="${resetURL}">Reset Password</a>`;
+  await sendEmail(to, 'Password reset token', link);
+}
