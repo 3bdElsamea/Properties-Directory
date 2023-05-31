@@ -1,32 +1,25 @@
 import express from 'express';
 import {
-  login,
-  myProfile,
-  forgetPassword,
-  resetPassword,
-  updateProfile,
-} from '../../controllers/dashboard/authController.js';
+  createRole,
+  getPermissions,
+  getRoleById,
+  getRoles,
+  updateRole,
+  deleteRole,
+} from '../../controllers/dashboard/roleController.js';
 
-import {
-  employeeLogin,
-  employeeForgetPassword,
-  employeeResetPassword,
-  employeeUpdateProfile,
-} from '../../validation/validateAuthEmployee.js';
 import authMiddleware from '../../middlewares/authMiddleware.js';
-
-import uploadImage from '../../utils/uploadImage.js';
-
+import idParmaMiddleware from '../../middlewares/idParmaMiddleware.js';
+import { validationCreateRole, validationUpdateRole } from '../../validation/validationRole.js';
+import permissionMiddleware from '../../middlewares/permissionMiddleware.js';
 
 const router = express.Router();
 
-router.post('/login', employeeLogin, login);
-router.post('/forget-password', employeeForgetPassword, forgetPassword);
-router.post('/reset-password', employeeResetPassword, resetPassword);
-
-router.route('/me')
-  .all(authMiddleware)
-  .get(myProfile)
-  .post(uploadImage.single('image'), employeeUpdateProfile, updateProfile);
+router.get('/', getRoles);
+router.post('/', validationCreateRole, createRole);
+router.put('/:id', idParmaMiddleware, validationUpdateRole, updateRole);
+router.get('/get-permissions', getPermissions);
+router.get('/:id', idParmaMiddleware, getRoleById);
+router.delete('/:id', idParmaMiddleware, deleteRole);
 
 export default router;

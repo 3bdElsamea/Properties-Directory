@@ -1,12 +1,11 @@
 import { Op } from 'sequelize';
 
 class ApiFeatures {
-  constructor(query, queryString) {
+  constructor(query, queryString, option = {}) {
     this.query = query;
     this.queryString = queryString;
-    this.option = {};
-    // this.filter().sort().limitFields().paginate();
-    this.filter().sort().paginate();
+    this.option = option;
+    this.filter().sort().limitFields().paginate();
   }
 
   filter() {
@@ -16,7 +15,7 @@ class ApiFeatures {
 
     // this.option['where'] = {
     //   created_at: {
-    //     [Op.lt]: new Date(),
+    //     [Op.like]: `%${queryObj.date}%`,
     //     [Op.gt]: new Date(new Date() - 24 * 60 * 60 * 1000)
     //   }
     // };
@@ -39,17 +38,13 @@ class ApiFeatures {
     return this;
   }
 
-  // limitFields() {
-  //   if (this.queryString.fields) {
-  //     const fields = this.queryString.fields.split(',').map((field) => field.trim());
-  //
-  //     this.query = this.query.attributes(fields);
-  //   } else {
-  //     this.query = this.query.attributes({ exclude: ['__v'] });
-  //   }
-  //
-  //   return this;
-  // }
+  limitFields() {
+    if (this.queryString.fields) {
+      this.option.attributes = this.queryString.fields.split(',');
+    }
+
+    return this;
+  }
 
   paginate() {
     const page = this.queryString.page * 1 || 1;

@@ -51,7 +51,7 @@ const Employee = sequelize.define(
     role_id: {
       type: DataTypes.INTEGER,
       allowNull: true,
-    }
+    },
   },
   {
     tableName: 'employees',

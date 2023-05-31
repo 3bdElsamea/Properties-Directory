@@ -31,7 +31,7 @@ const updateCity = catchAsync(async (req, res, next) => {
   const city = await City.findByPk(id);
   if (city) {
     const updatedCity = await city.update({
-      ...req.body
+      ...req.body,
     });
     res.json(updatedCity);
   } else return next(new AppError('City not found', 404));

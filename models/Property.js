@@ -4,6 +4,7 @@ import Category from './Category.js';
 import City from './City.js';
 import Owner from './Owner.js';
 import Employee from './Employee.js';
+import PropertyImage from './PropertyImage.js';
 
 const Property = sequelize.define(
   'Property',
@@ -87,5 +88,6 @@ Property.belongsTo(Category, { foreignKey: 'category_id' });
 Property.belongsTo(City, { foreignKey: 'city_id' });
 Property.belongsTo(Owner, { foreignKey: 'owner_id' });
 Property.belongsTo(Employee, { foreignKey: 'employee_id' });
+Property.hasMany(PropertyImage, { foreignKey: 'property_id' });
 
 export default Property;

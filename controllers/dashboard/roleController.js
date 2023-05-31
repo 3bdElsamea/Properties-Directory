@@ -1,93 +1,115 @@
-import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
-import { config } from 'dotenv';
-import Employee from '../../models/Employee.js';
 import catchAsync from '../../utils/catchAsync.js';
+import Role from '../../models/Role.js';
+import Permission from '../../models/Permission.js';
 import AppError from '../../utils/appError.js';
-import { sendEmailForgetPasswordEmployee } from '../../utils/emailSender.js';
+import RolePermission from '../../models/RolePermission.js';
 
-config();
+export const getRoles = catchAsync(async (req, res, next) => {
+  const roles = await Role.findAll({
+    attributes: ['id', 'name'],
+  });
+  res.json({ roles });
+});
 
-export const login = catchAsync(async (req, res, next) => {
-  const { email, password } = req.body;
-
-  const customer = await Employee.findOne({ where: { email: email } });
-
-  if (!customer || !bcrypt.compareSync(password, customer.password)) {
-    return next(new AppError('Invalid email or password', 400));
-  }
-
-  const token = jwt.sign({ customerId: customer.id }, process.env.TOKEN_SECRET, {
-    expiresIn: process.env.TOKEN_EXPIRE_IN,
+export const getRoleById = catchAsync(async (req, res, next) => {
+  let role = await Role.findOne({
+    where: { id: req.params.id },
+    attributes: ['id', 'name'],
+    include: [
+      {
+        model: RolePermission,
+        include: Permission,
+      },
+    ],
   });
 
-  res.json({ token });
-});
-
-export const forgetPassword = catchAsync(async (req, res, next) => {
-  const { email } = req.body;
-  const customer = await Employee.findOne({ where: { email } });
-
-  if (!customer) {
-    return next(new AppError('No customer found with that email', 404));
+  if (!role) {
+    return next(new AppError('Role not found', 404));
   }
 
-  customer.password_token = jwt.sign({ customerId: customer.id }, process.env.TOKEN_SECRET, {
-    expiresIn: '15m',
+  role = role.toJSON();
+  role.RolePermissions = role.RolePermissions.map(
+    (rolePermission) => rolePermission.Permission.name,
+  );
+  res.json({ role });
+});
+
+export const createRole = catchAsync(async (req, res, next) => {
+  const role = await Role.create({
+    name: req.body.name,
   });
 
-  customer.password_token_expires_at = new Date(Date.now() + 15 * 60 * 1000);
+  const rolePermissions = req.body.permissions.map((permissionId) => ({
+    role_id: role.id,
+    permission_id: permissionId,
+  }));
 
-  await customer.save();
+  for (const rolePermission of rolePermissions) {
+    const { permission_id } = rolePermission;
 
-  await sendEmailForgetPasswordEmployee(email, customer.password_token);
+    const permissionExists = await Permission.findOne({
+      where: { id: permission_id },
+    });
+    if (!permissionExists) {
+      return next(new AppError(`Permission ${permission_id} not found`, 404));
+    }
+  }
 
-  res.json({ message: 'Password reset token sent' });
+  await RolePermission.bulkCreate(rolePermissions);
+
+  res.status(201).json({ message: 'Role created with permissions' });
 });
 
-export const resetPassword = catchAsync(async (req, res, next) => {
-  const { token } = req.body;
-  const customer = await Employee.findOne({ where: { password_token: token } });
+export const updateRole = catchAsync(async (req, res, next) => {
+  const roleId = req.params.id;
 
-  if (!customer || customer.password_token_expires_at < new Date()) {
-    return next(new AppError('Invalid or expired token', 400));
+  const role = await Role.findOne({ where: { id: roleId } });
+  if (!role) {
+    return next(new AppError(`Role with ID ${roleId} not found`, 404));
   }
 
-  customer.password_token = null;
-  customer.password_token_expires_at = null;
-  customer.password = req.body.password;
+  const rolePermissions = req.body.permissions.map((permissionId) => ({
+    role_id: roleId,
+    permission_id: permissionId,
+  }));
 
-  await customer.save();
+  for (const rolePermission of rolePermissions) {
+    const { permission_id } = rolePermission;
 
-  res.json({ message: 'Password reset successful' });
+    const permissionExists = await Permission.findOne({
+      where: { id: permission_id },
+    });
+    if (!permissionExists) {
+      return next(new AppError(`Permission ${permission_id} not found`, 404));
+    }
+  }
+
+  if (req.body.name){
+    role.name = req.body.name;
+    await role.save();
+  }
+
+  await RolePermission.destroy({ where: { role_id: roleId } });
+
+  await RolePermission.bulkCreate(rolePermissions);
+
+  res.status(200).json({ message: 'Role updated successfully' });
 });
 
-export const myProfile = catchAsync(async (req, res, next) => {
-  const { customerId } = req.decodedData;
-
-  const customer = await Employee.findByPk(customerId);
-
-  if (!customer) {
-    return next(new AppError('Customer not found', 404));
+export const deleteRole = catchAsync(async (req, res, next) => {
+  const role = await Role.findOne({
+    where: { id: req.params.id },
+  });
+  if (!role) {
+    return next(new AppError('Role not found', 404));
   }
-
-  res.json({ customer });
+  await role.destroy();
+  res.json({ role });
 });
 
-export const updateProfile = catchAsync(async (req, res, next) => {
-  if (req.file) {
-    req.body.image = req.file.location;
-  }
-
-  const { customerId } = req.decodedData;
-
-  const customer = await Employee.findByPk(customerId);
-
-  if (!customer) {
-    return next(new AppError('Customer not found', 404));
-  }
-
-  await customer.update({ ...req.body });
-
-  res.json({ customer });
+export const getPermissions = catchAsync(async (req, res, next) => {
+  const permissions = await Permission.findAll({
+    attributes: ['id', 'name'],
+  });
+  res.json({ permissions });
 });

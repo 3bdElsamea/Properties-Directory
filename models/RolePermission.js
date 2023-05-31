@@ -1,5 +1,5 @@
 import { DataTypes } from 'sequelize';
-import sequelize from '../config/DBConnection';
+import sequelize from '../config/DBConnection.js';
 import Role from './Role.js';
 import Permission from './Permission.js';
 
@@ -25,7 +25,6 @@ const RolePermission = sequelize.define(
   },
 );
 
-RolePermission.belongsTo(Role, { foreignKey: 'role_id' });
 RolePermission.belongsTo(Permission, { foreignKey: 'permission_id' });
 
 export default RolePermission;

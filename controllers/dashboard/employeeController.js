@@ -1,55 +1,56 @@
-import Customer from '../../models/Customer.js';
+import Employee from '../../models/Employee.js';
 import catchAsync from '../../utils/catchAsync.js';
 import ApiFeatures from '../../utils/apiFeatures.js';
 import AppError from '../../utils/appError.js';
 
-const getAllCustomers = catchAsync(async (req, res) => {
-  const customers = await new ApiFeatures(Customer, req.query).get();
-  res.json(customers);
+const getAllEmployees = catchAsync(async (req, res) => {
+  const employees = await new ApiFeatures(Employee, req.query).get();
+  res.json(employees);
 });
 
-const getCustomerById = catchAsync(async (req, res, next) => {
-  const customer = await Customer.findByPk(req.params.id);
-  if (!customer) {
-    return next(new AppError('Customer not found', 404));
+const getEmployeeById = catchAsync(async (req, res, next) => {
+  const employee = await Employee.findByPk(req.params.id);
+  if (!employee) {
+    return next(new AppError('Employee not found', 404));
   }
-  res.json(customer);
+  res.json(employee);
 });
 
-const createCustomer = catchAsync(async (req, res) => {
+const createEmployee = catchAsync(async (req, res) => {
   if (req.file) req.body.image = req.file.location;
-  const customer = await Customer.create({
+  const employee = await Employee.create({
     ...req.body,
   });
-  res.json(customer);
+  res.json(employee);
 });
 
-const updateCustomer = catchAsync(async (req, res, next) => {
-  const customer = await Customer.findByPk(req.params.id);
-  if (!customer) {
-    return next(new AppError('Customer not found', 404));
+const updateEmployee = catchAsync(async (req, res, next) => {
+  console.log("updateEmployee")
+  const employee = await Employee.findByPk(req.params.id);
+  if (!employee) {
+    return next(new AppError('Employee not found', 404));
   }
   if (req.file) req.body.image = req.file.location;
-  const updatedCustomer = await customer.update({
+  const updatedEmployee = await employee.update({
     ...req.body,
   });
-  res.json(updatedCustomer);
+  res.json(updatedEmployee);
 });
 
-const deleteCustomer = catchAsync(async (req, res) => {
-  const customer = await Customer.findByPk(req.params.id);
-  if (customer) {
-    await customer.destroy();
-    res.json({ message: 'Customer removed' });
+const deleteEmployee = catchAsync(async (req, res) => {
+  const employee = await Employee.findByPk(req.params.id);
+  if (employee) {
+    await employee.destroy();
+    res.json({ message: 'Employee removed' });
   } else {
-    res.status(404).json({ error: 'Customer not found' });
+    res.status(404).json({ error: 'Employee not found' });
   }
 });
 
 export {
-  getAllCustomers,
-  getCustomerById,
-  createCustomer,
-  updateCustomer,
-  deleteCustomer,
+  getAllEmployees,
+  getEmployeeById,
+  createEmployee,
+  updateEmployee,
+  deleteEmployee,
 };

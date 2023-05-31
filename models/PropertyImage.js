@@ -1,5 +1,5 @@
 import { DataTypes } from 'sequelize';
-import sequelize from '../config/DBConnection';
+import sequelize from '../config/DBConnection.js';
 
 const PropertyImage = sequelize.define(
   'PropertyImage',
@@ -22,7 +22,5 @@ const PropertyImage = sequelize.define(
     tableName: 'property_images',
   },
 );
-
-PropertyImage.belongsTo(Property, { foreignKey: 'property_id' });
 
 export default PropertyImage;

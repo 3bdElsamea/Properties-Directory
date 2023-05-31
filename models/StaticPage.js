@@ -1,5 +1,5 @@
 import { DataTypes } from 'sequelize';
-import sequelize from '../config/DBConnection';
+import sequelize from '../config/DBConnection.js';
 
 const StaticPage = sequelize.define(
   'StaticPage',

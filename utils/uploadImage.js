@@ -28,13 +28,18 @@ const fileFilter = (req, file, cb) => {
   if (mimetype && extname) {
     return cb(null, true);
   } else {
-    cb(new AppError('Invalid file type, only JPEG, PNG and JPG are allowed', 403));
+    cb(
+      new AppError(
+        'Invalid file type, only JPEG, PNG and JPG are allowed',
+        403,
+      ),
+    );
   }
 };
 
 const upload = multer({
   storage,
-  limits: { fileSize: 1024*1024*2 },
+  limits: { fileSize: 1024 * 1024 * 2 },
   fileFilter,
 });
 

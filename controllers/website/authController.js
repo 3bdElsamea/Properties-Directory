@@ -11,9 +11,13 @@ export const login = catchAsync(async (req, res) => {
     return res.status(401).json({ message: 'Invalid email or password' });
   }
 
-  const token = jwt.sign({ customerId: customer.id }, process.env.TOKEN_SECRET, {
-    expiresIn: process.env.TOKEN_EXPIRE_IN,
-  });
+  const token = jwt.sign(
+    { customerId: customer.id },
+    process.env.TOKEN_SECRET,
+    {
+      expiresIn: process.env.TOKEN_EXPIRE_IN,
+    },
+  );
 
   res.json({ token });
 });

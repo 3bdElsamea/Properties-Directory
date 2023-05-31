@@ -1,30 +1,31 @@
 import express from 'express';
+
 import {
-  getAllCustomers,
-  getCustomerById,
-  createCustomer,
-  updateCustomer,
-  deleteCustomer,
-} from '../../controllers/dashboard/customerController.js';
+  getAllEmployees,
+  getEmployeeById,
+  createEmployee,
+  updateEmployee,
+  deleteEmployee,
+} from '../../controllers/dashboard/employeeController.js';
 import idParmaMiddleware from '../../middlewares/idParmaMiddleware.js';
 import {
-  customerCreate,
-  customerUpdate,
-} from '../../validation/validateCustomer.js';
+  employeeCreate,
+  employeeUpdate,
+} from '../../validation/validateEmployee.js';
 import upload from '../../utils/uploadImage.js';
 
 const router = express.Router();
 
 router
   .route('/')
-  .get(getAllCustomers)
-  .post(upload.single('image'), customerCreate, createCustomer);
+  .get(getAllEmployees)
+  .post(upload.single('image'), employeeCreate, createEmployee);
 
 router
   .route('/:id')
   .all(idParmaMiddleware)
-  .get(getCustomerById)
-  .patch(upload.single('image'), customerUpdate, updateCustomer)
-  .delete(deleteCustomer);
+  .get(getEmployeeById)
+  .patch(upload.single('image'), employeeUpdate, updateEmployee)
+  .delete(deleteEmployee);
 
 export default router;

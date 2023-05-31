@@ -17,8 +17,7 @@ const getCustomerById = catchAsync(async (req, res, next) => {
 });
 
 const createCustomer = catchAsync(async (req, res) => {
-  if (req.file)
-    req.body.image = req.file.location;
+  if (req.file) req.body.image = req.file.location;
   const customer = await Customer.create({
     ...req.body,
   });
