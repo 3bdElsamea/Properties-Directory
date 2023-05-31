@@ -68,8 +68,14 @@ var routes = [
   {
     path: "/locations",
     name: "Locations",
-    icon: "ni ni-bullet-list-67 text-blue",
+    icon: "ni ni-pin-3 text-blue",
     component: <Locations />,
+    layout: "/admin",
+  },
+  {
+    path: "/locations/create",
+    name: "Create Locations",
+    component: <CreateLocation />,
     layout: "/admin",
   },
   {
@@ -87,12 +93,43 @@ var routes = [
     layout: "/admin",
   },
   {
+    path: "/customers/details/:id",
+    name: "Customer Details",
+    component: <CustomerDetails />,
+    layout: "/admin",
+  },
+
+  
+  {
     path: "/employees",
     name: "Employees",
     icon: "fa fa-users text-blue",
     component: <Employees />,
     layout: "/admin",
   },
+  {
+    //create-employee
+    path: "/create-employee",
+    name: "Create Employee",
+    component: <CreateEmployee />,
+    layout: "/admin",
+  },
+  {
+    //update-employee
+    path: "/update-employee/:id",
+    name: "Update Employee",
+    component: <UpdateEmployee />,
+    layout: "/admin",
+  },
+
+  {
+    path: "/employees/details/:id",
+    name: "Employee Details",
+    component: <EmployeeDetails />,
+    layout: "/admin",
+
+  },
+
   {
     path: "/roles",
     name: "Roles",

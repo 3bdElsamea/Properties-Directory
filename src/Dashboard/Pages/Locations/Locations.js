@@ -1,156 +1,75 @@
-import Tables from '../../SharedUI/Table/Tables';
+import Tables from "../../SharedUI/Table/Tables";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import SweetAlert from "../../SharedUI/SweetAlert/SweetAlert";
 
-const Categories = () => {
-    return (
-        <>
-            <Tables title="Categories Table" 
-            trContent='
-                <th scope="col">Project</th>
-                <th scope="col">Budget</th>
-                <th scope="col">Status</th>
-                <th scope="col">Users</th>
-                <th scope="col">Completion</th>
-                <th scope="col" />'
+const CreateLocations = () => {
+  const [countryList, setCountryList] = useState([]);
+  const [cityList, setCityList] = useState([]);
 
-            tableContent='
-            <tr>
-            <th scope="row">
-              first
-            </th>
-            <td>$2,500 USD</td>
-            <td>
-              <Badge color="" className="badge-dot mr-4">
-                <i className="bg-warning" />
-                pending
-              </Badge>
-            </td>
-            <td>
-                userOne
-            </td>
-            <td>
-              <div className="d-flex align-items-center">
-                <span className="mr-2">60%</span>
-                <div>
-                  <Progress
-                    max="100"
-                    value="60"
-                    barClassName="bg-danger"
-                  />
-                </div>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">
-              first
-            </th>
-            <td>$2,500 USD</td>
-            <td>
-              <Badge color="" className="badge-dot mr-4">
-                <i className="bg-warning" />
-                pending
-              </Badge>
-            </td>
-            <td>
-                userOne
-            </td>
-            <td>
-              <div className="d-flex align-items-center">
-                <span className="mr-2">60%</span>
-                <div>
-                  <Progress
-                    max="100"
-                    value="60"
-                    barClassName="bg-danger"
-                  />
-                </div>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">
-              first
-            </th>
-            <td>$2,500 USD</td>
-            <td>
-              <Badge color="" className="badge-dot mr-4">
-                <i className="bg-warning" />
-                pending
-              </Badge>
-            </td>
-            <td>
-                userOne
-            </td>
-            <td>
-              <div className="d-flex align-items-center">
-                <span className="mr-2">60%</span>
-                <div>
-                  <Progress
-                    max="100"
-                    value="60"
-                    barClassName="bg-danger"
-                  />
-                </div>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">
-              first
-            </th>
-            <td>$2,500 USD</td>
-            <td>
-              <Badge color="" className="badge-dot mr-4">
-                <i className="bg-warning" />
-                pending
-              </Badge>
-            </td>
-            <td>
-                userOne
-            </td>
-            <td>
-              <div className="d-flex align-items-center">
-                <span className="mr-2">60%</span>
-                <div>
-                  <Progress
-                    max="100"
-                    value="60"
-                    barClassName="bg-danger"
-                  />
-                </div>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">
-              first
-            </th>
-            <td>$2,500 USD</td>
-            <td>
-              <Badge color="" className="badge-dot mr-4">
-                <i className="bg-warning" />
-                pending
-              </Badge>
-            </td>
-            <td>
-                userOne
-            </td>
-            <td>
-              <div className="d-flex align-items-center">
-                <span className="mr-2">60%</span>
-                <div>
-                  <Progress
-                    max="100"
-                    value="60"
-                    barClassName="bg-danger"
-                  />
-                </div>
-              </div>
-            </td>
-          </tr>'    
-            />
-        </>
-    )
-}
+  const getAllLocations = async () => {
+    try {
+      const response1 = await axios.get("http://localhost:4000/countries");
+      setCountryList(response1.data);
+      const response2 = await axios.get("http://localhost:4000/cities");
+      setCityList(response2.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-export default Categories;
+  useEffect(() => {
+    getAllLocations();
+  }, []);
+
+  const getCityName = (cityId) => {
+    const city = cityList.find((item) => item.id === cityId);
+    return city ? city.name : "";
+  };
+
+  return (
+    <>
+      <div>
+        <Tables
+          title="All Locations"
+          route="/admin/locations/create"
+          content={
+            <>
+              <th scope="col">#</th>
+              <th scope="col">Country</th>
+              <th scope="col">City</th>
+              <th scope="col"></th>
+              <th scope="col">Action</th>
+              <th scope="col"></th>
+            </>
+          }
+          tableRows={countryList.map((item, index) => (
+            <tr key={item.id}>
+              <th scope="row">{index + 1}</th>
+              <td>{item.name}</td>
+              <td>{getCityName(item.id)}</td>
+              <td>
+                <SweetAlert
+                  id={item.id}
+                  dataList={countryList}
+                  setdataList={setCountryList}
+                  route="http://localhost:4000/locations"
+                  text="Are you sure you want to delete this location?"
+                  action="delete"
+                />
+              </td>
+              <td>
+                <Link to={`/admin/locations/details/${item.id}`}>
+                  <i className="fa fa-eye btn-sm btn btn-info"></i>
+                </Link>
+              </td>
+            </tr>
+          ))}
+        />
+      </div>
+    </>
+  );
+};
+
+export default CreateLocations;

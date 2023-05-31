@@ -10,6 +10,7 @@ import {
   Row,
   Col,
   Navbar,
+  Button,
 } from "reactstrap";
 import { Link } from "react-router-dom";
 import Btn from "../Btn/Btn";
@@ -25,29 +26,39 @@ const Tables = ({ title, tableRows, route, content }) => {
         <Row>
           <div className="col">
             <Card className="shadow">
-              <CardHeader className="border-0">
-                <Row>
-                  <Col>
-                    <h3 className="mb-0">{title}</h3>
-                  </Col>
-                  <Col>
-                    <Link to="/admin/roles/create">
-                      <Btn
-                        className="btn btn-primary"
-                        style={{ marginLeft: "70%", minWidth: "50px", fontSize: "20px" }}
-                        title="+"
-                        name="add-new"
-                      />
-                    </Link>
-                  </Col>
-                </Row>
-              </CardHeader>
-              <Table className="align-items-center table-flush" responsive>
+              <Row className="justify-content-between">
+                <Col>
+                  <CardHeader className="border-0">
+                    <Row>
+                      <Col>
+                        <h3 className="mb-0">{title}</h3>
+                      </Col>
+                      {route !== "/admin/customers" ? (
+                        <Col className="text-right">
+                          <Link to={route}>
+                            <Btn name="btn-primary btn fa fa-plus" />
+                          </Link>
+                        </Col>
+                      ) : null}
+                    </Row>
+                  </CardHeader>
+                </Col>
+              </Row>
+              <Table 
+                className="align-items-center table-flush"
+                responsive
+              >
                 <thead className="thead-light">
-                  <tr>{content}</tr>
+                  <tr>
+                    {content}
+                  </tr>
                 </thead>
-                <tbody>{tableRows}</tbody>
+                <tbody>
+                  {tableRows}
+                </tbody>
               </Table>
+
+              
               <CardFooter className="py-4">
                 <nav aria-label="...">
                   <Pagination

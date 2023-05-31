@@ -12,6 +12,8 @@ import Home from "./Website/Pages/Home/Home";
 import LoginWebsite from "./Website/Pages/Login/Login";
 import ResetPassword from "./Website/Pages/ResetPassword/ResetPassword";
 
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const jwt = localStorage.getItem("jwt");
 

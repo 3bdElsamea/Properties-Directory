@@ -1,156 +1,74 @@
-import Tables from '../../SharedUI/Table/Tables';
+import Tables from "../../SharedUI/Table/Tables";
+import Btn from "../../SharedUI/Btn/Btn";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import SweetAlert from "../../SharedUI/SweetAlert/SweetAlert";
 
-const Users = () => {
-    return (
-        <>
-            <Tables title="Users Table" 
-            trContent='
-                <th scope="col">Project</th>
-                <th scope="col">Budget</th>
-                <th scope="col">Status</th>
-                <th scope="col">Users</th>
-                <th scope="col">Completion</th>
-                <th scope="col" />'
+const Customers = () => {
+  const [customerList, setCustomerList] = useState([]);
 
-            tableContent='
-            <tr>
-            <th scope="row">
-              first
-            </th>
-            <td>$2,500 USD</td>
-            <td>
-              <Badge color="" className="badge-dot mr-4">
-                <i className="bg-warning" />
-                pending
-              </Badge>
-            </td>
-            <td>
-                userOne
-            </td>
-            <td>
-              <div className="d-flex align-items-center">
-                <span className="mr-2">60%</span>
-                <div>
-                  <Progress
-                    max="100"
-                    value="60"
-                    barClassName="bg-danger"
-                  />
-                </div>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">
-              first
-            </th>
-            <td>$2,500 USD</td>
-            <td>
-              <Badge color="" className="badge-dot mr-4">
-                <i className="bg-warning" />
-                pending
-              </Badge>
-            </td>
-            <td>
-                userOne
-            </td>
-            <td>
-              <div className="d-flex align-items-center">
-                <span className="mr-2">60%</span>
-                <div>
-                  <Progress
-                    max="100"
-                    value="60"
-                    barClassName="bg-danger"
-                  />
-                </div>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">
-              first
-            </th>
-            <td>$2,500 USD</td>
-            <td>
-              <Badge color="" className="badge-dot mr-4">
-                <i className="bg-warning" />
-                pending
-              </Badge>
-            </td>
-            <td>
-                userOne
-            </td>
-            <td>
-              <div className="d-flex align-items-center">
-                <span className="mr-2">60%</span>
-                <div>
-                  <Progress
-                    max="100"
-                    value="60"
-                    barClassName="bg-danger"
-                  />
-                </div>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">
-              first
-            </th>
-            <td>$2,500 USD</td>
-            <td>
-              <Badge color="" className="badge-dot mr-4">
-                <i className="bg-warning" />
-                pending
-              </Badge>
-            </td>
-            <td>
-                userOne
-            </td>
-            <td>
-              <div className="d-flex align-items-center">
-                <span className="mr-2">60%</span>
-                <div>
-                  <Progress
-                    max="100"
-                    value="60"
-                    barClassName="bg-danger"
-                  />
-                </div>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">
-              first
-            </th>
-            <td>$2,500 USD</td>
-            <td>
-              <Badge color="" className="badge-dot mr-4">
-                <i className="bg-warning" />
-                pending
-              </Badge>
-            </td>
-            <td>
-                userOne
-            </td>
-            <td>
-              <div className="d-flex align-items-center">
-                <span className="mr-2">60%</span>
-                <div>
-                  <Progress
-                    max="100"
-                    value="60"
-                    barClassName="bg-danger"
-                  />
-                </div>
-              </div>
-            </td>
-          </tr>'    
-            />
-        </>
-    )
-}
+  const getAllCustomers = async () => {
+    const response = await axios.get("http://localhost:4000/customers");
+    try {
+      setCustomerList(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    getAllCustomers();
+  }, []);
 
-export default Users;
+  //use sweetalert to delete a customer
+
+  return (
+    <>
+      <div>
+        <Tables
+          title="All Customers"
+          route="/admin/customers"
+          content={
+            <>
+              <th scope="col">#</th>
+              <th scope="col">Name</th>
+              <th scope="col">Email</th>
+              <th scope="col">Phone Number</th>
+              <th scope="col">Actions</th>
+              <th scope="col"></th>
+            </>
+          }
+          const
+          tableRows={customerList.map((item, index) => (
+            <tr key={item.id}>
+              <th scope="row">{index + 1}</th>
+              <td>{item.name}</td>
+              <td>{item.email}</td>
+              <td>{item.phone}</td>
+
+              <td>
+                <SweetAlert
+                  id={item.id}
+                  dataList={customerList}
+                  setdataList={setCustomerList}
+                  route="http://localhost:4000/customers"
+                  text="Are you sure you want to delete this customer?"
+                  action="delete"
+                />
+              </td>
+
+              <td>
+                <Link to={`/admin/customers/details/${item.id}`}>
+                  <i className="fa fa-eye btn-sm btn btn-info"></i>
+                </Link>
+              </td>
+            </tr>
+          ))}
+        />
+      </div>
+    </>
+  );
+};
+
+export default Customers;
