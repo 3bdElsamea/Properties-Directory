@@ -5,7 +5,7 @@ import Login from "./Dashboard/Pages/Login/Login.js";
 import ForgetPassword from "./Dashboard/Pages/ForgetPassword/ForgetPassword.js";
 import ResetPassword from "./Dashboard/Pages/ResetPassword/ResetPassword.js";
 import Requests from "./Dashboard/Pages/Requests/Requests.js";
-import Properties from "./Dashboard/Pages/Properties/Property-list/Properties.js";
+import Properties from "./Dashboard/Pages/Properties/Properties.js";
 import Categories from "./Dashboard/Pages/Categories/Categories.js";
 import Roles from "./Dashboard/Pages/Roles/Roles-List/Roles-List.js";
 import RolesCreate from "./Dashboard/Pages/Roles/Roles-Create/Roles-Create.js";
@@ -66,6 +66,20 @@ var routes = [
     layout: "/admin",
   },
   {
+    path: "/categories/Update/:CategoryId",
+    name: "CategoriesUpdate",
+    icon: "ni ni-bullet-list-67 text-blue",
+    component: <CategoriesUpdate />,
+    layout: "/admin",
+  },
+  {
+    path: "/categories/Add",
+    name: "CategoriesAdd",
+    icon: "ni ni-bullet-list-67 text-blue",
+    component: <CategoriesAdd/>,
+    layout: "/admin",
+  },
+  {
     path: "/locations",
     name: "Locations",
     icon: "ni ni-pin-3 text-blue",
@@ -83,6 +97,46 @@ var routes = [
     name: "Properties",
     icon: "ni ni-bag-17 text-blue",
     component: <Properties />,
+    layout: "/admin",
+  },
+  {
+    path: "/properties/add",
+    name: "Properties",
+    icon: "ni ni-bag-17 text-blue",
+    component: <PropertyAdd />,
+    layout: "/admin",
+  },
+  {
+    path: "/properties/update/:propertyId",
+    name: "Properties",
+    icon: "ni ni-bag-17 text-blue",
+    component: <PropertyUpdate />,
+    layout: "/admin",
+  },
+  {
+    path: "/properties/details/:propertyId",
+    name: "Properties",
+    icon: "ni ni-bag-17 text-blue",
+    component: <PropertyDetails />,
+    layout: "/admin",
+  },
+  {
+    path: "/Owners",
+    name: "Owners",
+    icon: "fa fa-users text-blue",
+    component: <Owners />,
+    layout: "/admin",
+  },
+  {
+    path: "/Owners/Update/:ownerId",
+    name: "Update Owners",
+    component: <OwnerUpdate />,
+    layout: "/admin",
+  },
+  {
+    path: "/Owners/Add",
+    name: "Add Owners",
+    component: <OwnerAdd />,
     layout: "/admin",
   },
   {

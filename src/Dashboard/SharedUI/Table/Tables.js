@@ -11,9 +11,10 @@ import {
   Col,
   Navbar,
 } from "reactstrap";
-import { Link } from "react-router-dom";
-import Btn from "../Btn/Btn";
 // core components
+
+import Btn from "../Btn/Btn";
+import { Link } from "react-router-dom";
 
 const Tables = ({ title, tableRows, route, content }) => {
   return (
