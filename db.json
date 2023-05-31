@@ -1,0 +1,216 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "firstName": "Enas",
+      "lastName": "Gamal",
+      "username": "enasgamal",
+      "password": "123123",
+      "email": "enas@gmail.com",
+      "role_id": 1,
+      "permissions": ["city", "chat"]
+    }
+  ],
+  "customers": [
+    {
+      "id": 1,
+      "firstName": "Aml",
+      "lastName": "Ali",
+      "username": "amlali",
+      "password": "123456",
+      "email": "aml@gmail.com"
+    },
+    {
+      "id": 2,
+      "firstName": "Gamal",
+      "lastName": "Khattab",
+      "username": "gamalkhattab",
+      "password": "00000",
+      "email": "gamal@gmail.com"
+    }
+  ],
+  "properties": [
+    {
+      "id": 1,
+      "title": "House"
+    },
+    {
+      "id": 2,
+      "title": "Garage"
+    }
+  ],
+  "requests": [
+    {
+      "id": 1,
+      "customer_id": 1,
+      "property_id": 1,
+      "status": "active",
+      "created_at": "2023-05-28T10:30:00Z",
+      "updated_at": "2023-05-28T10:30:00Z"
+    },
+    {
+      "id": 2,
+      "customer_id": 2,
+      "property_id": 2,
+      "status": "pending",
+      "created_at": "2023-05-28T10:30:00Z",
+      "updated_at": "2023-05-28T10:30:00Z"
+    }
+  ],
+  "property_general_requests": [
+    {
+      "id": 1,
+      "customer_id": 1,
+      "area": 1500,
+      "bathrooms": 2,
+      "bedrooms": 3,
+      "garage": 2,
+      "floors": 1,
+      "year_built": 2005,
+      "status": "pending",
+      "created_at": "2023-05-31T10:30:00Z",
+      "updated_at": "2023-05-31T10:30:00Z"
+    },
+    {
+      "id": 2,
+      "customer_id": 2,
+      "area": 2000,
+      "bathrooms": 3,
+      "bedrooms": 4,
+      "garage": 2,
+      "floors": 2,
+      "year_built": 2010,
+      "status": "pending",
+      "created_at": "2023-05-31T11:45:00Z",
+      "updated_at": "2023-05-31T11:45:00Z"
+    },
+    {
+      "id": 3,
+      "customer_id": 2,
+      "area": 1800,
+      "bathrooms": 2,
+      "bedrooms": 3,
+      "garage": 1,
+      "floors": 1,
+      "year_built": 1998,
+      "status": "pending",
+      "created_at": "2023-05-31T12:15:00Z",
+      "updated_at": "2023-05-31T12:15:00Z"
+    }
+  ],
+  "permissions": [
+    {
+      "id": 1,
+      "name": "category",
+      "created_at": "2023-05-28T10:30:00Z",
+      "updated_at": "2023-05-28T10:30:00Z"
+    },
+    {
+      "id": 2,
+      "name": "chat",
+      "created_at": "2023-05-28T11:45:00Z",
+      "updated_at": "2023-05-28T11:45:00Z"
+    },
+    {
+      "id": 3,
+      "name": "city",
+      "created_at": "2023-05-29T08:15:00Z",
+      "updated_at": "2023-05-29T08:15:00Z"
+    },
+    {
+      "id": 4,
+      "name": "contact_us",
+      "created_at": "2023-05-29T08:15:00Z",
+      "updated_at": "2023-05-29T08:15:00Z"
+    },
+    {
+      "id": 5,
+      "name": "country",
+      "created_at": "2023-05-29T08:15:00Z",
+      "updated_at": "2023-05-29T08:15:00Z"
+    },
+    {
+      "id": 6,
+      "name": "customer",
+      "created_at": "2023-05-29T08:15:00Z",
+      "updated_at": "2023-05-29T08:15:00Z"
+    },
+    {
+      "id": 7,
+      "name": "employee",
+      "created_at": "2023-05-29T08:15:00Z",
+      "updated_at": "2023-05-29T08:15:00Z"
+    },
+    {
+      "id": 9,
+      "name": "notification",
+      "created_at": "2023-05-29T08:15:00Z",
+      "updated_at": "2023-05-29T08:15:00Z"
+    },
+    {
+      "id": 10,
+      "name": "owner",
+      "created_at": "2023-05-29T08:15:00Z",
+      "updated_at": "2023-05-29T08:15:00Z"
+    },
+    {
+      "id": 11,
+      "name": "property",
+      "created_at": "2023-05-29T08:15:00Z",
+      "updated_at": "2023-05-29T08:15:00Z"
+    },
+    {
+      "id": 12,
+      "name": "property_general_request",
+      "created_at": "2023-05-29T08:15:00Z",
+      "updated_at": "2023-05-29T08:15:00Z"
+    },
+    {
+      "id": 13,
+      "name": "property_request",
+      "created_at": "2023-05-29T08:15:00Z",
+      "updated_at": "2023-05-29T08:15:00Z"
+    },
+    {
+      "id": 15,
+      "name": "report",
+      "created_at": "2023-05-29T08:15:00Z",
+      "updated_at": "2023-05-29T08:15:00Z"
+    },
+    {
+      "id": 8,
+      "name": "role",
+      "created_at": "2023-05-29T08:15:00Z",
+      "updated_at": "2023-05-29T08:15:00Z"
+    },
+    {
+      "id": 14,
+      "name": "static_page",
+      "created_at": "2023-05-29T08:15:00Z",
+      "updated_at": "2023-05-29T08:15:00Z"
+    }
+  ],
+  "roles": [
+    {
+      "name": "new",
+      "updated_at": "2023-05-31T18:03:46.783Z",
+      "id": 1
+    }
+  ],
+  "role_permissions": [
+    {
+      "role_id": 1,
+      "permission_id": 11,
+      "created_at": "2023-05-31T17:31:17.676Z",
+      "updated_at": "2023-05-31T17:31:17.676Z",
+      "id": 1
+    },
+    {
+      "role_id": 1,
+      "permission_id": 15,
+      "created_at": "2023-05-31T17:31:17.678Z",
+      "updated_at": "2023-05-31T17:31:17.678Z",
+      "id": 2
+    }
+  ]
+}

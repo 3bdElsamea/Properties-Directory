@@ -8,11 +8,14 @@ import {
   Table,
   Container,
   Row,
+  Col,
   Navbar,
 } from "reactstrap";
+import { Link } from "react-router-dom";
+import Btn from "../Btn/Btn";
 // core components
 
-const Tables = ({title, trContent, tableContent}) => {
+const Tables = ({ title, tableRows, route, content }) => {
   return (
     <>
       <Navbar />
@@ -23,15 +26,27 @@ const Tables = ({title, trContent, tableContent}) => {
           <div className="col">
             <Card className="shadow">
               <CardHeader className="border-0">
-                <h3 className="mb-0">{title}</h3>
+                <Row>
+                  <Col>
+                    <h3 className="mb-0">{title}</h3>
+                  </Col>
+                  <Col>
+                    <Link to="/admin/roles/create">
+                      <Btn
+                        className="btn btn-primary"
+                        style={{ marginLeft: "70%", minWidth: "50px", fontSize: "20px" }}
+                        title="+"
+                        name="add-new"
+                      />
+                    </Link>
+                  </Col>
+                </Row>
               </CardHeader>
               <Table className="align-items-center table-flush" responsive>
                 <thead className="thead-light">
-                  <tr dangerouslySetInnerHTML={{ __html: trContent }} >
-                  </tr>
+                  <tr>{content}</tr>
                 </thead>
-                <tbody dangerouslySetInnerHTML={{ __html: tableContent }} >
-                </tbody>
+                <tbody>{tableRows}</tbody>
               </Table>
               <CardFooter className="py-4">
                 <nav aria-label="...">

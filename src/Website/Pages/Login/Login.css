@@ -1,3 +1,42 @@
-.p_6{
-    color: black;
+.login-page {
+  display: flex;
+  height: 100vh;
+  background-image: url("https://creativelayers.net/themes/homez-html/images/icon/login-page-icon.svg");
+  background-repeat: no-repeat;
+  background-size: 65%;
+  background-position-x: 100%;
+  background-position-y: 85%;
+}
+
+.login-card {
+  width: 400px;
+  border-radius: 10px;
+  margin: 20% auto;
+  margin-left: -20%;
+}
+
+.login-btn {
+  background-color: #918e88;
+  width: 100%;
+  margin-top: 5%;
+  border: none;
+}
+
+.login-btn:hover {
+  background-color: #6d6b67;
+}
+
+.logoLogin {
+  margin-left: 30%;
+}
+
+@media (max-width: 576px) {
+  .login-card {
+    width: 90%;
+    margin: 10% auto;
+  }
+
+  .logoLogin {
+    margin-left: 20%;
+  }
 }
