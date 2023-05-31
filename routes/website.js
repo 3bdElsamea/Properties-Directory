@@ -1,6 +1,6 @@
 import express from 'express';
 import authRoute from './dashboard/authRoute.js';
-import { getGeneralSetting, updateGeneralSetting } from '../controllers/generalSettingController.js';
+import { getGeneralSetting } from '../controllers/generalSettingController.js';
 const router = express.Router();
 
 router.get('/auth', authRoute);
