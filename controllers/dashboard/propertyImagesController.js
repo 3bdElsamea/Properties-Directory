@@ -5,21 +5,23 @@ import ApiFeatures from '../../utils/apiFeatures.js';
 import AppError from '../../utils/appError.js';
 
 const createPropertyImage = catchAsync(async (req, res, next) => {
-  if (req.file) {
-    req.body.image = req.file.location;
-  } else {
-    next(new AppError('Please upload a file', 400));
-  }
   const propertyId = req.params.id;
   const propertyExists = await property.findByPk(propertyId);
   if (!propertyExists) {
     return next(new AppError('Property not found', 404));
   }
 
+  if (req.file) {
+    req.body.image = req.file.location;
+  } else {
+    next(new AppError('Please upload Image file', 400));
+  }
+
   const image = await propertyImage.create({
     image: req.body.image,
     property_id: propertyId,
   });
+
   res.json(image);
 });
 

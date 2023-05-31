@@ -1,5 +1,3 @@
-
-
 import Category from '../../models/Category.js';
 import catchAsync from '../../utils/catchAsync.js';
 import AppError from '../../utils/appError.js';
@@ -23,7 +21,6 @@ const createCategory = catchAsync(async (req, res, next) => {
   const { name } = req.body;
   const category = await Category.create({
     name,
-    //slug: slugify(name)
   });
   res.status(201).json({ data: category });
   next();
@@ -31,13 +28,14 @@ const createCategory = catchAsync(async (req, res, next) => {
 
 const updateCategory = catchAsync(async (req, res, next) => {
   const { id } = req.params;
-  const { name } = req.body;
   const category = await Category.findByPk(id);
   if (!category) {
     return next(new AppError(`Category with this id ${id} not found`, 404));
   }
-  category.name = name;
-  await category.save();
+  await category.update({
+    ...req.body,
+  })
+
   res.json(category);
   next();
 });
@@ -45,18 +43,14 @@ const updateCategory = catchAsync(async (req, res, next) => {
 const inactiveCategory = catchAsync(async (req, res, next) => {
   const { id } = req.params;
   const category = await Category.findByPk(id);
+
   if (!category) {
     return next(new AppError(`Category with id ${id} not found`, 404));
   }
-  const newActiveStatus = category.active === 1 ? 0 : 1;
-  category.active = newActiveStatus;
 
-  await Category.update({ active: newActiveStatus }, { where: { id } });
+  await category.toggleActive();
 
-  const responseMessage =
-    newActiveStatus === 1 ? 'Make it active' : 'Make it inactive';
-
-  res.json({ data: responseMessage });
+  res.json({ message: 'Category updated', category });
 });
 
 export {

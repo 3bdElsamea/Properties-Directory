@@ -1,5 +1,4 @@
 import express from 'express';
-
 import {
   getAllEmployees,
   getEmployeeById,
@@ -9,23 +8,22 @@ import {
 } from '../../controllers/dashboard/employeeController.js';
 import idParmaMiddleware from '../../middlewares/idParmaMiddleware.js';
 import {
-  employeeCreate,
-  employeeUpdate,
+  validationEmployeeCreate, validationEmployeeUpdate,
 } from '../../validation/validateEmployee.js';
-import upload from '../../utils/uploadImage.js';
+import { uploadImage } from '../../utils/uploadImage.js';
 
 const router = express.Router();
 
 router
   .route('/')
   .get(getAllEmployees)
-  .post(upload.single('image'), employeeCreate, createEmployee);
+  .post(uploadImage.single('image'), validationEmployeeCreate, createEmployee);
 
 router
   .route('/:id')
   .all(idParmaMiddleware)
   .get(getEmployeeById)
-  .patch(upload.single('image'), employeeUpdate, updateEmployee)
+  .patch(uploadImage.single('image'), validationEmployeeUpdate, updateEmployee)
   .delete(deleteEmployee);
 
 export default router;

@@ -16,13 +16,6 @@ const getCustomerById = catchAsync(async (req, res, next) => {
   res.json(customer);
 });
 
-const createCustomer = catchAsync(async (req, res) => {
-  if (req.file) req.body.image = req.file.location;
-  const customer = await Customer.create({
-    ...req.body,
-  });
-  res.json(customer);
-});
 
 const updateCustomer = catchAsync(async (req, res, next) => {
   const customer = await Customer.findByPk(req.params.id);
@@ -47,7 +40,6 @@ const deleteCustomer = catchAsync(async (req, res, next) => {
 export {
   getAllCustomers,
   getCustomerById,
-  createCustomer,
   updateCustomer,
   deleteCustomer,
 };

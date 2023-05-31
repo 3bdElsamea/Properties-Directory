@@ -4,23 +4,23 @@ import {
   getCountryById,
   createCountry,
   updateCountry,
-  deleteCountry,
   toggleActive,
 } from '../../controllers/dashboard/countryController.js';
 import idParmaMiddleware from '../../middlewares/idParmaMiddleware.js';
+import { validateCountryCreate, validateCountryUpdate } from '../../validation/validateCountry.js';
 
 const router = express.Router();
 
-router.route('/').get(getAllCountries).post(createCountry);
+router.route('/')
+  .get(getAllCountries)
+  .post(validateCountryCreate, createCountry);
 
 router
   .route('/:id')
   .all(idParmaMiddleware)
   .get(getCountryById)
-  .patch(updateCountry)
-  .delete(deleteCountry);
+  .patch(validateCountryUpdate, updateCountry);
 
-// Toggle active
 router.route('/:id/toggle-active').patch(toggleActive);
 
 export default router;

@@ -3,11 +3,11 @@ import Role from '../../models/Role.js';
 import Permission from '../../models/Permission.js';
 import AppError from '../../utils/appError.js';
 import RolePermission from '../../models/RolePermission.js';
+import ApiFeatures from '../../utils/apiFeatures.js';
 
 export const getRoles = catchAsync(async (req, res, next) => {
-  const roles = await Role.findAll({
-    attributes: ['id', 'name'],
-  });
+  const obj = { include: RolePermission };
+  const roles = await new ApiFeatures(Role, req.query, obj).get();
   res.json({ roles });
 });
 

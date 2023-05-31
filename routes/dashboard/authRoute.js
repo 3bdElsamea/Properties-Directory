@@ -15,7 +15,7 @@ import {
 } from '../../validation/validateAuthEmployee.js';
 import authMiddleware from '../../middlewares/authMiddleware.js';
 
-import uploadImage from '../../utils/uploadImage.js';
+import { uploadImage } from '../../utils/uploadImage.js';
 
 const router = express.Router();
 
@@ -27,6 +27,6 @@ router
   .route('/me')
   .all(authMiddleware)
   .get(myProfile)
-  .post(uploadImage.single('image'), employeeUpdateProfile, updateProfile);
+  .patch(uploadImage.single('image'), employeeUpdateProfile, updateProfile);
 
 export default router;

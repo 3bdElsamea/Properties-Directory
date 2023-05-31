@@ -17,7 +17,7 @@ const router = express.Router();
 
 router.get('/', getRoles);
 router.post('/', validationCreateRole, createRole);
-router.put('/:id', idParmaMiddleware, validationUpdateRole, updateRole);
+router.patch('/:id', idParmaMiddleware, validationUpdateRole, updateRole);
 router.get('/get-permissions', getPermissions);
 router.get('/:id', idParmaMiddleware, getRoleById);
 router.delete('/:id', idParmaMiddleware, deleteRole);

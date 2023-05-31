@@ -6,19 +6,20 @@ import {
   updateProperty,
 } from '../../controllers/dashboard/propertyController.js';
 import idParmaMiddleware from '../../middlewares/idParmaMiddleware.js';
-import { upload } from '../../utils/uploadImage.js';
+import { uploadImage} from '../../utils/uploadImage.js';
+import { validatePropertyCreate, validatePropertyUpdate } from '../../validation/validateProperty.js';
 
 const router = express.Router();
 
 router
   .route('/')
   .get(getAllProperties)
-  .post(upload.single('image'), createProperty);
+  .post(uploadImage.single('image'), validatePropertyCreate, createProperty);
 
 router
   .route('/:id')
   .all(idParmaMiddleware)
   .get(getPropertyById)
-  .patch(upload.single('image'), updateProperty);
+  .patch(uploadImage.single('image'), validatePropertyUpdate, updateProperty);
 
 export default router;

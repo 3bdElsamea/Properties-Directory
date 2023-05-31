@@ -1,12 +1,11 @@
 import { Op } from 'sequelize';
 
 class ApiFeatures {
-  constructor(query, queryString) {
+  constructor(query, queryString, option = {}) {
     this.query = query;
     this.queryString = queryString;
-    this.option = {};
-    // this.filter().sort().limitFields().paginate();
-    this.filter().sort().paginate();
+    this.option = option;
+    this.filter().sort().limitFields().paginate();
   }
 
   filter() {
@@ -14,12 +13,21 @@ class ApiFeatures {
     const excludedFields = ['page', 'sort', 'limit', 'fields'];
     excludedFields.forEach((el) => delete queryObj[el]);
 
-    // this.option['where'] = {
-    //   created_at: {
-    //     [Op.lt]: new Date(),
-    //     [Op.gt]: new Date(new Date() - 24 * 60 * 60 * 1000)
-    //   }
-    // };
+    let entries = Object.entries(queryObj);
+    this.option['where'] = entries.map(([key, val] = entry) => {
+      if (key === 'created_at') {
+        return {
+          [key]: {
+            [Op.gt]: val,
+          },
+        };
+      }
+      return {
+        [key]: {
+          [Op.like]: `%${val}%`,
+        },
+      };
+    });
 
     return this;
   }
@@ -41,11 +49,7 @@ class ApiFeatures {
 
   limitFields() {
     if (this.queryString.fields) {
-      const fields = this.queryString.fields.split(',').map((field) => field.trim());
-
-      // this.query = this.query.attributes(fields);
-    } else {
-      // this.query = this.query.attributes({ exclude: ['__v'] });
+      this.option['attributes'] = this.queryString.fields.split(',');
     }
 
     return this;
@@ -62,13 +66,17 @@ class ApiFeatures {
   }
 
   async get() {
-    const result = await this.query.findAndCountAll(this.option);
-    const totalPage = Math.ceil(result.count / this.option.limit);
+    const { limit } = this.option;
+    const result = await this.query.findAll(this.option);
+    delete this.option['offset'];
+    delete this.option['limit'];
+    const resultCount = await this.query.count(this.option);
+    const totalPage = Math.ceil(resultCount / limit);
 
     return {
       totalPage,
       currentPage: this.queryString.page * 1 || 1,
-      data: result.rows,
+      data: result,
     };
   }
 }

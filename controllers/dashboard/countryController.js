@@ -2,7 +2,6 @@ import Country from '../../models/Country.js';
 import catchAsync from '../../utils/catchAsync.js';
 import ApiFeatures from '../../utils/apiFeatures.js';
 import AppError from '../../utils/appError.js';
-// import next from 'ajv/lib/vocabularies/next.js';
 
 const getAllCountries = catchAsync(async (req, res) => {
   const countries = await new ApiFeatures(Country, req.query).get();
@@ -18,9 +17,8 @@ const getCountryById = catchAsync(async (req, res, next) => {
 });
 
 const createCountry = catchAsync(async (req, res, next) => {
-  const { name } = req.body;
   const country = await Country.create({
-    name,
+    ...req.body
   });
   res.json(country);
 });
@@ -36,17 +34,6 @@ const updateCountry = catchAsync(async (req, res, next) => {
   } else return next(new AppError('Country not found', 404));
 });
 
-const deleteCountry = catchAsync(async (req, res, next) => {
-  const country = await Country.findByPk(req.params.id);
-  if (country) {
-    await country.destroy();
-    res.json({ message: 'Country removed' });
-  } else {
-    return next(new AppError('Country not found', 404));
-  }
-});
-
-// Toggle active
 const toggleActive = catchAsync(async (req, res, next) => {
   const country = await Country.findByPk(req.params.id);
   if (country) {
@@ -62,6 +49,5 @@ export {
   getCountryById,
   createCountry,
   updateCountry,
-  deleteCountry,
   toggleActive,
 };

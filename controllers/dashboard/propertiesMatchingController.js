@@ -8,7 +8,7 @@ import Customer from '../../models/Customer.js';
 import Property from '../../models/Property.js';
 
 const getAllProperties = catchAsync(async (req, res, next) => {
-  const properties = await PropertyGeneralRequest.findAll({
+  const obj = {
     include: [
       {
         model: Customer,
@@ -19,9 +19,11 @@ const getAllProperties = catchAsync(async (req, res, next) => {
         attributes: ['title', 'price'],
       },
     ],
-  });
+  };
 
-  res.json(properties);
+  const propertiesGeneralRequest = await new ApiFeatures(PropertyGeneralRequest, req.query, obj).get();
+
+  res.json(propertiesGeneralRequest);
 });
 
 const getPropertyById = catchAsync(async (req, res, next) => {

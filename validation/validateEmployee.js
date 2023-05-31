@@ -1,7 +1,7 @@
 import validationMiddleware from '../middlewares/validationMiddleware.js';
 import Joi from 'joi';
 
-const employeeCreate = (req, res, next) =>  {
+const validationEmployeeCreate = (req, res, next) =>  {
   validationMiddleware(
     req,
     res,
@@ -17,7 +17,7 @@ const employeeCreate = (req, res, next) =>  {
   );
 }
 
-const employeeUpdate = (req, res, next) =>  {
+const validationEmployeeUpdate = (req, res, next) =>  {
   validationMiddleware(
     req,
     res,
@@ -34,4 +34,4 @@ const employeeUpdate = (req, res, next) =>  {
   );
 }
 
-export { employeeCreate, employeeUpdate };
+export { validationEmployeeCreate, validationEmployeeUpdate };

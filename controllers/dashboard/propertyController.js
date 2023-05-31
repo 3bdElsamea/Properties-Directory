@@ -5,12 +5,41 @@ import Owner from '../../models/Owner.js';
 import Employee from '../../models/Employee.js';
 import PropertyImage from '../../models/PropertyImage.js';
 import catchAsync from '../../utils/catchAsync.js';
-// import ApiFeatures from '../../utils/apiFeatures.js';
+import ApiFeatures from '../../utils/apiFeatures.js';
 import AppError from '../../utils/appError.js';
 
 const getAllProperties = catchAsync(async (req, res) => {
-  const properties = await Property.findAll({
+  const obj = {
     include: [
+      {
+        model: Category,
+        attributes: ['name'],
+      },
+      {
+        model: City,
+        attributes: ['name'],
+      },
+      {
+        model: Owner,
+        attributes: ['name'],
+      },
+      {
+        model: Employee,
+        attributes: ['name'],
+      },
+    ]
+  };
+  const properties = await new ApiFeatures(Property, req.query, obj).get();
+  res.json(properties);
+});
+
+const getPropertyById = catchAsync(async (req, res, next) => {
+  const property = await Property.findByPk(req.params.id, {
+    include: [
+      {
+        model: PropertyImage,
+        attributes: ['image', 'id'],
+      },
       {
         model: Category,
         attributes: ['name'],
@@ -29,18 +58,6 @@ const getAllProperties = catchAsync(async (req, res) => {
       },
     ],
   });
-  res.json(properties);
-});
-
-const getPropertyById = catchAsync(async (req, res, next) => {
-  const property = await Property.findByPk(req.params.id, {
-    include: [
-      {
-        model: PropertyImage,
-        attributes: ['image', 'id'],
-      },
-    ],
-  });
   if (!property) {
     return next(new AppError('Property not found', 404));
   }
@@ -48,7 +65,6 @@ const getPropertyById = catchAsync(async (req, res, next) => {
 });
 
 const createProperty = catchAsync(async (req, res, next) => {
-  const slug = await uniqueSlug(Property, req.body.title);
   req.file ? (req.body.image = req.file.location) : null;
   const property = await Property.create({
     ...req.body,

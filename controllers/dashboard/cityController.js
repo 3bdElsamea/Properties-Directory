@@ -37,17 +37,6 @@ const updateCity = catchAsync(async (req, res, next) => {
   } else return next(new AppError('City not found', 404));
 });
 
-const deleteCity = catchAsync(async (req, res, next) => {
-  const city = await City.findByPk(req.params.id);
-  if (city) {
-    await city.destroy();
-    res.json({ message: 'City removed' });
-  } else {
-    return next(new AppError('City not found', 404));
-  }
-});
-
-// Toggle active
 const toggleActive = catchAsync(async (req, res, next) => {
   const city = await City.findByPk(req.params.id);
   if (city) {
@@ -63,6 +52,5 @@ export {
   getCityById,
   createCity,
   updateCity,
-  deleteCity,
   toggleActive,
 };

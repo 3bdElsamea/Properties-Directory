@@ -1,163 +1,47 @@
 import Joi from 'joi';
 import validationMiddleware from '../middlewares/validationMiddleware.js';
 
-const schema = Joi.object({
-  title: Joi.string()
-    .label('Title')
-    .min(3)
-    .when('$operation', {
-      is: 'create',
-      then: Joi.required(),
-      otherwise: Joi.optional(),
-    })
-    .messages({
-      'string.min': 'Title must be at least 3 characters long',
-    }),
-  description: Joi.string()
-    .label('Description')
-    .min(10)
-    .when('$operation', {
-      is: 'create',
-      then: Joi.required(),
-      otherwise: Joi.optional(),
-    })
-    .messages({
-      'string.min': 'Description must be at least 10 characters long',
-    }),
-  price: Joi.number()
-    .label('Price')
-    .min(10000)
-    .when('$operation', {
-      is: 'create',
-      then: Joi.required(),
-      otherwise: Joi.optional(),
-    })
-    .messages({
-      'number.min': 'Price must be at least 10000',
-    }),
-  image: Joi.string()
-    .label('Image')
-    .allow('')
-    .pattern(/.(jpg|jpeg|png|JPG|JPEG|PNG)$/)
-    .when('$operation', {
-      is: 'create',
-      then: Joi.required(),
-      otherwise: Joi.optional(),
-    })
-    .messages({
-      'string.pattern.base': 'Image must be in the format jpg, jpeg, png',
-    }),
-  area: Joi.number()
-    .label('Area')
-    .min(50)
-    .when('$operation', {
-      is: 'create',
-      then: Joi.required(),
-      otherwise: Joi.optional(),
-    })
-    .messages({
-      'number.min': 'Area must be at least 50 square meters',
-    }),
-  bathrooms: Joi.number()
-    .label('Bathrooms')
-    .min(1)
-    .when('$operation', {
-      is: 'create',
-      then: Joi.required(),
-      otherwise: Joi.optional(),
-    })
-    .messages({
-      'number.min': 'Bathrooms must be at least 1',
-    }),
-  bedrooms: Joi.number()
-    .label('Bedrooms')
-    .min(1)
-    .when('$operation', {
-      is: 'create',
-      then: Joi.required(),
-      otherwise: Joi.optional(),
-    })
-    .messages({
-      'number.min': 'Bedrooms must be at least 1',
-    }),
-  garage: Joi.number().label('Garage').when('$operation', {
-    is: 'create',
-    then: Joi.required(),
-    otherwise: Joi.optional(),
-  }),
-  floors: Joi.number()
-    .label('Floors')
-    .min(1)
-    .when('$operation', {
-      is: 'create',
-      then: Joi.required(),
-      otherwise: Joi.optional(),
-    })
-    .messages({
-      'number.min': 'Floors must be at least 1',
-    }),
-  year_built: Joi.number()
-    .label('Year Built')
-    .min(1980)
-    .max(new Date().getFullYear())
-    .when('$operation', {
-      is: 'create',
-      then: Joi.required(),
-      otherwise: Joi.optional(),
-    })
-    .messages({
-      'number.min': 'Year Built must be at least 1980',
-    }),
-  status: Joi.string()
-    .label('Status')
-    .valid('active', 'inactive')
-    .when('$operation', {
-      is: 'create',
-      then: Joi.required(),
-      otherwise: Joi.optional(),
-    })
-    .messages({
-      'any.only': 'Status must be active or inactive',
-    }),
-  category_id: Joi.number().label('Category Id').when('$operation', {
-    is: 'create',
-    then: Joi.required(),
-    otherwise: Joi.optional(),
-  }),
-  city_id: Joi.number().label('City Id').when('$operation', {
-    is: 'create',
-    then: Joi.required(),
-    otherwise: Joi.optional(),
-  }),
-  owner_id: Joi.number().label('Employee Id').when('$operation', {
-    is: 'create',
-    then: Joi.required(),
-    otherwise: Joi.optional(),
-  }),
-  employee_id: Joi.number().label('Employee Id').when('$operation', {
-    is: 'create',
-    then: Joi.required(),
-    otherwise: Joi.optional(),
-  }),
-});
-
-//Property Create Validation
 const validatePropertyCreate = (req, res, next) => {
   validationMiddleware(
     req,
     res,
     next,
-    schema.messages({
-      'any.required': '{{#label}} is required',
-    }),
-    'create',
+    Joi.object({
+      title: Joi.string().min(3).required(),
+      description: Joi.string().min(3).required(),
+      price: Joi.number().min(1).required(),
+      area: Joi.number().min(1).required(),
+      bathrooms: Joi.number().min(1).required(),
+      bedrooms: Joi.number().min(1).required(),
+      garage: Joi.number().min(0).required(),
+      floors: Joi.number().min(0).required(),
+      year_built: Joi.number().min(1600).required(),
+      status: Joi.string().valid('active', 'inactive').required(),
+      category_id: Joi.number().min(1).required(),
+      city_id: Joi.number().min(1).required(),
+      owner_id: Joi.number().min(1).required(),
+      employee_id: Joi.number().min(1).required(),
+    })
   );
 };
 
-//Property Update Validation
 const validatePropertyUpdate = (req, res, next) => {
-  validationMiddleware(req, res, next, schema, 'update');
+  validationMiddleware(req, res, next, Joi.object({
+    title: Joi.string().min(3).allow(),
+    description: Joi.string().min(3).allow(),
+    price: Joi.number().min(1).allow(),
+    area: Joi.number().min(1).allow(),
+    bathrooms: Joi.number().min(1).allow(),
+    bedrooms: Joi.number().min(1).allow(),
+    garage: Joi.number().min(0).allow(),
+    floors: Joi.number().min(0).allow(),
+    year_built: Joi.number().min(1600).allow(),
+    status: Joi.string().valid('active', 'inactive').allow(),
+    category_id: Joi.number().min(1).allow(),
+    city_id: Joi.number().min(1).allow(),
+    owner_id: Joi.number().min(1).allow(),
+    employee_id: Joi.number().min(1).allow(),
+  }));
 };
 
-// export
 export { validatePropertyCreate, validatePropertyUpdate };

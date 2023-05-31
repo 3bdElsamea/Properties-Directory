@@ -37,7 +37,7 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
-const upload = multer({
+const uploadImage= multer({
   storage,
   limits: { fileSize: 1024 * 1024 * 2 },
   fileFilter,
@@ -57,4 +57,4 @@ const deleteImage = async (oldImage) => {
   });
 };
 
-export { upload, deleteImage };
+export { uploadImage, deleteImage };

@@ -4,6 +4,7 @@ import Employee from '../models/Employee.js';
 import RolePermission from '../models/RolePermission.js';
 import Permission from '../models/Permission.js';
 import Customer from '../models/Customer.js';
+import Role from '../models/Role.js';
 
 const authMiddleware = async (req, res, next) => {
   const authHeader = req.headers.authorization;
@@ -16,7 +17,7 @@ const authMiddleware = async (req, res, next) => {
     req.decodedData = jwt.verify(token, process.env.TOKEN_SECRET);
     if(req.decodedData.employeeId){
       const employee = await Employee.findOne({
-        where: { id: req.decodedData.id },
+        where: { id: req.decodedData.employeeId },
       })
 
       if (!employee) {
@@ -25,15 +26,26 @@ const authMiddleware = async (req, res, next) => {
 
       req.decodedData.employee = employee;
 
-      let role_permissions = await RolePermission.findOne({
-        where: { role_id: employee.role_id },
-        attributes: ['id', 'role_id', 'permission_id'],
-        include: Permission,
+      let role = await Role.findOne({
+        where: { id: employee.role_id },
+        attributes: ['id', 'name'],
+        include: [
+          {
+            model: RolePermission,
+            include: Permission,
+          },
+        ],
       });
 
-      req.decodedData.permissions = role_permissions.toJSON().map(
+      role = role.toJSON();
+
+      role.RolePermissions = role.RolePermissions.map(
         (rolePermission) => rolePermission.Permission.name,
       );
+
+      req.decodedData.role = role;
+      req.decodedData.permissions = role.RolePermissions;
+
     }else{
       const customer = await Customer.findOne({
         where: { id: req.decodedData.id },
