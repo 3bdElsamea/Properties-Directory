@@ -1,20 +1,3 @@
-/*!
-
-=========================================================
-* Argon Dashboard React - v1.2.3
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import React from "react";
 import { useLocation, Route, Routes, Navigate } from "react-router-dom";
 // reactstrap components
@@ -26,6 +9,8 @@ import AuthFooter from "../Components/Footers/AuthFooter.js";
 
 import routes from "../../Routes.js";
 
+const jwt = localStorage.getItem('jwt');
+
 const Auth = (props) => {
   const mainContent = React.useRef(null);
   const location = useLocation();
@@ -36,23 +21,27 @@ const Auth = (props) => {
       document.body.classList.remove("bg-default");
     };
   }, []);
+
   React.useEffect(() => {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
-    mainContent.current.scrollTop = 0;
+    if (mainContent.current) {
+      mainContent.current.scrollTop = 0;
+    }
   }, [location]);
 
-  const getRoutes = (routes) => {
-    return routes.map((prop, key) => {
-      if (prop.layout === "/auth") {
-        return (
-          <Route path={prop.path} element={prop.component} key={key} exact />
-        );
-      } else {
-        return null;
-      }
-    });
-  };
+  if (!jwt) {
+    const getRoutes = (routes) => {
+      return routes.map((prop, key) => {
+        if (prop.layout === "/auth") {
+          return (
+            <Route path={prop.path} element={prop.component} key={key} exact />
+          );
+        } else {
+          return null;
+        }
+      });
+    };
 
   return (
     <>
@@ -65,8 +54,7 @@ const Auth = (props) => {
                 <Col lg="5" md="6">
                   <h1 className="text-white">Welcome!</h1>
                   <p className="text-lead text-light">
-                    Use these awesome forms to login or create new account in
-                    your project for free.
+                    Happy to Have You Back!
                   </p>
                 </Col>
               </Row>
@@ -100,7 +88,10 @@ const Auth = (props) => {
       </div>
       <AuthFooter />
     </>
-  );
+  );}
+  else {
+    return <Navigate to="/admin/index" replace />;
+  }
 };
 
 export default Auth;

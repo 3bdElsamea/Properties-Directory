@@ -1,0 +1,18 @@
+.permission-token {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #f2f2f2;
+    border-radius: 4px;
+    margin-right: 8px;
+    cursor: pointer;
+  }
+  
+  .permission-token.active {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  .permission-token:hover {
+    background-color: #e8e8e8;
+  }
+  

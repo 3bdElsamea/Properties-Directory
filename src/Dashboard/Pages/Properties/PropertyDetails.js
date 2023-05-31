@@ -35,17 +35,17 @@ const PropertyDetails = () => {
     }
   };
 
-  const handleDeleteImage = async (imageId) => {
-    try {
-      await axios.delete(`http://localhost:5000/Properties/${propertyId}/${imageId}`);
-      setProperty((prevProperty) => ({
-        ...prevProperty,
-        galleryImages: prevProperty.galleryImages.filter((image) => image.id !== imageId)
-      }));
-    } catch (error) {
-      console.log(error);
-    }
-  };
+//   const handleDeleteImage = async (imageId) => {
+//     try {
+//       await axios.delete(`http://localhost:5000/Properties/${propertyId}/${imageId}`);
+//       setProperty((prevProperty) => ({
+//         ...prevProperty,
+//         galleryImages: prevProperty.galleryImages.filter((image) => image.id !== imageId)
+//       }));
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   };
 
   return (
     <Container className="mt--7" fluid>

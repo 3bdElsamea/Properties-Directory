@@ -1,0 +1,30 @@
+.status-select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #333;
+    background-color: #fff;
+    cursor: pointer;
+  }
+  
+  .status-select:hover {
+    background-color: #f2f2f2;
+  }
+  
+  .status-select:focus {
+    outline: none;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+  }
+  .requInfo {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin-left: 5px;
+  }
+  
+  .requInfo:focus {
+    outline: none;
+  }
+  
