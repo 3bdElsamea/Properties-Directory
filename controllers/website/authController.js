@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { config } from 'dotenv';
-import Customer from '../../models/customer.js';
+import Customer from '../../models/Customer.js';
 import catchAsync from '../../utils/catchAsync.js';
 import AppError from '../../utils/appError.js';
 import { sendEmailForgetPasswordCustomer } from '../../utils/emailSender.js';
