@@ -22,7 +22,6 @@ const Customer = sequelize.define(
     phone: {
       type: DataTypes.STRING(50),
       allowNull: false,
-      defaultValue: '',
       unique: true,
     },
     password: {

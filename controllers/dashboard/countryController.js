@@ -36,24 +36,24 @@ const updateCountry = catchAsync(async (req, res, next) => {
   } else return next(new AppError('Country not found', 404));
 });
 
-const deleteCountry = catchAsync(async (req, res) => {
+const deleteCountry = catchAsync(async (req, res, next) => {
   const country = await Country.findByPk(req.params.id);
   if (country) {
     await country.destroy();
     res.json({ message: 'Country removed' });
   } else {
-    res.status(404).json({ error: 'Country not found' });
+    return next(new AppError('Country not found', 404));
   }
 });
 
 // Toggle active
-const toggleActive = catchAsync(async (req, res) => {
+const toggleActive = catchAsync(async (req, res, next) => {
   const country = await Country.findByPk(req.params.id);
   if (country) {
     await country.toggleActive();
     res.json({ message: 'Country updated', country });
   } else {
-    res.status(404).json({ error: 'Country not found' });
+    return next(new AppError('Country not found', 404));
   }
 });
 

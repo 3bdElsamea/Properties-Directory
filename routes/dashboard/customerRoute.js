@@ -8,23 +8,23 @@ import {
 } from '../../controllers/dashboard/customerController.js';
 import idParmaMiddleware from '../../middlewares/idParmaMiddleware.js';
 import {
-  customerCreate,
-  customerUpdate,
+  validateCustomerCreate,
+  validateCustomerUpdate,
 } from '../../validation/validateCustomer.js';
-import upload from '../../utils/uploadImage.js';
+import { upload } from '../../utils/uploadImage.js';
 
 const router = express.Router();
 
 router
   .route('/')
   .get(getAllCustomers)
-  .post(upload.single('image'), customerCreate, createCustomer);
+  .post(upload.single('image'), validateCustomerUpdate, createCustomer);
 
 router
   .route('/:id')
   .all(idParmaMiddleware)
   .get(getCustomerById)
-  .patch(upload.single('image'), customerUpdate, updateCustomer)
+  .patch(upload.single('image'), validateCustomerUpdate, updateCustomer)
   .delete(deleteCustomer);
 
 export default router;

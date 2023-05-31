@@ -59,8 +59,8 @@ const Property = sequelize.define(
       allowNull: false,
     },
     status: {
-      type: DataTypes.ENUM('pending', 'active', 'rejected'),
-      defaultValue: 'pending',
+      type: DataTypes.ENUM('active', 'inactive'),
+      defaultValue: 'active',
     },
     category_id: {
       type: DataTypes.INTEGER,
@@ -83,6 +83,8 @@ const Property = sequelize.define(
     tableName: 'properties',
   },
 );
+
+Property.hasMany(PropertyImage, { foreignKey: 'property_id' });
 
 Property.belongsTo(Category, { foreignKey: 'category_id' });
 Property.belongsTo(City, { foreignKey: 'city_id' });

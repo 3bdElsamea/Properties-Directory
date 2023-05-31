@@ -43,4 +43,18 @@ const upload = multer({
   fileFilter,
 });
 
-export default upload;
+// Delete old image from S3
+const deleteImage = async (oldImage) => {
+  const oldImageKey = oldImage.split('/').pop();
+  const params = {
+    Bucket: process.env.S3_BUCKET,
+    Key: oldImageKey,
+  };
+  await s3.deleteObject(params, (err, data) => {
+    if (err) {
+      console.log(err);
+    }
+  });
+};
+
+export { upload, deleteImage };

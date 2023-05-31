@@ -1,18 +1,13 @@
+
+
 import Category from '../../models/Category.js';
 import catchAsync from '../../utils/catchAsync.js';
 import AppError from '../../utils/appError.js';
+import ApiFeatures from '../../utils/apiFeatures.js';
 
 const getAllCategories = catchAsync(async (req, res, next) => {
-  const pages = req.query.pages * 1 || 1;
-  const limit = req.query.limit * 1 || 5;
-  const skip = (pages - 1) * limit;
-
-  const categories = await Category.findAll({
-    offset: skip,
-    limit: limit,
-  });
-
-  res.status(200).json({ data: categories.length, pages, categories });
+  const categories = await new ApiFeatures(Category, req.query).get();
+  res.json(categories);
 });
 
 const getCategoryById = catchAsync(async (req, res, next) => {
@@ -53,10 +48,15 @@ const inactiveCategory = catchAsync(async (req, res, next) => {
   if (!category) {
     return next(new AppError(`Category with id ${id} not found`, 404));
   }
-  category.active = category.active === 1 ? 0 : 1;
-  await Category.update({ active: category.active }, { where: { id } });
+  const newActiveStatus = category.active === 1 ? 0 : 1;
+  category.active = newActiveStatus;
 
-  res.json({ data: 'updated active successfully' });
+  await Category.update({ active: newActiveStatus }, { where: { id } });
+
+  const responseMessage =
+    newActiveStatus === 1 ? 'Make it active' : 'Make it inactive';
+
+  res.json({ data: responseMessage });
 });
 
 export {

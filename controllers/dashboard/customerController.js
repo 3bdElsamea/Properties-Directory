@@ -36,14 +36,12 @@ const updateCustomer = catchAsync(async (req, res, next) => {
   res.json(updatedCustomer);
 });
 
-const deleteCustomer = catchAsync(async (req, res) => {
+const deleteCustomer = catchAsync(async (req, res, next) => {
   const customer = await Customer.findByPk(req.params.id);
   if (customer) {
     await customer.destroy();
     res.json({ message: 'Customer removed' });
-  } else {
-    res.status(404).json({ error: 'Customer not found' });
-  }
+  } else return next(new AppError('Customer not found', 404));
 });
 
 export {
