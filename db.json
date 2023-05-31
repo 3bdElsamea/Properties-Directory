@@ -1,0 +1,104 @@
+{
+  "employees": [
+    {
+      "name": "Lamis",
+      "email": "lameeswaheed99@gmail.com",
+      "phone": "01091822637",
+      "password": "123456",
+      "image": "https://avatars.design/wp-content/uploads/2021/02/corporate-avatars.jpg",
+      "role": "Admin",
+      "blocked": true,
+      "id": 1
+    },
+    {
+      "name": "Ahmed",
+      "email": "ahmedd@gmail.com",
+      "phone": "+01091822637",
+      "password": "123455",
+      "image": {},
+      "role": "Admin",
+      "blocked": true,
+      "id": 2
+    },
+    {
+      "name": "Enas Gamal",
+      "email": "anosa@gmail.com",
+      "phone": "+01091822637",
+      "password": "AhmedAli22@",
+      "image": "[object File]",
+      "role": "Admin",
+      "blocked": true,
+      "id": 10
+    },
+    {
+      "name": "Kareem",
+      "email": "koky@gmail.com",
+      "phone": "+01091822637",
+      "password": "AhmedAli22@",
+      "image": "[object File]",
+      "role": "Admin",
+      "blocked": true,
+      "id": 11
+    },
+    {
+      "name": "Alllii",
+      "email": "ali99@gmail.com",
+      "phone": "+01091822637",
+      "password": "AhmedAli22@",
+      "image": "[object File]",
+      "role": "Admin",
+      "blocked": false,
+      "id": 12
+    },
+    {
+      "name": "Asmaa",
+      "email": "smsm@gmail.com",
+      "phone": "+3237976590",
+      "password": "AhmedAli22@",
+      "image": "[object File]",
+      "role": "Admin",
+      "blocked": true,
+      "id": 13
+    }
+  ],
+  "customers": [
+    {
+      "name": "Lamis",
+      "email": "lameeswaheed99@gmail.com",
+      "phone": "+01091822637",
+      "id": 1
+    }
+  ],
+  "countries": [
+    {
+      "id": 1,
+      "name": "Egypt"
+    },
+    {
+      "id": 2,
+      "name": "Oman"
+    }
+  ],
+  "cities": [
+    {
+      "id": 1,
+      "countryId": 1,
+      "name": "Cairo"
+    },
+    {
+      "id": 2,
+      "countryId": 1,
+      "name": "Mansoura"
+    },
+    {
+      "id": 3,
+      "countryId": 2,
+      "name": "Mascut"
+    },
+    {
+      "id": 4,
+      "countryId": 2,
+      "name": "Bydyaa"
+    }
+  ]
+}

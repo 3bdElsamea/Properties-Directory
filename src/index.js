@@ -27,6 +27,8 @@ import AdminLayout from "./Dashboard/Layouts/Admin.js";
 import AuthLayout from "./Dashboard/Layouts/Auth.js";
 import Home from "Website/Components/Header/Header";
 
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(

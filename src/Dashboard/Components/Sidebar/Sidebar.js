@@ -53,20 +53,35 @@ const Sidebar = (props) => {
   };
   // creates the links that appear in the left menu / Sidebar
   const createLinks = (routes) => {
-    return routes.map((prop, key) => {
-      return (
-        <NavItem key={key}>
-          <NavLink
-            to={prop.layout + prop.path}
-            tag={NavLinkRRD}
-            onClick={closeCollapse}
-          >
-            <i className={prop.icon} />
-            {prop.name}
-          </NavLink>
-        </NavItem>
-      );
-    });
+    const excludedNames = [
+      "Create Employee",
+      "Update Employee",
+      "Employee Details",
+      "Create Customer",
+      "Update Customer",
+      "Customer Details",
+      "Create Property",
+      "Update Property",
+      "Create Location",
+    ];
+    //unappear another links
+    //make it array of links
+    return routes
+      .filter((prop) => !excludedNames.includes(prop.name))
+      .map((prop, key) => {
+        return (
+          <NavItem key={key}>
+            <NavLink
+              to={prop.layout + prop.path}
+              tag={NavLinkRRD}
+              onClick={closeCollapse}
+            >
+              <i className={prop.icon} />
+              {prop.name}
+            </NavLink>
+          </NavItem>
+        );
+      });
   };
 
   const { bgColor, routes, logo } = props;
@@ -213,8 +228,7 @@ const Sidebar = (props) => {
           {/* Navigation */}
           <Nav navbar>{createLinks(routes)}</Nav>
           {/* Navigation */}
-          <Nav className="mb-md-3" navbar>
-          </Nav>
+          <Nav className="mb-md-3" navbar></Nav>
         </Collapse>
       </Container>
     </Navbar>

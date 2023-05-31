@@ -9,10 +9,15 @@ import {
   Container,
   Row,
   Navbar,
+  Button,
+  Col,
 } from "reactstrap";
 // core components
 
-const Tables = ({title, trContent, tableContent}) => {
+import Btn from "../Btn/Btn";
+import { Link } from "react-router-dom";
+
+const Tables = ({ title, tableRows, route, content }) => {
   return (
     <>
       <Navbar />
@@ -22,17 +27,39 @@ const Tables = ({title, trContent, tableContent}) => {
         <Row>
           <div className="col">
             <Card className="shadow">
-              <CardHeader className="border-0">
-                <h3 className="mb-0">{title}</h3>
-              </CardHeader>
-              <Table className="align-items-center table-flush" responsive>
+              <Row className="justify-content-between">
+                <Col>
+                  <CardHeader className="border-0">
+                    <Row>
+                      <Col>
+                        <h3 className="mb-0">{title}</h3>
+                      </Col>
+                      {route !== "/admin/customers" ? (
+                        <Col className="text-right">
+                          <Link to={route}>
+                            <Btn name="btn-primary btn fa fa-plus" />
+                          </Link>
+                        </Col>
+                      ) : null}
+                    </Row>
+                  </CardHeader>
+                </Col>
+              </Row>
+              <Table 
+                className="align-items-center table-flush"
+                responsive
+              >
                 <thead className="thead-light">
-                  <tr dangerouslySetInnerHTML={{ __html: trContent }} >
+                  <tr>
+                    {content}
                   </tr>
                 </thead>
-                <tbody dangerouslySetInnerHTML={{ __html: tableContent }} >
+                <tbody>
+                  {tableRows}
                 </tbody>
               </Table>
+
+              
               <CardFooter className="py-4">
                 <nav aria-label="...">
                   <Pagination
