@@ -13,6 +13,7 @@ import {
 } from "reactstrap";
 import Axios from "../../../Axios";
 import { v4 as uuidv4 } from "uuid";
+import axios from "axios";
 
 const ResetPasswordPage = () => {
   const [password, setPassword] = useState("");
@@ -47,8 +48,8 @@ const ResetPasswordPage = () => {
         Authorization: "Bearer " + password_token, // Add the password_token to the Authorization header
       };
       // Passwords match, proceed with password reset
-      //axios.patch(`/users/${id}`, { password })
-      Axios.patch(`/users/1`, { password })
+      axios.patch(`https://dummyjson.com/users/1`, { password })
+      //Axios.patch(`/users/1`, { password })
         .then(() => {
           console.log("Password updated successfully");
           setPasswordResetSuccess(true);

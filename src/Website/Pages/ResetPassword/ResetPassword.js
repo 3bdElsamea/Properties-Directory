@@ -13,6 +13,7 @@ import {
 } from "reactstrap";
 import "../Login/Login.css";
 import Axios from "../../../Axios";
+import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 
 const ResetPasswordPage = () => {
@@ -49,7 +50,8 @@ const ResetPasswordPage = () => {
       };
       // Passwords match, proceed with password reset
       //axios.patch(`/users/${id}`, { password })
-      Axios.patch(`/users/1`, { password })
+      axios.patch(`https://dummyjson.com/users/1`, { password })
+      //Axios.patch(`/users/1`, { password })
         .then(() => {
           console.log("Password updated successfully");
           setPasswordResetSuccess(true);

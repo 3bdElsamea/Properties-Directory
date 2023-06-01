@@ -34,7 +34,7 @@ const OwnerUpdate = () => {
 
   const getOwnerDetails = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/owners/${ownerId}`);
+      const response = await axios.get(`http://localhost:3001/owners/${ownerId}`);
       setOwnerInfo(response.data);
     } catch (error) {
       console.log(error);
@@ -85,7 +85,7 @@ const OwnerUpdate = () => {
     }
 
     try {
-      const response = await axios.put(`http://localhost:5000/owners/${ownerId}`, ownerInfo);
+      const response = await axios.put(`http://localhost:3001/owners/${ownerId}`, ownerInfo);
       console.log(response.data);
       // Redirect to Home or show success message
       navigate("/admin/Owners");
@@ -98,7 +98,7 @@ const OwnerUpdate = () => {
     <Container className="mt--7" fluid>
       <Row>
         <Col className="order-xl-1" xl="8">
-          <Card className="bg-secondary shadow">
+          <Card className="shadow">
             <CardHeader className="bg-white border-0">
               <Row className="align-items-center">
                 <Col xs="8">

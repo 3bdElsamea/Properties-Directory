@@ -31,7 +31,7 @@ const CategoriesUpdate = () => {
   
     const getCategoryDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/Categories/${CategoryId}`);
+        const response = await axios.get(`http://localhost:3001/Categories/${CategoryId}`);
         setCategoryInfo(response.data);
       } catch (error) {
         console.log(error);
@@ -66,7 +66,7 @@ const CategoriesUpdate = () => {
       }
   
       try {
-        const response = await axios.put(`http://localhost:5000/Categories/${CategoryId}`, CategoryInfo);
+        const response = await axios.put(`http://localhost:3001/Categories/${CategoryId}`, CategoryInfo);
         console.log(response.data);
         // Redirect to Home or show success message
         navigate("/admin/Categories");
@@ -79,7 +79,7 @@ const CategoriesUpdate = () => {
       <Container className="mt--7" fluid>
         <Row>
           <Col className="order-xl-1" xl="8">
-            <Card className="bg-secondary shadow">
+            <Card className="shadow">
               <CardHeader className="bg-white border-0">
                 <Row className="align-items-center">
                   <Col xs="8">

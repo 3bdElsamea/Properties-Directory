@@ -15,7 +15,7 @@ const Owners = () => {
   }, []);
   const deleteOwner = async (ownerId) => {
     try {
-      const response = await axios.delete(`http://localhost:5000/owners/${ownerId}`);
+      const response = await axios.delete(`http://localhost:3001/owners/${ownerId}`);
       if (response.status === 200) {
         setOwnerList((prevOwnerList) =>
           prevOwnerList.filter((owner) => owner.id !== ownerId)
@@ -29,7 +29,7 @@ const Owners = () => {
   };
   const getOwnerList = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/owners');
+      const response = await axios.get('http://localhost:3001/owners');
       setOwnerList(response.data);
     } catch (error) {
       console.log(error);
@@ -77,14 +77,14 @@ const Owners = () => {
           <td>{owner.created_At}</td>
           <td>
             <Link to={`/admin/Owners/Update/${owner.id}`}>
-              <Btn name="btn-primary btn fa fa-edit" />
+              <Btn className="btn-primary btn fa fa-edit" />
             </Link>
 
             <SweetAlert
               id={owner.id}
               dataList={ownerList}
               setdataList={setOwnerList}
-              route="http://localhost:5000/owners"
+              route="http://localhost:3001/owners"
               text="Are you sure you want to delete this owner?"
               action="delete"
               handleAction={() => deleteOwner(owner.id)} // Pass the correct ID here

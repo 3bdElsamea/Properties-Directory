@@ -15,6 +15,8 @@ import {
 } from "reactstrap";
 
 import Axios from '../../../Axios';
+import axios from "axios";
+
 
 import ForgotPasswordForm from "../ForgetPassword/ForgetPassword";
 
@@ -36,21 +38,32 @@ function Login() {
     setShowErrorMessage(false); // Reset error message when password changes
   }
 
-  const handleSubmit = async (event) => {
+  function handleSubmit(event) {
     event.preventDefault();
-    try {
-      const response = await Axios.post('/auth/login', { username, password });
-      if (response.data.token) {
-        // User is authenticated
-        localStorage.setItem("jwt", response.data.token);
-        window.location.href = '/';
-      } else {
-        console.log('Invalid username or password');
-      }
-    } catch (error) {
-      console.log('An error occurred');
-    }
-  };
+    
+    axios.post("https://dummyjson.com/auth/login", {
+      username: username,
+      password: password
+    })
+      .then((response) => {
+        if (response.data.message !== "Invalid credentials") {
+          // Save the JWT in the client-side storage
+          localStorage.setItem("jwt", response.data.token);
+          // Redirect the user to the dashboard or homepage
+          window.location.href = "/";
+          console.log("Success: " + response.data);
+        } else {
+          // Display an error message to the user
+          setShowErrorMessage(true);
+          console.log("Invalid username or password");
+        }
+      })
+      .catch((error) => {
+        // Display an error message to the user
+        setShowErrorMessage(true);
+        console.log("Error: " + error);
+      });
+  }
   
 
   function handleForgotPasswordClick() {
@@ -66,7 +79,7 @@ function Login() {
       return (
         <>
           <Col lg="5" md="7">
-            <Card className="bg-secondary shadow border-0">
+            <Card className="shadow border-0">
               <CardBody className="px-lg-5 py-lg-5">
                 <div className="text-center text-muted mb-4">
                   <small>Reset Password</small>
@@ -93,7 +106,7 @@ function Login() {
     return (
       <>
         <Col lg="5" md="7">
-          <Card className="bg-secondary shadow border-0">
+          <Card className="shadow border-0">
             <CardBody className="px-lg-5 py-lg-5">
               <div className="text-center text-muted mb-4">
                 <small>Sign in</small>

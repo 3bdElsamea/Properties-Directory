@@ -58,7 +58,7 @@ const PropertyUpdate = () => {
   
   const getPropertyDetails = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/Properties/${propertyId}`);
+      const response = await axios.get(`http://localhost:3001/Properties/${propertyId}`);
       setPropertyInfo(response.data);
     } catch (error) {
       console.log(error);
@@ -76,7 +76,7 @@ const PropertyUpdate = () => {
 
     try {
       const response = await axios.put(
-        `http://localhost:5000/Properties/${propertyId}`,
+        `http://localhost:3001/Properties/${propertyId}`,
         propertyInfo
       );
       console.log(response.data);
@@ -91,7 +91,7 @@ const PropertyUpdate = () => {
     <Container className="mt--7" fluid>
       <Row>
         <Col className="order-xl-1" xl="8">
-          <Card className="bg-secondary shadow">
+          <Card className="shadow">
             <CardHeader className="bg-white border-0">
               <Row className="align-items-center">
                 <Col xs="8">

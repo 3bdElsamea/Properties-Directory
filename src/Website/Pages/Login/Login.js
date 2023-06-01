@@ -16,6 +16,7 @@ import {
 import ForgotPasswordForm from "../ForgetPassword/ForgetPassword";
 
 import Axios from '../../../Axios';
+import axios from "axios";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -36,7 +37,7 @@ function Login() {
   function handleSubmit(event) {
     event.preventDefault();
     
-    Axios.post("/auth/login", {
+    axios.post("https://dummyjson.com/auth/login", {
       username: username,
       password: password
     })
@@ -83,7 +84,7 @@ function Login() {
                       href="#pablo"
                       onClick={(e) => e.preventDefault()}
                     >
-                      <small onClick={handleBackToLoginClick}>
+                      <small style={{color:"gray"}} onClick={handleBackToLoginClick}>
                         Back to login
                       </small>
                     </a>
@@ -169,7 +170,7 @@ function Login() {
                     href="#pablo"
                     onClick={handleForgotPasswordClick}
                   >
-                    <small>Forgot password?</small>
+                    <small style={{color:"gray"}}>Forgot password?</small>
                   </a>
                 )}
               </div>

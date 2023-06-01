@@ -18,6 +18,7 @@ import {
   Media,
 } from "reactstrap";
 import Axios from "../../../Axios";
+import axios from "axios";
 
 const AdminNavbar = (props) => {
   function handleLogout() {
@@ -36,7 +37,7 @@ const AdminNavbar = (props) => {
       const jwt = localStorage.getItem('jwt');
   
       // Send a request to the backend to get the user's data
-      Axios.get('/users', {
+      axios.get('https://dummyjson.com/users', {
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
@@ -47,7 +48,7 @@ const AdminNavbar = (props) => {
           const encodedPayload = parts[1];
           const payload = JSON.parse(atob(encodedPayload));
           const id = payload.id;
-          const url = `http://localhost:3001/users/${id}`;
+          const url = `https://dummyjson.com/users/${id}`;
           // Send a request to the backend to get the user's data
           Axios.get(url, {
             headers: {

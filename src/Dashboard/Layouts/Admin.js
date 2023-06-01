@@ -50,7 +50,7 @@ const Admin = (props) => {
         routes={routes}
         logo={{
           innerLink: "/admin/index",
-          imgSrc: require("../Assets/img/brand/argon-react.png"),
+          imgSrc: "https://creativelayers.net/themes/homez-html/images/header-logo2.svg",
           imgAlt: "...",
         }}
       />

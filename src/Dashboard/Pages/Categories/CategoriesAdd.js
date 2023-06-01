@@ -49,7 +49,7 @@ const CategoriesAdd = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/Categories', categoriesInfo);
+      const response = await axios.post('http://localhost:3001/Categories', categoriesInfo);
       console.log(response.data);
       // TODO: Redirect to Home
       window.location.href = '/admin/Categories';
@@ -62,7 +62,7 @@ const CategoriesAdd = () => {
     <Container className="mt--7" fluid>
       <Row>
         <Col className="order-xl-1" xl="8">
-          <Card className="bg-secondary shadow">
+          <Card className="shadow">
             <CardHeader className="bg-white border-0">
               <Row className="align-items-center">
                 <Col xs="8">

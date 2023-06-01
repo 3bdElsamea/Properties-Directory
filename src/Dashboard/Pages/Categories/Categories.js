@@ -18,7 +18,7 @@ const Categories = () => {
 
   const getCategoriesList = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/Categories');
+      const response = await axios.get('http://localhost:3001/Categories');
       setCategoriesList(response.data);
     } catch (error) {
       console.log(error);
@@ -27,7 +27,7 @@ const Categories = () => {
 
   const toggleActive = async (categoryId) => {
     try {
-      await axios.put(`http://localhost:5000/Categories/${categoryId}/toggleActive`);
+      await axios.put(`http://localhost:3001/Categories/${categoryId}/toggleActive`);
       setCategoriesList(prevList =>
         prevList.map(category =>
           category.id === categoryId
@@ -69,7 +69,7 @@ const Categories = () => {
           <td>{category.created_At}</td>
           <td>
             <Link to={`/admin/Categories/Update/${category.id}`}>
-              <Btn name="btn-primary btn fa fa-edit" />
+              <Btn className="btn-primary btn fa fa-edit" />
             </Link>
           </td>
         </tr>

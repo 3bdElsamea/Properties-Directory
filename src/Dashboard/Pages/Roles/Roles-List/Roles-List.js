@@ -107,7 +107,7 @@ const Roles = () => {
 
   return (
     <>
-      <Tables title="Roles" tableRows={tableContent} content={trContent} />
+      <Tables route="/admin/roles/create" title="Roles" tableRows={tableContent} content={trContent} />
     </>
   );
 };

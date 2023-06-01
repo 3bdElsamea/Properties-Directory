@@ -122,7 +122,7 @@ const RolesUpdate = () => {
             });
 
             // Redirect to the roles list page
-            //window.location.href = "/admin/roles";
+            window.location.href = "/admin/roles";
           })
           .catch((error) => {
             console.error("Error fetching role permissions:", error);
@@ -148,7 +148,7 @@ const RolesUpdate = () => {
   return (
     <>
       {/* Page content */}
-      <Container className="mt-7" fluid>
+      <Container className="mt--7" fluid>
         {/* Table */}
         <Row>
           <div className="col">

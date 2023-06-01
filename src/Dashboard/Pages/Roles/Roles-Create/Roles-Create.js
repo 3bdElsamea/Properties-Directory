@@ -99,7 +99,7 @@ const RolesCreate = () => {
   return (
     <>
       {/* Page content */}
-      <Container className="mt-7" fluid>
+      <Container className="mt--7" fluid>
         {/* Table */}
         <Row>
           <div className="col">
@@ -126,7 +126,7 @@ const RolesCreate = () => {
                   <Col sm={10}>
                     <Input
                       className="form-control"
-                      style={{ width: "50%", marginBottom: "50px"}}
+                      style={{ width: "70%", marginBottom: "50px", marginTop: "20px"}}
                       placeholder="Enter Role Name"
                       type="text"
                       name="roleName"

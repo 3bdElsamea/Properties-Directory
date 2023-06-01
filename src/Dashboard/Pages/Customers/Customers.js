@@ -9,7 +9,7 @@ const Customers = () => {
   const [customerList, setCustomerList] = useState([]);
 
   const getAllCustomers = async () => {
-    const response = await axios.get("http://localhost:4000/customers");
+    const response = await axios.get("http://localhost:3001/customers");
     try {
       setCustomerList(response.data);
       console.log(response.data);
@@ -52,14 +52,14 @@ const Customers = () => {
                   id={item.id}
                   dataList={customerList}
                   setdataList={setCustomerList}
-                  route="http://localhost:4000/customers"
+                  route="http://localhost:3001/customers"
                   text="Are you sure you want to delete this customer?"
                   action="delete"
                 />
               </td>
 
               <td>
-                <Link to={`/admin/customers/details/${item.id}`}>
+                <Link to={`/admin/Customers/details/${item.id}`}>
                   <i className="fa fa-eye btn-sm btn btn-info"></i>
                 </Link>
               </td>

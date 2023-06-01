@@ -94,22 +94,12 @@
       "email": "gamal@gmail.com"
     }
   ],
-  "properties": [
-    {
-      "id": 1,
-      "title": "House"
-    },
-    {
-      "id": 2,
-      "title": "Garage"
-    }
-  ],
   "requests": [
     {
       "id": 1,
       "customer_id": 1,
       "property_id": 1,
-      "status": "active",
+      "status": "rejected",
       "created_at": "2023-05-28T10:30:00Z",
       "updated_at": "2023-05-28T10:30:00Z"
     },
@@ -255,42 +245,67 @@
       "updated_at": "2023-05-29T08:15:00Z"
     }
   ],
-  "roles": [],
-  "role_permissions": [
+  "roles": [
     {
-      "role_id": 1,
-      "permission_id": 11,
-      "created_at": "2023-05-31T17:31:17.676Z",
-      "updated_at": "2023-05-31T17:31:17.676Z",
+      "name": "moderator",
+      "updated_at": "2023-06-01T00:23:48.212Z",
       "id": 1
     },
     {
-      "role_id": 1,
-      "permission_id": 15,
-      "created_at": "2023-05-31T17:31:17.678Z",
-      "updated_at": "2023-05-31T17:31:17.678Z",
+      "name": "customer service",
+      "updated_at": "2023-06-01T00:51:13.945Z",
       "id": 2
+    }
+  ],
+  "role_permissions": [
+    {
+      "role_id": 1,
+      "permission_id": 3,
+      "created_at": "2023-06-01T00:20:05.374Z",
+      "updated_at": "2023-06-01T00:20:05.374Z",
+      "id": 9
+    },
+    {
+      "role_id": 2,
+      "permission_id": 4,
+      "created_at": "2023-06-01T00:21:00.492Z",
+      "updated_at": "2023-06-01T00:21:00.492Z",
+      "id": 10
+    },
+    {
+      "role_id": 2,
+      "permission_id": 14,
+      "created_at": "2023-06-01T00:21:00.493Z",
+      "updated_at": "2023-06-01T00:21:00.493Z",
+      "id": 11
     },
     {
       "role_id": 1,
-      "permission_id": 13,
-      "created_at": "2023-05-31T19:41:27.453Z",
-      "updated_at": "2023-05-31T19:41:27.453Z",
-      "id": 3
+      "permission_id": 4,
+      "created_at": "2023-06-01T00:23:38.483Z",
+      "updated_at": "2023-06-01T00:23:38.483Z",
+      "id": 12
     },
     {
-      "role_id": 1,
-      "permission_id": 12,
-      "created_at": "2023-05-31T19:41:27.455Z",
-      "updated_at": "2023-05-31T19:41:27.455Z",
-      "id": 4
+      "role_id": 3,
+      "permission_id": 2,
+      "created_at": "2023-06-01T03:06:03.467Z",
+      "updated_at": "2023-06-01T03:06:03.467Z",
+      "id": 13
     },
     {
-      "role_id": 1,
-      "permission_id": 5,
-      "created_at": "2023-05-31T19:41:27.459Z",
-      "updated_at": "2023-05-31T19:41:27.459Z",
-      "id": 5
+      "role_id": 3,
+      "permission_id": 7,
+      "created_at": "2023-06-01T03:06:03.468Z",
+      "updated_at": "2023-06-01T03:06:03.468Z",
+      "id": 14
+    },
+    {
+      "role_id": 3,
+      "permission_id": 9,
+      "created_at": "2023-06-01T03:06:12.195Z",
+      "updated_at": "2023-06-01T03:06:12.195Z",
+      "id": 15
     }
   ],
   "countries": [
@@ -323,6 +338,123 @@
       "id": 4,
       "countryId": 2,
       "name": "Bydyaa"
+    }
+  ],
+  "owners": [
+    {
+      "id": 1,
+      "name": "Eman",
+      "email": "eman@gmail.com",
+      "phone": "0231564",
+      "national_id": "165515012",
+      "status": "active",
+      "created_at": "2023-05-28T10:30:00Z"
+    }
+  ],
+  "Categories": [
+    {
+      "id": 1,
+      "name": "catttt",
+      "active": false
+    },
+    {
+      "id": 2
+    },
+    {
+      "id": 3
+    },
+    {
+      "name": "catagery",
+      "active": false,
+      "id": 4
+    },
+    {
+      "name": "catagery",
+      "active": true,
+      "id": 5
+    },
+    {
+      "name": "category",
+      "active": true,
+      "created_at": "",
+      "id": 6
+    },
+    {
+      "name": "cat",
+      "active": false,
+      "created_at": "",
+      "id": 7
+    },
+    {
+      "name": "cattt",
+      "active": "false",
+      "created_at": "",
+      "id": 8
+    },
+    {
+      "name": "cattttt",
+      "active": true,
+      "created_at": "",
+      "id": 9
+    },
+    {
+      "name": "asmaa",
+      "active": "Inactive",
+      "created_at": "",
+      "id": 10
+    },
+    {
+      "name": "mona",
+      "active": "false",
+      "created_at": "",
+      "id": 11
+    }
+  ],
+  "properties": [
+    {
+      "title": "property3",
+      "description": "property3property3property3property3",
+      "price": "40000000",
+      "image": "https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      "area": "3",
+      "bathrooms": "3",
+      "bedrooms": "3",
+      "garage": "2",
+      "floors": "2",
+      "year_built": "1990",
+      "status": "Active",
+      "category_id": "3",
+      "city_id": "33",
+      "property_type_id": "22",
+      "owner_id": "22",
+      "employee_id": "2",
+      "id": 3,
+      "galleryImages": [
+        {
+          "id": 1,
+          "image": "https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+        },
+        {
+          "id": 2,
+          "image": "https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+        },
+        {
+          "id": 3,
+          "image": "https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+        },
+        {
+          "id": 4,
+          "image": "https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+        },
+        {
+          "id": 5,
+          "image": "https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+        },
+        {
+          "id": 6,
+          "image": "https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+        }
+      ]
     }
   ]
 }

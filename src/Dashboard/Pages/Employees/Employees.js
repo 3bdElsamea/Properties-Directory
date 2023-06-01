@@ -60,11 +60,11 @@ const Employees = () => {
               </td>
               <td>
                 <Link to={`/admin/update-employee/${item.id}`}>
-                  <Btn name="btn-primary btn-sm fa fa-edit" />
+                  <Btn className="btn-primary btn-sm fa fa-edit" />
                 </Link>
 
                 <Link to={`/admin/employees/details/${item.id}`}>
-                  <Btn name="btn-success btn-sm fa fa-eye ml-4" />
+                  <Btn className="btn-success btn-sm fa fa-eye ml-4" />
                 </Link>
               </td>
               <td>

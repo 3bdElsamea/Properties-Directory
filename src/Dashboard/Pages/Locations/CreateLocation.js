@@ -9,14 +9,14 @@ const CreateLocation = () => {
 
   // Fetch countries from the JSON server
   useEffect(() => {
-    axios.get('http://localhost:4000/countries')
+    axios.get('http://localhost:3001/countries')
       .then(response => setCountries(response.data))
       .catch(error => console.log(error));
   }, []);
 
   // Fetch cities based on selected country
   const fetchCities = (countryId) => {
-    axios.get(`http://localhost:4000/countries/${countryId}/cities`)
+    axios.get(`http://localhost:3001/countries/${countryId}/cities`)
       .then(response => setCities(response.data))
       .catch(error => console.log(error));
   };

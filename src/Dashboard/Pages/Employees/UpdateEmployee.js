@@ -78,7 +78,7 @@ const UpdateEmployee = () => {
       }, {});
 
       axios
-        .patch(`http://localhost:4000/employees/${id}`, filteredValues)
+        .patch(`http://localhost:3001/employees/${id}`, filteredValues)
         .then((res) => {
           console.log(res.data);
           navigate("/admin/employees");
@@ -89,7 +89,7 @@ const UpdateEmployee = () => {
 
   // Fetch employee data from API on component mount
   useEffect(() => {
-    axios.get(`http://localhost:4000/employees/${id}`).then((res) => {
+    axios.get(`http://localhost:3001/employees/${id}`).then((res) => {
       const { name, email, phone, image, role, blocked } = res.data;
       setEmployee({ ...employee, name, email, phone, image, role, blocked });
       formik.setValues({ name, email, phone, role });

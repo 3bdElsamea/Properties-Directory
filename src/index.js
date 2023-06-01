@@ -20,15 +20,15 @@ const jwt = localStorage.getItem("jwt");
 root.render(
   <BrowserRouter>
     <Routes>
-      {/*{!jwt && <Route path="/admin/*" element={<Navigate to="/auth/login" replace />} />}*/}
+      {!jwt && <Route path="/admin/*" element={<Navigate to="/auth/login" replace />} />}
       <Route path="/admin/*" element={<AdminLayout />} />
-      {/*<Route path="/auth/*" element={<AuthLayout />} />*/}
+      <Route path="/auth/*" element={<AuthLayout />} />
       <Route path="/Home" element={<Home />} />
-      {/*<Route path="/login" element={<LoginWebsite />} />*/}
+      <Route path="/login" element={<LoginWebsite />} />
       <Route path="/reset-password" element={<ResetPassword />} />
       <Route path="/error" element={<ErrorPage />} />
-     <Route path="*" element={<Navigate to="/error" replace />} />
-      {/*<Route path="*" element={<Navigate to="/admin/index" replace />} />*/}
+     {/*<Route path="*" element={<Navigate to="/error" replace />} />*/}
+      <Route path="*" element={<Navigate to="/admin/index" replace />} />
     </Routes>
   </BrowserRouter>
 );

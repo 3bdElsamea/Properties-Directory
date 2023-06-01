@@ -16,7 +16,7 @@ const Properties = () => {
 
   const getPropertyList = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/Properties');
+      const response = await axios.get('http://localhost:3001/Properties');
       setPropertyList(response.data);
     } catch (error) {
       console.log(error);
@@ -24,7 +24,7 @@ const Properties = () => {
   };
   const deleteProperty = async (propertyId) => {
     try {
-      const response = await axios.delete(`http://localhost:5000/Properties/${propertyId}`);
+      const response = await axios.delete(`http://localhost:3001/Properties/${propertyId}`);
       if (response.status === 200) {
         setPropertyList((prevpropertyList) =>
           prevpropertyList.filter((property) => property.id !== propertyId)
@@ -102,18 +102,18 @@ const Properties = () => {
           <td>{property.updated_at}</td>
           <td>
             <Link to={`/admin/Properties/update/${property.id}`}>
-              <Btn name="btn-primary btn fa fa-edit" />
+              <Btn className="btn-primary btn fa fa-edit" />
             </Link>
             
               <Link to={`/admin/Properties/details/${property.id}`}>
-                <Btn name="btn-primary btn fa fa-eye" />
+                <Btn className="btn-primary btn fa fa-eye" />
               </Link>
 
             <SweetAlert 
               id={property.id}
               dataList={propertyList}
               setdataList={setPropertyList}
-              route="http://localhost:5000/Properties/"
+              route="http://localhost:3001/Properties/"
               text="Are you sure you want to deletem this property"
               action="delete"
               handleAction={() => deleteProperty(property.id)} // Pass the correct ID here

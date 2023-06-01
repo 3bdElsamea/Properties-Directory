@@ -147,7 +147,7 @@ var routes = [
     layout: "/admin",
   },
   {
-    path: "/customers/details/:id",
+    path: "/Customers/details/:id",
     name: "Customer Details",
     component: <CustomerDetails />,
     layout: "/admin",
@@ -247,7 +247,7 @@ var routes = [
     layout: "/admin",
   },
   {
-    path: "/customers/details/:id",
+    path: "/Customers/details/:id",
     name: "Customer Details",
     component: <CustomerDetails />,
     layout: "/admin",
