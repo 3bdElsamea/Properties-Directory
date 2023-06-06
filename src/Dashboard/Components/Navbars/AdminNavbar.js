@@ -17,7 +17,7 @@ import {
   Container,
   Media,
 } from "reactstrap";
-import { AxiosDashboard } from "../../../../src/Axios";
+import { AxiosDashboard } from "../../../Axios";
 
 const AdminNavbar = (props) => {
   function handleLogout() {
@@ -36,7 +36,7 @@ const AdminNavbar = (props) => {
       const jwt = localStorage.getItem('jwt');
   
       // Send a request to the backend to get the user's data
-      AxiosDashboard.get('/dashboard/employees', {
+      AxiosDashboard.get('/employees', {
         headers: {
           Authorization: `Bearer ${jwt}`,
         },

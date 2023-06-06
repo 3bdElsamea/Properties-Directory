@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { AxiosDashboard } from "../../../../src/Axios";
-
+import { AxiosDashboard } from '../../../Axios';
 import { useNavigate } from "react-router-dom";
 import {
   CardBody,

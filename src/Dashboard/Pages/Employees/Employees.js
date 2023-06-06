@@ -1,6 +1,6 @@
 import Tables from "../../SharedUI/Table/Tables";
 import Btn from "../../SharedUI/Btn/Btn";
-import { AxiosDashboard } from "../../../../src/Axios";
+import { AxiosDashboard } from '../../../Axios';
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import SweetAlert from "../../SharedUI/SweetAlert/SweetAlert";
@@ -51,7 +51,7 @@ const Employees = () => {
                   dataList={employeeList}
                   setdataList={setEmployeeList}
                   text="You are about to change the block status of this employee."
-                  route="/dashboard/employees"
+                  route="http://3bsi.nader-mo.tech/employees"
                   action="block"
                   initialBlocked={item.blocked}
                 />

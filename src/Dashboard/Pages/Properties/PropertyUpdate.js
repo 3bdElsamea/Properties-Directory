@@ -12,7 +12,8 @@ import {
   Row,
   Col,
 } from "reactstrap";
-import axios from "axios";
+import { AxiosDashboard } from '../../../Axios';
+
 
 const PropertyUpdate = () => {
   const { propertyId } = useParams();
@@ -58,7 +59,7 @@ const PropertyUpdate = () => {
   
   const getPropertyDetails = async () => {
     try {
-      const response = await axios.get(`http://localhost:3001/Properties/${propertyId}`);
+      const response = await AxiosDashboard.get(`/Properties/${propertyId}`);
       setPropertyInfo(response.data);
     } catch (error) {
       console.log(error);
@@ -75,8 +76,8 @@ const PropertyUpdate = () => {
 
 
     try {
-      const response = await axios.put(
-        `http://localhost:3001/Properties/${propertyId}`,
+      const response = await AxiosDashboard.put(
+        `/Properties/${propertyId}`,
         propertyInfo
       );
       console.log(response.data);

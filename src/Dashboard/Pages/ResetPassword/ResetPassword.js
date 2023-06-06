@@ -11,7 +11,7 @@ import {
   InputGroup,
   Col,
 } from "reactstrap";
-import Axios from "../../../Axios";
+import { AxiosDashboard } from "../../../Axios";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 

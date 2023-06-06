@@ -11,7 +11,7 @@ import {
   Row,
   Col,
 } from "reactstrap";
-import axios from "axios";
+import { AxiosDashboard } from '../../../Axios';
 
 const OwnerAdd = () => {
   const [ownerInfo, setOwnerInfo] = useState({
@@ -81,7 +81,7 @@ const OwnerAdd = () => {
     setOwnerInfo({ ...ownerInfo, created_at: currentDate });
 
     try {
-      const response = await axios.post("http://localhost:3001/owners", ownerInfo);
+      const response = await AxiosDashboard.post("/owners", ownerInfo);
       console.log(response.data);
       // TODO: Redirect to Home
       window.location.href = "/dashboard/Owners";

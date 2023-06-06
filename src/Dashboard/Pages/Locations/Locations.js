@@ -1,6 +1,6 @@
 import Tables from "../../SharedUI/Table/Tables";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import { AxiosDashboard } from '../../../Axios';
 import { useEffect, useState } from "react";
 import SweetAlert from "../../SharedUI/SweetAlert/SweetAlert";
 
@@ -10,9 +10,9 @@ const CreateLocations = () => {
 
   const getAllLocations = async () => {
     try {
-      const response1 = await axios.get("http://localhost:3001/countries");
+      const response1 = await AxiosDashboard.get("/countries");
       setCountryList(response1.data);
-      const response2 = await axios.get("http://localhost:3001/cities");
+      const response2 = await AxiosDashboard.get("/cities");
       setCityList(response2.data);
     } catch (error) {
       console.log(error);
@@ -54,7 +54,7 @@ const CreateLocations = () => {
                   id={item.id}
                   dataList={countryList}
                   setdataList={setCountryList}
-                  route="http://localhost:3001/locations"
+                  route="http://3bsi.nader-mo.tech/locations"
                   text="Are you sure you want to delete this location?"
                   action="delete"
                 />

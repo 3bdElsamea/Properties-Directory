@@ -6,6 +6,7 @@ import { Badge } from 'reactstrap';
 import Tables from '../../SharedUI/Table/Tables';
 import Btn from '../../SharedUI/Btn/Btn';
 import SweetAlert from '../../SharedUI/SweetAlert/SweetAlert';
+import { AxiosDashboard } from '../../../Axios';
 import axios from 'axios';
 
 const Categories = () => {
@@ -18,7 +19,7 @@ const Categories = () => {
 
   const getCategoriesList = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/Categories');
+      const response = await AxiosDashboard.get('/Categories');
       setCategoriesList(response.data);
     } catch (error) {
       console.log(error);
@@ -27,7 +28,7 @@ const Categories = () => {
 
   const toggleActive = async (categoryId) => {
     try {
-      await axios.put(`http://localhost:3001/Categories/${categoryId}/toggleActive`);
+      await AxiosDashboard.put(`/Categories/${categoryId}/toggleActive`);
       setCategoriesList(prevList =>
         prevList.map(category =>
           category.id === categoryId

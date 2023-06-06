@@ -4,8 +4,7 @@ import { Badge } from 'reactstrap';
 import Tables from '../../SharedUI/Table/Tables';
 import Btn from '../../SharedUI/Btn/Btn';
 import SweetAlert from '../../SharedUI/SweetAlert/SweetDelete';
-
-import axios from 'axios';
+import { AxiosDashboard } from '../../../Axios';
 
 const Owners = () => {
   const [ownerList, setOwnerList] = useState([]);
@@ -15,7 +14,7 @@ const Owners = () => {
   }, []);
   const deleteOwner = async (ownerId) => {
     try {
-      const response = await axios.delete(`http://localhost:3001/owners/${ownerId}`);
+      const response = await AxiosDashboard.delete(`/owners/${ownerId}`);
       if (response.status === 200) {
         setOwnerList((prevOwnerList) =>
           prevOwnerList.filter((owner) => owner.id !== ownerId)
@@ -29,7 +28,7 @@ const Owners = () => {
   };
   const getOwnerList = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/owners');
+      const response = await AxiosDashboard.get('/owners');
       setOwnerList(response.data);
     } catch (error) {
       console.log(error);
@@ -84,7 +83,7 @@ const Owners = () => {
               id={owner.id}
               dataList={ownerList}
               setdataList={setOwnerList}
-              route="http://localhost:3001/owners"
+              route="http://3bsi.nader-mo.tech/owners"
               text="Are you sure you want to delete this owner?"
               action="delete"
               handleAction={() => deleteOwner(owner.id)} // Pass the correct ID here

@@ -2,6 +2,7 @@ import { Card } from "reactstrap";
 import { Link } from "react-router-dom";
 import { Container, Row, Col, CardBody, CardHeader, Button } from "reactstrap";
 import { useParams } from "react-router-dom";
+import { AxiosDashboard } from '../../../Axios';
 import { useState, useEffect } from "react";
 import { AxiosDashboard } from "../../../../src/Axios";
 

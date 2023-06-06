@@ -10,6 +10,7 @@ import {
   Container,
 } from "reactstrap";
 import { Form, Row, Col } from "react-bootstrap";
+import { AxiosDashboard } from "../../../../Axios";
 import Input from "../../../SharedUI/Input/Input";
 import Btn from "../../../SharedUI/Btn/Btn";
 import { AxiosDashboard } from "../../../../../src/Axios";
@@ -22,7 +23,7 @@ const RolesCreate = () => {
 
   useEffect(() => {
     // Fetch permissions data from the API
-    Axios.get("/permissions")
+    AxiosDashboard.get("/permissions")
       .then((response) => {
         setPermissions(response.data);
       })
@@ -54,7 +55,7 @@ const RolesCreate = () => {
       updated_at: new Date().toISOString(),
     };
 
-    Axios.post("/roles", newRole)
+    AxiosDashboard.post("/roles", newRole)
       .then((response) => {
         const roleId = response.data.id;
 
@@ -67,7 +68,7 @@ const RolesCreate = () => {
             updated_at: new Date().toISOString(),
           };
 
-          Axios.post("/role_permissions", rolePermission)
+          AxiosDashboard.post("/role_permissions", rolePermission)
             .then(() => {
               // Role permission created successfully
             })
