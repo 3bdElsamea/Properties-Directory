@@ -9,8 +9,7 @@ import SweetAlert from '../../SharedUI/SweetAlert/SweetAlert';
 import axios from 'axios';
 
 const Categories = () => {
-  const [CategoriesList, setCategoriesList] = useState([]);
-  console.log(CategoriesList);
+  const [categoriesList, setCategoriesList] = useState([]);
 
   useEffect(() => {
     getCategoriesList();
@@ -27,7 +26,7 @@ const Categories = () => {
 
   const toggleActive = async (categoryId) => {
     try {
-      await axios.put(`http://localhost:5000/Categories/${categoryId}/toggleActive`);
+      await axios.put(`http://localhost:5000/Categories/${categoryId}`);
       setCategoriesList(prevList =>
         prevList.map(category =>
           category.id === categoryId
@@ -48,12 +47,12 @@ const Categories = () => {
         <>
           <th scope="col">ID</th>
           <th scope="col">Name</th>
-          <th scope="col">active</th>
-          <th scope="col">created_At</th>
-          <th scope="col">actions</th>
+          <th scope="col">Active</th>
+          <th scope="col">Created At</th>
+          <th scope="col">Actions</th>
         </>
       }
-      tableRows={CategoriesList.map((category) => (
+      tableRows={categoriesList.map((category) => (
         <tr key={category.id} style={{ backgroundColor: category.active ? 'white' : '#f6f9fc' }}>
           <th scope="row">{category.id}</th>
           <td>{category.name}</td>
@@ -61,7 +60,7 @@ const Categories = () => {
             <Badge
               color={category.active ? 'success' : 'danger'}
               onClick={() => toggleActive(category.id)}
-              style={{ cursor: 'pointer' , fontSize: '12px' }}
+              style={{ cursor: 'pointer', fontSize: '12px' }}
             >
               {category.active ? 'Active' : 'Inactive'}
             </Badge>
@@ -69,7 +68,7 @@ const Categories = () => {
           <td>{category.created_At}</td>
           <td>
             <Link to={`/admin/Categories/Update/${category.id}`}>
-              <Btn name="btn-primary btn fa fa-edit" />
+              <Btn className="btn-primary btn fa fa-edit" />
             </Link>
           </td>
         </tr>

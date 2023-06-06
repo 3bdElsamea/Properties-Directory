@@ -102,11 +102,11 @@ const Properties = () => {
           <td>{property.updated_at}</td>
           <td>
             <Link to={`/admin/Properties/update/${property.id}`}>
-              <Btn name="btn-primary btn fa fa-edit" />
+              <Btn className="btn-primary btn fa fa-edit" />
             </Link>
             
               <Link to={`/admin/Properties/details/${property.id}`}>
-                <Btn name="btn-primary btn fa fa-eye" />
+                <Btn className="btn-primary btn fa fa-eye" />
               </Link>
 
             <SweetAlert 

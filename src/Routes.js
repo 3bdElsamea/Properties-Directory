@@ -28,7 +28,7 @@ import CategoriesAdd from "./Dashboard/Pages/Categories/CategoriesAdd.js"
 import PropertyAdd from "./Dashboard//Pages/Properties/PropertyAdd.js"
 import PropertyUpdate from "./Dashboard/Pages/Properties/PropertyUpdate.js"
 import PropertyDetails from "./Dashboard/Pages/Properties/PropertyDetails.js"
-
+import OwnerDetails from './Dashboard/Pages/Owners/OwnerDetails.js';
 var routes = [
   {
     path: "/index",
@@ -101,21 +101,21 @@ var routes = [
   },
   {
     path: "/properties/add",
-    name: "Properties",
+    name: "Add Properties",
     icon: "ni ni-bag-17 text-blue",
     component: <PropertyAdd />,
     layout: "/admin",
   },
   {
     path: "/properties/update/:propertyId",
-    name: "Properties",
+    name: "Update Properties",
     icon: "ni ni-bag-17 text-blue",
     component: <PropertyUpdate />,
     layout: "/admin",
   },
   {
     path: "/properties/details/:propertyId",
-    name: "Properties",
+    name: "Details Properties",
     icon: "ni ni-bag-17 text-blue",
     component: <PropertyDetails />,
     layout: "/admin",
@@ -137,6 +137,12 @@ var routes = [
     path: "/Owners/Add",
     name: "Add Owners",
     component: <OwnerAdd />,
+    layout: "/admin",
+  },
+  {
+    path: "/Owners/Details/:ownerId",
+    name: "Details Owners",
+    component: <OwnerDetails />,
     layout: "/admin",
   },
   {
@@ -283,74 +289,7 @@ var routes = [
     layout: "/admin",
 
   },
-  {
-    path: "/categories",
-    name: "Categories",
-    icon: "ni ni-bullet-list-67 text-blue",
-    component: <Categories />,
-    layout: "/admin",
-  },
-  {
-    path: "/categories/Update/:CategoryId",
-    name: "CategoriesUpdate",
-    icon: "ni ni-bullet-list-67 text-blue",
-    component: <CategoriesUpdate />,
-    layout: "/admin",
-  },
-  {
-    path: "/categories/Add",
-    name: "CategoriesAdd",
-    icon: "ni ni-bullet-list-67 text-blue",
-    component: <CategoriesAdd/>,
-    layout: "/admin",
-  },
-  {
-    path: "/properties",
-    name: "Properties",
-    icon: "ni ni-bag-17 text-blue",
-    component: <Properties />,
-    layout: "/admin",
-  },
-  {
-    path: "/properties/add",
-    name: "Properties",
-    icon: "ni ni-bag-17 text-blue",
-    component: <PropertyAdd />,
-    layout: "/admin",
-  },
-  {
-    path: "/properties/update/:propertyId",
-    name: "Properties",
-    icon: "ni ni-bag-17 text-blue",
-    component: <PropertyUpdate />,
-    layout: "/admin",
-  },
-  {
-    path: "/properties/details/:propertyId",
-    name: "Properties",
-    icon: "ni ni-bag-17 text-blue",
-    component: <PropertyDetails />,
-    layout: "/admin",
-  },
-  {
-    path: "/Owners",
-    name: "Owners",
-    icon: "fa fa-users text-blue",
-    component: <Owners />,
-    layout: "/admin",
-  },
-  {
-    path: "/Owners/Update/:ownerId",
-    name: "Update Owners",
-    component: <OwnerUpdate />,
-    layout: "/admin",
-  },
-  {
-    path: "/Owners/Add",
-    name: "Add Owners",
-    component: <OwnerAdd />,
-    layout: "/admin",
-  },
+ 
 ];
 
 export default routes;

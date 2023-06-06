@@ -11,35 +11,37 @@ import {
   Row,
   Col,
 } from "reactstrap";
-// core components
 
 const ErrorPage = () => {
   return (
     <>
-      <Container className="mt--7" fluid>
+      <Container >
         <Row>
-          <img
-            alt="..."
-            className="rounded-circle"
-            src={require("../../Assets/img/theme/errorPage.jpg")}
-              style={{     "max-width":" 641px",
-                       "margin-top": "125px",
-                       "margin":"auto" }}
+          <Col xs={6} md={6} className="order-md-1 order-2">
+            <img
+              alt="Error Page"
+              src={require("../../Assets/img/theme/errorPage.jpg")}
+              style={{
+                maxWidth: "732px",
+                marginTop: "160px",
+                margin: "auto",
+              }}
             />
-         
+          </Col>
+          <Col xs={6} md={6} className="order-md-2 order-1">
+          <div style={{ marginTop: "350px", textAlign: "center" }}>
+            <h4>OOOPS! Something went wrong. The page you are looking for does not exist.</h4>
+            <Button color="primary" tag="a" href="/admin/index">
+              Go to Home
+            </Button>
+          </div>
+        </Col>
+
+          
         </Row>
-        <Row className="text-center" md="6">
-           
-           <Button color="primary" tag="a" href="/">
-             Go to Home
-           </Button>
-        
-     </Row>
       </Container>
     </>
   );
 };
 
 export default ErrorPage;
-
-      
