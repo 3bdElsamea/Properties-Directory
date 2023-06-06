@@ -40,7 +40,7 @@ const Properties = () => {
   return (
     <Tables
       title="All Properties"
-      route="/admin/Properties/add"
+      route="/dashboard/Properties/add"
       content={
         <>
           <th scope="col">ID</th>
@@ -101,11 +101,11 @@ const Properties = () => {
           <td>{property.created_at}</td>
           <td>{property.updated_at}</td>
           <td>
-            <Link to={`/admin/Properties/update/${property.id}`}>
+            <Link to={`/dashboard/Properties/update/${property.id}`}>
               <Btn className="btn-primary btn fa fa-edit" />
             </Link>
             
-              <Link to={`/admin/Properties/details/${property.id}`}>
+              <Link to={`/dashboard/Properties/details/${property.id}`}>
                 <Btn className="btn-primary btn fa fa-eye" />
               </Link>
 

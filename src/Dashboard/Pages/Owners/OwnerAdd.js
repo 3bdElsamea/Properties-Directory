@@ -84,7 +84,7 @@ const OwnerAdd = () => {
       const response = await axios.post("http://localhost:3001/owners", ownerInfo);
       console.log(response.data);
       // TODO: Redirect to Home
-      window.location.href = "/admin/Owners";
+      window.location.href = "/dashboard/Owners";
     } catch (error) {
       console.log(error);
     }

@@ -52,7 +52,7 @@ const CategoriesAdd = () => {
       const response = await axios.post('http://localhost:3001/Categories', categoriesInfo);
       console.log(response.data);
       // TODO: Redirect to Home
-      window.location.href = '/admin/Categories';
+      window.location.href = '/dashboard/Categories';
     } catch (error) {
       console.log(error);
     }

@@ -90,7 +90,7 @@ const Auth = (props) => {
     </>
   );}
   else {
-    return <Navigate to="/admin/index" replace />;
+    return <Navigate to="/dashboard/index" replace />;
   }
 };
 

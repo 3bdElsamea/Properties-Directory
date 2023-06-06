@@ -7,21 +7,27 @@ import "./Roles-List.css";
 
 const Roles = () => {
   const [roles, setRoles] = useState([]);
-  const [permissions, setPermissions] = useState([]);
-  const [rolePermissions, setRolePermissions] = useState([]);
+  //const [permissions, setPermissions] = useState([]);
+  //const [rolePermissions, setRolePermissions] = useState([]);
 
   useEffect(() => {
     // Fetch roles data from the API
-    Axios.get("/roles")
+    const jwt = localStorage.getItem('jwt');
+    console.log(jwt);
+    Axios.get("/dashboard/roles", {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      }})
       .then((response) => {
-        setRoles(response.data);
+        setRoles(response.data.roles);
+        console.log(response.data);
       })
       .catch((error) => {
         console.error("Error fetching roles:", error);
       });
 
     // Fetch permissions data from the API
-    Axios.get("/permissions")
+   /*Axios.get("/dashboard/roles/get-permissions")
       .then((response) => {
         setPermissions(response.data);
       })
@@ -36,7 +42,7 @@ const Roles = () => {
       })
       .catch((error) => {
         console.error("Error fetching role permissions:", error);
-      });
+      });*/
   }, []);
 
   
@@ -45,14 +51,14 @@ const Roles = () => {
     <>
       <th>ID</th>
       <th>Name</th>
-      <th>Permissions</th>
+      {/*<th>Permissions</th>*/}
       <th>Actions</th>
     </>
   );
 
   const tableContent = roles.map((role) => {
     const handleUpdate = () => {
-      window.location.href = `/admin/roles/update/${role.id}`;
+      window.location.href = `/dashboard/roles/update/${role.id}`;
     };
 
     const handleDelete = () => {
@@ -67,7 +73,7 @@ const Roles = () => {
           console.error("Error deleting role:", error);
         });
     };
-    
+    /*
     const rolePermissionNames = rolePermissions
       .filter((rolePermission) => rolePermission.role_id === role.id)
       .map((rolePermission) => {
@@ -90,13 +96,13 @@ const Roles = () => {
       <table>
         <tbody>{permissionTableContent}</tbody>
       </table>
-    );
+    );*/
 
     return (
       <tr key={role.id}>
-        <td>{role.id}</td>
+        <td>{role.data.id}</td>
         <td>{role.name}</td>
-        <td>{permissionTable}</td>
+        {/*<td>{permissionTable}</td>*/}
         <td>
         <Btn className="icon-button roleIcon updateRole" onClick={handleUpdate} title={<FaEdit />}/>
         <Btn className="icon-button roleIcon deleteRole" onClick={handleDelete} title={<FaTrash />}/>
@@ -107,7 +113,7 @@ const Roles = () => {
 
   return (
     <>
-      <Tables route="/admin/roles/create" title="Roles" tableRows={tableContent} content={trContent} />
+      <Tables route="/dashboard/roles/create" title="Roles" tableRows={tableContent} content={trContent} />
     </>
   );
 };
