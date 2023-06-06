@@ -78,6 +78,10 @@
   ],
   "customers": [
     {
+      "name": "Lamis",
+      "email": "lameeswaheed99@gmail.com",
+      "phone": "01091822637",
+      "id" : 1
       "id": 1,
       "firstName": "Aml",
       "lastName": "Ali",
