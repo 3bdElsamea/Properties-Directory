@@ -10,9 +10,9 @@ const CreateLocations = () => {
 
   const getAllLocations = async () => {
     try {
-      const response1 = await axios.get("http://localhost:4000/countries");
+      const response1 = await axios.get("http://localhost:3001/countries");
       setCountryList(response1.data);
-      const response2 = await axios.get("http://localhost:4000/cities");
+      const response2 = await axios.get("http://localhost:3001/cities");
       setCityList(response2.data);
     } catch (error) {
       console.log(error);
@@ -54,7 +54,7 @@ const CreateLocations = () => {
                   id={item.id}
                   dataList={countryList}
                   setdataList={setCountryList}
-                  route="http://localhost:4000/locations"
+                  route="http://localhost:3001/locations"
                   text="Are you sure you want to delete this location?"
                   action="delete"
                 />

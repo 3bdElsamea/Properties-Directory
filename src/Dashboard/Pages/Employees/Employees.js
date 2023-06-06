@@ -10,7 +10,7 @@ const Employees = () => {
 
   //get the data from db.json using axios
   const getAllEmployees = async () => {
-    const response = await axios.get("http://localhost:4000/employees");
+    const response = await axios.get("http://localhost:3001/employees");
     try {
       setEmployeeList(response.data);
       console.log(response.data);
@@ -53,18 +53,18 @@ const Employees = () => {
                   dataList={employeeList}
                   setdataList={setEmployeeList}
                   text="You are about to change the block status of this employee."
-                  route="http://localhost:4000/employees"
+                  route="http://localhost:3001/employees"
                   action="block"
                   initialBlocked={item.blocked}
                 />
               </td>
               <td>
                 <Link to={`/admin/update-employee/${item.id}`}>
-                  <Btn name="btn-primary btn-sm fa fa-edit" />
+                  <Btn className="btn-primary btn-sm fa fa-edit" />
                 </Link>
 
                 <Link to={`/admin/employees/details/${item.id}`}>
-                  <Btn name="btn-success btn-sm fa fa-eye ml-4" />
+                  <Btn className="btn-success btn-sm fa fa-eye ml-4" />
                 </Link>
               </td>
               <td>

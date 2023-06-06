@@ -8,9 +8,8 @@ import {
   Table,
   Container,
   Row,
-  Navbar,
-  Button,
   Col,
+  Navbar,
 } from "reactstrap";
 // core components
 
@@ -37,7 +36,7 @@ const Tables = ({ title, tableRows, route, content }) => {
                       {route !== "/admin/customers" ? (
                         <Col className="text-right">
                           <Link to={route}>
-                            <Btn name="btn-primary btn fa fa-plus" />
+                            <Btn className="btn-primary btn fa fa-plus" />
                           </Link>
                         </Col>
                       ) : null}

@@ -1,6 +1,6 @@
-const Btn = ({title, name, onClick}) => {
+const Btn = ({title,className, onClick, style}) => {
     return(
-        <button type="submit" className={name} onClick={onClick}>{title}</button>
+        <button type="submit" style={style} className={className} onClick={onClick}>{title}</button>
     )
 }
 

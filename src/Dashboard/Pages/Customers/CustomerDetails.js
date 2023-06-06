@@ -18,7 +18,7 @@ const CustomerDetails = () => {
 
   const getCustomer = async () => {
     try {
-      const response = await axios.get(`http://localhost:4000/customers/${id}`);
+      const response = await axios.get(`http://localhost:3001/details/Customers/${id}`);
       setCustomer(response.data);
     } catch (error) {
       console.log(error);
