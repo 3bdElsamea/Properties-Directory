@@ -1,6 +1,6 @@
 import Tables from "../../SharedUI/Table/Tables";
 import Btn from "../../SharedUI/Btn/Btn";
-import axios from "axios";
+import { AxiosDashboard } from '../../../Axios';
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import SweetAlert from "../../SharedUI/SweetAlert/SweetAlert";
@@ -10,7 +10,7 @@ const Employees = () => {
 
   //get the data from db.json using axios
   const getAllEmployees = async () => {
-    const response = await axios.get("http://localhost:3001/employees");
+    const response = await AxiosDashboard.get("/employees");
     try {
       setEmployeeList(response.data);
       console.log(response.data);
@@ -53,7 +53,7 @@ const Employees = () => {
                   dataList={employeeList}
                   setdataList={setEmployeeList}
                   text="You are about to change the block status of this employee."
-                  route="http://localhost:3001/employees"
+                  route="http://3bsi.nader-mo.tech/employees"
                   action="block"
                   initialBlocked={item.blocked}
                 />

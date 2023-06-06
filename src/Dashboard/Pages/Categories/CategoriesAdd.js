@@ -11,7 +11,7 @@ import {
   Row,
   Col,
 } from "reactstrap";
-import axios from 'axios';
+import { AxiosDashboard } from '../../../Axios';
 
 const CategoriesAdd = () => {
   const [categoriesInfo, setCategoriesInfo] = useState({
@@ -49,7 +49,7 @@ const CategoriesAdd = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:3001/Categories', categoriesInfo);
+      const response = await AxiosDashboard.post('/Categories', categoriesInfo);
       console.log(response.data);
       // TODO: Redirect to Home
       window.location.href = '/dashboard/Categories';

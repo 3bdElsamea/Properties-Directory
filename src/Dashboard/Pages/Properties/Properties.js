@@ -4,6 +4,7 @@ import { Badge } from 'reactstrap';
 import Tables from '../../SharedUI/Table/Tables';
 import Btn from '../../SharedUI/Btn/Btn';
 import SweetAlert from '../../SharedUI/SweetAlert/SweetDelete';
+import { AxiosDashboard } from '../../../Axios';
 
 import axios from 'axios';
 
@@ -16,7 +17,7 @@ const Properties = () => {
 
   const getPropertyList = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/Properties');
+      const response = await AxiosDashboard.get('/Properties');
       setPropertyList(response.data);
     } catch (error) {
       console.log(error);
@@ -24,7 +25,7 @@ const Properties = () => {
   };
   const deleteProperty = async (propertyId) => {
     try {
-      const response = await axios.delete(`http://localhost:3001/Properties/${propertyId}`);
+      const response = await AxiosDashboard.delete(`/Properties/${propertyId}`);
       if (response.status === 200) {
         setPropertyList((prevpropertyList) =>
           prevpropertyList.filter((property) => property.id !== propertyId)

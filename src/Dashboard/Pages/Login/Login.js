@@ -14,8 +14,7 @@ import {
   Col,
 } from "reactstrap";
 
-import Axios from '../../../Axios';
-import axios from "axios";
+import { AxiosDashboard } from '../../../Axios';
 
 
 import ForgotPasswordForm from "../ForgetPassword/ForgetPassword";
@@ -41,7 +40,7 @@ function Login() {
   function handleSubmit(event) {
     event.preventDefault();
   
-    Axios.post("/dashboard/auth/login", {
+    AxiosDashboard.post("/auth/login", {
       email: email,
       password: password
     })

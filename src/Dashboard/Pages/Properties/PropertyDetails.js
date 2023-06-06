@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import { Image } from 'react-bootstrap';
 // import { FaTrash } from "react-icons";
 import Btn from 'Dashboard/SharedUI/Btn/Btn';
-import axios from 'axios';
 import SweetAlert from 'Dashboard/SharedUI/SweetAlert/SweetDelete';
 import {
   Button,
@@ -17,6 +16,7 @@ import {
   Row,
   Col,
 } from "reactstrap";
+import { AxiosDashboard } from '../../../Axios';
 
 const PropertyDetails = () => {
   const { propertyId } = useParams();
@@ -28,7 +28,7 @@ const PropertyDetails = () => {
 
   const getPropertyDetails = async () => {
     try {
-      const response = await axios.get(`http://localhost:3001/Properties/${propertyId}`);
+      const response = await AxiosDashboard.get(`/Properties/${propertyId}`);
       setProperty(response.data);
     } catch (error) {
       console.log(error);
@@ -37,7 +37,7 @@ const PropertyDetails = () => {
 
 //   const handleDeleteImage = async (imageId) => {
 //     try {
-//       await axios.delete(`http://localhost:3001/Properties/${propertyId}/${imageId}`);
+//       await AxiosDashboard.delete(`/Properties/${propertyId}/${imageId}`);
 //       setProperty((prevProperty) => ({
 //         ...prevProperty,
 //         galleryImages: prevProperty.galleryImages.filter((image) => image.id !== imageId)

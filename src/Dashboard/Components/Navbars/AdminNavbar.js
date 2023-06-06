@@ -17,7 +17,7 @@ import {
   Container,
   Media,
 } from "reactstrap";
-import Axios from "../../../Axios";
+import { AxiosDashboard } from "../../../Axios";
 
 const AdminNavbar = (props) => {
   function handleLogout() {
@@ -36,7 +36,7 @@ const AdminNavbar = (props) => {
       const jwt = localStorage.getItem('jwt');
   
       // Send a request to the backend to get the user's data
-      Axios.get('/dashboard/employees', {
+      AxiosDashboard.get('/employees', {
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
@@ -52,7 +52,7 @@ const id = parsedPayload.employeeId;
           console.log("jwt="+jwt);
           const url = `http://3bsi.nader-mo.tech/dashboard/employees/${id}`;
           // Send a request to the backend to get the user's data
-          Axios.get(url, {
+          AxiosDashboard.get(url, {
             headers: {
               Authorization: `Bearer ${jwt}`,
             },

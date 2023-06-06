@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import { AxiosDashboard } from '../../../Axios';
 import { useNavigate } from "react-router-dom";
 import {
   CardBody,
@@ -73,7 +73,7 @@ const CreateEmployee = () => {
       };
 
       //Send form data to the API add blocked status
-      await axios.post("http://localhost:3001/employees", employeeData);
+      await AxiosDashboard.post("/employees", employeeData);
       navigate("/dashboard/employees");
     } catch (error) {
       console.log(error);

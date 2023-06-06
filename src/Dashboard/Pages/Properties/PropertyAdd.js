@@ -11,7 +11,7 @@ import {
   Row,
   Col,
 } from "reactstrap";
-import axios from "axios";
+import { AxiosDashboard } from '../../../Axios';
 
 const PropertyAdd = () => {
   const [propertyInfo, setPropertyInfo] = useState({
@@ -48,7 +48,7 @@ const PropertyAdd = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:3001/Properties", propertyInfo);
+      const response = await AxiosDashboard.post("/Properties", propertyInfo);
       console.log(response.data);
       // TODO: Redirect to Home
       window.location.href = "/dashboard/properties";

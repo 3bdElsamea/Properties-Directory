@@ -12,7 +12,7 @@ import {
   Row,
   Col,
 } from "reactstrap";
-import axios from "axios";
+import { AxiosDashboard } from '../../../Axios';
 
 const OwnerUpdate = () => {
   const { ownerId } = useParams();
@@ -34,7 +34,7 @@ const OwnerUpdate = () => {
 
   const getOwnerDetails = async () => {
     try {
-      const response = await axios.get(`http://localhost:3001/owners/${ownerId}`);
+      const response = await AxiosDashboard.get(`/owners/${ownerId}`);
       setOwnerInfo(response.data);
     } catch (error) {
       console.log(error);
@@ -85,7 +85,7 @@ const OwnerUpdate = () => {
     }
 
     try {
-      const response = await axios.put(`http://localhost:3001/owners/${ownerId}`, ownerInfo);
+      const response = await AxiosDashboard.put(`/owners/${ownerId}`, ownerInfo);
       console.log(response.data);
       // Redirect to Home or show success message
       navigate("/dashboard/Owners");

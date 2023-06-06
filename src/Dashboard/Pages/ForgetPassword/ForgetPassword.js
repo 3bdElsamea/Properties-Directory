@@ -8,7 +8,7 @@ import {
   InputGroup,
   FormGroup,
 } from "reactstrap";
-import Axios from "../../../Axios";
+import { AxiosDashboard } from "../../../Axios";
 import axios from "axios";
 
 const ForgotPasswordForm = () => {

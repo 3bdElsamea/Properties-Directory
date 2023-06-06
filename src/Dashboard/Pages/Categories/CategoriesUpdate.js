@@ -13,6 +13,7 @@ import {
   Col,
 } from "reactstrap";
 import axios from "axios";
+import { AxiosDashboard } from '../../../Axios';
 
 const CategoriesUpdate = () => {
     const { CategoryId } = useParams();
@@ -31,7 +32,7 @@ const CategoriesUpdate = () => {
   
     const getCategoryDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:3001/Categories/${CategoryId}`);
+        const response = await AxiosDashboard.get(`/Categories/${CategoryId}`);
         setCategoryInfo(response.data);
       } catch (error) {
         console.log(error);
@@ -66,7 +67,7 @@ const CategoriesUpdate = () => {
       }
   
       try {
-        const response = await axios.put(`http://localhost:3001/Categories/${CategoryId}`, CategoryInfo);
+        const response = await axios.put(`/Categories/${CategoryId}`, CategoryInfo);
         console.log(response.data);
         // Redirect to Home or show success message
         navigate("/dashboard/Categories");

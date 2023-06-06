@@ -4,12 +4,13 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import SweetAlert from "../../SharedUI/SweetAlert/SweetAlert";
+import { AxiosDashboard } from '../../../Axios';
 
 const Customers = () => {
   const [customerList, setCustomerList] = useState([]);
 
   const getAllCustomers = async () => {
-    const response = await axios.get("http://localhost:3001/customers");
+    const response = await AxiosDashboard.get("/customers");
     try {
       setCustomerList(response.data);
       console.log(response.data);

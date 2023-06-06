@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { AxiosDashboard } from '../../../Axios';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
@@ -9,14 +9,14 @@ const CreateLocation = () => {
 
   // Fetch countries from the JSON server
   useEffect(() => {
-    axios.get('http://localhost:3001/countries')
+    AxiosDashboard.get('/countries')
       .then(response => setCountries(response.data))
       .catch(error => console.log(error));
   }, []);
 
   // Fetch cities based on selected country
   const fetchCities = (countryId) => {
-    axios.get(`http://localhost:3001/countries/${countryId}/cities`)
+    AxiosDashboard.get(`/countries/${countryId}/cities`)
       .then(response => setCities(response.data))
       .catch(error => console.log(error));
   };
