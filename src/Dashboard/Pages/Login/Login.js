@@ -14,9 +14,7 @@ import {
   Col,
 } from "reactstrap";
 
-import Axios from '../../../Axios';
-import axios from "axios";
-
+import { AxiosDashboard } from "../../../../src/Axios";
 
 import ForgotPasswordForm from "../ForgetPassword/ForgetPassword";
 

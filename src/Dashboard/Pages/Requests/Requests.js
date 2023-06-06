@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import Axios from "../../../Axios"; // Import Axios instance
 import Tables from "../../SharedUI/Table/Tables";
 import { FaInfoCircle } from "react-icons/fa";
 import Btn from "../../SharedUI/Btn/Btn";
 import "./Requests.css";
+import { AxiosDashboard } from "../../../../src/Axios";
 
 const Requests = () => {
   const [requests, setRequests] = useState([]);
@@ -12,7 +12,7 @@ const Requests = () => {
 
   useEffect(() => {
     // Fetch requests data from the API
-    Axios.get("/requests")
+    AxiosDashboard.get("/requests")
       .then((response) => {
         setRequests(response.data);
       })
@@ -21,7 +21,7 @@ const Requests = () => {
       });
 
     // Fetch customers data from the API
-    Axios.get("/customers")
+    AxiosDashboard.get("/customers")
       .then((response) => {
         setCustomers(response.data);
       })
@@ -30,7 +30,7 @@ const Requests = () => {
       });
 
     // Fetch properties data from the API
-    Axios.get("/dashboard/properties")
+    AxiosDashboard.get("/dashboard/properties")
       .then((response) => {
         setProperties(response.data);
       })
@@ -41,7 +41,7 @@ const Requests = () => {
 
   const updateRequestStatus = (requestId, newStatus) => {
     // Update request status in the API
-    Axios.patch(`/requests/${requestId}`, { status: newStatus })
+    AxiosDashboard.patch(`/requests/${requestId}`, { status: newStatus })
       .then(() => {
         // Update the requests state with the updated status
         const updatedRequests = requests.map((request) => {
