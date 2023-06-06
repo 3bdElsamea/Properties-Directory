@@ -6,7 +6,7 @@ import { Badge } from 'reactstrap';
 import Tables from '../../SharedUI/Table/Tables';
 import Btn from '../../SharedUI/Btn/Btn';
 import SweetAlert from '../../SharedUI/SweetAlert/SweetAlert';
-import axios from 'axios';
+import { AxiosDashboard } from '../../../Axios';
 
 const Categories = () => {
   const [categoriesList, setCategoriesList] = useState([]);
@@ -17,8 +17,8 @@ const Categories = () => {
 
   const getCategoriesList = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/Categories');
-      setCategoriesList(response.data);
+      const response = await AxiosDashboard.get('/categories');
+      setCategoriesList(response.data.categories.data);
     } catch (error) {
       console.log(error);
     }
@@ -26,7 +26,7 @@ const Categories = () => {
 
   const toggleActive = async (categoryId) => {
     try {
-      await axios.put(`http://localhost:5000/Categories/${categoryId}`);
+      await AxiosDashboard.put(`/categories/${categoryId}/toggleActive`);
       setCategoriesList(prevList =>
         prevList.map(category =>
           category.id === categoryId
@@ -42,7 +42,7 @@ const Categories = () => {
   return (
     <Tables
       title="All Categories"
-      route="/admin/Categories/Add"
+      route="/dashboard/Categories/Add"
       content={
         <>
           <th scope="col">ID</th>
@@ -67,7 +67,7 @@ const Categories = () => {
           </td>
           <td>{category.created_At}</td>
           <td>
-            <Link to={`/admin/Categories/Update/${category.id}`}>
+            <Link to={`/dashboard/categories/Update/${category.id}`}>
               <Btn className="btn-primary btn fa fa-edit" />
             </Link>
           </td>

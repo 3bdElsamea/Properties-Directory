@@ -17,6 +17,7 @@ import {
   Col,
 } from "reactstrap";
 import axios from "axios";
+import { AxiosDashboard } from '../../../Axios';
 
 const CategoriesUpdate = () => {
  
@@ -55,7 +56,7 @@ const CategoriesUpdate = () => {
       }, {});
 
       axios
-        .patch(`http://localhost:5000/Categories/${CategoryId}`, filteredValues)
+        .patch(`/Categories/${CategoryId}}`, filteredValues)
         .then((res) => {
           console.log(res.data);
           navigate("/admin/Categories");
@@ -66,7 +67,7 @@ const CategoriesUpdate = () => {
 
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/Categories/${CategoryId}`).then((res) => {
+    axios.get(`/Categories/${CategoryId}`).then((res) => {
       const { name, active } = res.data;
       setCategoryInfo({ ...CategoryInfo, name, active });
       formik.setValues({ name, active });

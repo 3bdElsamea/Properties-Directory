@@ -14,12 +14,13 @@ import {
   Col,
 } from "reactstrap";
 
-import Axios from '../../../Axios';
+import { AxiosDashboard } from '../../../Axios';
+
 
 import ForgotPasswordForm from "../ForgetPassword/ForgetPassword";
 
 function Login() {
-  const [username, setUsername] = useState("");
+  const [email, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isForgotPassword, setIsForgotPassword] = useState(false);
   const [showErrorMessage, setShowErrorMessage] = useState(false);
@@ -36,21 +37,34 @@ function Login() {
     setShowErrorMessage(false); // Reset error message when password changes
   }
 
-  const handleSubmit = async (event) => {
+  function handleSubmit(event) {
     event.preventDefault();
-    try {
-      const response = await Axios.post('/auth/login', { username, password });
-      if (response.data.token) {
-        // User is authenticated
-        localStorage.setItem("jwt", response.data.token);
-        window.location.href = '/';
-      } else {
-        console.log('Invalid username or password');
-      }
-    } catch (error) {
-      console.log('An error occurred');
-    }
-  };
+  
+    AxiosDashboard.post("/auth/login", {
+      email: email,
+      password: password
+    })
+      .then((response) => {
+        const { data } = response;
+        if (data.message !== "Invalid credentials") {
+          // Save the JWT in the client-side storage
+          localStorage.setItem("jwt", data.token);
+          // Redirect the user to the dashboard or homepage
+          window.location.href = "/";
+          console.log("Success: " + data);
+        } else {
+          // Display an error message to the user
+          setShowErrorMessage(true);
+          console.log("Invalid email or password");
+        }
+      })
+      .catch((error) => {
+        // Display an error message to the user
+        setShowErrorMessage(true);
+        console.log("Error: " + error);
+      });
+  }
+  
   
 
   function handleForgotPasswordClick() {
@@ -66,7 +80,7 @@ function Login() {
       return (
         <>
           <Col lg="5" md="7">
-            <Card className="bg-secondary shadow border-0">
+            <Card className="shadow border-0">
               <CardBody className="px-lg-5 py-lg-5">
                 <div className="text-center text-muted mb-4">
                   <small>Reset Password</small>
@@ -93,7 +107,7 @@ function Login() {
     return (
       <>
         <Col lg="5" md="7">
-          <Card className="bg-secondary shadow border-0">
+          <Card className="shadow border-0">
             <CardBody className="px-lg-5 py-lg-5">
               <div className="text-center text-muted mb-4">
                 <small>Sign in</small>
@@ -107,12 +121,12 @@ function Login() {
                       </InputGroupText>
                     </InputGroupAddon>
                     <Input
-                      placeholder="Username"
+                      placeholder="email"
                       type="text"
-                      autoComplete="new-username"
-                      id="username"
-                      name="username"
-                      value={username}
+                      autoComplete="new-email"
+                      id="email"
+                      name="email"
+                      value={email}
                       onChange={handleUsernameChange}
                     />
                   </InputGroup>
@@ -139,7 +153,7 @@ function Login() {
                 )}
                 {showErrorMessage && (
                   <span style={{ color: "red", fontSize: 12 }}>
-                    Invalid username or password
+                    Invalid email or password
                   </span>
                 )}
                 <div className="custom-control custom-control-alternative custom-checkbox">
@@ -184,7 +198,7 @@ function Login() {
       </>
     );
   } else {
-    return <Navigate to="/admin/index" replace />;
+    return <Navigate to="/dashboard/index" replace />;
   }
 }
 

@@ -15,6 +15,7 @@ import {
   Container,
 } from "reactstrap";
 import Btn from "../../SharedUI/Btn/Btn";
+import { AxiosDashboard } from '../../../Axios';
 
 const OwnerUpdate = () => {
   const { ownerId } = useParams();

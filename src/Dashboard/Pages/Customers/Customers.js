@@ -4,12 +4,13 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import SweetAlert from "../../SharedUI/SweetAlert/SweetAlert";
+import { AxiosDashboard } from '../../../Axios';
 
 const Customers = () => {
   const [customerList, setCustomerList] = useState([]);
 
   const getAllCustomers = async () => {
-    const response = await axios.get("http://localhost:4000/customers");
+    const response = await AxiosDashboard.get("/customers");
     try {
       setCustomerList(response.data);
       console.log(response.data);
@@ -28,7 +29,7 @@ const Customers = () => {
       <div>
         <Tables
           title="All Customers"
-          route="/admin/customers"
+          route="/dashboard/customers"
           content={
             <>
               <th scope="col">#</th>
@@ -52,14 +53,14 @@ const Customers = () => {
                   id={item.id}
                   dataList={customerList}
                   setdataList={setCustomerList}
-                  route="http://localhost:4000/customers"
+                  route="http://localhost:3001/customers"
                   text="Are you sure you want to delete this customer?"
                   action="delete"
                 />
               </td>
 
               <td>
-                <Link to={`/admin/customers/details/${item.id}`}>
+                <Link to={`/dashboard/Customers/details/${item.id}`}>
                   <i className="fa fa-eye btn-sm btn btn-info"></i>
                 </Link>
               </td>

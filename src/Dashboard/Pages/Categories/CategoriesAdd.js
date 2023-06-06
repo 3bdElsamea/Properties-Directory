@@ -2,9 +2,9 @@ import React from "react";
 import { Button, Card, CardHeader, CardBody, FormGroup, Container, Row, Col } from "reactstrap";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import axios from 'axios';
-
+import { AxiosDashboard } from '../../../Axios';
 const CategoriesAdd = () => {
+
   const validationSchema = Yup.object().shape({
     name: Yup.string()
       .required("Name is required")
@@ -14,10 +14,10 @@ const CategoriesAdd = () => {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      const response = await axios.post('http://localhost:5000/Categories', values);
+      const response = await AxiosDashboard.post('/Categories', values);
       console.log(response.data);
       // TODO: Redirect to Home
-      window.location.href = '/admin/Categories';
+      window.location.href = '/dashboard/Categories';
     } catch (error) {
       console.log(error);
     } finally {

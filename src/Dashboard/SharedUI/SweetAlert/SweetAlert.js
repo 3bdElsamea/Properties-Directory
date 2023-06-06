@@ -2,8 +2,16 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import axios from "axios";
 
-const SweetAlert = ({ id, dataList, setdataList, text, route, action, initialBlocked }) => {
-  const [blocked, setBlocked] = useState(initialBlocked );
+const SweetAlert = ({
+  id,
+  dataList,
+  setdataList,
+  text,
+  route,
+  action,
+  initialBlocked,
+}) => {
+  const [blocked, setBlocked] = useState(initialBlocked);
   const handleAction = () => {
     setBlocked(!blocked);
     Swal.fire({
@@ -22,7 +30,7 @@ const SweetAlert = ({ id, dataList, setdataList, text, route, action, initialBlo
           axios
             .delete(`${route}/${id}`)
             .then((response) => {
-              updatedList(response.data);
+              setdataList(updatedList);
               console.log(response.data);
             })
             .catch((error) => {

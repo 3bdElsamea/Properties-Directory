@@ -4,8 +4,7 @@ import { Badge } from 'reactstrap';
 import Tables from '../../SharedUI/Table/Tables';
 import Btn from '../../SharedUI/Btn/Btn';
 import SweetAlert from '../../SharedUI/SweetAlert/SweetDelete';
-
-import axios from 'axios';
+import { AxiosDashboard } from '../../../Axios';
 
 const Owners = () => {
   const [ownerList, setOwnerList] = useState([]);
@@ -16,8 +15,8 @@ const Owners = () => {
 
   const deleteOwner = async (ownerId) => {
     try {
-      const response = await axios.delete(`http://localhost:5000/owners/${ownerId}`);
-      if (response.status === 200) {
+      const response = await AxiosDashboard.delete(`/owners/${ownerId}`);
+      if (response.data.status.data === 200) {
         setOwnerList((prevOwnerList) =>
           prevOwnerList.filter((owner) => owner.id !== ownerId)
         );
@@ -31,12 +30,13 @@ const Owners = () => {
 
   const getOwnerList = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/owners');
-      setOwnerList(response.data);
+      const response = await AxiosDashboard.get('/owners');
+      setOwnerList(response.data.data);
     } catch (error) {
       console.log(error);
     }
   };
+  
 
   const getStatusBadgeColor = (status) => {
     const lowerCaseStatus = status.toLowerCase();
@@ -55,7 +55,7 @@ const Owners = () => {
   return (
     <Tables
       title="All Owners"
-      route="/admin/Owners/Add"
+      route="/dashboard/Owners/Add"
       content={
         <>
           <th scope="col">id</th>
@@ -78,9 +78,9 @@ const Owners = () => {
           <td>
             <Badge color={getStatusBadgeColor(owner.status)}>{owner.status}</Badge>
           </td>
-          <td>{owner.created_At}</td>
+          <td>{owner.created_at}</td>
           <td>
-            <Link to={`/admin/Owners/Update/${owner.id}`}>
+            <Link to={`/dashboard/Owners/Update/${owner.id}`}>
               <Btn className="btn-primary btn fa fa-edit" />
             </Link>
             <Link to={`/admin/Owners/Details/${owner.id}`}>
@@ -90,7 +90,7 @@ const Owners = () => {
               id={owner.id}
               dataList={ownerList}
               setdataList={setOwnerList}
-              route="http://localhost:5000/owners"
+              route="http://3bsi.nader-mo.tech/owners"
               text="Are you sure you want to delete this owner?"
               action="delete"
               handleAction={() => deleteOwner(owner.id)} // Pass the correct ID here

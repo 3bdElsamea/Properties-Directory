@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+import { AxiosDashboard } from '../../../Axios';
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import {
@@ -77,11 +77,11 @@ const UpdateEmployee = () => {
         return acc;
       }, {});
 
-      axios
-        .patch(`http://localhost:4000/employees/${id}`, filteredValues)
+      AxiosDashboard
+        .patch(`/employees/${id}`, filteredValues)
         .then((res) => {
           console.log(res.data);
-          navigate("/admin/employees");
+          navigate("/dashboard/employees");
         })
         .catch((err) => console.log(err));
     },
@@ -89,7 +89,7 @@ const UpdateEmployee = () => {
 
   // Fetch employee data from API on component mount
   useEffect(() => {
-    axios.get(`http://localhost:4000/employees/${id}`).then((res) => {
+    AxiosDashboard.get(`/employees/${id}`).then((res) => {
       const { name, email, phone, image, role, blocked } = res.data;
       setEmployee({ ...employee, name, email, phone, image, role, blocked });
       formik.setValues({ name, email, phone, role });

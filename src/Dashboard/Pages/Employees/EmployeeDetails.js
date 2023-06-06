@@ -2,7 +2,7 @@ import { Card } from "reactstrap";
 import { Link } from "react-router-dom";
 import { Container, Row, Col, CardBody, CardHeader, Button } from "reactstrap";
 import { useParams } from "react-router-dom";
-import axios from "axios";
+import { AxiosDashboard } from '../../../Axios';
 import { useState, useEffect } from "react";
 
 const EmployeeDetails = () => {
@@ -11,7 +11,7 @@ const EmployeeDetails = () => {
 
   const getEmployees = async () => {
     try {
-      const response = await axios.get(`http://localhost:3001/employees/${id}`);
+      const response = await AxiosDashboard.get(`/employees/${id}`);
       setEmployees(response.data);
     } catch (error) {
       console.log(error);
@@ -33,7 +33,7 @@ const EmployeeDetails = () => {
                   <h6>Employee Information</h6>
                 </Col>
                 <Col className="text-right">
-                  <Link to={"/admin/employees"}>
+                  <Link to={"/dashboard/employees"}>
                     <Button className="btn btn-danger btn-sm" type="button">
                       <i className="fa fa-arrow-left mr-2"> Back</i>
                     </Button>

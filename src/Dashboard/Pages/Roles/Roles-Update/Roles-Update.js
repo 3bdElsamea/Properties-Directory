@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Card, CardHeader, CardFooter, Container } from "reactstrap";
 import { Form, Row, Col } from "react-bootstrap";
-import Axios from "../../../../Axios";
+import { AxiosDashboard } from "../../../../Axios";
 import Input from "../../../SharedUI/Input/Input";
 import Btn from "../../../SharedUI/Btn/Btn";
 
@@ -16,7 +16,7 @@ const RolesUpdate = () => {
 
   useEffect(() => {
     // Fetch role data from the API
-    Axios.get(`/roles/${id}`)
+    AxiosDashboard.get(`/roles/${id}`)
       .then((response) => {
         setRoleName(response.data.name);
       })
@@ -25,7 +25,7 @@ const RolesUpdate = () => {
       });
 
     // Fetch permissions data from the API
-    Axios.get("/permissions")
+    AxiosDashboard.get("/permissions")
       .then((response) => {
         setPermissions(response.data);
       })
@@ -34,7 +34,7 @@ const RolesUpdate = () => {
       });
 
     // Fetch role permissions data from the API
-    Axios.get(`/role_permissions?role_id=${id}`)
+    AxiosDashboard.get(`/role_permissions?role_id=${id}`)
       .then((response) => {
         const rolePermissions = response.data.map(
           (rolePermission) => rolePermission.permission_id
@@ -76,10 +76,10 @@ const RolesUpdate = () => {
       updated_at: new Date().toISOString(),
     };
 
-    Axios.put(`/roles/${id}`, updatedRole)
+    AxiosDashboard.put(`/roles/${id}`, updatedRole)
       .then(() => {
         // Update role-permission relationships in the "role_permissions" table
-        Axios.get(`/role_permissions?role_id=${id}`)
+        AxiosDashboard.get(`/role_permissions?role_id=${id}`)
           .then((response) => {
             const existingPermissions = response.data.map(
               (rolePermission) => rolePermission.permission_id
@@ -90,7 +90,7 @@ const RolesUpdate = () => {
               (permissionId) => !selectedPermissions.includes(permissionId)
             );
             rolePermissionsToDelete.map((permissionId) => {
-              Axios.delete(`/role_permissions/?role_id=${id}&permission_id=${permissionId}`)
+              AxiosDashboard.delete(`/role_permissions/?role_id=${id}&permission_id=${permissionId}`)
                 .then(() => {
                   console.log("Role permission deleted successfully");
                 })
@@ -112,7 +112,7 @@ const RolesUpdate = () => {
                 updated_at: new Date().toISOString(),
               };
 
-              Axios.post("/role_permissions", rolePermission)
+              AxiosDashboard.post("/role_permissions", rolePermission)
                 .then(() => {
                   // Role permission created successfully
                 })
@@ -122,7 +122,7 @@ const RolesUpdate = () => {
             });
 
             // Redirect to the roles list page
-            //window.location.href = "/admin/roles";
+            window.location.href = "/dashboard/roles";
           })
           .catch((error) => {
             console.error("Error fetching role permissions:", error);
@@ -148,7 +148,7 @@ const RolesUpdate = () => {
   return (
     <>
       {/* Page content */}
-      <Container className="mt-7" fluid>
+      <Container className="mt--7" fluid>
         {/* Table */}
         <Row>
           <div className="col">
@@ -159,7 +159,7 @@ const RolesUpdate = () => {
                     <h3 className="mb-0">Update Role</h3>
                   </Col>
                   <Col>
-                    <Link to="/admin/roles">
+                    <Link to="/dashboard/roles">
                       <Btn
                         className="btn btn-primary"
                         style={{ marginLeft: "50%", minWidth: "100px" }}

@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Card, CardHeader, CardBody, FormGroup, Container, Row, Col } from "reactstrap";
 import { Formik, Field, ErrorMessage, Form } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
+import { AxiosDashboard } from '../../../Axios';
 
 const OwnerAdd = () => {
   const initialValues = {
@@ -32,11 +32,10 @@ const OwnerAdd = () => {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      // Perform your axios POST request here
-      const response = await axios.post("http://localhost:5000/owners", values);
+      const response = await AxiosDashboard.post("/owners", values);
       console.log(response.data);
       // TODO: Redirect to Home
-      window.location.href = "/admin/Owners";
+      window.location.href = "/dashboard/Owners";
     } catch (error) {
       console.log(error);
     }

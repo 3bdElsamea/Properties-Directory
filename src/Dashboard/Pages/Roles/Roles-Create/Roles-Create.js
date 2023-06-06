@@ -10,7 +10,7 @@ import {
   Container,
 } from "reactstrap";
 import { Form, Row, Col } from "react-bootstrap";
-import Axios from "../../../../Axios";
+import { AxiosDashboard } from "../../../../Axios";
 import Input from "../../../SharedUI/Input/Input";
 import Btn from "../../../SharedUI/Btn/Btn";
 import "./Roles-Create.css";
@@ -22,7 +22,7 @@ const RolesCreate = () => {
 
   useEffect(() => {
     // Fetch permissions data from the API
-    Axios.get("/permissions")
+    AxiosDashboard.get("/permissions")
       .then((response) => {
         setPermissions(response.data);
       })
@@ -54,7 +54,7 @@ const RolesCreate = () => {
       updated_at: new Date().toISOString(),
     };
 
-    Axios.post("/roles", newRole)
+    AxiosDashboard.post("/roles", newRole)
       .then((response) => {
         const roleId = response.data.id;
 
@@ -67,7 +67,7 @@ const RolesCreate = () => {
             updated_at: new Date().toISOString(),
           };
 
-          Axios.post("/role_permissions", rolePermission)
+          AxiosDashboard.post("/role_permissions", rolePermission)
             .then(() => {
               // Role permission created successfully
             })
@@ -77,7 +77,7 @@ const RolesCreate = () => {
         });
 
         // Redirect to the roles list page
-        window.location.href = "/admin/roles";
+        window.location.href = "/dashboard/roles";
       })
       .catch((error) => {
         console.error("Error creating role:", error);
@@ -99,7 +99,7 @@ const RolesCreate = () => {
   return (
     <>
       {/* Page content */}
-      <Container className="mt-7" fluid>
+      <Container className="mt--7" fluid>
         {/* Table */}
         <Row>
           <div className="col">
@@ -110,7 +110,7 @@ const RolesCreate = () => {
                     <h3 className="mb-0">Create New Role</h3>
                   </Col>
                   <Col>
-                    <Link to="/admin/roles">
+                    <Link to="/dashboard/roles">
                       <Btn
                         className="btn btn-primary"
                         style={{ marginLeft: "50%", minWidth: "100px" }}
@@ -126,7 +126,7 @@ const RolesCreate = () => {
                   <Col sm={10}>
                     <Input
                       className="form-control"
-                      style={{ width: "50%", marginBottom: "50px"}}
+                      style={{ width: "70%", marginBottom: "50px", marginTop: "20px"}}
                       placeholder="Enter Role Name"
                       type="text"
                       name="roleName"

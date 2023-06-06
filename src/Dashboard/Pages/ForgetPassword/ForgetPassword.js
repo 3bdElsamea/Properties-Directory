@@ -8,7 +8,8 @@ import {
   InputGroup,
   FormGroup,
 } from "reactstrap";
-import Axios from "../../../Axios";
+import { AxiosDashboard } from "../../../Axios";
+import axios from "axios";
 
 const ForgotPasswordForm = () => {
   const [email, setEmail] = useState("");
@@ -19,7 +20,7 @@ const ForgotPasswordForm = () => {
     e.preventDefault();
 
     try {
-      const response = await Axios.get("/users");
+      const response = await axios.get("https://dummyjson.com/users");
 
       if (response.status === 200) {
         const { users } = response.data;

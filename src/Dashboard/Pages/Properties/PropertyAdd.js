@@ -1,8 +1,9 @@
 import React from "react";
 import { Button, Card, CardHeader, CardBody, FormGroup, Form, Input, Container, Row, Col } from "reactstrap";
-import axios from "axios";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { AxiosDashboard } from '../../../Axios';
+
 
 const PropertyAdd = () => {
   const validationSchema = Yup.object().shape({
@@ -30,10 +31,10 @@ const PropertyAdd = () => {
 
   const handleSubmit = async (values) => {
     try {
-      const response = await axios.post("http://localhost:5000/Properties", values);
+      const response = await AxiosDashboard.post("/Properties", values);
       console.log(response.data);
       // TODO: Redirect to Home
-      window.location.href = "/admin/properties";
+      window.location.href = "/dashboard/properties";
     } catch (error) {
       console.log(error);
     }

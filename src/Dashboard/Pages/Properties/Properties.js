@@ -4,8 +4,8 @@ import { Badge } from 'reactstrap';
 import Tables from '../../SharedUI/Table/Tables';
 import Btn from '../../SharedUI/Btn/Btn';
 import SweetAlert from '../../SharedUI/SweetAlert/SweetDelete';
+import { AxiosDashboard } from '../../../Axios';
 
-import axios from 'axios';
 
 const Properties = () => {
   const [propertyList, setPropertyList] = useState([]);
@@ -16,7 +16,7 @@ const Properties = () => {
 
   const getPropertyList = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/Properties');
+      const response = await AxiosDashboard.get('/Properties');
       setPropertyList(response.data);
     } catch (error) {
       console.log(error);
@@ -24,7 +24,7 @@ const Properties = () => {
   };
   const deleteProperty = async (propertyId) => {
     try {
-      const response = await axios.delete(`http://localhost:5000/Properties/${propertyId}`);
+      const response = await AxiosDashboard.delete(`/Properties/${propertyId}`);
       if (response.status === 200) {
         setPropertyList((prevpropertyList) =>
           prevpropertyList.filter((property) => property.id !== propertyId)
@@ -40,7 +40,7 @@ const Properties = () => {
   return (
     <Tables
       title="All Properties"
-      route="/admin/Properties/add"
+      route="/dashboard/Properties/add"
       content={
         <>
           <th scope="col">ID</th>
@@ -101,11 +101,11 @@ const Properties = () => {
           <td>{property.created_at}</td>
           <td>{property.updated_at}</td>
           <td>
-            <Link to={`/admin/Properties/update/${property.id}`}>
+            <Link to={`/dashboard/Properties/update/${property.id}`}>
               <Btn className="btn-primary btn fa fa-edit" />
             </Link>
             
-              <Link to={`/admin/Properties/details/${property.id}`}>
+              <Link to={`/dashboard/Properties/details/${property.id}`}>
                 <Btn className="btn-primary btn fa fa-eye" />
               </Link>
 
@@ -113,7 +113,7 @@ const Properties = () => {
               id={property.id}
               dataList={propertyList}
               setdataList={setPropertyList}
-              route="http://localhost:5000/Properties/"
+              route="http://localhost:3001/Properties/"
               text="Are you sure you want to deletem this property"
               action="delete"
               handleAction={() => deleteProperty(property.id)} // Pass the correct ID here

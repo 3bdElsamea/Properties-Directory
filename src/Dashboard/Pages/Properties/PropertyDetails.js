@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Image } from 'react-bootstrap';
 import Btn from 'Dashboard/SharedUI/Btn/Btn';
-import axios from 'axios';
+import { AxiosDashboard } from '../../../Axios';
 import { useHistory } from 'react-router-dom';
 
 import SweetAlert from 'Dashboard/SharedUI/SweetAlert/SweetDelete';
@@ -34,7 +34,7 @@ const PropertyDetails = () => {
 
   const getPropertyDetails = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/Properties/${propertyId}`);
+      const response = await AxiosDashboard.get(`/Properties/${propertyId}`);
       setProperty(response.data);
     } catch (error) {
       console.log(error);
@@ -53,7 +53,7 @@ const PropertyDetails = () => {
       setProperty(updatedProperty);
 
       // Delete image from the server database
-      await axios.delete(`http://localhost:5000/galleryImages/${imageId}`);
+      await AxiosDashboard.delete(`/Properties/${propertyId}/${imageId}`);
     } catch (error) {
       console.log(error);
     }

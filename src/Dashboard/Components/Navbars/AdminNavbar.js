@@ -17,7 +17,7 @@ import {
   Container,
   Media,
 } from "reactstrap";
-import Axios from "../../../Axios";
+import { AxiosDashboard } from "../../../Axios";
 
 const AdminNavbar = (props) => {
   function handleLogout() {
@@ -36,20 +36,23 @@ const AdminNavbar = (props) => {
       const jwt = localStorage.getItem('jwt');
   
       // Send a request to the backend to get the user's data
-      Axios.get('/users', {
+      AxiosDashboard.get('/employees', {
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
       })
         .then(response => response.data)
         .then(data => {
-          const parts = jwt.split('.');
-          const encodedPayload = parts[1];
-          const payload = JSON.parse(atob(encodedPayload));
-          const id = payload.id;
-          const url = `http://localhost:3001/users/${id}`;
+          const payload = jwt.split('.')[1];
+const decodedPayload = atob(payload);
+const parsedPayload = JSON.parse(decodedPayload);
+const id = parsedPayload.employeeId;
+
+          console.log("id="+id);
+          console.log("jwt="+jwt);
+          const url = `http://3bsi.nader-mo.tech/dashboard/employees/${id}`;
           // Send a request to the backend to get the user's data
-          Axios.get(url, {
+          AxiosDashboard.get(url, {
             headers: {
               Authorization: `Bearer ${jwt}`,
             },
@@ -109,7 +112,7 @@ const AdminNavbar = (props) => {
                     </span>
                     <Media className="ml-2 d-none d-lg-block">
                       <span className="mb-0 text-sm font-weight-bold">
-                        {userData ? (userData.firstName+" "+userData.lastName) : 'Loading...'}
+                        {userData ? (userData.name) : 'Loading...'}
                       </span>
                     </Media>
                   </Media>
@@ -118,19 +121,19 @@ const AdminNavbar = (props) => {
                   <DropdownItem className="noti-title" header tag="div">
                     <h6 className="text-overflow m-0">Welcome!</h6>
                   </DropdownItem>
-                  <DropdownItem to="/admin/user-profile" tag={Link}>
+                  <DropdownItem to="/dashboard/user-profile" tag={Link}>
                     <i className="ni ni-single-02" />
                     <span>My profile</span>
                   </DropdownItem>
-                  <DropdownItem to="/admin/user-profile" tag={Link}>
+                  <DropdownItem to="/dashboard/user-profile" tag={Link}>
                     <i className="ni ni-settings-gear-65" />
                     <span>Settings</span>
                   </DropdownItem>
-                  <DropdownItem to="/admin/user-profile" tag={Link}>
+                  <DropdownItem to="/dashboard/user-profile" tag={Link}>
                     <i className="ni ni-calendar-grid-58" />
                     <span>Activity</span>
                   </DropdownItem>
-                  <DropdownItem to="/admin/user-profile" tag={Link}>
+                  <DropdownItem to="/dashboard/user-profile" tag={Link}>
                     <i className="ni ni-support-16" />
                     <span>Support</span>
                   </DropdownItem>

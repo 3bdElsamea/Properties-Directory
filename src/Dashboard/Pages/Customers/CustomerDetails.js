@@ -11,6 +11,7 @@ import {
   CardHeader,
   Button,
 } from "reactstrap";
+import { AxiosDashboard } from '../../../Axios';
 
 const CustomerDetails = () => {
   const { id } = useParams();
@@ -18,7 +19,7 @@ const CustomerDetails = () => {
 
   const getCustomer = async () => {
     try {
-      const response = await axios.get(`http://localhost:4000/customers/${id}`);
+      const response = await AxiosDashboard.get(`/details/Customers/${id}`);
       setCustomer(response.data);
     } catch (error) {
       console.log(error);
@@ -40,7 +41,7 @@ const CustomerDetails = () => {
                   <h6>Customer Information</h6>
                 </Col>
                 <Col className="text-right">
-                  <Link to={"/admin/customers"}>
+                  <Link to={"/dashboard/customers"}>
                     <Button className="btn btn-danger btn-sm" type="button">
                       <i className="fa fa-arrow-left mr-2"> Back</i>
                     </Button>

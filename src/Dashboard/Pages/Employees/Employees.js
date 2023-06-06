@@ -1,6 +1,6 @@
 import Tables from "../../SharedUI/Table/Tables";
 import Btn from "../../SharedUI/Btn/Btn";
-import axios from "axios";
+import { AxiosDashboard } from '../../../Axios';
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import SweetAlert from "../../SharedUI/SweetAlert/SweetAlert";
@@ -10,7 +10,7 @@ const Employees = () => {
 
   //get the data from db.json using axios
   const getAllEmployees = async () => {
-    const response = await axios.get("http://localhost:3001/employees");
+    const response = await AxiosDashboard.get("/employees");
     try {
       setEmployeeList(response.data);
       console.log(response.data);
@@ -27,7 +27,7 @@ const Employees = () => {
       <div>
         <Tables
           title="All Employees"
-          route="/admin/create-employee"
+          route="/dashboard/create-employee"
           content={
             <>
               <th scope="col">#</th>
@@ -53,18 +53,18 @@ const Employees = () => {
                   dataList={employeeList}
                   setdataList={setEmployeeList}
                   text="You are about to change the block status of this employee."
-                  route="http://localhost:3001/employees"
+                  route="http://3bsi.nader-mo.tech/employees"
                   action="block"
                   initialBlocked={item.blocked}
                 />
               </td>
               <td>
-                <Link to={`/admin/update-employee/${item.id}`}>
-                  <Btn name="btn-primary btn-sm fa fa-edit" />
+                <Link to={`/dashboard/update-employee/${item.id}`}>
+                  <Btn className="btn-primary btn-sm fa fa-edit" />
                 </Link>
 
-                <Link to={`/admin/employees/details/${item.id}`}>
-                  <Btn name="btn-success btn-sm fa fa-eye ml-4" />
+                <Link to={`/dashboard/employees/details/${item.id}`}>
+                  <Btn className="btn-success btn-sm fa fa-eye ml-4" />
                 </Link>
               </td>
               <td>

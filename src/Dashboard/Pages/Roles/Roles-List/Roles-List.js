@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Axios from "../../../../Axios"; // Import Axios instance
+import { AxiosDashboard } from "../../../../Axios";
 import Tables from "../../../SharedUI/Table/Tables";
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import Btn from "../../../SharedUI/Btn/Btn";
@@ -11,34 +11,27 @@ const Roles = () => {
   const [rolePermissions, setRolePermissions] = useState([]);
 
   useEffect(() => {
-    // Fetch roles data from the API
-    Axios.get("/roles")
+    const jwt = localStorage.getItem('jwt');
+    AxiosDashboard.get("/roles")
       .then((response) => {
-        setRoles(response.data);
+        setRoles(response.data.roles.data);
       })
       .catch((error) => {
         console.error("Error fetching roles:", error);
       });
-
-    // Fetch permissions data from the API
-    Axios.get("/permissions")
+  
+    AxiosDashboard.get("/roles/get-permissions")
       .then((response) => {
-        setPermissions(response.data);
+        setPermissions(response.data.permissions);
       })
       .catch((error) => {
         console.error("Error fetching permissions:", error);
       });
-
-    // Fetch role permissions data from the API
-    Axios.get("/role_permissions")
-      .then((response) => {
-        setRolePermissions(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching role permissions:", error);
-      });
-  }, []);
-
+  
+    // Extract role permissions
+    const rolePermissions = roles.length > 0 ? roles[0].RolePermissions : [];
+    setRolePermissions(rolePermissions);
+  }, [roles]);
   
 
   const trContent = (
@@ -52,22 +45,20 @@ const Roles = () => {
 
   const tableContent = roles.map((role) => {
     const handleUpdate = () => {
-      window.location.href = `/admin/roles/update/${role.id}`;
+      window.location.href = `/roles/update/${role.id}`;
     };
 
     const handleDelete = () => {
-      Axios.delete(`/roles/${role.id}`)
+      AxiosDashboard.delete(`/roles/${role.id}`)
         .then((response) => {
-          // Handle successful deletion, e.g., show a success message
           const updatedRoles = roles.filter((r) => r.id !== role.id);
-          setRoles(updatedRoles); // Update the roles state
+          setRoles(updatedRoles);
         })
         .catch((error) => {
-          // Handle error, e.g., show an error message or handle the error in any other way
           console.error("Error deleting role:", error);
         });
     };
-    
+
     const rolePermissionNames = rolePermissions
       .filter((rolePermission) => rolePermission.role_id === role.id)
       .map((rolePermission) => {
@@ -98,16 +89,16 @@ const Roles = () => {
         <td>{role.name}</td>
         <td>{permissionTable}</td>
         <td>
-        <Btn className="icon-button roleIcon updateRole" onClick={handleUpdate} title={<FaEdit />}/>
-        <Btn className="icon-button roleIcon deleteRole" onClick={handleDelete} title={<FaTrash />}/>
-      </td>
+          <Btn className="icon-button roleIcon updateRole" onClick={handleUpdate} title={<FaEdit />} />
+          <Btn className="icon-button roleIcon deleteRole" onClick={handleDelete} title={<FaTrash />} />
+        </td>
       </tr>
     );
   });
 
   return (
     <>
-      <Tables title="Roles" tableRows={tableContent} content={trContent} />
+      <Tables content={trContent} tableRows={tableContent} />
     </>
   );
 };

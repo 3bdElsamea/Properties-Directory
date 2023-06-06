@@ -12,7 +12,8 @@ import {
   Row,
   Col,
 } from "reactstrap";
-import axios from "axios";
+import { AxiosDashboard } from '../../../Axios';
+
 
 const PropertyUpdate = () => {
   const { propertyId } = useParams();
@@ -58,7 +59,7 @@ const PropertyUpdate = () => {
   
   const getPropertyDetails = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/Properties/${propertyId}`);
+      const response = await AxiosDashboard.get(`/Properties/${propertyId}`);
       setPropertyInfo(response.data);
     } catch (error) {
       console.log(error);
@@ -75,13 +76,13 @@ const PropertyUpdate = () => {
 
 
     try {
-      const response = await axios.put(
-        `http://localhost:5000/Properties/${propertyId}`,
+      const response = await AxiosDashboard.put(
+        `/Properties/${propertyId}`,
         propertyInfo
       );
       console.log(response.data);
       // Redirect to Properties list or show success message
-      navigate("/admin/Properties");
+      navigate("/dashboard/Properties");
     } catch (error) {
       console.log(error);
     }
@@ -91,7 +92,7 @@ const PropertyUpdate = () => {
     <Container className="mt--7" fluid>
       <Row>
         <Col className="order-xl-1" xl="8">
-          <Card className="bg-secondary shadow">
+          <Card className="shadow">
             <CardHeader className="bg-white border-0">
               <Row className="align-items-center">
                 <Col xs="8">

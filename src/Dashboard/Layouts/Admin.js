@@ -21,7 +21,7 @@ const Admin = (props) => {
 
   const getRoutes = (routes) => {
     return routes.map((prop, key) => {
-      if (prop.layout === "/admin") {
+      if (prop.layout === "/dashboard") {
         return (
           <Route path={prop.path} element={prop.component} key={key} exact />
         );
@@ -49,8 +49,8 @@ const Admin = (props) => {
         {...props}
         routes={routes}
         logo={{
-          innerLink: "/admin/index",
-          imgSrc: require("../Assets/img/brand/argon-react.png"),
+          innerLink: "/dashboard/index",
+          imgSrc: "https://creativelayers.net/themes/homez-html/images/header-logo2.svg",
           imgAlt: "...",
         }}
       />
@@ -61,7 +61,7 @@ const Admin = (props) => {
         />
         <Routes>
           {getRoutes(routes)}
-          <Route path="*" element={<Navigate to="/admin/index" replace />} />
+          <Route path="*" element={<Navigate to="/dashboard/index" replace />} />
         </Routes>
         <Container fluid>
           <AdminFooter />

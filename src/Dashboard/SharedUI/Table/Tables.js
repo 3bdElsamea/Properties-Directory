@@ -33,7 +33,7 @@ const Tables = ({ title, tableRows, route, content }) => {
                       <Col>
                         <h3 className="mb-0">{title}</h3>
                       </Col>
-                      {route !== "/admin/customers" ? (
+                      {route !== "/dashboard/customers" ? (
                         <Col className="text-right">
                           <Link to={route}>
                             <Btn className="btn-primary btn fa fa-plus" />
