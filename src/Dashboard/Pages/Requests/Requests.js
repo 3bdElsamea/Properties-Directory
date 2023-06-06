@@ -4,7 +4,6 @@ import Tables from "../../SharedUI/Table/Tables";
 import { FaInfoCircle } from "react-icons/fa";
 import Btn from "../../SharedUI/Btn/Btn";
 import "./Requests.css";
-import { AxiosDashboard } from "../../../../src/Axios";
 
 const Requests = () => {
   const [requests, setRequests] = useState([]);
