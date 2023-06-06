@@ -30,7 +30,7 @@ const Requests = () => {
       });
 
     // Fetch properties data from the API
-    Axios.get("/admin/properties")
+    Axios.get("/dashboard/properties")
       .then((response) => {
         setProperties(response.data);
       })
@@ -82,12 +82,12 @@ const Requests = () => {
 
     const handleCustomerClick = () => {
       // Redirect to the customer details page
-      window.location.href = `/admin/Customers/details/${customer.id}`;
+      window.location.href = `/dashboard/Customers/details/${customer.id}`;
     };
 
     const handlePropertyClick = () => {
       // Redirect to the property details page
-      window.location.href = `admin/properties/${property.id}`;
+      window.location.href = `dashboard/properties/${property.id}`;
     };
 
     return (

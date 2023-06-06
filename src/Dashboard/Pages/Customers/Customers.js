@@ -28,7 +28,7 @@ const Customers = () => {
       <div>
         <Tables
           title="All Customers"
-          route="/admin/customers"
+          route="/dashboard/customers"
           content={
             <>
               <th scope="col">#</th>
@@ -59,7 +59,7 @@ const Customers = () => {
               </td>
 
               <td>
-                <Link to={`/admin/Customers/details/${item.id}`}>
+                <Link to={`/dashboard/Customers/details/${item.id}`}>
                   <i className="fa fa-eye btn-sm btn btn-info"></i>
                 </Link>
               </td>

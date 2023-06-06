@@ -81,7 +81,7 @@ const PropertyUpdate = () => {
       );
       console.log(response.data);
       // Redirect to Properties list or show success message
-      navigate("/admin/Properties");
+      navigate("/dashboard/Properties");
     } catch (error) {
       console.log(error);
     }

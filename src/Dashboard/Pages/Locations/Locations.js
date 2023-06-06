@@ -33,7 +33,7 @@ const CreateLocations = () => {
       <div>
         <Tables
           title="All Locations"
-          route="/admin/locations/create"
+          route="/dashboard/locations/create"
           content={
             <>
               <th scope="col">#</th>
@@ -60,7 +60,7 @@ const CreateLocations = () => {
                 />
               </td>
               <td>
-                <Link to={`/admin/locations/details/${item.id}`}>
+                <Link to={`/dashboard/locations/details/${item.id}`}>
                   <i className="fa fa-eye btn-sm btn btn-info"></i>
                 </Link>
               </td>

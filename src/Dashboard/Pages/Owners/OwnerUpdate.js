@@ -88,7 +88,7 @@ const OwnerUpdate = () => {
       const response = await axios.put(`http://localhost:3001/owners/${ownerId}`, ownerInfo);
       console.log(response.data);
       // Redirect to Home or show success message
-      navigate("/admin/Owners");
+      navigate("/dashboard/Owners");
     } catch (error) {
       console.log(error);
     }

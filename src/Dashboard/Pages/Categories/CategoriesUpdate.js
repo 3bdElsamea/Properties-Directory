@@ -69,7 +69,7 @@ const CategoriesUpdate = () => {
         const response = await axios.put(`http://localhost:3001/Categories/${CategoryId}`, CategoryInfo);
         console.log(response.data);
         // Redirect to Home or show success message
-        navigate("/admin/Categories");
+        navigate("/dashboard/Categories");
       } catch (error) {
         console.log(error);
       }

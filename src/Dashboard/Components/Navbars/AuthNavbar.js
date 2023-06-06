@@ -72,7 +72,7 @@ const AdminNavbar = () => {
               <NavItem>
                 <NavLink
                   className="nav-link-icon"
-                  to="/admin/user-profile"
+                  to="/dashboard/user-profile"
                   tag={Link}
                 >
                   <i className="ni ni-single-02" />

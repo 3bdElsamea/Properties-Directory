@@ -43,7 +43,7 @@ const Categories = () => {
   return (
     <Tables
       title="All Categories"
-      route="/admin/Categories/Add"
+      route="/dashboard/Categories/Add"
       content={
         <>
           <th scope="col">ID</th>
@@ -68,7 +68,7 @@ const Categories = () => {
           </td>
           <td>{category.created_At}</td>
           <td>
-            <Link to={`/admin/Categories/Update/${category.id}`}>
+            <Link to={`/dashboard/Categories/Update/${category.id}`}>
               <Btn className="btn-primary btn fa fa-edit" />
             </Link>
           </td>

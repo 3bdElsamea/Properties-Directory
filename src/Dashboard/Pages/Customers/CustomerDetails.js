@@ -40,7 +40,7 @@ const CustomerDetails = () => {
                   <h6>Customer Information</h6>
                 </Col>
                 <Col className="text-right">
-                  <Link to={"/admin/customers"}>
+                  <Link to={"/dashboard/customers"}>
                     <Button className="btn btn-danger btn-sm" type="button">
                       <i className="fa fa-arrow-left mr-2"> Back</i>
                     </Button>

@@ -74,7 +74,7 @@ const CreateEmployee = () => {
 
       //Send form data to the API add blocked status
       await axios.post("http://localhost:3001/employees", employeeData);
-      navigate("/admin/employees");
+      navigate("/dashboard/employees");
     } catch (error) {
       console.log(error);
     }

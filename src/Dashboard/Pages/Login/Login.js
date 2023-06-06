@@ -21,7 +21,7 @@ import axios from "axios";
 import ForgotPasswordForm from "../ForgetPassword/ForgetPassword";
 
 function Login() {
-  const [username, setUsername] = useState("");
+  const [email, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isForgotPassword, setIsForgotPassword] = useState(false);
   const [showErrorMessage, setShowErrorMessage] = useState(false);
@@ -40,22 +40,23 @@ function Login() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    
-    axios.post("https://dummyjson.com/auth/login", {
-      username: username,
+  
+    Axios.post("/dashboard/auth/login", {
+      email: email,
       password: password
     })
       .then((response) => {
-        if (response.data.message !== "Invalid credentials") {
+        const { data } = response;
+        if (data.message !== "Invalid credentials") {
           // Save the JWT in the client-side storage
-          localStorage.setItem("jwt", response.data.token);
+          localStorage.setItem("jwt", data.token);
           // Redirect the user to the dashboard or homepage
           window.location.href = "/";
-          console.log("Success: " + response.data);
+          console.log("Success: " + data);
         } else {
           // Display an error message to the user
           setShowErrorMessage(true);
-          console.log("Invalid username or password");
+          console.log("Invalid email or password");
         }
       })
       .catch((error) => {
@@ -64,6 +65,7 @@ function Login() {
         console.log("Error: " + error);
       });
   }
+  
   
 
   function handleForgotPasswordClick() {
@@ -120,12 +122,12 @@ function Login() {
                       </InputGroupText>
                     </InputGroupAddon>
                     <Input
-                      placeholder="Username"
+                      placeholder="email"
                       type="text"
-                      autoComplete="new-username"
-                      id="username"
-                      name="username"
-                      value={username}
+                      autoComplete="new-email"
+                      id="email"
+                      name="email"
+                      value={email}
                       onChange={handleUsernameChange}
                     />
                   </InputGroup>
@@ -152,7 +154,7 @@ function Login() {
                 )}
                 {showErrorMessage && (
                   <span style={{ color: "red", fontSize: 12 }}>
-                    Invalid username or password
+                    Invalid email or password
                   </span>
                 )}
                 <div className="custom-control custom-control-alternative custom-checkbox">
@@ -197,7 +199,7 @@ function Login() {
       </>
     );
   } else {
-    return <Navigate to="/admin/index" replace />;
+    return <Navigate to="/dashboard/index" replace />;
   }
 }
 

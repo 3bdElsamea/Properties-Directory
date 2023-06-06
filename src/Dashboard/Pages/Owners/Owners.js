@@ -39,7 +39,7 @@ const Owners = () => {
   return (
     <Tables
       title="All Owners"
-      route="/admin/Owners/Add"
+      route="/dashboard/Owners/Add"
       content={
         <>
           <th scope="col">id</th>
@@ -76,7 +76,7 @@ const Owners = () => {
           </td>
           <td>{owner.created_At}</td>
           <td>
-            <Link to={`/admin/Owners/Update/${owner.id}`}>
+            <Link to={`/dashboard/Owners/Update/${owner.id}`}>
               <Btn className="btn-primary btn fa fa-edit" />
             </Link>
 

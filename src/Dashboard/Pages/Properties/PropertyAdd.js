@@ -51,7 +51,7 @@ const PropertyAdd = () => {
       const response = await axios.post("http://localhost:3001/Properties", propertyInfo);
       console.log(response.data);
       // TODO: Redirect to Home
-      window.location.href = "/admin/properties";
+      window.location.href = "/dashboard/properties";
     } catch (error) {
       console.log(error);
     }

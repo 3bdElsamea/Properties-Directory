@@ -122,7 +122,7 @@ const RolesUpdate = () => {
             });
 
             // Redirect to the roles list page
-            window.location.href = "/admin/roles";
+            window.location.href = "/dashboard/roles";
           })
           .catch((error) => {
             console.error("Error fetching role permissions:", error);
@@ -159,7 +159,7 @@ const RolesUpdate = () => {
                     <h3 className="mb-0">Update Role</h3>
                   </Col>
                   <Col>
-                    <Link to="/admin/roles">
+                    <Link to="/dashboard/roles">
                       <Btn
                         className="btn btn-primary"
                         style={{ marginLeft: "50%", minWidth: "100px" }}

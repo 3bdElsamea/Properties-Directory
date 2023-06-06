@@ -81,7 +81,7 @@ const UpdateEmployee = () => {
         .patch(`http://localhost:3001/employees/${id}`, filteredValues)
         .then((res) => {
           console.log(res.data);
-          navigate("/admin/employees");
+          navigate("/dashboard/employees");
         })
         .catch((err) => console.log(err));
     },
