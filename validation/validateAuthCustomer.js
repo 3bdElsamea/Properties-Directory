@@ -48,7 +48,7 @@ const customerUpdateProfile = (req, res, next) => {
     next,
     Joi.object({
       name: Joi.string().min(3).allow(),
-      phone: Joi.number().min(7).allow(),
+      phone: Joi.number().min(1000000).required(),
       password: Joi.string().min(8).allow(),
       email: Joi.string().email().allow(),
       password_confirmation: Joi.any()
@@ -68,7 +68,7 @@ const customerRegister = (req, res, next) => {
     next,
     Joi.object({
       name: Joi.string().min(3).required(),
-      phone: Joi.number().min(7).required(),
+      phone: Joi.number().min(1000000).required(),
       password: Joi.string().min(8).required(),
       email: Joi.string().email().required(),
       password_confirmation: Joi.any()

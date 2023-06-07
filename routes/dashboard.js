@@ -28,5 +28,6 @@ router.use('/cities', permissionMiddleware('city'), cityRoute);
 router.use('/owners', permissionMiddleware('owner'), ownerRoute);
 router.use('/properties', permissionMiddleware('property'), propertyRoute);
 
+
 router.patch('/data', uploadImage.single('logo'), validationGeneralSetting , updateGeneralSetting);
 export default router;

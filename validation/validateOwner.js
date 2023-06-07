@@ -9,7 +9,7 @@ const validationOwnerCreate = (req, res, next) =>  {
     next,
     Joi.object({
       name: Joi.string().min(3).required(),
-      phone: Joi.number().min(7).required(),
+      phone: Joi.number().min(1000000).required(),
       slug: Joi.string().min(3).required(),
       email: Joi.string().email().required(),
       status: Joi.string().valid('pending', 'active', 'rejected').required(),
@@ -25,7 +25,7 @@ const validationOwnerUpdate = (req, res, next) =>  {
     next,
     Joi.object({
       name: Joi.string().min(3).allow(),
-      phone: Joi.number().min(7).allow(),
+      phone: Joi.number().min(1000000).required(),
       slug: Joi.string().min(3).allow(),
       email: Joi.string().email().allow(),
       status: Joi.string().valid('pending', 'active', 'rejected').allow(),
