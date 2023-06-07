@@ -8,10 +8,7 @@
       "password": "123123",
       "email": "enas@gmail.com",
       "role_id": 1,
-      "permissions": [
-        "city",
-        "chat"
-      ]
+      "permissions": ["city", "chat"]
     }
   ],
   "employees": [
@@ -81,19 +78,7 @@
       "name": "Lamis",
       "email": "lameeswaheed99@gmail.com",
       "phone": "01091822637",
-      "id": 1,
-      "firstName": "Aml",
-      "lastName": "Ali",
-      "username": "amlali",
-      "password": "123456"
-    },
-    {
-      "id": 2,
-      "firstName": "Gamal",
-      "lastName": "Khattab",
-      "username": "gamalkhattab",
-      "password": "00000",
-      "email": "gamal@gmail.com"
+      "id": 1
     }
   ],
   "requests": [

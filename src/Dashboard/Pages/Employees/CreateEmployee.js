@@ -89,7 +89,7 @@ const CreateEmployee = () => {
             <CardHeader className="bg-white border-0">
               <Row className="align-items-center justify-content-center">
                 <Col xs="8">
-                  <h3 className="mb-0">Employee Account</h3>
+                  <h3 className="mb-0 text-center">Employee Account</h3>
                 </Col>
               </Row>
             </CardHeader>
@@ -243,29 +243,32 @@ const CreateEmployee = () => {
                             >
                               Image
                             </label>
-                            <div className="custom-file">
-                              <Input
-                                type="file"
-                                id="image"
-                                name="image"
-                                onChange={(event) => {
-                                  setFieldValue(
-                                    "image",
-                                    event.currentTarget.files[0]
-                                  );
-                                }}
-                                onBlur={handleBlur}
-                                className={
-                                  touched.image && errors.image
-                                    ? "is-invalid"
-                                    : null
-                                }
-                              />
-                              <ErrorMessage
-                                name="image"
-                                component="div"
-                                className="invalid-feedback"
-                              />
+                            <div className="input-group">
+                              <div className="custom-file">
+                                <Input
+                                  type="file"
+                                  id="image"
+                                  name="image"
+                                  onChange={(event) => {
+                                    setFieldValue(
+                                      "image",
+                                      event.currentTarget.files[0]
+                                    );
+                                  }}
+                                  onBlur={handleBlur}
+                                  className={
+                                    touched.image && errors.image
+                                      ? "is-invalid"
+                                      : null
+                                  }
+                                />
+                                <ErrorMessage
+                                  name="image"
+                                  component="div"
+                                  className="invalid-feedback"
+                                />
+                              </div>
+                              
                             </div>
                           </FormGroup>
                         </Col>
@@ -307,7 +310,6 @@ const CreateEmployee = () => {
                             />
                           </FormGroup>
                         </Col>
-                        //save button
                         <Col lg="6">
                           <FormGroup>
                             <button

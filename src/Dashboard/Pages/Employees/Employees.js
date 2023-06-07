@@ -8,12 +8,10 @@ const Employees = () => {
   const [employeeList, setEmployeeList] = useState([]);
 
 
-  //get the data from db.json using axios
   const getAllEmployees = async () => {
     const response = await AxiosDashboard.get("/employees");
     try {
-      setEmployeeList(response.data);
-      console.log(response.data);
+      setEmployeeList(response.data?.data);
     } catch (error) {
       console.log(error);
     }
