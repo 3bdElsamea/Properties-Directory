@@ -1,119 +1,133 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import Customer from '../../models/Employee.js';
+import { config } from 'dotenv';
+import Customer from '../../models/Customer.js';
 import catchAsync from '../../utils/catchAsync.js';
+import AppError from '../../utils/appError.js';
+import { sendEmailForgetPasswordCustomer } from '../../utils/emailSender.js';
 
-export const login = catchAsync(async (req, res) => {
-  const { email, password } = req.body;
-  const customer = await Customer.findOne({ where: { email } });
+config();
 
-  if (!customer || !bcrypt.compareSync(password, customer.password)) {
-    return res.status(401).json({ message: 'Invalid email or password' });
-  }
+export const register = catchAsync(async (req, res, next) => {
 
-  const token = jwt.sign({ customerId: customer.id }, process.env.TOKEN_SECRET, {
-    expiresIn: process.env.TOKEN_EXPIRE_IN,
-  });
+  const customer = await Customer.create({
+    ...req.body,
+  })
+
+  const token = jwt.sign(
+    { customerId: customer.id },
+    process.env.TOKEN_SECRET,
+    {
+      expiresIn: process.env.TOKEN_EXPIRE_IN,
+    },
+  );
 
   res.json({ token });
 });
 
-export const forgetPassword = async (req, res) => {
+export const login = catchAsync(async (req, res, next) => {
+  const { email, password } = req.body;
+
+  const customer = await Customer.findOne({ where: { email: email } });
+
+  if (!customer || !bcrypt.compareSync(password, customer.password)) {
+    return next(new AppError('Invalid email or password', 400));
+  }
+
+  const token = jwt.sign(
+    { customerId: customer.id },
+    process.env.TOKEN_SECRET,
+    {
+      expiresIn: process.env.TOKEN_EXPIRE_IN,
+    },
+  );
+
+  res.json({ token, permissions: role.RolePermissions });
+});
+
+export const forgetPassword = catchAsync(async (req, res, next) => {
   const { email } = req.body;
+  const customer = await Customer.findOne({ where: { email } });
 
-  try {
-    // Find the customer with the provided email
-    const customer = await Customer.findOne({ where: { email } });
-
-    // If customer not found, return error response
-    if (!customer) {
-      return res.status(404).json({ message: 'Customer not found' });
-    }
-
-    // Generate and save a password reset token
-    const resetToken = jwt.sign(
-      { customerId: customer.id },
-      'your-secret-key',
-      { expiresIn: '15m' },
-    );
-    customer.password_token = resetToken;
-    customer.password_token_expires_at = new Date(Date.now() + 15 * 60 * 1000); // 15 minutes
-    await customer.save();
-
-    // Send the reset token via email or other means
-    // ...
-
-    res.json({ message: 'Password reset token sent' });
-  } catch (error) {
-    console.error('Error during password reset request:', error);
-    res.status(500).json({ message: 'Password reset request failed' });
+  if (!customer) {
+    return next(new AppError('No customer found with that email', 404));
   }
-};
 
-export const resetPassword = async (req, res) => {
-  const { token, newPassword } = req.body;
+  customer.password_token = jwt.sign(
+    { customerId: customer.id },
+    process.env.TOKEN_SECRET,
+    {
+      expiresIn: '15m',
+    },
+  );
 
-  try {
-    const customer = await Customer.findOne({
-      where: { password_token: token },
-    });
+  customer.password_token_expires_at = new Date(Date.now() + 15 * 60 * 1000);
 
-    if (!customer || customer.password_token_expires_at < new Date()) {
-      return res.status(400).json({ message: 'Invalid or expired token' });
-    }
+  await customer.save();
 
-    const hashedPassword = bcrypt.hashSync(newPassword, 10);
-    customer.password = hashedPassword;
-    customer.password_token = null;
-    customer.password_token_expires_at = null;
-    await customer.save();
+  await sendEmailForgetPasswordCustomer(email, customer.password_token);
 
-    res.json({ message: 'Password reset successful' });
-  } catch (error) {
-    console.error('Error during password reset:', error);
-    res.status(500).json({ message: 'Password reset failed' });
+  res.json({ message: 'Password reset token sent' });
+});
+
+export const resetPassword = catchAsync(async (req, res, next) => {
+  const { token } = req.body;
+  const customer = await Customer.findOne({ where: { password_token: token } });
+
+  if (!customer || customer.password_token_expires_at < new Date()) {
+    return next(new AppError('Invalid or expired token', 400));
   }
-};
 
-export const myProfile = async (req, res) => {
-  const { customerId } = req.user;
+  customer.password_token = null;
+  customer.password_token_expires_at = null;
+  customer.password = req.body.password;
 
-  try {
-    const customer = await Customer.findByPk(customerId);
+  await customer.save();
 
-    if (!customer) {
-      return res.status(404).json({ message: 'Customer not found' });
-    }
+  res.json({ message: 'Password reset successful' });
+});
 
-    res.json({ customer });
-  } catch (error) {
-    console.error('Error retrieving customer profile:', error);
-    res.status(500).json({ message: 'Failed to retrieve customer profile' });
+export const myProfile = catchAsync(async (req, res, next) => {
+  const { customerId } = req.decodedData;
+
+  const customer = await Customer.findByPk(customerId);
+
+  if (!customer) {
+    return next(new AppError('Customer not found', 404));
   }
-};
 
-export const updatePassword = async (req, res) => {
-  const { currentPassword, newPassword } = req.body;
-  const { customerId } = req.user;
+  res.json({ customer });
+});
 
-  try {
-    const customer = await Customer.findByPk(customerId);
-
-    if (!customer) {
-      return res.status(404).json({ message: 'Customer not found' });
-    }
-
-    if (!bcrypt.compareSync(currentPassword, customer.password)) {
-      return res.status(401).json({ message: 'Invalid current password' });
-    }
-
-    const hashedPassword = bcrypt.hashSync(newPassword, 10);
-    customer.password = hashedPassword;
-    await customer.save();
-
-    res.json({ message: 'Password updated successfully' });
-  } catch (error) {
-    console.error('Error updating password:', error);
-    res.status(500).json({ message: 'Failed to update password' });
+export const updateProfile = catchAsync(async (req, res, next) => {
+  if (req.file) {
+    req.body.image = req.file.location;
   }
-};
+
+  const { customerId } = req.decodedData;
+
+  const customer = await Customer.findByPk(customerId);
+
+  if (!customer) {
+    return next(new AppError('Customer not found', 404));
+  }
+
+  await customer.update({ ...req.body });
+
+  res.json({ customer });
+});
+
+export const deleteProfile = catchAsync(async (req, res, next) => {
+  const { customerId } = req.decodedData;
+
+  const customer = await Customer.findByPk(customerId);
+
+  if (!customer) {
+    return next(new AppError('Customer not found', 404));
+  }
+
+  await customer.destroy();
+
+  res.json({ message: 'Customer deleted successfully' });
+
+});

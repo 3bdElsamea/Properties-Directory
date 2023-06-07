@@ -4,15 +4,16 @@ import {
   getCityById,
   createCity,
   updateCity,
-  deleteCity,
-  // toggleActive,
+  toggleActive,
 } from '../../controllers/dashboard/cityController.js';
+import idParmaMiddleware from '../../middlewares/idParmaMiddleware.js';
+import { validateCityCreate, validateCityUpdate } from '../../validation/validateCity.js';
 
 const router = express.Router();
 
-router.route('/').get(getAllCities).post(createCity);
-router.route('/:id').get(getCityById).put(updateCity).delete(deleteCity);
+router.route('/').get(getAllCities).post(validateCityCreate, createCity);
+router.route('/:id').all(idParmaMiddleware).get(getCityById).patch(validateCityUpdate, updateCity);
 
-// router.route('/:id/toggle-active').patch(toggleActive);
+router.route('/:id/toggle-active').patch(idParmaMiddleware, toggleActive);
 
 export default router;

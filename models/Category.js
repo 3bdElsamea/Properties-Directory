@@ -23,4 +23,9 @@ const Category = sequelize.define(
   },
 );
 
+Category.prototype.toggleActive = async function () {
+  this.active = this.active === 1 ? 0 : 1;
+  await this.save();
+};
+
 export default Category;

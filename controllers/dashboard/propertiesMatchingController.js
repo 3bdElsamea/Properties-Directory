@@ -21,11 +21,7 @@ const getAllProperties = catchAsync(async (req, res, next) => {
     ],
   };
 
-  const propertiesGeneralRequest = await new ApiFeatures(
-    PropertyGeneralRequest,
-    req.query,
-    obj,
-  ).get();
+  const propertiesGeneralRequest = await new ApiFeatures(PropertyGeneralRequest, req.query, obj).get();
 
   res.json(propertiesGeneralRequest);
 });

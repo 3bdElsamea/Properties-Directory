@@ -1,5 +1,6 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/DBConnection.js';
+import RolePermission from './RolePermission.js';
 
 const Role = sequelize.define(
   'Role',
@@ -18,5 +19,7 @@ const Role = sequelize.define(
     tableName: 'roles',
   },
 );
+
+Role.hasMany(RolePermission, { foreignKey: 'role_id' });
 
 export default Role;

@@ -1,32 +1,12 @@
+import Joi from 'joi';
 import validationMiddleware from '../middlewares/validationMiddleware.js';
 
-const schema = {
-  name: { type: 'string', minLength: 3 },
-  email: { type: 'string', format: 'email' },
-  password: { type: 'string', minLength: 8 },
-  // phone: { type: 'integer' },
-  image: { type: 'string' },
-  username: { type: 'string', minLength: 3 },
-  password_token: { type: 'string' },
-  password_token_expires_at: { type: 'string', format: 'date-time' },
-  created_at: { type: 'string', format: 'date-time' },
-  updated_at: { type: 'string', format: 'date-time' },
+const validateCustomerUpdate = (req, res, next) => {
+  validationMiddleware(req, res, next, Joi.object({
+    name: Joi.string().min(3).allow(),
+    phone: Joi.number().min(1000000).required(),
+    username: Joi.string().allow(),
+  }));
 };
 
-const customerCreate = (req, res, next) => {
-  validationMiddleware(req, res, next, {
-    type: 'object',
-    properties: schema,
-    required: ['name', 'email', 'password', 'username', 'phone'],
-  });
-};
-
-const customerUpdate = (req, res, next) => {
-  validationMiddleware(req, res, next, {
-    type: 'object',
-    properties: schema,
-    required: [],
-  });
-};
-
-export { customerCreate, customerUpdate };
+export { validateCustomerUpdate };

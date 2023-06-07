@@ -9,11 +9,8 @@ const getAllPages = catchAsync(async (req, res, next) => {
 });
 
 const createPage = catchAsync(async (req, res, next) => {
-  const { name, content } = req.body;
   const createPage = await Page.create({
-    name,
-    content,
-    //slug: slugify(name)
+    ...req.body
   });
   res.status(201).json({ data: createPage });
   next();
@@ -21,14 +18,13 @@ const createPage = catchAsync(async (req, res, next) => {
 
 const updatePage = catchAsync(async (req, res, next) => {
   const { id } = req.params;
-  const { name, content } = req.body;
   const updatePage = await Page.findByPk(id);
   if (!updatePage) {
     return next(new AppError(`Category with this id ${id} not found`, 404));
   }
-  updatePage.name = name;
-  updatePage.content = content;
-  await updatePage.save();
+  await updatePage.update({
+    ...req.body
+  });
   res.json(updatePage);
   next();
 });
@@ -44,7 +40,5 @@ const deletePage = catchAsync(async (req, res, next) => {
 
   res.json({ message: 'Page deleted successfully' });
 });
-
-export default deletePage;
 
 export { getAllPages, createPage, updatePage, deletePage };

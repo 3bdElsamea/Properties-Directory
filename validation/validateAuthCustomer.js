@@ -1,7 +1,7 @@
 import Joi from 'joi';
 import validationMiddleware from '../middlewares/validationMiddleware.js';
 
-const employeeLogin = (req, res, next) => {
+const customerLogin = (req, res, next) => {
   validationMiddleware(
     req,
     res,
@@ -13,7 +13,7 @@ const employeeLogin = (req, res, next) => {
   );
 };
 
-const employeeForgetPassword = async (req, res, next) => {
+const customerForgetPassword = async (req, res, next) => {
   await validationMiddleware(
     req,
     res,
@@ -24,7 +24,7 @@ const employeeForgetPassword = async (req, res, next) => {
   );
 };
 
-const employeeResetPassword = (req, res, next) => {
+const customerResetPassword = (req, res, next) => {
   validationMiddleware(
     req,
     res,
@@ -41,7 +41,7 @@ const employeeResetPassword = (req, res, next) => {
   );
 };
 
-const employeeUpdateProfile = (req, res, next) => {
+const customerUpdateProfile = (req, res, next) => {
   validationMiddleware(
     req,
     res,
@@ -61,9 +61,30 @@ const employeeUpdateProfile = (req, res, next) => {
   );
 };
 
+const customerRegister = (req, res, next) => {
+  validationMiddleware(
+    req,
+    res,
+    next,
+    Joi.object({
+      name: Joi.string().min(3).required(),
+      phone: Joi.number().min(1000000).required(),
+      password: Joi.string().min(8).required(),
+      email: Joi.string().email().required(),
+      password_confirmation: Joi.any()
+        .equal(Joi.ref('password'))
+        .required()
+        .label('Confirm password')
+        .options({ messages: { 'any.only': '{{#label}} does not match' } }),
+      username: Joi.string().required(),
+    }),
+  );
+}
+
 export {
-  employeeLogin,
-  employeeForgetPassword,
-  employeeResetPassword,
-  employeeUpdateProfile,
+  customerLogin,
+  customerRegister,
+  customerForgetPassword,
+  customerResetPassword,
+  customerUpdateProfile,
 };

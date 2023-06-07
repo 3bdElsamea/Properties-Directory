@@ -1,35 +1,43 @@
 import express from 'express';
 import authRoute from './dashboard/authRoute.js';
 import customerRoute from './dashboard/customerRoute.js';
-import categoryRoute from './dashboard/categoryRoute.js';
-import pageRoute from './dashboard/pageRoute.js';
-import propertyMatchingRoute from './dashboard/propertyMatchingRoute.js';
 import countryRoute from './dashboard/countryRoute.js';
 import cityRoute from './dashboard/cityRoute.js';
 import ownerRoute from './dashboard/ownerRoute.js';
 import propertyRoute from './dashboard/propertyRoute.js';
-
+import roleRoute from './dashboard/roleRoute.js';
+import employeeRoute from './dashboard/employeeRoute.js';
+import categoryRoute from './dashboard/categoryRoute.js';
+import { uploadImage } from '../utils/uploadImage.js';
+import validationGeneralSetting from '../validation/validationGeneralSetting.js';
+import { updateGeneralSetting } from '../controllers/generalSettingController.js';
+import authMiddleware from '../middlewares/authMiddleware.js';
+import permissionMiddleware from '../middlewares/permissionMiddleware.js';
+import propertyImageRoute from './dashboard/properityImageRoute.js';
 const router = express.Router();
 
 router.use('/auth', authRoute);
-router.use('/customers', customerRoute);
-router.use('/categories', categoryRoute);
-router.use('/pages', pageRoute);
-router.use('/propertiesmatching', propertyMatchingRoute);
 
-router.get('/excused-git-pull', (req, res) => {
-  exec('git pull origin backend', (error, stdout, stderr) => {
-    if (error) {
-      console.error(`Error executing git pull: ${error.message}`);
-      return res.status(500).send('Failed to execute git pull');
-    }
-    console.log('Git pull successful');
-    res.send('Git pull successful');
-  });
-});
-router.use('/countries', countryRoute);
-router.use('/cities', cityRoute);
-router.use('/owners', ownerRoute);
-router.use('/properties', propertyRoute);
+router.use(authMiddleware);
 
+router.use('/roles', permissionMiddleware('role'), roleRoute);
+router.use('/customers', permissionMiddleware('customer'), customerRoute);
+router.use('/employees', permissionMiddleware('employee'), employeeRoute);
+router.use('/categories', permissionMiddleware('category'), categoryRoute);
+router.use('/countries', permissionMiddleware('country'), countryRoute);
+router.use('/cities', permissionMiddleware('city'), cityRoute);
+router.use('/owners', permissionMiddleware('owner'), ownerRoute);
+router.use('/properties', permissionMiddleware('property'), propertyRoute);
+router.use(
+  '/property-images',
+  permissionMiddleware('property'),
+  propertyImageRoute,
+);
+
+router.patch(
+  '/data',
+  uploadImage.single('logo'),
+  validationGeneralSetting,
+  updateGeneralSetting,
+);
 export default router;

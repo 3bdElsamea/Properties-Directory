@@ -34,6 +34,12 @@ const City = sequelize.define(
   },
 );
 
+// Toggles active column
+City.prototype.toggleActive = async function () {
+  this.active = this.active === 1 ? 0 : 1;
+  await this.save();
+};
+
 City.belongsTo(Country, {
   foreignKey: 'country_id',
   as: 'country',
