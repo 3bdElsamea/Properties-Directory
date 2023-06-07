@@ -8,7 +8,7 @@ import Customer from '../../models/Customer.js';
 import Property from '../../models/Property.js';
 
 const getAllProperties = catchAsync(async (req, res, next) => {
-  const properties = await PropertyGeneralRequest.findAll({
+  const obj = {
     include: [
       {
         model: Customer,
@@ -19,9 +19,15 @@ const getAllProperties = catchAsync(async (req, res, next) => {
         attributes: ['title', 'price'],
       },
     ],
-  });
+  };
 
-  res.json(properties);
+  const propertiesGeneralRequest = await new ApiFeatures(
+    PropertyGeneralRequest,
+    req.query,
+    obj,
+  ).get();
+
+  res.json(propertiesGeneralRequest);
 });
 
 const getPropertyById = catchAsync(async (req, res, next) => {
@@ -45,21 +51,29 @@ const getPropertyById = catchAsync(async (req, res, next) => {
   res.json(getPropertyById);
 });
 
-
 const matchingProperty = catchAsync(async (req, res, next) => {
   const queryStringObj = { ...req.query };
-  const excludesField = ['bathrooms', 'bedrooms', 'year_built' , 'garage' , 'floors'];
+  const excludesField = [
+    'bathrooms',
+    'bedrooms',
+    'year_built',
+    'garage',
+    'floors',
+  ];
 
-  excludesField.forEach((field) =>  queryStringObj[field]);
+  excludesField.forEach((field) => queryStringObj[field]);
 
   console.log('Excluded fields:', excludesField);
   console.log('Original request query:', req.query);
   console.log('Filtered query object:', queryStringObj);
 
-  const whereClause = Object.entries(queryStringObj).reduce((acc, [key, value]) => {
-    acc[key] = { [Op.eq]: value };
-    return acc;
-  }, {});
+  const whereClause = Object.entries(queryStringObj).reduce(
+    (acc, [key, value]) => {
+      acc[key] = { [Op.eq]: value };
+      return acc;
+    },
+    {},
+  );
 
   const matchingProperties = await PropertyGeneralRequest.findAll({
     where: whereClause,
@@ -77,6 +91,5 @@ const matchingProperty = catchAsync(async (req, res, next) => {
 
   res.json(matchingProperties);
 });
-
 
 export { getAllProperties, getPropertyById, matchingProperty };
