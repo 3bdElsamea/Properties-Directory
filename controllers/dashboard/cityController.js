@@ -2,8 +2,9 @@ import City from '../../models/City.js';
 import catchAsync from '../../utils/catchAsync.js';
 import ApiFeatures from '../../utils/apiFeatures.js';
 import AppError from '../../utils/appError.js';
+import Country from '../../models/Country.js';
 
-const getAllCities = catchAsync(async (req, res) => {
+const getAllCities = catchAsync(async (req, res, next) => {
   const cities = await new ApiFeatures(City, req.query).get();
   res.json(cities);
 });
@@ -26,7 +27,6 @@ const createCity = catchAsync(async (req, res, next) => {
 });
 
 const updateCity = catchAsync(async (req, res, next) => {
-  const { name, country_id } = req.body;
   const { id } = req.params;
   const city = await City.findByPk(id);
   if (city) {
