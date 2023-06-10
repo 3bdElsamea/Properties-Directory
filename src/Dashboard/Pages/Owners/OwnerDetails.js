@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Image } from 'react-bootstrap';
-import axios from 'axios';
+import { AxiosDashboard } from '../../../Axios';
+import { Link } from "react-router-dom";
+
+
 import {
   Button,
   Card,
@@ -17,20 +19,20 @@ import {
 
 const OwnerDetails = () => {
   const { ownerId } = useParams();
-  const [owner, setOwner] = useState(null);
-
-  useEffect(() => {
-    getOwnerDetails();
-  }, []);
+  const [owner, setOwner] = useState({});
 
   const getOwnerDetails = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/Owners/${ownerId}`);
+      const response = await AxiosDashboard.get(`/owners/${ownerId}`);
       setOwner(response.data);
     } catch (error) {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    getOwnerDetails();
+  }, []);
 
   return (
     <Container className="mt--7" fluid>
@@ -40,58 +42,71 @@ const OwnerDetails = () => {
             <CardHeader className="bg-white border-0">
               <Row className="align-items-center">
                 <Col xs="8">
-                  <h3 className="mb-0"> Owner Information</h3>
+                  <h3 className="mb-0">Owner Information</h3>
                 </Col>
               </Row>
+              <Col className="text-right">
+                  <Link to={"/dashboard/owners"}>
+                    <Button className="btn btn-danger btn-sm" type="button">
+                      <i className="fa fa-arrow-left mr-2"> Back</i>
+                    </Button>
+                  </Link>
+                </Col>
             </CardHeader>
 
             {owner ? (
               <div>
                 <CardBody>
-                <Row>
-                  
-                  <Col xs={12} md={6}>
-                    <div className="d-flex flex-column">
-
-                      <div className="d-flex align-items-center mb-2">
-                        <i className="fas fa-envelope mr-2 text-info"></i>
-                        <span className="font-weight-bold mr-1">Name:</span>
-                        {owner.name}
+                  <Row>
+                    <Col xs={12} md={6}>
+                      <div className="d-flex flex-column">
+                        <div className="d-flex align-items-center mb-2">
+                          <i className="fas fa-envelope mr-2 text-info"></i>
+                          <span className="font-weight-bold mr-1">Name:</span>
+                          {owner.name}
+                        </div>
+                        <div className="d-flex align-items-center mb-2">
+                          <i className="fas fa-dollar-sign mr-2 text-info"></i>
+                          <span className="font-weight-bold mr-1">Email:</span>
+                          {owner.email}
+                        </div>
+                        <div className="d-flex align-items-center mb-2">
+                          <i className="fas fa-align-left mr-2 text-info"></i>
+                          <span className="font-weight-bold mr-1">Phone:</span>
+                          {owner.phone}
+                        </div>
+                        <div className="d-flex align-items-center mb-2">
+                          <i className="fas fa-ruler-combined mr-2 text-info"></i>
+                          <span className="font-weight-bold mr-1">
+                            National ID:
+                          </span>
+                          {owner.national_id}
+                        </div>
+                        <div className="d-flex align-items-center mb-2">
+                          <i className="fas fa-tag mr-2 text-info"></i>
+                          <span className="font-weight-bold mr-1">Status:</span>
+                          {owner.status}
+                        </div>
+                        <div className="d-flex align-items-center mb-2">
+                          <i className="fas fa-city mr-2 text-info"></i>
+                          <span className="font-weight-bold mr-1">
+                            Created At:
+                          </span>
+                          {owner.created_At} {/* Updated property name */}
+                        </div>
                       </div>
-                      <div className="d-flex align-items-center mb-2">
-                        <i className="fas fa-dollar-sign mr-2 text-info"></i>
-                        <span className="font-weight-bold mr-1">Email:</span>
-                        {owner.email}
-                      </div>
-                      <div className="d-flex align-items-center mb-2">
-                        <i className="fas fa-align-left mr-2 text-info" ></i>
-                        <span className="font-weight-bold mr-1">phone:</span>
-                        {owner.phone}
-                      </div>
-                      <div className="d-flex align-items-center mb-2">
-                        <i className="fas fa-ruler-combined mr-2 text-info"></i>
-                        <span className="font-weight-bold mr-1">National_id:</span>
-                        {owner.national_id}
-                      </div>
-                      <div className="d-flex align-items-center mb-2">
-                        <i className="fas fa-tag mr-2 text-info"></i>
-                        <span className="font-weight-bold mr-1"> Status:</span>
-                        {owner.status}
-                      </div>
-                      <div className="d-flex align-items-center mb-2">
-                        <i className="fas fa-city mr-2 text-info"></i>
-                        <span className="font-weight-bold mr-1">Created_At:</span>
-                        {owner.created_At}
-                      </div>
-                      
-                    </div>
-                  </Col>
-                  <Col xs={12} md={6}>
-                    <Image src={owner.image} alt="Owner" circle width="100%" height="auto" style={{ marginBottom: '20px' }} />
-                  </Col>
-                </Row>
-
-                 
+                    </Col>
+                    {/* <Col xs={12} md={6}>
+                      <Image
+                        src={owner.image}
+                        alt="Owner"
+                        circle
+                        width="100%"
+                        height="auto"
+                        style={{ marginBottom: '20px' }}
+                      />
+                    </Col> */}
+                  </Row>
                 </CardBody>
               </div>
             ) : (

@@ -16,15 +16,15 @@ const Properties = () => {
 
   const getPropertyList = async () => {
     try {
-      const response = await AxiosDashboard.get('/Properties');
-      setPropertyList(response.data);
+      const response = await AxiosDashboard.get('/properties');
+      setPropertyList(response.data.data);
     } catch (error) {
       console.log(error);
     }
   };
   const deleteProperty = async (propertyId) => {
     try {
-      const response = await AxiosDashboard.delete(`/Properties/${propertyId}`);
+      const response = await AxiosDashboard.delete(`/properties/${propertyId}`);
       if (response.status === 200) {
         setPropertyList((prevpropertyList) =>
           prevpropertyList.filter((property) => property.id !== propertyId)
@@ -113,7 +113,7 @@ const Properties = () => {
               id={property.id}
               dataList={propertyList}
               setdataList={setPropertyList}
-              route="http://localhost:3001/Properties/"
+              route="http://3bsi.nader-mo.tech/properties/"
               text="Are you sure you want to deletem this property"
               action="delete"
               handleAction={() => deleteProperty(property.id)} // Pass the correct ID here

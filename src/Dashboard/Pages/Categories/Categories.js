@@ -18,15 +18,15 @@ const Categories = () => {
   const getCategoriesList = async () => {
     try {
       const response = await AxiosDashboard.get('/categories');
-      setCategoriesList(response.data.categories.data);
+      setCategoriesList(response.data.data);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const toggleActive = async (categoryId) => {
+   const toggleActive = async (categoryId) => {
     try {
-      await AxiosDashboard.put(`/categories/${categoryId}/toggleActive`);
+      await AxiosDashboard.patch(`/categories/${categoryId}/toggle-active`);
       setCategoriesList(prevList =>
         prevList.map(category =>
           category.id === categoryId
@@ -65,7 +65,7 @@ const Categories = () => {
               {category.active ? 'Active' : 'Inactive'}
             </Badge>
           </td>
-          <td>{category.created_At}</td>
+          <td>{category.created_at}</td>
           <td>
             <Link to={`/dashboard/categories/Update/${category.id}`}>
               <Btn className="btn-primary btn fa fa-edit" />

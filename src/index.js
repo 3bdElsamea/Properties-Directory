@@ -13,6 +13,7 @@ import LoginWebsite from "./Website/Pages/Login/Login";
 import ResetPassword from "./Website/Pages/ResetPassword/ResetPassword";
 
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const jwt = localStorage.getItem("jwt");

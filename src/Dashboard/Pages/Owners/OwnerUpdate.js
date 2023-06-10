@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import {
@@ -30,6 +29,7 @@ const OwnerUpdate = () => {
     status: "",
     created_at: "",
   });
+  
   const validationSchema = Yup.object().shape({
     name: Yup.string()
       .required("Name is required.")
@@ -39,7 +39,6 @@ const OwnerUpdate = () => {
     phone: Yup.string()
       .required("Phone is required.")
       .matches(/^\+[0-9]{10,12}$/, "Phone number should be valid number."),
-    image: Yup.mixed().required("Image is required"),
     national_id: Yup.string()
       .required("National ID is required")
       .matches(/^[0-9]{14}$/, "National ID must be a 14-digit number"),
@@ -49,13 +48,14 @@ const OwnerUpdate = () => {
   const formik = useFormik({
     initialValues: {
       name: "",
+      slug:"",
       email: "",
       phone: "",
-      image: null,
       national_id: "",
       status: "",
     },
     validationSchema,
+
     onSubmit: (values) => {
       const updatedOwner = { ...values };
 
@@ -67,27 +67,27 @@ const OwnerUpdate = () => {
         return acc;
       }, {});
 
-      axios
-        .patch(`http://localhost:5000/Owners/${ownerId}`, filteredValues)
+      AxiosDashboard
+        .patch(`/owners/${ownerId}`, filteredValues)
         .then((res) => {
-          console.log(res.data);
-          navigate("/admin/owners");
+          console.log(res.data.data);
+          navigate("/dashboard/Owners");
         })
         .catch((err) => console.log(err));
     },
   });
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/Owners/${ownerId}`).then((res) => {
-      const { name, email, phone, image, national_id, status } = res.data;
-      setOwnerInfo({ ...ownerInfo, name, email, phone, image, national_id, status });
-      formik.setValues({ name, email, phone, image, national_id, status });
+    AxiosDashboard.get(`/owners/${ownerId}`).then((res) => {
+      const { name,slug, email, phone, national_id, status } = res.data;
+      setOwnerInfo({ ...ownerInfo, name,slug, email, phone, national_id, status });
+      formik.setValues({ name,slug, email, phone,  national_id, status });
     });
-  }, [ownerId]);
+  }, [ownerId,areAllFieldsEmpty]);
 
   const areAllFieldsEmpty = () => {
-    const { name, email, phone, image, national_id, status } = formik.values;
-    return !(name || email || phone || image || national_id || status);
+    const { name, slug,email, phone,national_id, status } = formik.values;
+    return !(name || slug ||email || phone || national_id || status);
   };
 
   return (
@@ -125,6 +125,27 @@ const OwnerUpdate = () => {
                         />
                         {formik.touched.name && formik.errors.name && (
                           <div className="invalid-feedback">{formik.errors.name}</div>
+                        )}
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col lg="12">
+                      <FormGroup>
+                        <label className="form-control-label" htmlFor="input-name">
+                          Slug
+                        </label>
+                        <Input
+                          className="form-control-alternative w-100"
+                          id="slug"
+                          type="text"
+                          placeholder="Enter slug"
+                          name="slug"
+                          {...formik.getFieldProps("slug")}
+                          invalid={formik.touched.slug && formik.errors.slug}
+                        />
+                        {formik.touched.slug && formik.errors.slug && (
+                          <div className="invalid-feedback">{formik.errors.slug}</div>
                         )}
                       </FormGroup>
                     </Col>
@@ -212,9 +233,9 @@ const OwnerUpdate = () => {
                           invalid={formik.touched.status && formik.errors.status}
                         >
                           <option value="">Select status</option>
-                          <option value="Active">Active</option>
-                          <option value="Inactive">Inactive</option>
-                          <option value="Pending">Pending</option>
+                          <option value="active">active</option>
+                          <option value="rejected">rejected</option>
+                          <option value="pending">pending</option>
                         </Input>
                         {formik.touched.status && formik.errors.status && (
                           <div className="invalid-feedback">
@@ -224,40 +245,18 @@ const OwnerUpdate = () => {
                       </FormGroup>
                     </Col>
                   </Row>
-                  <Row>
-                    <Col lg="12">
-                      <FormGroup>
-                        <label className="form-control-label" htmlFor="input-image">
-                          Image
-                        </label>
-                        <Input
-                          type="file"
-                          name="image"
-                          id="image"
-                          onChange={(event) => {
-                            formik.setFieldValue("image", event.currentTarget.files[0]);
-                          }}
-                          invalid={formik.touched.image && formik.errors.image}
-                        />
-                        {formik.touched.image && formik.errors.image && (
-                          <div className="invalid-feedback">
-                            {formik.errors.image}
-                          </div>
-                        )}
-                      </FormGroup>
-                    </Col>
-                  </Row>
+                
                 </div>
                 <hr className="my-4" />
                 <Row>
                   <Col lg="12">
-                    <Btn
-                      title="Update"
-                      name="btn-danger btn"
-                      onClick={formik.handleSubmit}
-                      type="button"
-                      disabled={areAllFieldsEmpty}
-                    />
+                  <Btn
+                    title="Update"
+                    name="btn-danger btn"
+                    onClick={formik.handleSubmit}
+                    type="button"
+                    disabled={areAllFieldsEmpty}
+                  />
                   </Col>
                 </Row>
               </Form>

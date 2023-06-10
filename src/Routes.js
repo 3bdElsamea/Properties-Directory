@@ -143,7 +143,7 @@ var routes = [
     path: "/Owners/Details/:ownerId",
     name: "Details Owners",
     component: <OwnerDetails />,
-    layout: "/admin",
+    layout: "/dashboard",
   },
   {
     path: "/customers",
@@ -338,25 +338,9 @@ var routes = [
     component: <PropertyDetails />,
     layout: "/dashboard",
   },
-  {
-    path: "/Owners",
-    name: "Owners",
-    icon: "fa fa-users text-blue",
-    component: <Owners />,
-    layout: "/dashboard",
-  },
-  {
-    path: "/Owners/Update/:ownerId",
-    name: "Update Owners",
-    component: <OwnerUpdate />,
-    layout: "/dashboard",
-  },
-  {
-    path: "/Owners/Add",
-    name: "Add Owners",
-    component: <OwnerAdd />,
-    layout: "/dashboard",
-  },
+  
+
+ 
 ];
 
 export default routes;

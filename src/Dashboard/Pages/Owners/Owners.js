@@ -83,7 +83,7 @@ const Owners = () => {
             <Link to={`/dashboard/Owners/Update/${owner.id}`}>
               <Btn className="btn-primary btn fa fa-edit" />
             </Link>
-            <Link to={`/admin/Owners/Details/${owner.id}`}>
+            <Link to={`/dashboard/Owners/Details/${owner.id}`}>
                 <Btn className="btn-primary btn fa fa-eye" />
               </Link>
             <SweetAlert

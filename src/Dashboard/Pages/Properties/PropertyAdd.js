@@ -4,15 +4,11 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { AxiosDashboard } from '../../../Axios';
 
-
 const PropertyAdd = () => {
   const validationSchema = Yup.object().shape({
-    title: Yup.string()
-    .required("Name is required.")
-    .matches(/^[a-zA-Z ]+$/, "Name should contain only letters and spaces."),
-    description: Yup.string()
-    .required("Name is required.")
-    .matches(/^[a-zA-Z ]+$/, "Name should contain only letters and spaces."),
+    title: Yup.string().required("Title is required.").matches(/^[a-zA-Z ]+$/, "Title should contain only letters and spaces."),
+    slug: Yup.string().required("Slug is required."),
+    description: Yup.string().required("Description is required.").matches(/^[a-zA-Z ]+$/, "Description should contain only letters and spaces."),
     price: Yup.number().required("Price is required"),
     image: Yup.mixed().required("Image is required"),
     area: Yup.number().required("Area is required"),
@@ -24,17 +20,22 @@ const PropertyAdd = () => {
     status: Yup.string().required("Status is required"),
     category_id: Yup.string().required("Category ID is required"),
     city_id: Yup.string().required("City ID is required"),
-    property_type_id: Yup.string().required("Property Type ID is required"),
     owner_id: Yup.string().required("Owner ID is required"),
     employee_id: Yup.string().required("Employee ID is required"),
   });
 
   const handleSubmit = async (values) => {
     try {
-      const response = await AxiosDashboard.post("/Properties", values);
+      const formData = new FormData();
+      for (const key in values) {
+        formData.append(key, values[key]);
+      }
+      const response = await AxiosDashboard.post("/properties", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
       console.log(response.data);
       // TODO: Redirect to Home
-      window.location.href = "/dashboard/properties";
+      window.location.href = "/dashboard/Properties";
     } catch (error) {
       console.log(error);
     }
@@ -43,6 +44,7 @@ const PropertyAdd = () => {
   const formik = useFormik({
     initialValues: {
       title: "",
+      slug:"",
       description: "",
       price: "",
       image: null,
@@ -55,7 +57,6 @@ const PropertyAdd = () => {
       status: "",
       category_id: "",
       city_id: "",
-      property_type_id: "",
       owner_id: "",
       employee_id: "",
     },
@@ -102,6 +103,27 @@ const PropertyAdd = () => {
                           />
                           {formik.touched.title && formik.errors.title && (
                             <div className="text-danger">{formik.errors.title}</div>
+                          )}
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col lg="12">
+                        <FormGroup>
+                          <label className="form-control-label" htmlFor="input-name">
+                            Slug
+                          </label>
+                          <Input
+                            className="form-control-alternative w-100"
+                            type="text"
+                            placeholder="Enter slug"
+                            name="slug"
+                            value={formik.values.slug}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                          />
+                          {formik.touched.slug && formik.errors.slug && (
+                            <div className="text-danger">{formik.errors.slug}</div>
                           )}
                         </FormGroup>
                       </Col>
@@ -305,9 +327,8 @@ const PropertyAdd = () => {
     onBlur={formik.handleBlur}
   >
     <option value="">Select Status</option>
-    <option value="Active">Active</option>
-    <option value="Inactive">Inactive</option>
-    <option value="Pending">Pending</option>
+    <option value="active">Active</option>
+    <option value="inactive">Inactive</option>
   </Input>
   {formik.touched.status && formik.errors.status && (
     <div className="text-danger">{formik.errors.status}</div>
@@ -355,25 +376,7 @@ const PropertyAdd = () => {
                           )}
                         </FormGroup>
                       </Col>
-                      <Col lg="4">
-                        <FormGroup>
-                          <label className="form-control-label" htmlFor="input-property_type_id">
-                            Property Type ID
-                          </label>
-                          <Input
-                            className="form-control-alternative w-100"
-                            type="text"
-                            placeholder="Enter Property Type ID"
-                            name="property_type_id"
-                            value={formik.values.property_type_id}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                          />
-                          {formik.touched.property_type_id && formik.errors.property_type_id && (
-                            <div className="text-danger">{formik.errors.property_type_id}</div>
-                          )}
-                        </FormGroup>
-                      </Col>
+                      
                     </Row>
                     <Row>
                       <Col lg="6">

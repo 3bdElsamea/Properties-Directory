@@ -16,7 +16,6 @@ import {
   Row,
   Col,
 } from "reactstrap";
-import axios from "axios";
 import { AxiosDashboard } from '../../../Axios';
 
 const CategoriesUpdate = () => {
@@ -55,11 +54,11 @@ const CategoriesUpdate = () => {
         return acc;
       }, {});
 
-      axios
-        .patch(`/Categories/${CategoryId}}`, filteredValues)
+      AxiosDashboard
+        .patch(`/categories/${CategoryId}`, filteredValues)
         .then((res) => {
           console.log(res.data);
-          navigate("/admin/Categories");
+          navigate("/dashboard/Categories");
         })
         .catch((err) => console.log(err));
     },
@@ -67,7 +66,7 @@ const CategoriesUpdate = () => {
 
 
   useEffect(() => {
-    axios.get(`/Categories/${CategoryId}`).then((res) => {
+    AxiosDashboard.get(`/categories/${CategoryId}`).then((res) => {
       const { name, active } = res.data;
       setCategoryInfo({ ...CategoryInfo, name, active });
       formik.setValues({ name, active });
@@ -135,8 +134,8 @@ const CategoriesUpdate = () => {
                           invalid={formik.touched.active && formik.errors.active}
                           >
                             <option value="">Select status</option>
-                            <option value="true">Active</option>
-                            <option value="false">Inactive</option>
+                            <option value="1">Active</option>
+                            <option value="0">Inactive</option>
                           </Input>
                           {formik.touched.active && formik.errors.active && (
                           <div className="invalid-feedback">

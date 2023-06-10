@@ -34,7 +34,7 @@ const PropertyDetails = () => {
 
   const getPropertyDetails = async () => {
     try {
-      const response = await AxiosDashboard.get(`/Properties/${propertyId}`);
+      const response = await AxiosDashboard.get(`/properties/${propertyId}`);
       setProperty(response.data);
     } catch (error) {
       console.log(error);
@@ -49,16 +49,15 @@ const PropertyDetails = () => {
     try {
       // Delete image from property
       const updatedProperty = { ...property };
-      updatedProperty.galleryImages = updatedProperty.galleryImages.filter(image => image.id !== imageId);
+      updatedProperty.PropertyImages = updatedProperty.PropertyImages.filter(image => image.id !== imageId);
       setProperty(updatedProperty);
-
+    console.log(updatedProperty)
       // Delete image from the server database
-      await AxiosDashboard.delete(`/Properties/${propertyId}/${imageId}`);
+      await AxiosDashboard.delete(`/property-images/${imageId}`);
     } catch (error) {
       console.log(error);
     }
   };
-
   // const handleAddImage = () => {
   //   // Redirect to the image upload page or implement your own logic
   //   history.push(`/property/${propertyId}/add-image`);
@@ -162,8 +161,8 @@ const PropertyDetails = () => {
 
               <Row>
                 {showAllGallery ? (
-                  property && property.galleryImages && property.galleryImages.length > 0 ? (
-                    property.galleryImages.map((image) => (
+                  property && property.PropertyImages && property.PropertyImages.length > 0 ? (
+                    property.PropertyImages.map((image) => (
                       <Col xs={6} md={4} key={image.id}>
                         <div className="position-relative">
                           <Image
@@ -188,8 +187,8 @@ const PropertyDetails = () => {
                     <p>No images in the gallery</p>
                   )
                 ) : (
-                  property && property.galleryImages && property.galleryImages.length > 0 && (
-                    property.galleryImages.map((image) => (
+                  property && property.PropertyImages && property.PropertyImages.length > 0 && (
+                    property.PropertyImages.map((image) => (
                       <Col xs={6} md={4} key={image.id}>
                         <div className="position-relative">
                           <Image

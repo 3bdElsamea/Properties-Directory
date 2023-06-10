@@ -21,6 +21,7 @@ const PropertyUpdate = () => {
   const [propertyInfo, setPropertyInfo] = useState({
     id: "",
     title: "",
+    slug:"",
     description: "",
     price: "",
     image: "",
@@ -33,9 +34,11 @@ const PropertyUpdate = () => {
     status: "",
     category_id: "",
     city_id: "",
-    property_type_id: "",
     owner_id: "",
     employee_id: "",
+   
+
+
   });
 
   useEffect(() => {
@@ -59,7 +62,7 @@ const PropertyUpdate = () => {
   
   const getPropertyDetails = async () => {
     try {
-      const response = await AxiosDashboard.get(`/Properties/${propertyId}`);
+      const response = await AxiosDashboard.get(`/properties/${propertyId}`);
       setPropertyInfo(response.data);
     } catch (error) {
       console.log(error);
@@ -76,11 +79,11 @@ const PropertyUpdate = () => {
 
 
     try {
-      const response = await AxiosDashboard.put(
-        `/Properties/${propertyId}`,
+      const response = await AxiosDashboard.patch(
+        `/properties/${propertyId}`,
         propertyInfo
       );
-      console.log(response.data);
+      console.log(response.data.data);
       // Redirect to Properties list or show success message
       navigate("/dashboard/Properties");
     } catch (error) {
@@ -341,24 +344,7 @@ const PropertyUpdate = () => {
                       </FormGroup>
                     </Col>
                   </Row>
-                  <Row>
-                    <Col lg="12">
-                      <FormGroup>
-                        <label className="form-control-label" htmlFor="input-property-type-id">
-                          Property Type ID
-                        </label>
-                        <Input
-                          className="form-control-alternative w-100"
-                          type="text"
-                          placeholder="Enter Property Type ID"
-                          name="property_type_id"
-                          value={propertyInfo.property_type_id}
-                          onChange={handleChange}
-                        />
-                       
-                      </FormGroup>
-                    </Col>
-                  </Row>
+                  
                   <Row>
                     <Col lg="12">
                       <FormGroup>
