@@ -6,6 +6,8 @@ import AdminNavbar from "../Components/Navbars/AdminNavbar.js";
 import AdminFooter from "../Components/Footers/AdminFooter.js";
 import Sidebar from "../Components/Sidebar/Sidebar.js";
 import routes from "../../Routes.js";
+import ErrorPage from "Dashboard/Pages/ErrorPage/ErrorPage.js";
+
 
 const Admin = (props) => {
   const mainContent = React.useRef(null);
@@ -63,7 +65,7 @@ const Admin = (props) => {
           {getRoutes(routes)}
           <Route
             path="*"
-            element={<Navigate to="/dashboard/index" replace />}
+            element={<Navigate to="/dashboard/ErrorPage" replace />}
           />
         </Routes>
         <Container fluid>

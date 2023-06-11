@@ -20,13 +20,15 @@ const jwt = localStorage.getItem("jwt");
 root.render(
   <BrowserRouter>
     <Routes>
-    {!jwt && <Route path="/reset-password" element={<ResetPassword />} /> && <Route path="/dashboard/*" element={<Navigate to="/auth/login" replace />} />}
+    {!jwt && <Route path="/reset-password" element={<ResetPassword />} /> 
+    && <Route path="/argon-dashboard-react/*" element={<Navigate to="/auth/login" replace />} />}
       <Route path="/dashboard/*" element={<AdminLayout />} />
       <Route path="/auth/*" element={<AuthLayout />} />
       <Route path="/Home" element={<Home />} />
       <Route path="/login" element={<LoginWebsite />} />
       <Route path="/reset-password" element={<ResetPassword />} />
       <Route path="*" element={<ErrorPage />} />
+      {/* <Route path="*" element={<Navigate to="/admin/index" replace />} /> */}
     </Routes>
   </BrowserRouter>
 );

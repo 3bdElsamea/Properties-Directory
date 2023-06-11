@@ -26,7 +26,7 @@ import OwnerUpdate from "./Dashboard/Pages/Owners/OwnerUpdate.js";
 import OwnerAdd from "./Dashboard/Pages/Owners/OwnerAdd.js";
 import CategoriesUpdate from "./Dashboard/Pages/Categories/CategoriesUpdate.js";
 import CategoriesAdd from "./Dashboard/Pages/Categories/CategoriesAdd.js";
-// import ErrorPage from "./Dashboard/Pages/ErrorPage/ErrorPage.js"
+import ErrorPage from "./Dashboard/Pages/ErrorPage/ErrorPage.js"
 import PropertyAdd from "./Dashboard//Pages/Properties/PropertyAdd.js"
 import PropertyUpdate from "./Dashboard/Pages/Properties/PropertyUpdate.js"
 import PropertyDetails from "./Dashboard/Pages/Properties/PropertyDetails.js"
@@ -38,6 +38,13 @@ var routes = [
     name: "Home",
     icon: "ni ni-tv-2 text-primary",
     component: <Index />,
+    layout: "/dashboard",
+  },
+  {
+    path: "/ErrorPage",
+    name: "hiddenRoute",
+    icon: "ni ni-tv-2 text-primary",
+    component: <ErrorPage />,
     layout: "/dashboard",
   },
   /*
