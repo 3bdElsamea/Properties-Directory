@@ -27,10 +27,11 @@ import OwnerAdd from "./Dashboard/Pages/Owners/OwnerAdd.js";
 import CategoriesUpdate from "./Dashboard/Pages/Categories/CategoriesUpdate.js";
 import CategoriesAdd from "./Dashboard/Pages/Categories/CategoriesAdd.js";
 // import ErrorPage from "./Dashboard/Pages/ErrorPage/ErrorPage.js"
-import PropertyAdd from "./Dashboard//Pages/Properties/PropertyAdd.js";
-import PropertyUpdate from "./Dashboard/Pages/Properties/PropertyUpdate.js";
-import PropertyDetails from "./Dashboard/Pages/Properties/PropertyDetails.js";
-
+import PropertyAdd from "./Dashboard//Pages/Properties/PropertyAdd.js"
+import PropertyUpdate from "./Dashboard/Pages/Properties/PropertyUpdate.js"
+import PropertyDetails from "./Dashboard/Pages/Properties/PropertyDetails.js"
+import OwnerDetails from './Dashboard/Pages/Owners/OwnerDetails.js';
+import PropertyImages from './Dashboard/Pages/Properties/propertyImages.js'
 var routes = [
   {
     path: "/index",
@@ -91,21 +92,28 @@ var routes = [
   },
   {
     path: "/properties/add",
-    name: "Properties",
+    name: "Add Properties",
     icon: "ni ni-bag-17 text-blue",
     component: <PropertyAdd />,
     layout: "/dashboard",
   },
   {
     path: "/properties/update/:propertyId",
-    name: "Properties",
+    name: "Update Properties",
     icon: "ni ni-bag-17 text-blue",
     component: <PropertyUpdate />,
     layout: "/dashboard",
   },
   {
+    path: "/property-images/:propertyId",
+    name: "propertyImages",
+    icon: "ni ni-bag-17 text-blue",
+    component: <PropertyImages />,
+    layout: "/dashboard",
+  },
+  {
     path: "/properties/details/:propertyId",
-    name: "Properties",
+    name: "Details Properties",
     icon: "ni ni-bag-17 text-blue",
     component: <PropertyDetails />,
     layout: "/dashboard",
@@ -127,6 +135,12 @@ var routes = [
     path: "/Owners/Add",
     name: "Add Owners",
     component: <OwnerAdd />,
+    layout: "/dashboard",
+  },
+  {
+    path: "/Owners/Details/:ownerId",
+    name: "Details Owners",
+    component: <OwnerDetails />,
     layout: "/dashboard",
   },
   {
@@ -303,53 +317,37 @@ var routes = [
     component: <CategoriesAdd />,
     layout: "/dashboard",
   },
-  {
-    path: "/properties",
-    name: "Properties",
-    icon: "ni ni-bag-17 text-blue",
-    component: <Properties />,
-    layout: "/dashboard",
-  },
-  {
-    path: "/properties/add",
-    name: "Properties",
-    icon: "ni ni-bag-17 text-blue",
-    component: <PropertyAdd />,
-    layout: "/dashboard",
-  },
-  {
-    path: "/properties/update/:propertyId",
-    name: "Properties",
-    icon: "ni ni-bag-17 text-blue",
-    component: <PropertyUpdate />,
-    layout: "/dashboard",
-  },
-  {
-    path: "/properties/details/:propertyId",
-    name: "Properties",
-    icon: "ni ni-bag-17 text-blue",
-    component: <PropertyDetails />,
-    layout: "/dashboard",
-  },
-  {
-    path: "/Owners",
-    name: "Owners",
-    icon: "fa fa-users text-blue",
-    component: <Owners />,
-    layout: "/dashboard",
-  },
-  {
-    path: "/Owners/Update/:ownerId",
-    name: "Update Owners",
-    component: <OwnerUpdate />,
-    layout: "/dashboard",
-  },
-  {
-    path: "/Owners/Add",
-    name: "Add Owners",
-    component: <OwnerAdd />,
-    layout: "/dashboard",
-  },
+  // {
+  //   path: "/properties",
+  //   name: "Properties",
+  //   icon: "ni ni-bag-17 text-blue",
+  //   component: <Properties />,
+  //   layout: "/dashboard",
+  // },
+  // {
+  //   path: "/properties/add",
+  //   name: "Properties",
+  //   icon: "ni ni-bag-17 text-blue",
+  //   component: <PropertyAdd />,
+  //   layout: "/dashboard",
+  // },
+  // {
+  //   path: "/properties/update/:propertyId",
+  //   name: "Properties",
+  //   icon: "ni ni-bag-17 text-blue",
+  //   component: <PropertyUpdate />,
+  //   layout: "/dashboard",
+  // },
+  // {
+  //   path: "/properties/details/:propertyId",
+  //   name: "Properties",
+  //   icon: "ni ni-bag-17 text-blue",
+  //   component: <PropertyDetails />,
+  //   layout: "/dashboard",
+  // },
+  
+
+ 
 ];
 
 export default routes;

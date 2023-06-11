@@ -64,6 +64,14 @@ const Sidebar = (props) => {
       "Update Property",
       "Create Country",
       "Create City",
+      "Update Properties",
+      "Details Properties",
+      " Add Properties ",
+      "Update Owners",
+      "Add Owners",
+      "Categories Update",
+      "Categories Add",
+
     ];
     //unappear another links
     //make it array of links

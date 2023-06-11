@@ -1,100 +1,57 @@
-import React, { useState } from "react";
-import {
-  Button,
-  Card,
-  CardHeader,
-  CardBody,
-  FormGroup,
-  Form,
-  Input,
-  Container,
-  Row,
-  Col,
-} from "reactstrap";
+import React from "react";
+import { Button, Card, CardHeader, CardBody, FormGroup, Container, Row, Col } from "reactstrap";
+import { Formik, Field, ErrorMessage, Form } from "formik";
+import * as Yup from "yup";
 import { AxiosDashboard } from '../../../Axios';
+import { useNavigate } from "react-router-dom";
 
 const OwnerAdd = () => {
-  const [ownerInfo, setOwnerInfo] = useState({
-    id: "",
+  const navigate = useNavigate();
+
+  
+
+  const validationSchema = Yup.object().shape({
+    name: Yup.string()
+      .required("Name is required.")
+      .matches(/^[a-zA-Z ]+$/, "Name should contain only letters and spaces."),
+    slug: Yup.string()
+      .required("Slug is required.")
+      .matches(/^[a-zA-Z ]+$/, "Slug should contain only letters and spaces."),
+    email: Yup.string().email("Invalid email.").required("Email is required."),
+    phone: Yup.string()
+      .required("Phone is required.")
+      .matches(/^\+[0-9]{10,12}$/, "Phone number should be a valid number."),
+    national_id: Yup.string()
+      .required("National ID is required.")
+      .matches(/^[0-9]{14}$/, "National ID must be a 14-digit number."),
+    status: Yup.string().required("Status is required."),
+  });
+  const initialValues = {
     name: "",
+    slug: "",
     email: "",
+    phone: "",
     national_id: "",
     status: "",
-    created_at: "",
-  });
-
-  const [errors, setErrors] = useState({});
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-
-    if (name === "created_at") {
-      const currentDate = new Date().toLocaleString();
-      setOwnerInfo({ ...ownerInfo, [name]: currentDate });
-    } else {
-      setOwnerInfo({ ...ownerInfo, [name]: value });
-    }
   };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    // Perform form validation
-    const validationErrors = {};
-    if (!ownerInfo.name) {
-      validationErrors.name = "Name is required";
-    } else if (!/^[A-Za-z\s]+$/.test(ownerInfo.name)) {
-      validationErrors.name = "Name should only contain characters";
-    }
-
-    if (!ownerInfo.email) {
-      validationErrors.email = "Email is required";
-    } else if (
-      !/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(ownerInfo.email)
-    ) {
-      validationErrors.email = "Invalid email format";
-    }
-
-    if (!ownerInfo.phone) {
-      validationErrors.phone = "Phone is required";
-    } else if (!/^\d{11}$/.test(ownerInfo.phone)) {
-      validationErrors.phone = "Phone should have 11 digits";
-    }
-
-    if (!ownerInfo.national_id) {
-      validationErrors.national_id = "National ID is required";
-    } else if (!/^\d{14}$/.test(ownerInfo.national_id)) {
-      validationErrors.national_id = "National ID should have 14 digits";
-    }
-
-    if (!ownerInfo.status) {
-      validationErrors.status = "Status is required";
-    }
-
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
-      return;
-    }
-
-    // Set the current date and time for the created_at field
-    const currentDate = new Date().toLocaleString();
-    setOwnerInfo({ ...ownerInfo, created_at: currentDate });
-
+  const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      const response = await AxiosDashboard.post("/owners", ownerInfo);
-      console.log(response.data);
+      const response = await AxiosDashboard.post("/owners", values);
+      console.log(response.data.data);
       // TODO: Redirect to Home
-      window.location.href = "/dashboard/Owners";
+      navigate("/dashboard/Owners");
     } catch (error) {
       console.log(error);
+      // Handle error: show error message to the user or perform any other actions
     }
+    setSubmitting(false);
   };
 
   return (
     <Container className="mt--7" fluid>
       <Row>
         <Col className="order-xl-1" xl="8">
-          <Card className="shadow">
+          <Card className="bg-white shadow">
             <CardHeader className="bg-white border-0">
               <Row className="align-items-center">
                 <Col xs="8">
@@ -103,138 +60,97 @@ const OwnerAdd = () => {
               </Row>
             </CardHeader>
             <CardBody>
-              <Form onSubmit={handleSubmit}>
-                <h6 className="heading-small text-muted mb-4">
-                  Owner information
-                </h6>
-                <div className="pl-lg-4">
-                  <Row>
-                    <Col lg="12">
+            <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
+                {({ isSubmitting }) => (
+                  <Form>
+                    <h6 className="heading-small text-muted mb-4">Owner information</h6>
+                    <div className="pl-lg-4">
                       <FormGroup>
-                        <label
-                          className="form-control-label"
-                          htmlFor="input-name"
-                        >
+                        <label className="form-control-label" htmlFor="input-name">
                           Name
                         </label>
-                        <Input
+                        <Field
                           className="form-control-alternative w-100"
                           type="text"
-                          placeholder="Enter Name"
                           name="name"
-                          value={ownerInfo.name}
-                          onChange={handleChange}
-                          invalid={!!errors.name}
+                          placeholder="Enter Name"
+
                         />
-                        <div className="invalid-feedback">{errors.name}</div>
+                        <ErrorMessage name="name" component="div" className="text-danger" />
                       </FormGroup>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col lg="12">
                       <FormGroup>
-                        <label
-                          className="form-control-label"
-                          htmlFor="input-email"
-                        >
+                        <label className="form-control-label" htmlFor="input-slug">
+                          Slug
+                        </label>
+                        <Field
+                          className="form-control-alternative w-100"
+                          type="text"
+                          name="slug"
+                          placeholder="Enter Slug"
+                        />
+                        <ErrorMessage name="slug" component="div" className="text-danger" />
+                      </FormGroup>
+                      <FormGroup>
+                        <label className="form-control-label" htmlFor="input-email">
                           Email address
                         </label>
-                        <Input
+                        <Field
                           className="form-control-alternative w-100"
                           type="email"
-                          placeholder="Enter email"
                           name="email"
-                          value={ownerInfo.email}
-                          onChange={handleChange}
-                          invalid={!!errors.email}
+                          placeholder="Enter Email"
                         />
-                        <div className="invalid-feedback">{errors.email}</div>
+                        <ErrorMessage name="email" component="div" className="text-danger" />
                       </FormGroup>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col lg="12">
                       <FormGroup>
-                        <label
-                          className="form-control-label"
-                          htmlFor="input-phone"
-                        >
+                        <label className="form-control-label" htmlFor="input-phone">
                           Phone
                         </label>
-                        <Input
+                        <Field
                           className="form-control-alternative w-100"
                           type="tel"
-                          placeholder="Enter Phone"
                           name="phone"
-                          value={ownerInfo.phone}
-                          onChange={handleChange}
-                          invalid={!!errors.phone}
+                          placeholder="Enter Phone"
                         />
-                        <div className="invalid-feedback">{errors.phone}</div>
+                        <ErrorMessage name="phone" component="div" className="text-danger" />
                       </FormGroup>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col lg="12">
                       <FormGroup>
-                        <label
-                          className="form-control-label"
-                          htmlFor="input-national-id"
-                        >
+                        <label className="form-control-label" htmlFor="input-national-id">
                           National ID
                         </label>
-                        <Input
+                        <Field
                           className="form-control-alternative w-100"
                           type="text"
-                          placeholder="Enter National ID"
                           name="national_id"
-                          value={ownerInfo.national_id}
-                          onChange={handleChange}
-                          invalid={!!errors.national_id}
+                          placeholder="Enter National ID"
                         />
-                        <div className="invalid-feedback">
-                          {errors.national_id}
-                        </div>
+                        <ErrorMessage name="national_id" component="div" className="text-danger" />
                       </FormGroup>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col lg="7">
                       <FormGroup>
-                        <label
-                          className="form-control-label"
-                          htmlFor="input-national-id"
-                        >
+                        <label className="form-control-label" htmlFor="input-status">
                           Status
                         </label>
-                        <Input
-                          type="select"
-                          name="status"
-                          value={ownerInfo.status}
-                          onChange={handleChange}
-                          invalid={!!errors.status}
-                        >
+                        <Field as="select" className="form-control" name="status">
                           <option value="">Select status</option>
-                          <option value="Active">Active</option>
-                          <option value="Inactive">Inactive</option>
-                          <option value="Pending">Pending</option>
-                        </Input>
-                        <div className="invalid-feedback">{errors.status}</div>
+                          <option value="active">Active</option>
+                          <option value="rejected">Rejected</option>
+                          <option value="pending">Pending</option>
+                        </Field>
+                        <ErrorMessage name="status" component="div" className="text-danger" />
                       </FormGroup>
-                    </Col>
-                  </Row>
-                </div>
-
-                <hr className="my-4" />
-
-                <Row>
-                  <Col lg="12">
-                    <Button variant="primary" color="primary" type="submit">
-                      Add
-                    </Button>
-                  </Col>
-                </Row>
-              </Form>
+                    </div>
+                    <hr className="my-4" />
+                    <Row>
+                      <Col lg="12">
+                        <Button variant="primary" color="primary" 
+                        type="submit" disabled={isSubmitting}>
+                          {isSubmitting ? "Adding..." : "Add"}
+                        </Button>
+                      </Col>
+                    </Row>
+                  </Form>
+                )}
+              </Formik>
             </CardBody>
           </Card>
         </Col>
@@ -244,3 +160,17 @@ const OwnerAdd = () => {
 };
 
 export default OwnerAdd;
+
+
+
+
+
+
+
+
+
+
+
+
+
+

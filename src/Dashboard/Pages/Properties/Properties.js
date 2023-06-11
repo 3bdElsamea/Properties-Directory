@@ -6,7 +6,6 @@ import Btn from '../../SharedUI/Btn/Btn';
 import SweetAlert from '../../SharedUI/SweetAlert/SweetDelete';
 import { AxiosDashboard } from '../../../Axios';
 
-import axios from 'axios';
 
 const Properties = () => {
   const [propertyList, setPropertyList] = useState([]);
@@ -17,15 +16,15 @@ const Properties = () => {
 
   const getPropertyList = async () => {
     try {
-      const response = await AxiosDashboard.get('/Properties');
-      setPropertyList(response.data);
+      const response = await AxiosDashboard.get('/properties');
+      setPropertyList(response.data.data);
     } catch (error) {
       console.log(error);
     }
   };
   const deleteProperty = async (propertyId) => {
     try {
-      const response = await AxiosDashboard.delete(`/Properties/${propertyId}`);
+      const response = await AxiosDashboard.delete(`/properties/${propertyId}`);
       if (response.status === 200) {
         setPropertyList((prevpropertyList) =>
           prevpropertyList.filter((property) => property.id !== propertyId)
@@ -107,19 +106,19 @@ const Properties = () => {
             </Link>
             
               <Link to={`/dashboard/Properties/details/${property.id}`}>
-                <Btn className="btn-primary btn fa fa-eye" />
+                <Btn className="btn-success btn fa fa-eye" />
               </Link>
 
-            <SweetAlert 
+            {/* <SweetAlert 
               id={property.id}
               dataList={propertyList}
               setdataList={setPropertyList}
-              route="http://localhost:3001/Properties/"
+              route="http://3bsi.nader-mo.tech/properties/"
               text="Are you sure you want to deletem this property"
               action="delete"
               handleAction={() => deleteProperty(property.id)} // Pass the correct ID here
 
-            />
+            /> */}
           </td>
         </tr>
       ))}
