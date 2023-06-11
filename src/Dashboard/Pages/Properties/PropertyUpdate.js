@@ -1,17 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import {
-  Button,
-  Card,
-  CardHeader,
   CardBody,
   FormGroup,
   Form,
   Input,
-  Container,
-  Row,
   Col,
+  Row,
+  Card,
+  CardHeader,
+  Container,
 } from "reactstrap";
+import Btn from "../../SharedUI/Btn/Btn";
 import { AxiosDashboard } from '../../../Axios';
 
 
@@ -19,74 +21,97 @@ const PropertyUpdate = () => {
   const { propertyId } = useParams();
   const navigate = useNavigate();
   const [propertyInfo, setPropertyInfo] = useState({
-    id: "",
-    title: "",
-    description: "",
-    price: "",
-    image: "",
-    area: "",
-    bathrooms: "",
-    bedrooms: "",
-    garage: "",
-    floors: "",
-    year_built: "",
-    status: "",
-    category_id: "",
-    city_id: "",
-    property_type_id: "",
-    owner_id: "",
-    employee_id: "",
+    "title": "",
+    "slug": "",
+    "description": " ",
+    "price": "",
+    "image": "",
+    "area": "",
+    "bathrooms": "",
+    "bedrooms": "",
+    "garage": "",
+    "floors": "",
+    "year_built": "",
+    "status": "",
+    "category_id": "",
+    "city_id": "",
+    "owner_id": "",
+    "employee_id": "",
+  
+  });
+  const validationSchema = Yup.object().shape({
+    title: Yup.string().required("Title is required"),
+    slug: Yup.string().required("Slug is required"),
+    description: Yup.string().required("Description is required"),
+    price: Yup.number().required("Price is required"),
+    area: Yup.number().required(" is required"),
+    bathrooms: Yup.number().required(" is required"),
+    bedrooms: Yup.number().required(" is required"),
+    garage: Yup.number().required(" is required"),
+    floors: Yup.number().required(" is required"),
+    year_built: Yup.number().required(" is required"),
+    status: Yup.string().required(" is required"),
+    city_id: Yup.number().required(" is required"),
+    owner_id: Yup.number().required(" is required"),
+    employee_id: Yup.number().required(" is required"),
+
+    // Add validation rules for other fields
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      "title": "",
+      "slug": "",
+      "description": " ",
+      "price": "",
+      // "image": "",
+      "area": "",
+      "bathrooms": "",
+      "bedrooms": "",
+      "garage": "",
+      "floors": "",
+      "year_built": "",
+      "status": "",
+      "category_id": "",
+      "city_id": "",
+      "owner_id": "",
+      "employee_id": "",
+   
+    },
+    validationSchema,
+ 
+ 
+    onSubmit: () => {
+      const filteredValues = { ...formik.values };
+      delete filteredValues.image;
+
+      AxiosDashboard.patch(`/properties/${propertyId}`, filteredValues)
+        .then((res) => {
+          console.log(res.data);
+          navigate("/dashboard/properties");
+        })
+        .catch((err) => console.log(err));
+    },
   });
 
   useEffect(() => {
-    getPropertyDetails();
-  }, []);
-  
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    const reader = new FileReader();
-  
-    reader.onloadend = () => {
-      // Read the image file and set it in the state
-      setPropertyInfo({ ...propertyInfo, image: reader.result });
-    };
-  
-    if (file) {
-      // Start reading the file as a data URL
-      reader.readAsDataURL(file);
-    }
-  };
-  
-  const getPropertyDetails = async () => {
-    try {
-      const response = await AxiosDashboard.get(`/Properties/${propertyId}`);
-      setPropertyInfo(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setPropertyInfo({ ...propertyInfo, [name]: value });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+    AxiosDashboard.get(`/properties/${propertyId}`)
+      .then((res) => {
+        const { title, slug, description, price, image, area, bathrooms, bedrooms, garage, floors, year_built, status, category_id, city_id, owner_id, employee_id } = res.data;
+        setPropertyInfo({ ...propertyInfo, title, slug, description, price, image, area, bathrooms, bedrooms, garage, floors, year_built, status, category_id, city_id, owner_id, employee_id });
+        formik.setValues({ title, slug, description, price, image, area, bathrooms, bedrooms, garage, floors, year_built, status, category_id, city_id, owner_id, employee_id });
+      })
+      .catch((err) => console.log(err));
+  }, [propertyId]);
 
 
-    try {
-      const response = await AxiosDashboard.put(
-        `/Properties/${propertyId}`,
-        propertyInfo
-      );
-      console.log(response.data);
-      // Redirect to Properties list or show success message
-      navigate("/dashboard/Properties");
-    } catch (error) {
-      console.log(error);
-    }
-  };
+// const areAllFieldsEmpty = () => {
+//   const { title, slug,description, price,area, bathrooms,bedrooms,garage,floors,year_built,status
+//             ,category_id,city_id,owner_id,employee_id} = formik.values;
+//   return !(title || slug ||description || price ||  area||bathrooms||bedrooms ||garage||floors||year_built
+//             ||status||category_id||city_id || owner_id || employee_id);
+// };
+  
 
   return (
     <Container className="mt--7" fluid>
@@ -101,7 +126,7 @@ const PropertyUpdate = () => {
               </Row>
             </CardHeader>
             <CardBody>
-              <Form onSubmit={handleSubmit}>
+            <Form onSubmit={formik.handleSubmit}>
                 <h6 className="heading-small text-muted mb-4">
                   Property information
                 </h6>
@@ -117,9 +142,33 @@ const PropertyUpdate = () => {
                           type="text"
                           placeholder="Enter Title"
                           name="title"
-                          value={propertyInfo.title}
-                          onChange={handleChange}
+                          {...formik.getFieldProps("title")}
+                          invalid={formik.touched.title && formik.errors.title}
                         />
+                        {formik.touched.title && formik.errors.title && (
+                          <div className="invalid-feedback">{formik.errors.title}</div>
+                        )}
+                      
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col lg="12">
+                      <FormGroup>
+                        <label className="form-control-label" htmlFor="input-slug">
+                          Slug
+                        </label>
+                        <Input
+                          className="form-control-alternative w-100"
+                          type="text"
+                          placeholder="Enter slug"
+                          name="slug"
+                          {...formik.getFieldProps("slug")}
+                          invalid={formik.touched.slug && formik.errors.slug}
+                        />
+                        {formik.touched.slug && formik.errors.slug && (
+                          <div className="invalid-feedback">{formik.errors.slug}</div>
+                        )}
                       
                       </FormGroup>
                     </Col>
@@ -135,9 +184,12 @@ const PropertyUpdate = () => {
                           type="text"
                           placeholder="Enter Description"
                           name="description"
-                          value={propertyInfo.description}
-                          onChange={handleChange}
+                          {...formik.getFieldProps("Description")}
+                          invalid={formik.touched.Description && formik.errors.Description}
                         />
+                        {formik.touched.Description && formik.errors.Description && (
+                          <div className="invalid-feedback">{formik.errors.Description}</div>
+                        )}
                        
                       </FormGroup>
                     </Col>
@@ -153,14 +205,17 @@ const PropertyUpdate = () => {
                           type="text"
                           placeholder="Enter Price"
                           name="price"
-                          value={propertyInfo.price}
-                          onChange={handleChange}
+                          {...formik.getFieldProps("price")}
+                          invalid={formik.touched.price && formik.errors.price}
                         />
+                        {formik.touched.price && formik.errors.price && (
+                          <div className="invalid-feedback">{formik.errors.price}</div>
+                        )}
                        
                       </FormGroup>
                     </Col>
                   </Row>
-                  <Row>
+                  {/* <Row>
                     <Col lg="12">
                       <FormGroup>
                         <label className="form-control-label" htmlFor="input-image">
@@ -171,12 +226,16 @@ const PropertyUpdate = () => {
                           type="file"
                           accept="image/*"
                           name="image"
-                          onChange={handleFileChange}
+                          {...formik.getFieldProps("image")}
+                          invalid={formik.touched.image && formik.errors.image}
                         />
+                        {formik.touched.image && formik.errors.image && (
+                          <div className="invalid-feedback">{formik.errors.image}</div>
+                        )}
                         
                       </FormGroup>
                     </Col>
-                  </Row>
+                  </Row> */}
                   <Row>
                     <Col lg="12">
                       <FormGroup>
@@ -188,10 +247,12 @@ const PropertyUpdate = () => {
                           type="text"
                           placeholder="Enter Area"
                           name="area"
-                          value={propertyInfo.area}
-                          onChange={handleChange}
+                          {...formik.getFieldProps("Area")}
+                          invalid={formik.touched.Area && formik.errors.Area}
                         />
-                       
+                        {formik.touched.Area && formik.errors.Area && (
+                          <div className="invalid-feedback">{formik.errors.Area}</div>
+                        )}
                       </FormGroup>
                     </Col>
                   </Row>
@@ -206,9 +267,12 @@ const PropertyUpdate = () => {
                           type="text"
                           placeholder="Enter Number of Bathrooms"
                           name="bathrooms"
-                          value={propertyInfo.bathrooms}
-                          onChange={handleChange}
+                          {...formik.getFieldProps("bathrooms")}
+                          invalid={formik.touched.bathrooms && formik.errors.bathrooms}
                         />
+                        {formik.touched.bathrooms && formik.errors.bathrooms && (
+                          <div className="invalid-feedback">{formik.errors.bathrooms}</div>
+                        )}
                       
                       </FormGroup>
                     </Col>
@@ -224,9 +288,13 @@ const PropertyUpdate = () => {
                           type="text"
                           placeholder="Enter Number of Bedrooms"
                           name="bedrooms"
-                          value={propertyInfo.bedrooms}
-                          onChange={handleChange}
+                          {...formik.getFieldProps("bedrooms")}
+                          invalid={formik.touched.bedrooms && formik.errors.bedrooms}
                         />
+                        {formik.touched.bedrooms && formik.errors.bedrooms && (
+                          <div className="invalid-feedback">{formik.errors.bedrooms}</div>
+                        )}
+                      
                        
                       </FormGroup>
                     </Col>
@@ -242,9 +310,12 @@ const PropertyUpdate = () => {
                           type="text"
                           placeholder="Enter Garage"
                           name="garage"
-                          value={propertyInfo.garage}
-                          onChange={handleChange}
+                          {...formik.getFieldProps("garage")}
+                          invalid={formik.touched.garage && formik.errors.garage}
                         />
+                        {formik.touched.garage && formik.errors.garage && (
+                          <div className="invalid-feedback">{formik.errors.garage}</div>
+                        )}
                        
                       </FormGroup>
                     </Col>
@@ -260,9 +331,12 @@ const PropertyUpdate = () => {
                           type="text"
                           placeholder="Enter Number of Floors"
                           name="floors"
-                          value={propertyInfo.floors}
-                          onChange={handleChange}
+                          {...formik.getFieldProps("floors")}
+                          invalid={formik.touched.floors && formik.errors.floors}
                         />
+                        {formik.touched.floors && formik.errors.floors && (
+                          <div className="invalid-feedback">{formik.errors.floors}</div>
+                        )}
                       </FormGroup>
                     </Col>
                   </Row>
@@ -277,9 +351,12 @@ const PropertyUpdate = () => {
                           type="text"
                           placeholder="Enter Year Built"
                           name="year_built"
-                          value={propertyInfo.year_built}
-                          onChange={handleChange}
+                          {...formik.getFieldProps("year_built")}
+                          invalid={formik.touched.year_built && formik.errors.year_built}
                         />
+                        {formik.touched.year_built && formik.errors.year_built && (
+                          <div className="invalid-feedback">{formik.errors.year_built}</div>
+                        )}
                         
                       </FormGroup>
                     </Col>
@@ -293,15 +370,19 @@ const PropertyUpdate = () => {
                         <Input
                           type="select"
                           name="status"
-                          value={propertyInfo.status}
-                          onChange={handleChange}
+                          id="status"
+                          {...formik.getFieldProps("status")}
+                          invalid={formik.touched.status && formik.errors.status}
                         >
                           <option value="">Select status</option>
-                          <option value="Active">Active</option>
-                          <option value="Inactive">Inactive</option>
-                          <option value="Pending">Pending</option>
+                          <option value="active">Active</option>
+                          <option value="inactive">Inactive</option>
                         </Input>
-                       
+                        {formik.touched.status && formik.errors.status && (
+                          <div className="invalid-feedback">
+                            {formik.errors.status}
+                          </div>
+                        )}
                       </FormGroup>
                     </Col>
                   </Row>
@@ -316,9 +397,12 @@ const PropertyUpdate = () => {
                           type="text"
                           placeholder="Enter Category ID"
                           name="category_id"
-                          value={propertyInfo.category_id}
-                          onChange={handleChange}
+                          {...formik.getFieldProps("category_id")}
+                          invalid={formik.touched.category_id && formik.errors.category_id}
                         />
+                        {formik.touched.category_id && formik.errors.category_id && (
+                          <div className="invalid-feedback">{formik.errors.category_id}</div>
+                        )}
                        
                       </FormGroup>
                     </Col>
@@ -334,31 +418,17 @@ const PropertyUpdate = () => {
                           type="text"
                           placeholder="Enter City ID"
                           name="city_id"
-                          value={propertyInfo.city_id}
-                          onChange={handleChange}
+                          {...formik.getFieldProps("city_id")}
+                          invalid={formik.touched.city_id && formik.errors.city_id}
                         />
+                        {formik.touched.city_id && formik.errors.city_id && (
+                          <div className="invalid-feedback">{formik.errors.city_id}</div>
+                        )}
                        
                       </FormGroup>
                     </Col>
                   </Row>
-                  <Row>
-                    <Col lg="12">
-                      <FormGroup>
-                        <label className="form-control-label" htmlFor="input-property-type-id">
-                          Property Type ID
-                        </label>
-                        <Input
-                          className="form-control-alternative w-100"
-                          type="text"
-                          placeholder="Enter Property Type ID"
-                          name="property_type_id"
-                          value={propertyInfo.property_type_id}
-                          onChange={handleChange}
-                        />
-                       
-                      </FormGroup>
-                    </Col>
-                  </Row>
+                  
                   <Row>
                     <Col lg="12">
                       <FormGroup>
@@ -370,18 +440,47 @@ const PropertyUpdate = () => {
                           type="text"
                           placeholder="Enter Owner ID"
                           name="owner_id"
-                          value={propertyInfo.owner_id}
-                          onChange={handleChange}
+                          {...formik.getFieldProps("owner_id")}
+                          invalid={formik.touched.owner_id && formik.errors.owner_id}
                         />
+                        {formik.touched.owner_id && formik.errors.owner_id && (
+                          <div className="invalid-feedback">{formik.errors.owner_id}</div>
+                        )}
+                        
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                  
+                   
+                  <Row>
+                    <Col lg="12">
+                      <FormGroup>
+                        <label className="form-control-label" htmlFor="input-employee_id">
+                        Employee ID
+                        </label>
+                        <Input
+                          className="form-control-alternative w-100"
+                          type="text"
+                          placeholder="Enter employee_id"
+                          name="employee_id"
+                          {...formik.getFieldProps("employee_id")}
+                          invalid={formik.touched.employee_id && formik.errors.employee_id}
+                        />
+                        {formik.touched.employee_id && formik.errors.employee_id && (
+                          <div className="invalid-feedback">{formik.errors.employee_id}</div>
+                        )}
                         
                       </FormGroup>
                     </Col>
                   </Row>
                 </div>
                 <div className="text-center">
-                  <Button className="mt-4" color="primary" type="submit">
-                    Update Property
-                  </Button>
+                <Btn
+                    title="Update"
+                    name="btn-danger btn"
+                    onClick={formik.handleSubmit}
+                    type="button"
+                  />
                 </div>
               </Form>
             </CardBody>

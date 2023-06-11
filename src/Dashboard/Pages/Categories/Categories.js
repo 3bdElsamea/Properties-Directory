@@ -7,11 +7,9 @@ import Tables from '../../SharedUI/Table/Tables';
 import Btn from '../../SharedUI/Btn/Btn';
 import SweetAlert from '../../SharedUI/SweetAlert/SweetAlert';
 import { AxiosDashboard } from '../../../Axios';
-import axios from 'axios';
 
 const Categories = () => {
-  const [CategoriesList, setCategoriesList] = useState([]);
-  console.log(CategoriesList);
+  const [categoriesList, setCategoriesList] = useState([]);
 
   useEffect(() => {
     getCategoriesList();
@@ -19,16 +17,16 @@ const Categories = () => {
 
   const getCategoriesList = async () => {
     try {
-      const response = await AxiosDashboard.get('/Categories');
-      setCategoriesList(response.data);
+      const response = await AxiosDashboard.get('/categories');
+      setCategoriesList(response.data.data);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const toggleActive = async (categoryId) => {
+   const toggleActive = async (categoryId) => {
     try {
-      await AxiosDashboard.put(`/Categories/${categoryId}/toggleActive`);
+      await AxiosDashboard.patch(`/categories/${categoryId}/toggle-active`);
       setCategoriesList(prevList =>
         prevList.map(category =>
           category.id === categoryId
@@ -49,12 +47,12 @@ const Categories = () => {
         <>
           <th scope="col">ID</th>
           <th scope="col">Name</th>
-          <th scope="col">active</th>
-          <th scope="col">created_At</th>
-          <th scope="col">actions</th>
+          <th scope="col">Active</th>
+          <th scope="col">Created At</th>
+          <th scope="col">Actions</th>
         </>
       }
-      tableRows={CategoriesList.map((category) => (
+      tableRows={categoriesList.map((category) => (
         <tr key={category.id} style={{ backgroundColor: category.active ? 'white' : '#f6f9fc' }}>
           <th scope="row">{category.id}</th>
           <td>{category.name}</td>
@@ -62,14 +60,14 @@ const Categories = () => {
             <Badge
               color={category.active ? 'success' : 'danger'}
               onClick={() => toggleActive(category.id)}
-              style={{ cursor: 'pointer' , fontSize: '12px' }}
+              style={{ cursor: 'pointer', fontSize: '12px' }}
             >
               {category.active ? 'Active' : 'Inactive'}
             </Badge>
           </td>
-          <td>{category.created_At}</td>
+          <td>{category.created_at}</td>
           <td>
-            <Link to={`/dashboard/Categories/Update/${category.id}`}>
+            <Link to={`/dashboard/categories/Update/${category.id}`}>
               <Btn className="btn-primary btn fa fa-edit" />
             </Link>
           </td>

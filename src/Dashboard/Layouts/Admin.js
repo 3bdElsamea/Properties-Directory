@@ -1,12 +1,10 @@
 import React from "react";
 import { useLocation, Route, Routes, Navigate } from "react-router-dom";
-// reactstrap components
 import { Container } from "reactstrap";
-// core components
+import { ToastContainer, toast } from "react-toastify";
 import AdminNavbar from "../Components/Navbars/AdminNavbar.js";
 import AdminFooter from "../Components/Footers/AdminFooter.js";
 import Sidebar from "../Components/Sidebar/Sidebar.js";
-
 import routes from "../../Routes.js";
 
 const Admin = (props) => {
@@ -50,18 +48,23 @@ const Admin = (props) => {
         routes={routes}
         logo={{
           innerLink: "/dashboard/index",
-          imgSrc: "https://creativelayers.net/themes/homez-html/images/header-logo2.svg",
+          imgSrc:
+            "https://creativelayers.net/themes/homez-html/images/header-logo2.svg",
           imgAlt: "...",
         }}
       />
       <div className="main-content" ref={mainContent}>
+        <ToastContainer />
         <AdminNavbar
           {...props}
           brandText={getBrandText(props?.location?.pathname)}
         />
         <Routes>
           {getRoutes(routes)}
-          <Route path="*" element={<Navigate to="/dashboard/index" replace />} />
+          <Route
+            path="*"
+            element={<Navigate to="/dashboard/index" replace />}
+          />
         </Routes>
         <Container fluid>
           <AdminFooter />

@@ -8,16 +8,15 @@ const Employees = () => {
   const [employeeList, setEmployeeList] = useState([]);
 
 
-  //get the data from db.json using axios
   const getAllEmployees = async () => {
     const response = await AxiosDashboard.get("/employees");
     try {
-      setEmployeeList(response.data);
-      console.log(response.data);
+      setEmployeeList(response.data?.data);
     } catch (error) {
       console.log(error);
     }
   };
+ 
   useEffect(() => {
     getAllEmployees();
   }, []);
@@ -53,7 +52,7 @@ const Employees = () => {
                   dataList={employeeList}
                   setdataList={setEmployeeList}
                   text="You are about to change the block status of this employee."
-                  route="http://3bsi.nader-mo.tech/employees"
+                  route="/employees"
                   action="block"
                   initialBlocked={item.blocked}
                 />

@@ -12,10 +12,11 @@ const Owners = () => {
   useEffect(() => {
     getOwnerList();
   }, []);
+
   const deleteOwner = async (ownerId) => {
     try {
       const response = await AxiosDashboard.delete(`/owners/${ownerId}`);
-      if (response.status === 200) {
+      if (response.data.status.data === 200) {
         setOwnerList((prevOwnerList) =>
           prevOwnerList.filter((owner) => owner.id !== ownerId)
         );
@@ -26,12 +27,28 @@ const Owners = () => {
       console.log(error);
     }
   };
+
   const getOwnerList = async () => {
     try {
       const response = await AxiosDashboard.get('/owners');
-      setOwnerList(response.data);
+      setOwnerList(response.data.data);
     } catch (error) {
       console.log(error);
+    }
+  };
+  
+
+  const getStatusBadgeColor = (status) => {
+    const lowerCaseStatus = status.toLowerCase();
+    switch (lowerCaseStatus) {
+      case 'active':
+        return 'success';
+      case 'inactive':
+        return 'danger';
+      case 'pending':
+        return 'warning';
+      default:
+        return 'primary';
     }
   };
 
@@ -44,10 +61,10 @@ const Owners = () => {
           <th scope="col">id</th>
           <th scope="col">Name</th>
           <th scope="col">Email</th>
-          <th scope="col">phone</th>
-          <th scope="col">National_id</th>
-          <th scope="col">status</th>
-          <th scope="col">created_At</th>
+          <th scope="col">Phone</th>
+          <th scope="col">National ID</th>
+          <th scope="col">Status</th>
+          <th scope="col">Created At</th>
           <th scope="col">Actions</th>
         </>
       }
@@ -59,26 +76,14 @@ const Owners = () => {
           <td>{owner.phone}</td>
           <td>{owner.national_id}</td>
           <td>
-            <Badge
-              color={
-                owner.status === 'active'
-                  ? 'success'
-                  : owner.status === 'inactive'
-                  ? 'secondary'
-                  : owner.status === 'pending'
-                  ? 'warning'
-                  : 'danger'
-              }
-            >
-              {owner.status}
-            </Badge>
+            <Badge color={getStatusBadgeColor(owner.status)}>{owner.status}</Badge>
           </td>
-          <td>{owner.created_At}</td>
+          <td>{owner.created_at}</td>
           <td>
-            <Link to={`/dashboard/Owners/Update/${owner.id}`}>
-              <Btn className="btn-primary btn fa fa-edit" />
-            </Link>
-
+           
+            <Link to={`/dashboard/Owners/Details/${owner.id}`}>
+                <Btn className="btn-primary btn fa fa-eye" />
+              </Link>
             <SweetAlert
               id={owner.id}
               dataList={ownerList}
@@ -88,7 +93,6 @@ const Owners = () => {
               action="delete"
               handleAction={() => deleteOwner(owner.id)} // Pass the correct ID here
             />
-            
           </td>
         </tr>
       ))}

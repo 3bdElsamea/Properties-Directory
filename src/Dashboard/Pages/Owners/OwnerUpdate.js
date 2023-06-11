@@ -1,17 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import {
-  Button,
-  Card,
-  CardHeader,
   CardBody,
   FormGroup,
   Form,
   Input,
-  Container,
-  Row,
   Col,
+  Row,
+  Card,
+  CardHeader,
+  Container,
 } from "reactstrap";
+import Btn from "../../SharedUI/Btn/Btn";
 import { AxiosDashboard } from '../../../Axios';
 
 const OwnerUpdate = () => {
@@ -22,83 +24,77 @@ const OwnerUpdate = () => {
     name: "",
     email: "",
     phone: "",
+    image: "",
     national_id: "",
     status: "",
     created_at: "",
   });
-  const [errors, setErrors] = useState({});
+  
+  const validationSchema = Yup.object().shape({
+    name: Yup.string()
+      .required("Name is required.")
+      .matches(/^[a-zA-Z ]+$/, "Name should contain only letters and spaces."),
+    email: Yup.string().email("Invalid email.").required("Email is required."),
+
+    phone: Yup.string()
+      .required("Phone is required.")
+      .matches(/^\+[0-9]{10,12}$/, "Phone number should be valid number."),
+    national_id: Yup.string()
+      .required("National ID is required")
+      .matches(/^[0-9]{14}$/, "National ID must be a 14-digit number"),
+    status: Yup.string().required("Status is required"),
+  });
+  // Formik form submission handler
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      slug:"",
+      email: "",
+      phone: "",
+      national_id: "",
+      status: "",
+    },
+    validationSchema,
+
+    onSubmit: (values) => {
+      const updatedOwner = { ...values };
+
+      // Filter out empty values
+      const filteredValues = Object.keys(updatedOwner).reduce((acc, key) => {
+        if (updatedOwner[key]) {
+          acc[key] = updatedOwner[key];
+        }
+        return acc;
+      }, {});
+
+      AxiosDashboard
+        .patch(`/owners/${ownerId}`, filteredValues)
+        .then((res) => {
+          console.log(res.data.data);
+          navigate("/dashboard/Owners");
+        })
+        .catch((err) => console.log(err));
+    },
+  });
 
   useEffect(() => {
-    getOwnerDetails();
-  }, []);
+    AxiosDashboard.get(`/owners/${ownerId}`).then((res) => {
+      const { name,slug, email, phone, national_id, status } = res.data;
+      setOwnerInfo({ ...ownerInfo, name,slug, email, phone, national_id, status });
+      formik.setValues({ name,slug, email, phone,  national_id, status });
+    });
+  }, [ownerId,areAllFieldsEmpty]);
 
-  const getOwnerDetails = async () => {
-    try {
-      const response = await AxiosDashboard.get(`/owners/${ownerId}`);
-      setOwnerInfo(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setOwnerInfo({ ...ownerInfo, [name]: value });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    // Perform form validation
-    const validationErrors = {};
-    if (!ownerInfo.name) {
-      validationErrors.name = "Name is required";
-    } else if (!/^[A-Za-z\s]+$/.test(ownerInfo.name)) {
-      validationErrors.name = "Name should only contain characters";
-    }
-
-    if (!ownerInfo.email) {
-      validationErrors.email = "Email is required";
-    } else if (!/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(ownerInfo.email)) {
-      validationErrors.email = "Invalid email format";
-    }
-
-    if (!ownerInfo.phone) {
-      validationErrors.phone = "Phone is required";
-    } else if (!/^\d{11}$/.test(ownerInfo.phone)) {
-      validationErrors.phone = "Phone should have 11 digits";
-    }
-
-    if (!ownerInfo.national_id) {
-      validationErrors.national_id = "National ID is required";
-    } else if (!/^\d{14}$/.test(ownerInfo.national_id)) {
-      validationErrors.national_id = "National ID should have 14 digits";
-    }
-
-    if (!ownerInfo.status) {
-      validationErrors.status = "Status is required";
-    }
-
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
-      return;
-    }
-
-    try {
-      const response = await AxiosDashboard.put(`/owners/${ownerId}`, ownerInfo);
-      console.log(response.data);
-      // Redirect to Home or show success message
-      navigate("/dashboard/Owners");
-    } catch (error) {
-      console.log(error);
-    }
+  const areAllFieldsEmpty = () => {
+    const { name, slug,email, phone,national_id, status } = formik.values;
+    return !(name || slug ||email || phone || national_id || status);
   };
 
   return (
     <Container className="mt--7" fluid>
       <Row>
         <Col className="order-xl-1" xl="8">
-          <Card className="shadow">
+          <Card className="bg-white shadow">
             <CardHeader className="bg-white border-0">
               <Row className="align-items-center">
                 <Col xs="8">
@@ -107,7 +103,7 @@ const OwnerUpdate = () => {
               </Row>
             </CardHeader>
             <CardBody>
-              <Form onSubmit={handleSubmit}>
+              <Form onSubmit={formik.handleSubmit}>
                 <h6 className="heading-small text-muted mb-4">
                   Owner information
                 </h6>
@@ -120,14 +116,36 @@ const OwnerUpdate = () => {
                         </label>
                         <Input
                           className="form-control-alternative w-100"
+                          id="name"
                           type="text"
                           placeholder="Enter Name"
                           name="name"
-                          value={ownerInfo.name}
-                          onChange={handleChange}
+                          {...formik.getFieldProps("name")}
+                          invalid={formik.touched.name && formik.errors.name}
                         />
-                        {errors.name && (
-                          <div className="text-danger">{errors.name}</div>
+                        {formik.touched.name && formik.errors.name && (
+                          <div className="invalid-feedback">{formik.errors.name}</div>
+                        )}
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col lg="12">
+                      <FormGroup>
+                        <label className="form-control-label" htmlFor="input-name">
+                          Slug
+                        </label>
+                        <Input
+                          className="form-control-alternative w-100"
+                          id="slug"
+                          type="text"
+                          placeholder="Enter slug"
+                          name="slug"
+                          {...formik.getFieldProps("slug")}
+                          invalid={formik.touched.slug && formik.errors.slug}
+                        />
+                        {formik.touched.slug && formik.errors.slug && (
+                          <div className="invalid-feedback">{formik.errors.slug}</div>
                         )}
                       </FormGroup>
                     </Col>
@@ -143,11 +161,14 @@ const OwnerUpdate = () => {
                           type="email"
                           placeholder="Enter email"
                           name="email"
-                          value={ownerInfo.email}
-                          onChange={handleChange}
+                          id="email"
+                          {...formik.getFieldProps("email")}
+                          invalid={formik.touched.email && formik.errors.email}
                         />
-                        {errors.email && (
-                          <div className="text-danger">{errors.email}</div>
+                        {formik.touched.email && formik.errors.email && (
+                          <div className="invalid-feedback">
+                            {formik.errors.email}
+                          </div>
                         )}
                       </FormGroup>
                     </Col>
@@ -163,11 +184,14 @@ const OwnerUpdate = () => {
                           type="tel"
                           placeholder="Enter Phone"
                           name="phone"
-                          value={ownerInfo.phone}
-                          onChange={handleChange}
+                          id="phone"
+                          {...formik.getFieldProps("phone")}
+                          invalid={formik.touched.phone && formik.errors.phone}
                         />
-                        {errors.phone && (
-                          <div className="text-danger">{errors.phone}</div>
+                        {formik.touched.phone && formik.errors.phone && (
+                          <div className="invalid-feedback">
+                            {formik.errors.phone}
+                          </div>
                         )}
                       </FormGroup>
                     </Col>
@@ -183,11 +207,14 @@ const OwnerUpdate = () => {
                           type="text"
                           placeholder="Enter National ID"
                           name="national_id"
-                          value={ownerInfo.national_id}
-                          onChange={handleChange}
+                          id="national_id"
+                          {...formik.getFieldProps("national_id")}
+                          invalid={formik.touched.national_id && formik.errors.national_id}
                         />
-                        {errors.national_id && (
-                          <div className="text-danger">{errors.national_id}</div>
+                        {formik.touched.national_id && formik.errors.national_id && (
+                          <div className="invalid-feedback">
+                            {formik.errors.national_id}
+                          </div>
                         )}
                       </FormGroup>
                     </Col>
@@ -201,27 +228,35 @@ const OwnerUpdate = () => {
                         <Input
                           type="select"
                           name="status"
-                          value={ownerInfo.status}
-                          onChange={handleChange}
+                          id="status"
+                          {...formik.getFieldProps("status")}
+                          invalid={formik.touched.status && formik.errors.status}
                         >
                           <option value="">Select status</option>
-                          <option value="Active">Active</option>
-                          <option value="Inactive">Inactive</option>
-                          <option value="Pending">Pending</option>
+                          <option value="active">active</option>
+                          <option value="rejected">rejected</option>
+                          <option value="pending">pending</option>
                         </Input>
-                        {errors.status && (
-                          <div className="text-danger">{errors.status}</div>
+                        {formik.touched.status && formik.errors.status && (
+                          <div className="invalid-feedback">
+                            {formik.errors.status}
+                          </div>
                         )}
                       </FormGroup>
                     </Col>
                   </Row>
+                
                 </div>
                 <hr className="my-4" />
                 <Row>
                   <Col lg="12">
-                    <Button variant="primary" color="primary" type="submit">
-                      Update
-                    </Button>
+                  <Btn
+                    title="Update"
+                    name="btn-danger btn"
+                    onClick={formik.handleSubmit}
+                    type="button"
+                    disabled={areAllFieldsEmpty}
+                  />
                   </Col>
                 </Row>
               </Form>

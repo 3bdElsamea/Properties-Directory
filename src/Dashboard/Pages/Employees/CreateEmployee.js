@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import { AxiosDashboard } from '../../../Axios';
+import React, { useState, useEffect } from "react";
+import { AxiosDashboard } from "../../../Axios";
 import { useNavigate } from "react-router-dom";
+
 import {
   CardBody,
   FormGroup,
@@ -11,7 +12,9 @@ import {
   CardHeader,
   Container,
   Button,
+  Label,
 } from "reactstrap";
+import { Link } from "react-router-dom";
 
 //use formik
 import { Formik, Form, ErrorMessage } from "formik";
@@ -19,6 +22,25 @@ import * as Yup from "yup";
 
 const CreateEmployee = () => {
   const navigate = useNavigate();
+  const [selectedFileName, setSelectedFileName] = useState("Choose file");
+
+
+  //to get all roles
+  const [roles, setRoles] = useState([]);
+
+  const getRoles = async () => {
+    try {
+      const response = await AxiosDashboard.get(`/roles`);
+      setRoles(response.data?.roles.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getRoles();
+  }, []);
+
 
   //Define validation schema
   const validationSchema = Yup.object().shape({
@@ -26,20 +48,21 @@ const CreateEmployee = () => {
       .required("Name is required.")
       .matches(/^[a-zA-Z ]+$/, "Name should contain only letters and spaces."),
     email: Yup.string().email("Invalid email.").required("Email is required."),
-
+    username: Yup.string().required("Username is required."), 
     phone: Yup.string()
       .required("Phone is required.")
-      .matches(/^\+[0-9]{10,12}$/, "Phone number should be valid number."),
+      .matches(/[0-9]/, "Phone should contain at least one numeric character."),
+
     password: Yup.string()
-      .min(8, "Password must be at least 8 characters.")
-      .max(20, "Password must not exceed 20 characters.")
+      .min(8)
+      .max(10, "Password must not exceed 10 characters.")
       .matches(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/,
         "Password must be at least one lowercase, one uppercase, one number and one special character"
       )
       .required("Password is required."),
 
-    image: Yup.string().required("Image is required."),
+    image: Yup.mixed().required("Image is required."),
     role: Yup.string().required("Role is required."),
   });
 
@@ -47,38 +70,46 @@ const CreateEmployee = () => {
 
   const initialValues = {
     name: "",
+    username: "",
     email: "",
     phone: "",
     password: "",
-    image: "",
+    image: null,
     role: "",
   };
 
   const handleSubmit = async (values, { setSubmitting }) => {
-    console.log("hellllllo");
     setSubmitting(true);
 
-    //if the fields is empty
+    setSubmitting(true);
 
-    //Create an object of form data to submit
-    try {
-      const employeeData = {
-        name: values.name,
-        email: values.email,
-        phone: values.phone,
-        password: values.password,
-        image: values.image,
-        role: values.role,
-        blocked: false,
-      };
+  // Create a new FormData object
+  const formData = new FormData();
 
-      //Send form data to the API add blocked status
-      await AxiosDashboard.post("/employees", employeeData);
-      navigate("/dashboard/employees");
-    } catch (error) {
-      console.log(error);
-    }
-    setSubmitting(false);
+  // Append the image file to the FormData object
+  formData.append('image', values.image);
+
+  // Append other form fields to the FormData object
+  formData.append('name', values.name);
+  formData.append('email', values.email);
+  formData.append('username', values.username);
+  formData.append('phone', values.phone);
+  formData.append('password', values.password);
+  formData.append('role_id', values.role);
+
+  // Send form data to the API
+  try {
+    await AxiosDashboard.post('/employees', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data', // Set the content type to multipart/form-data
+      },
+    });
+    navigate('/employees');
+  } catch (error) {
+    console.log(error);
+  }
+
+  setSubmitting(false);
   };
 
   return (
@@ -90,6 +121,13 @@ const CreateEmployee = () => {
               <Row className="align-items-center justify-content-center">
                 <Col xs="8">
                   <h3 className="mb-0">Employee Account</h3>
+                </Col>
+                <Col className="text-right">
+                  <Link to={"/dashboard/employees"}>
+                    <Button className="btn btn-danger btn-sm" type="button">
+                      <i className="fa fa-arrow-left mr-2"> Back</i>
+                    </Button>
+                  </Link>
                 </Col>
               </Row>
             </CardHeader>
@@ -115,7 +153,7 @@ const CreateEmployee = () => {
                     </h6>
                     <div className="pl-lg-4">
                       <Row>
-                        <Col lg="6">
+                        <Col lg="12">
                           <FormGroup>
                             <label
                               className="form-control-label"
@@ -143,7 +181,37 @@ const CreateEmployee = () => {
                             />
                           </FormGroup>
                         </Col>
-                        <Col lg="6">
+                        <Col lg="12">
+                          <FormGroup>
+                            <label
+                              className="form-control-label"
+                              htmlFor="username"
+                            >
+                              Username
+                            </label>
+                            <Input
+                              id="username"
+                              placeholder="username"
+                              name="username"
+                              value={values.username}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              className={
+                                touched.username && errors.username
+                                  ? "is-invalid"
+                                  : null
+                              }
+                            />
+                            <ErrorMessage
+                              name="username"
+                              component="div"
+                              className="invalid-feedback"
+                            />
+                          </FormGroup>
+                        </Col>
+
+
+                        <Col lg="12">
                           <FormGroup>
                             <label
                               className="form-control-label"
@@ -244,35 +312,43 @@ const CreateEmployee = () => {
                               Image
                             </label>
                             <div className="custom-file">
-                              <Input
-                                type="file"
-                                id="image"
-                                name="image"
-                                onChange={(event) => {
-                                  setFieldValue(
-                                    "image",
-                                    event.currentTarget.files[0]
-                                  );
-                                }}
-                                onBlur={handleBlur}
-                                className={
-                                  touched.image && errors.image
-                                    ? "is-invalid"
-                                    : null
-                                }
-                              />
-                              <ErrorMessage
-                                name="image"
-                                component="div"
-                                className="invalid-feedback"
-                              />
+                              <Label
+                                className="custom-file-label"
+                                htmlFor="image"
+                              >
+                                {selectedFileName}
+                              </Label>
+
+                              <div className="custom-file">
+                                <Input
+                                  type="file"
+                                  id="image"
+                                  name="image"
+                                  onChange={(event) => {
+                                    setFieldValue(
+                                      "image",
+                                      event.currentTarget.files[0]
+                                    );
+                                    setSelectedFileName(
+                                      event.currentTarget.files[0].name
+                                    );
+                                  }}
+                                  onBlur={handleBlur}
+                                  className={
+                                    touched.image && errors.image
+                                      ? "is-invalid"
+                                      : null
+                                  }
+                                />
+                                <ErrorMessage
+                                  name="image"
+                                  component="div"
+                                  className="invalid-feedback"
+                                />
+                              </div>
                             </div>
                           </FormGroup>
                         </Col>
-                      </Row>
-                    </div>
-                    <div className="pl-lg-4">
-                      <Row>
                         <Col lg="6">
                           <FormGroup>
                             <label
@@ -298,7 +374,12 @@ const CreateEmployee = () => {
                               <option value="" disabled selected>
                                 Select Role
                               </option>
-                              <option>Admin</option>
+                              {roles.map((role) => (
+                                <option key={role.id} value={role.id}>
+                                  {role.name}
+                                </option>
+                              ))}
+
                             </Input>
                             <ErrorMessage
                               name="role"
@@ -307,11 +388,14 @@ const CreateEmployee = () => {
                             />
                           </FormGroup>
                         </Col>
-                        //save button
-                        <Col lg="6">
+                      </Row>
+                    </div>
+                    <div className="pl-lg-4">
+                      <Row>
+                        <Col lg="12 text-center mt-5">
                           <FormGroup>
                             <button
-                              className="btn btn-primary"
+                              className="btn btn-primary py-2 px-4"
                               type="submit"
                               disabled={isSubmitting}
                               loading={isSubmitting}

@@ -17,18 +17,21 @@ import Employees from "./Dashboard/Pages/Employees/Employees.js";
 import CreateEmployee from "./Dashboard/Pages/Employees/CreateEmployee.js";
 import UpdateEmployee from "./Dashboard/Pages/Employees/UpdateEmployee.js";
 import EmployeeDetails from "./Dashboard/Pages/Employees/EmployeeDetails.js";
-import Locations from "./Dashboard/Pages/Locations/Locations.js";
-import CreateLocation from "./Dashboard/Pages/Locations/CreateLocation.js";
-import Owners from './Dashboard/Pages/Owners/Owners.js';
-import OwnerUpdate from './Dashboard/Pages/Owners/OwnerUpdate.js';
-import OwnerAdd from './Dashboard/Pages/Owners/OwnerAdd.js';
-import CategoriesUpdate from "./Dashboard/Pages/Categories/CategoriesUpdate.js"
-import CategoriesAdd from "./Dashboard/Pages/Categories/CategoriesAdd.js"
+import Country from "./Dashboard/Pages/Country/Country.js";
+import CreateCountry from "./Dashboard/Pages/Country/CreateCountry.js";
+import Cities from "./Dashboard/Pages/Cities/Cities.js";
+import CreateCity from "./Dashboard/Pages/Cities/CreateCity.js";
+import Owners from "./Dashboard/Pages/Owners/Owners.js";
+import OwnerUpdate from "./Dashboard/Pages/Owners/OwnerUpdate.js";
+import OwnerAdd from "./Dashboard/Pages/Owners/OwnerAdd.js";
+import CategoriesUpdate from "./Dashboard/Pages/Categories/CategoriesUpdate.js";
+import CategoriesAdd from "./Dashboard/Pages/Categories/CategoriesAdd.js";
 // import ErrorPage from "./Dashboard/Pages/ErrorPage/ErrorPage.js"
 import PropertyAdd from "./Dashboard//Pages/Properties/PropertyAdd.js"
 import PropertyUpdate from "./Dashboard/Pages/Properties/PropertyUpdate.js"
 import PropertyDetails from "./Dashboard/Pages/Properties/PropertyDetails.js"
-
+import OwnerDetails from './Dashboard/Pages/Owners/OwnerDetails.js';
+import PropertyImages from './Dashboard/Pages/Properties/propertyImages.js'
 var routes = [
   {
     path: "/index",
@@ -53,7 +56,7 @@ var routes = [
   },
   {
     path: "/requests",
-    name: "Requests",
+    name: "hiddenRoute",
     icon: "fa fa-shopping-basket text-blue",
     component: <Requests />,
     layout: "/dashboard",
@@ -79,19 +82,7 @@ var routes = [
     component: <CategoriesAdd/>,
     layout: "/dashboard",
   },
-  {
-    path: "/locations",
-    name: "Locations",
-    icon: "ni ni-pin-3 text-blue",
-    component: <Locations />,
-    layout: "/dashboard",
-  },
-  {
-    path: "/locations/create",
-    name: "hiddenRoute",
-    component: <CreateLocation />,
-    layout: "/dashboard",
-  },
+
   {
     path: "/properties",
     name: "Properties",
@@ -111,6 +102,13 @@ var routes = [
     name: "hiddenRoute",
     icon: "ni ni-bag-17 text-blue",
     component: <PropertyUpdate />,
+    layout: "/dashboard",
+  },
+  {
+    path: "/property-images/:propertyId",
+    name: "propertyImages",
+    icon: "ni ni-bag-17 text-blue",
+    component: <PropertyImages />,
     layout: "/dashboard",
   },
   {
@@ -140,6 +138,12 @@ var routes = [
     layout: "/dashboard",
   },
   {
+    path: "/Owners/Details/:ownerId",
+    name: "hiddenRoute",
+    component: <OwnerDetails />,
+    layout: "/dashboard",
+  },
+  {
     path: "/customers",
     name: "Customers",
     icon: "fa fa-users text-blue",
@@ -153,7 +157,6 @@ var routes = [
     layout: "/dashboard",
   },
 
-  
   {
     path: "/employees",
     name: "Employees",
@@ -181,7 +184,6 @@ var routes = [
     name: "hiddenRoute",
     component: <EmployeeDetails />,
     layout: "/dashboard",
-
   },
 
   {
