@@ -94,22 +94,14 @@ var routes = [
   },
   {
     path: "/properties/add",
-<<<<<<< HEAD
     name: "hiddenRoute",
-=======
-    name: "Add-Properties",
->>>>>>> d214aa589cbfeef00a4965ef25ecf997fe0f6f46
     icon: "ni ni-bag-17 text-blue",
     component: <PropertyAdd />,
     layout: "/dashboard",
   },
   {
     path: "/properties/update/:propertyId",
-<<<<<<< HEAD
     name: "hiddenRoute",
-=======
-    name: "Update-Properties",
->>>>>>> d214aa589cbfeef00a4965ef25ecf997fe0f6f46
     icon: "ni ni-bag-17 text-blue",
     component: <PropertyUpdate />,
     layout: "/dashboard",
@@ -123,11 +115,7 @@ var routes = [
   },
   {
     path: "/properties/details/:propertyId",
-<<<<<<< HEAD
     name: "hiddenRoute",
-=======
-    name: "Details-Properties",
->>>>>>> d214aa589cbfeef00a4965ef25ecf997fe0f6f46
     icon: "ni ni-bag-17 text-blue",
     component: <PropertyDetails />,
     layout: "/dashboard",
@@ -141,31 +129,19 @@ var routes = [
   },
   {
     path: "/Owners/Update/:ownerId",
-<<<<<<< HEAD
     name: "hiddenRoute",
-=======
-    name: "Update-Owners",
->>>>>>> d214aa589cbfeef00a4965ef25ecf997fe0f6f46
     component: <OwnerUpdate />,
     layout: "/dashboard",
   },
   {
     path: "/Owners/Add",
-<<<<<<< HEAD
     name: "hiddenRoute",
-=======
-    name: "Add-Owners",
->>>>>>> d214aa589cbfeef00a4965ef25ecf997fe0f6f46
     component: <OwnerAdd />,
     layout: "/dashboard",
   },
   {
     path: "/Owners/Details/:ownerId",
-<<<<<<< HEAD
     name: "hiddenRoute",
-=======
-    name: "Details-Owners",
->>>>>>> d214aa589cbfeef00a4965ef25ecf997fe0f6f46
     component: <OwnerDetails />,
     layout: "/dashboard",
   },
