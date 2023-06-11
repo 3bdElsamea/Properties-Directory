@@ -28,6 +28,7 @@ router.use('/countries', permissionMiddleware('country'), countryRoute);
 router.use('/cities', permissionMiddleware('city'), cityRoute);
 router.use('/owners', permissionMiddleware('owner'), ownerRoute);
 router.use('/properties', permissionMiddleware('property'), propertyRoute);
+
 router.use(
   '/property-images',
   permissionMiddleware('property'),

@@ -2,9 +2,13 @@ import Country from '../../models/Country.js';
 import catchAsync from '../../utils/catchAsync.js';
 import ApiFeatures from '../../utils/apiFeatures.js';
 import AppError from '../../utils/appError.js';
+import Category from '../../models/Category.js';
+import City from '../../models/City.js';
+import Owner from '../../models/Owner.js';
+import Employee from '../../models/Employee.js';
 
 const getAllCountries = catchAsync(async (req, res) => {
-  const countries = await new ApiFeatures(Country, req.query).get();
+  const countries = await new ApiFeatures(Country, req.query, obj).get();
   res.json(countries);
 });
 

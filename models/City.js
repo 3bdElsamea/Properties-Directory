@@ -22,11 +22,6 @@ const City = sequelize.define(
     country_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      //   Reference Country.id
-      references: {
-        model: Country,
-        key: 'id',
-      },
     },
   },
   {
@@ -42,7 +37,6 @@ City.prototype.toggleActive = async function () {
 
 City.belongsTo(Country, {
   foreignKey: 'country_id',
-  as: 'country',
 });
 
 export default City;
