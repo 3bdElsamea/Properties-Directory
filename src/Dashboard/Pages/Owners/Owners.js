@@ -80,11 +80,13 @@ const Owners = () => {
           </td>
           <td>{owner.created_at}</td>
           <td>
-           
-            <Link to={`/dashboard/Owners/Details/${owner.id}`}>
-                <Btn className="btn-primary btn fa fa-eye" />
+          <Link to={`/dashboard/Owners/Update/${owner.id}`}>
+                <Btn className="btn-primary btn fa fa-edit" />
               </Link>
-            <SweetAlert
+            <Link to={`/dashboard/Owners/Details/${owner.id}`}>
+                <Btn className="btn-success btn fa fa-eye" />
+              </Link>
+            {/* <SweetAlert
               id={owner.id}
               dataList={ownerList}
               setdataList={setOwnerList}
@@ -92,7 +94,7 @@ const Owners = () => {
               text="Are you sure you want to delete this owner?"
               action="delete"
               handleAction={() => deleteOwner(owner.id)} // Pass the correct ID here
-            />
+            /> */}
           </td>
         </tr>
       ))}

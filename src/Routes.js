@@ -102,14 +102,14 @@ var routes = [
   },
   {
     path: "/properties/add",
-    name: "Add Properties",
+    name: "Add-Properties",
     icon: "ni ni-bag-17 text-blue",
     component: <PropertyAdd />,
     layout: "/dashboard",
   },
   {
     path: "/properties/update/:propertyId",
-    name: "Update Properties",
+    name: "Update-Properties",
     icon: "ni ni-bag-17 text-blue",
     component: <PropertyUpdate />,
     layout: "/dashboard",
@@ -123,7 +123,7 @@ var routes = [
   },
   {
     path: "/properties/details/:propertyId",
-    name: "Details Properties",
+    name: "Details-Properties",
     icon: "ni ni-bag-17 text-blue",
     component: <PropertyDetails />,
     layout: "/dashboard",
@@ -137,19 +137,19 @@ var routes = [
   },
   {
     path: "/Owners/Update/:ownerId",
-    name: "Update Owners",
+    name: "Update-Owners",
     component: <OwnerUpdate />,
     layout: "/dashboard",
   },
   {
     path: "/Owners/Add",
-    name: "Add Owners",
+    name: "Add-Owners",
     component: <OwnerAdd />,
     layout: "/dashboard",
   },
   {
     path: "/Owners/Details/:ownerId",
-    name: "Details Owners",
+    name: "Details-Owners",
     component: <OwnerDetails />,
     layout: "/dashboard",
   },

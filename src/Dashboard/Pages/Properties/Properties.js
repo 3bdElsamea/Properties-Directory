@@ -22,6 +22,23 @@ const Properties = () => {
       console.log(error);
     }
   };
+
+  const toggleActive = async (propertyId) => {
+    try {
+      const property = propertyList.find((property) => property.id === propertyId);
+      const newStatus = property.status === 'active' ? 'inactive' : 'active';
+  
+      await AxiosDashboard.patch(`/properties/${propertyId}`, { status: newStatus });
+  
+      setPropertyList((prevList) =>
+        prevList.map((property) =>
+          property.id === propertyId ? { ...property, status: newStatus } : property
+        )
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const deleteProperty = async (propertyId) => {
     try {
       const response = await AxiosDashboard.delete(`/properties/${propertyId}`);
@@ -81,18 +98,14 @@ const Properties = () => {
           <td>{property.floors}</td>
           <td>{property.year_built}</td> */}
           <td>
-            <Badge
-              color={
-                property.status === 'active'
-                  ? 'danger'
-                  : property.status === 'pending'
-                  ? 'primary'
-                  : 'success'
-              }
-            >
-              {property.status}
-            </Badge>
-          </td>
+          <Badge
+            color={property.status === 'active' ? 'success' : 'danger'}
+            onClick={() => toggleActive(property.id)}
+            style={{ cursor: 'pointer', fontSize: '12px' }}
+          >
+            {property.status.charAt(0).toUpperCase() + property.status.slice(1)}
+          </Badge>
+        </td>
           {/* <td>{property.category_id}</td>
           <td>{property.city_id}</td>
           <td>{property.property_type_id}</td> */}
