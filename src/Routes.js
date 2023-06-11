@@ -17,13 +17,15 @@ import Employees from "./Dashboard/Pages/Employees/Employees.js";
 import CreateEmployee from "./Dashboard/Pages/Employees/CreateEmployee.js";
 import UpdateEmployee from "./Dashboard/Pages/Employees/UpdateEmployee.js";
 import EmployeeDetails from "./Dashboard/Pages/Employees/EmployeeDetails.js";
-import Locations from "./Dashboard/Pages/Locations/Locations.js";
-import CreateLocation from "./Dashboard/Pages/Locations/CreateLocation.js";
-import Owners from './Dashboard/Pages/Owners/Owners.js';
-import OwnerUpdate from './Dashboard/Pages/Owners/OwnerUpdate.js';
-import OwnerAdd from './Dashboard/Pages/Owners/OwnerAdd.js';
-import CategoriesUpdate from "./Dashboard/Pages/Categories/CategoriesUpdate.js"
-import CategoriesAdd from "./Dashboard/Pages/Categories/CategoriesAdd.js"
+import Country from "./Dashboard/Pages/Country/Country.js";
+import CreateCountry from "./Dashboard/Pages/Country/CreateCountry.js";
+import Cities from "./Dashboard/Pages/Cities/Cities.js";
+import CreateCity from "./Dashboard/Pages/Cities/CreateCity.js";
+import Owners from "./Dashboard/Pages/Owners/Owners.js";
+import OwnerUpdate from "./Dashboard/Pages/Owners/OwnerUpdate.js";
+import OwnerAdd from "./Dashboard/Pages/Owners/OwnerAdd.js";
+import CategoriesUpdate from "./Dashboard/Pages/Categories/CategoriesUpdate.js";
+import CategoriesAdd from "./Dashboard/Pages/Categories/CategoriesAdd.js";
 // import ErrorPage from "./Dashboard/Pages/ErrorPage/ErrorPage.js"
 import PropertyAdd from "./Dashboard//Pages/Properties/PropertyAdd.js"
 import PropertyUpdate from "./Dashboard/Pages/Properties/PropertyUpdate.js"
@@ -77,22 +79,10 @@ var routes = [
     path: "/categories/Add",
     name: "CategoriesAdd",
     icon: "ni ni-bullet-list-67 text-blue",
-    component: <CategoriesAdd/>,
+    component: <CategoriesAdd />,
     layout: "/dashboard",
   },
-  {
-    path: "/locations",
-    name: "Locations",
-    icon: "ni ni-pin-3 text-blue",
-    component: <Locations />,
-    layout: "/dashboard",
-  },
-  {
-    path: "/locations/create",
-    name: "Create Locations",
-    component: <CreateLocation />,
-    layout: "/dashboard",
-  },
+
   {
     path: "/properties",
     name: "Properties",
@@ -161,13 +151,12 @@ var routes = [
     layout: "/dashboard",
   },
   {
-    path: "/Customers/details/:id",
+    path: "/customers/details/:id",
     name: "Customer Details",
     component: <CustomerDetails />,
     layout: "/dashboard",
   },
 
-  
   {
     path: "/employees",
     name: "Employees",
@@ -195,7 +184,6 @@ var routes = [
     name: "Employee Details",
     component: <EmployeeDetails />,
     layout: "/dashboard",
-
   },
 
   {
@@ -241,16 +229,29 @@ var routes = [
     layout: "/auth",
   },
   {
-    path: "/locations",
-    name: "Locations",
+    path: "/countries",
+    name: "Country",
     icon: "ni ni-pin-3 text-blue",
-    component: <Locations />,
+    component: <Country />,
     layout: "/dashboard",
   },
   {
-    path: "/locations/create",
-    name: "Create Locations",
-    component: <CreateLocation />,
+    path: "/country/create",
+    name: "Create Country",
+    component: <CreateCountry />,
+    layout: "/dashboard",
+  },
+  {
+    path: "/city",
+    name: "City",
+    icon: "ni ni-pin-3 text-blue",
+    component: <Cities />,
+    layout: "/dashboard",
+  },
+  {
+    path: "/city/create",
+    name: "Create City",
+    component: <CreateCity />,
     layout: "/dashboard",
   },
   {
@@ -261,13 +262,12 @@ var routes = [
     layout: "/dashboard",
   },
   {
-    path: "/Customers/details/:id",
+    path: "/customers/details/:id",
     name: "Customer Details",
     component: <CustomerDetails />,
     layout: "/dashboard",
   },
 
-  
   {
     path: "/employees",
     name: "Employees",
@@ -295,7 +295,6 @@ var routes = [
     name: "Employee Details",
     component: <EmployeeDetails />,
     layout: "/dashboard",
-
   },
   {
     path: "/categories",
@@ -315,7 +314,7 @@ var routes = [
     path: "/categories/Add",
     name: "CategoriesAdd",
     icon: "ni ni-bullet-list-67 text-blue",
-    component: <CategoriesAdd/>,
+    component: <CategoriesAdd />,
     layout: "/dashboard",
   },
   // {

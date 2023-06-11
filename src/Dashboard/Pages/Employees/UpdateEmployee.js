@@ -13,8 +13,9 @@ import {
   Card,
   CardHeader,
   Container,
+  Button,
 } from "reactstrap";
-import Btn from "../../SharedUI/Btn/Btn";
+import { Link } from "react-router-dom";
 
 const UpdateEmployee = () => {
   const navigate = useNavigate();
@@ -111,18 +112,16 @@ const UpdateEmployee = () => {
                 <Col xs="8">
                   <h3 className="mb-0">Update Account</h3>
                 </Col>
-                <Col className="text-right" xs="4">
-                  <Btn
-                    title="Update"
-                    name="btn-danger btn"
-                    onClick={formik.handleSubmit}
-                    type="button"
-                    disabled={areAllFieldsEmpty}
-                  />
+                <Col className="text-right">
+                  <Link to={"/dashboard/employees"}>
+                    <Button className="btn btn-danger btn-sm" type="button">
+                      <i className="fa fa-arrow-left mr-2"> Back</i>
+                    </Button>
+                  </Link>
                 </Col>
               </Row>
             </CardHeader>
-            <CardBody className="px-lg-5 py-lg-5">
+            <CardBody className="px-lg-5 py-lg-3">
               <Form onSubmit={formik.handleSubmit}>
                 <FormGroup>
                   <label className="form-control-label" htmlFor="name">
@@ -214,6 +213,20 @@ const UpdateEmployee = () => {
                     <div className="invalid-feedback">{formik.errors.role}</div>
                   )}
                 </FormGroup>
+                <FormGroup>
+
+                <Col lg="12 text-center mt-3">
+                  <button 
+                    className="btn-danger btn"
+                    onClick={formik.handleSubmit}
+                    type="button"
+                    disabled={areAllFieldsEmpty}
+                  >
+                    Update
+
+                  </button>
+                </Col>
+                  </FormGroup>
               </Form>
             </CardBody>
           </Card>
