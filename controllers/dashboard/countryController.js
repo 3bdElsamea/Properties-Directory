@@ -8,7 +8,7 @@ import Owner from '../../models/Owner.js';
 import Employee from '../../models/Employee.js';
 
 const getAllCountries = catchAsync(async (req, res) => {
-  const countries = await new ApiFeatures(Country, req.query, obj).get();
+  const countries = await new ApiFeatures(Country, req.query).get();
   res.json(countries);
 });
 
