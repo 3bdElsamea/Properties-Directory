@@ -66,7 +66,7 @@ const Sidebar = (props) => {
       "Create-Location",
       "Update-Properties",
       "Details-Properties",
-      " Add Properties ",
+      "Add-Properties",
       "Update-Owners",
       "Add-Owners",
       "Details-Owners",
