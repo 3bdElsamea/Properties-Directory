@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import axios from "axios";
-
+import { AxiosDashboard } from "../../../Axios";
 const SweetAlert = ({
   id,
   dataList,
@@ -27,7 +26,7 @@ const SweetAlert = ({
       if (result.isConfirmed) {
         const updatedList = dataList.filter((data) => data.id !== id);
         if (action === "delete") {
-          axios
+          AxiosDashboard
             .delete(`${route}/${id}`)
             .then((response) => {
               setdataList(updatedList);
@@ -38,7 +37,7 @@ const SweetAlert = ({
             });
         } else if (action === "block") {
           const updatedBlocked = !blocked;
-          axios
+          AxiosDashboard
             .patch(`${route}/${id}`, { blocked: updatedBlocked })
             .then((response) => {
               console.log(response.data);

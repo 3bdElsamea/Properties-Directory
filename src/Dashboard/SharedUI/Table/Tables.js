@@ -40,6 +40,7 @@ const Tables = ({ title, tableRows, route, content }) => {
                           </Link>
                         </Col>
                       ) : null}
+                      
                     </Row>
                   </CardHeader>
                 </Col>

@@ -62,7 +62,8 @@ const Sidebar = (props) => {
       "Customer Details",
       "Create Property",
       "Update Property",
-      "Create Location",
+      "Create Country",
+      "Create City",
     ];
     //unappear another links
     //make it array of links

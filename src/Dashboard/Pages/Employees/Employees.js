@@ -16,6 +16,7 @@ const Employees = () => {
       console.log(error);
     }
   };
+ 
   useEffect(() => {
     getAllEmployees();
   }, []);
@@ -51,7 +52,7 @@ const Employees = () => {
                   dataList={employeeList}
                   setdataList={setEmployeeList}
                   text="You are about to change the block status of this employee."
-                  route="http://3bsi.nader-mo.tech/employees"
+                  route="/employees"
                   action="block"
                   initialBlocked={item.blocked}
                 />

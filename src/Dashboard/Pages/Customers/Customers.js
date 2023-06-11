@@ -1,7 +1,5 @@
 import Tables from "../../SharedUI/Table/Tables";
-import Btn from "../../SharedUI/Btn/Btn";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import SweetAlert from "../../SharedUI/SweetAlert/SweetAlert";
 import { AxiosDashboard } from '../../../Axios';
@@ -12,8 +10,7 @@ const Customers = () => {
   const getAllCustomers = async () => {
     const response = await AxiosDashboard.get("/customers");
     try {
-      setCustomerList(response.data);
-      console.log(response.data);
+      setCustomerList(response.data?.data);
     } catch (error) {
       console.log(error);
     }
@@ -27,6 +24,7 @@ const Customers = () => {
   return (
     <>
       <div>
+
         <Tables
           title="All Customers"
           route="/dashboard/customers"
@@ -40,7 +38,6 @@ const Customers = () => {
               <th scope="col"></th>
             </>
           }
-          const
           tableRows={customerList.map((item, index) => (
             <tr key={item.id}>
               <th scope="row">{index + 1}</th>
@@ -53,14 +50,15 @@ const Customers = () => {
                   id={item.id}
                   dataList={customerList}
                   setdataList={setCustomerList}
-                  route="http://localhost:3001/customers"
+                  route = "/customers"
+                  
                   text="Are you sure you want to delete this customer?"
                   action="delete"
                 />
               </td>
 
               <td>
-                <Link to={`/dashboard/Customers/details/${item.id}`}>
+                <Link to={`/dashboard/customers/details/${item.id}`}>
                   <i className="fa fa-eye btn-sm btn btn-info"></i>
                 </Link>
               </td>
