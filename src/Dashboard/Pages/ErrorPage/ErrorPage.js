@@ -31,7 +31,7 @@ const ErrorPage = () => {
           <Col xs={6} md={6} className="order-md-2 order-1">
           <div style={{ marginTop: "350px", textAlign: "center" }}>
             <h4>OOOPS! Something went wrong. The page you are looking for does not exist.</h4>
-            <Button color="primary" tag="a" href="/admin/index">
+            <Button color="primary" tag="a" href="/dashboard/index">
               Go to Home
             </Button>
           </div>

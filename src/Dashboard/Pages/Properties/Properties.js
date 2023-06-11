@@ -106,10 +106,10 @@ const Properties = () => {
             </Link>
             
               <Link to={`/dashboard/Properties/details/${property.id}`}>
-                <Btn className="btn-primary btn fa fa-eye" />
+                <Btn className="btn-success btn fa fa-eye" />
               </Link>
 
-            <SweetAlert 
+            {/* <SweetAlert 
               id={property.id}
               dataList={propertyList}
               setdataList={setPropertyList}
@@ -118,7 +118,7 @@ const Properties = () => {
               action="delete"
               handleAction={() => deleteProperty(property.id)} // Pass the correct ID here
 
-            />
+            /> */}
           </td>
         </tr>
       ))}

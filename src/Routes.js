@@ -29,6 +29,7 @@ import PropertyAdd from "./Dashboard//Pages/Properties/PropertyAdd.js"
 import PropertyUpdate from "./Dashboard/Pages/Properties/PropertyUpdate.js"
 import PropertyDetails from "./Dashboard/Pages/Properties/PropertyDetails.js"
 import OwnerDetails from './Dashboard/Pages/Owners/OwnerDetails.js';
+import PropertyImages from './Dashboard/Pages/Properties/propertyImages.js'
 var routes = [
   {
     path: "/index",
@@ -111,6 +112,13 @@ var routes = [
     name: "Update Properties",
     icon: "ni ni-bag-17 text-blue",
     component: <PropertyUpdate />,
+    layout: "/dashboard",
+  },
+  {
+    path: "/property-images/:propertyId",
+    name: "propertyImages",
+    icon: "ni ni-bag-17 text-blue",
+    component: <PropertyImages />,
     layout: "/dashboard",
   },
   {
@@ -310,34 +318,34 @@ var routes = [
     component: <CategoriesAdd/>,
     layout: "/dashboard",
   },
-  {
-    path: "/properties",
-    name: "Properties",
-    icon: "ni ni-bag-17 text-blue",
-    component: <Properties />,
-    layout: "/dashboard",
-  },
-  {
-    path: "/properties/add",
-    name: "Properties",
-    icon: "ni ni-bag-17 text-blue",
-    component: <PropertyAdd />,
-    layout: "/dashboard",
-  },
-  {
-    path: "/properties/update/:propertyId",
-    name: "Properties",
-    icon: "ni ni-bag-17 text-blue",
-    component: <PropertyUpdate />,
-    layout: "/dashboard",
-  },
-  {
-    path: "/properties/details/:propertyId",
-    name: "Properties",
-    icon: "ni ni-bag-17 text-blue",
-    component: <PropertyDetails />,
-    layout: "/dashboard",
-  },
+  // {
+  //   path: "/properties",
+  //   name: "Properties",
+  //   icon: "ni ni-bag-17 text-blue",
+  //   component: <Properties />,
+  //   layout: "/dashboard",
+  // },
+  // {
+  //   path: "/properties/add",
+  //   name: "Properties",
+  //   icon: "ni ni-bag-17 text-blue",
+  //   component: <PropertyAdd />,
+  //   layout: "/dashboard",
+  // },
+  // {
+  //   path: "/properties/update/:propertyId",
+  //   name: "Properties",
+  //   icon: "ni ni-bag-17 text-blue",
+  //   component: <PropertyUpdate />,
+  //   layout: "/dashboard",
+  // },
+  // {
+  //   path: "/properties/details/:propertyId",
+  //   name: "Properties",
+  //   icon: "ni ni-bag-17 text-blue",
+  //   component: <PropertyDetails />,
+  //   layout: "/dashboard",
+  // },
   
 
  

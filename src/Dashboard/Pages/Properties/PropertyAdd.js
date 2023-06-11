@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from 'react';
 import { Button, Card, CardHeader, CardBody, FormGroup, Form, Input, Container, Row, Col } from "reactstrap";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -6,7 +6,8 @@ import { AxiosDashboard } from '../../../Axios';
 
 const PropertyAdd = () => {
   const validationSchema = Yup.object().shape({
-    title: Yup.string().required("Title is required.").matches(/^[a-zA-Z ]+$/, "Title should contain only letters and spaces."),
+    title: Yup.string().required("Title is required.")
+    .matches(/^[a-zA-Z ]+$/, "Title should contain only letters and spaces."),
     slug: Yup.string().required("Slug is required."),
     description: Yup.string().required("Description is required.").matches(/^[a-zA-Z ]+$/, "Description should contain only letters and spaces."),
     price: Yup.number().required("Price is required"),
@@ -63,6 +64,80 @@ const PropertyAdd = () => {
     validationSchema: validationSchema,
     onSubmit: handleSubmit,
   });
+
+  const [ownerOptions, setOwnerOptions] = useState([]);
+  const [employeeOptions , setEmployeeOptions] = useState([]);
+  const [catageoryOptions , setCatageoryOptions] = useState([]);
+  const [ciyOptions , setCityOptions] = useState([]);
+
+
+  useEffect(() => {
+    fetchOwners();
+    fetchEmployees();
+    fetchCities();
+    fetchCatageroies();
+
+
+  }, []);
+
+  const fetchOwners = async () => {
+    try {
+      const response = await AxiosDashboard.get("/owners"); // Replace with the correct URL for fetching owners data
+      const owners = response.data.data;
+      const ownerOptions = owners.map((owner) => ({
+        value: owner.id,
+        label: owner.name,
+      }));
+      setOwnerOptions(ownerOptions);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const fetchEmployees = async () => {
+    try {
+      const response = await AxiosDashboard.get("/employees"); // Replace with the correct URL for fetching owners data
+      const employees = response.data.data;
+      const employeeOptions = employees.map((employee) => ({
+        value: employee.id,
+        label: employee.name,
+      }));
+      setEmployeeOptions(employeeOptions);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchCities = async () => {
+    try {
+      const response = await AxiosDashboard.get("/cities"); // Replace with the correct URL for fetching owners data
+      const cities = response.data.data;
+      const cityOptions = cities.map((city) => ({
+        value: city.id,
+        label: city.name,
+      }));
+      setCityOptions(cityOptions);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
+  const fetchCatageroies = async () => {
+    try {
+      const response = await AxiosDashboard.get("/categories"); // Replace with the correct URL for fetching owners data
+      const categories = response.data.data;
+      const catageoryOptions = categories.map((city) => ({
+        value: city.id,
+        label: city.name,
+      }));
+      setCatageoryOptions(catageoryOptions);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
+
+
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -345,13 +420,20 @@ const PropertyAdd = () => {
                           </label>
                           <Input
                             className="form-control-alternative w-100"
-                            type="text"
+                            type="select"
                             placeholder="Enter Category ID"
                             name="category_id"
                             value={formik.values.category_id}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                          />
+                          >
+                           <option value="">Select catageory</option>
+                            {catageoryOptions.map((option) => (
+                              <option key={option.value} value={option.value}>
+                                {option.label}
+                              </option>
+                            ))}
+                          </Input>
                           {formik.touched.category_id && formik.errors.category_id && (
                             <div className="text-danger">{formik.errors.category_id}</div>
                           )}
@@ -364,13 +446,20 @@ const PropertyAdd = () => {
                           </label>
                           <Input
                             className="form-control-alternative w-100"
-                            type="text"
+                            type="select"
                             placeholder="Enter City ID"
                             name="city_id"
                             value={formik.values.city_id}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                          />
+                          >
+                           <option value="">Select city </option>
+                            {ciyOptions.map((option) => (
+                              <option key={option.value} value={option.value}>
+                                {option.label}
+                              </option>
+                            ))}
+                          </Input>
                           {formik.touched.city_id && formik.errors.city_id && (
                             <div className="text-danger">{formik.errors.city_id}</div>
                           )}
@@ -385,14 +474,20 @@ const PropertyAdd = () => {
                             Owner ID
                           </label>
                           <Input
-                            className="form-control-alternative w-100"
-                            type="text"
-                            placeholder="Enter Owner ID"
+                            type="select"
                             name="owner_id"
                             value={formik.values.owner_id}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                          />
+                              >
+                            <option value="">Select Owner ID</option>
+                            {ownerOptions.map((option) => (
+                              <option key={option.value} value={option.value}>
+                                {option.label}
+                              </option>
+                            ))}
+                      
+                            </Input>
                           {formik.touched.owner_id && formik.errors.owner_id && (
                             <div className="text-danger">{formik.errors.owner_id}</div>
                           )}
@@ -405,13 +500,19 @@ const PropertyAdd = () => {
                           </label>
                           <Input
                             className="form-control-alternative w-100"
-                            type="text"
-                            placeholder="Enter Employee ID"
+                            type="select"
                             name="employee_id"
                             value={formik.values.employee_id}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                          />
+                          >
+                           <option value="">Select Employee</option>
+                            {employeeOptions.map((option) => (
+                              <option key={option.value} value={option.value}>
+                                {option.label}
+                              </option>
+                            ))}
+                          </Input>
                           {formik.touched.employee_id && formik.errors.employee_id && (
                             <div className="text-danger">{formik.errors.employee_id}</div>
                           )}
