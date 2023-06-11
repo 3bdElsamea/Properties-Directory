@@ -36,6 +36,21 @@ const Roles = () => {
     setRolePermissions(rolePermissions);
   }, [roles]);
 
+  const handleDeleteRole = (roleId) => {
+    AxiosDashboard.delete(`/roles/${roleId}`)
+      .then((response) => {
+        setRoles((prevRoles) => prevRoles.filter((role) => role.id !== roleId));
+      })
+      .catch((error) => {
+        console.error("Error deleting role:", error);
+      });
+  };
+
+  const handleUpdate = (roleId) => {
+    // Redirect to the edit page with the role ID
+    window.location.href = `/dashboard/roles/${roleId}`;
+  };
+
   const trContent = (
     <>
       <th>ID</th>
@@ -44,22 +59,8 @@ const Roles = () => {
       <th>Actions</th>
     </>
   );
-  
 
   const tableContent = roles.map((role) => {
-    const handleDeleteRole = () => {
-      AxiosDashboard.delete(`/roles/${role.id}`)
-        .then((response) => {
-                  setRoles((prevRoles) => prevRoles.filter((id) => role.id !== id));
-        })
-        .catch((error) => {
-          console.error("Error deleting role:", error);
-        });
-    };
-    const handleUpdate = () => {
-      window.location.href = `/dashboard/roles/${role.id}`;
-    };
-
     const rolePermissionIds = role.RolePermissions.map(
       (rolePermission) => rolePermission.permission_id
     );
@@ -97,7 +98,7 @@ const Roles = () => {
         <td>
           <Btn
             className="icon-button roleIcon updateRole"
-            onClick={handleUpdate}
+            onClick={() => handleUpdate(role.id)}
             title={<FaEdit />}
           />
           <SweetAlert
@@ -110,7 +111,6 @@ const Roles = () => {
             handleAction={() => handleDeleteRole(role.id)}
           />
         </td>
-          
       </tr>
     );
   });

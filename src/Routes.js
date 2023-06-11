@@ -40,6 +40,7 @@ var routes = [
     component: <Index />,
     layout: "/dashboard",
   },
+  /*
   {
     path: "/setting",
     name: "Setting",
@@ -54,6 +55,7 @@ var routes = [
     component: <Profile />,
     layout: "/dashboard",
   },
+  */
   {
     path: "/requests",
     name: "hiddenRoute",
@@ -106,7 +108,7 @@ var routes = [
   },
   {
     path: "/property-images/:propertyId",
-    name: "propertyImages",
+    name: "hiddenRoute",
     icon: "ni ni-bag-17 text-blue",
     component: <PropertyImages />,
     layout: "/dashboard",

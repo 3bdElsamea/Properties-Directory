@@ -50,7 +50,7 @@ function Login() {
           // Save the JWT in the client-side storage
           localStorage.setItem("jwt", data.token);
           // Redirect the user to the dashboard or homepage
-          window.location.href = "/";
+          window.location.href = "/dashboard/index";
           console.log("Success: " + data);
         } else {
           // Display an error message to the user

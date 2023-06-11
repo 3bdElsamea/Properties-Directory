@@ -15,17 +15,18 @@ import {
 } from "reactstrap";
 import ForgotPasswordForm from "../ForgetPassword/ForgetPassword";
 
-import { AxiosWeb } from "../../../Axios";
+import Axios from '../../../Axios';
+import axios from "axios";
 
 function Login() {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isForgotPassword, setIsForgotPassword] = useState(false);
   const [showErrorMessage, setShowErrorMessage] = useState(false);
 
-  function handleEmailChange(event) {
-    setEmail(event.target.value);
-    setShowErrorMessage(false); // Reset error message when email changes
+  function handleUsernameChange(event) {
+    setUsername(event.target.value);
+    setShowErrorMessage(false); // Reset error message when username changes
   }
 
   function handlePasswordChange(event) {
@@ -35,10 +36,10 @@ function Login() {
 
   function handleSubmit(event) {
     event.preventDefault();
-
-    AxiosWeb.post("/login", {
-      email: email,
-      password: password,
+    
+    axios.post("https://dummyjson.com/auth/login", {
+      username: username,
+      password: password
     })
       .then((response) => {
         if (response.data.message !== "Invalid credentials") {
@@ -50,7 +51,7 @@ function Login() {
         } else {
           // Display an error message to the user
           setShowErrorMessage(true);
-          console.log("Invalid email or password");
+          console.log("Invalid username or password");
         }
       })
       .catch((error) => {
@@ -83,10 +84,7 @@ function Login() {
                       href="#pablo"
                       onClick={(e) => e.preventDefault()}
                     >
-                      <small
-                        style={{ color: "gray" }}
-                        onClick={handleBackToLoginClick}
-                      >
+                      <small style={{color:"gray"}} onClick={handleBackToLoginClick}>
                         Back to login
                       </small>
                     </a>
@@ -123,13 +121,13 @@ function Login() {
                     </InputGroupText>
                   </InputGroupAddon>
                   <Input
-                    placeholder="Email"
+                    placeholder="Username"
                     type="text"
                     autoComplete="new-email"
-                    id="email"
-                    name="email"
-                    value={email}
-                    onChange={handleEmailChange}
+                    id="username"
+                    name="username"
+                    value={username}
+                    onChange={handleUsernameChange}
                   />
                 </InputGroup>
               </FormGroup>
@@ -155,7 +153,7 @@ function Login() {
               )}
               {showErrorMessage && (
                 <span style={{ color: "red", fontSize: 12 }}>
-                  Invalid email or password
+                  Invalid username or password
                 </span>
               )}
               <div className="custom-control custom-control-alternative custom-checkbox">
@@ -172,7 +170,7 @@ function Login() {
                     href="#pablo"
                     onClick={handleForgotPasswordClick}
                   >
-                    <small style={{ color: "gray" }}>Forgot password?</small>
+                    <small style={{color:"gray"}}>Forgot password?</small>
                   </a>
                 )}
               </div>
