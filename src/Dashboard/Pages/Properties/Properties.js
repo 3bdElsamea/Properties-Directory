@@ -6,7 +6,6 @@ import Btn from '../../SharedUI/Btn/Btn';
 import SweetAlert from '../../SharedUI/SweetAlert/SweetDelete';
 import { AxiosDashboard } from '../../../Axios';
 
-import axios from 'axios';
 
 const Properties = () => {
   const [propertyList, setPropertyList] = useState([]);

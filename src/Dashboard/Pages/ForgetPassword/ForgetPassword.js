@@ -1,107 +1,63 @@
-import React, { useState } from "react";
-import {
-  Button,
-  Input,
-  Form,
-  InputGroupText,
-  InputGroupAddon,
-  InputGroup,
-  FormGroup,
-} from "reactstrap";
-import { AxiosDashboard } from "../../../Axios";
-import axios from "axios";
+import React, { useState } from 'react';
+import { AxiosDashboard } from '../../../Axios';
+import { Button, Form, FormGroup, Input, Label, Alert } from 'reactstrap';
 
 const ForgotPasswordForm = () => {
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isValidEmail, setIsValidEmail] = useState(true);
+  const [error, setError] = useState('');
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
-
-    try {
-      const response = await axios.get("https://dummyjson.com/users");
-
-      if (response.status === 200) {
-        const { users } = response.data;
-        const emails = users.map((user) => user.email);
-
-        if (emails.includes(email)) {
-          //const resetResponse = await Axios.post('/api/forgot-password', { email });
-
-          //if (resetResponse.status === 200) {
-          setIsSubmitted(true);
-          //} else {
-          // Handle error response from the server
-          //}
-          console.log("valid");
-        } else {
-          console.log("not valid");
-          setEmail("");
-          setIsValidEmail(false);
-        }
-      } else {
-        // Handle error response from the server
-        console.log("Server Error");
+    const data = {
+      email: email
+    };
+    const config = {
+      headers: {
+        'email': email, // Add the email as a custom header
+        'Content-Type': 'application/json'
       }
-    } catch (error) {
-      // Handle network errors
-      console.log("Network Error: " + error);
-    }
-  };
-
-  const handleEmailChange = (e) => {
-    console.log("handle");
-    setEmail(e.target.value);
-    setIsValidEmail(true);
+    };
+    AxiosDashboard.post('/auth/forget-password', data, config)
+      .then(res => {
+        console.log(res);
+        setIsSubmitted(true);
+      })
+      .catch(err => {
+        console.log(err);
+        setError("There is no account for this email!");
+      });
   };
 
   return (
-    <div>
+    <>
       {isSubmitted ? (
-        <p>
-          An email with instructions to reset your password has been sent to{" "}
-          {email}.
-        </p>
+        <Alert color="success" className="mt-3">
+          Password reset email sent. Please check your email for further instructions.
+        </Alert>
       ) : (
-        <Form role="form" onSubmit={handleSubmit}>
-          <FormGroup className="mb-3">
-            <InputGroup className="input-group-alternative">
-              <InputGroupAddon addonType="prepend">
-                <InputGroupText>
-                  <i className="fa fa-envelope" />
-                </InputGroupText>
-              </InputGroupAddon>
-              <Input
-                type="email"
-                value={email}
-                onChange={handleEmailChange}
-                placeholder="Email Address"
-                required
-              />
-              {!isValidEmail && (
-                <span
-                  style={{
-                    color: "red",
-                    fontSize: 12,
-                    backgroundColor: "white",
-                  }}
-                >
-                  There's no account for this email
-                </span>
-              )}
-            </InputGroup>
+        <Form onSubmit={handleSubmit}>
+          <FormGroup>
+            <Input
+              type="email"
+              name="email"
+              id="email"
+              placeholder="Email"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+            />
           </FormGroup>
-
-          <div className="text-center">
-            <Button className="my-2" color="primary" type="submit">
-              Reset Password
-            </Button>
-          </div>
+          <Button color="primary" block>Send Reset Code</Button>
+          {error && (
+            <Alert color="danger" className="mt-3">
+              {error}
+            </Alert>
+          )}
         </Form>
       )}
-    </div>
+    </>
   );
+  
 };
 
 export default ForgotPasswordForm;

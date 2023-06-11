@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+/*import React, { useState } from "react";
 import {
   Button,
   Card,
@@ -13,7 +13,6 @@ import {
 } from "reactstrap";
 import { AxiosDashboard } from "../../../Axios";
 import { v4 as uuidv4 } from "uuid";
-import axios from "axios";
 
 const ResetPasswordPage = () => {
   const [password, setPassword] = useState("");
@@ -48,7 +47,7 @@ const ResetPasswordPage = () => {
         Authorization: "Bearer " + password_token, // Add the password_token to the Authorization header
       };
       // Passwords match, proceed with password reset
-      axios.patch(`https://dummyjson.com/users/1`, { password })
+      AxiosDashboard.patch(`https://dummyjson.com/users/1`, { password })
       //Axios.patch(`/users/1`, { password })
         .then(() => {
           console.log("Password updated successfully");
@@ -121,8 +120,8 @@ const ResetPasswordPage = () => {
             ) : (
               <div>
                 <p className="text-center">Password updated successfully!</p>
-                {/* Add any additional success message or styling here */}
-              </div>
+                {/* Add any additional success message or styling here *///}
+              /*</div>
             )}
           </CardBody>
         </Card>
@@ -131,4 +130,118 @@ const ResetPasswordPage = () => {
   );
 };
 
+export default ResetPasswordPage;
+*/
+import { AxiosDashboard } from "../../../Axios";
+import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
+import {
+  Button,
+  Card,
+  CardBody,
+  FormGroup,
+  Form,
+  Input,
+  InputGroupAddon,
+  InputGroupText,
+  InputGroup,
+  Col,
+} from "reactstrap";
+const ResetPasswordPage = () => {
+  const { id } = useParams();
+  const [error, setError] = useState('');
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordsMatch, setPasswordsMatch] = useState(true);
+  const [passwordResetSuccess, setPasswordResetSuccess] = useState(false);
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+    setPasswordsMatch(e.target.value === confirmPassword);
+  };
+
+  const handleConfirmPasswordChange = (e) => {
+    setConfirmPassword(e.target.value);
+    setPasswordsMatch(e.target.value === password);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const data = {
+      token: id,
+      password: password,
+      password_confirmation: confirmPassword
+    };
+    AxiosDashboard.post('/auth/reset-password', data)
+      .then(res => {
+        console.log(res);
+        setPasswordResetSuccess(true);
+      })
+      .catch(err => {
+        console.log(err);
+        setError("There is no account for this email!");
+      });
+  };
+  return (
+    
+    <div>
+      <Col md={6} className="ml-5">
+        <Card className="login-card">
+          <CardBody>
+            <h1 className="text-center">Reset Password</h1>
+            {!passwordResetSuccess ? (
+              <Form onSubmit={handleSubmit}>
+                <FormGroup controlid="password">
+                  <InputGroup className="input-group-alternative">
+                    <InputGroupAddon addonType="prepend">
+                      <InputGroupText>
+                        <i className="ni ni-lock-circle-open" />
+                      </InputGroupText>
+                    </InputGroupAddon>
+                    <Input
+                      placeholder="New Password"
+                      type="password"
+                      value={password}
+                      onChange={handlePasswordChange}
+                      required
+                    />
+                  </InputGroup>
+                </FormGroup>
+                <FormGroup controlid="confirmPassword">
+                  <InputGroup className="input-group-alternative">
+                    <InputGroupAddon addonType="prepend">
+                      <InputGroupText>
+                        <i className="ni ni-key-25" />
+                      </InputGroupText>
+                    </InputGroupAddon>
+                    <Input
+                      placeholder="Confirm New Password"
+                      type="password"
+                      value={confirmPassword}
+                      onChange={handleConfirmPasswordChange}
+                      required
+                    />
+                  </InputGroup>
+                </FormGroup>
+                {!passwordsMatch && (
+                  <span className="text-danger">Passwords do not match!</span>
+                )}
+                <div className="text-center">
+                  <Button className="my-2" color="primary" type="submit">
+                    Reset Password
+                  </Button>
+                </div>
+              </Form>
+            ) : (
+              <div>
+                <p className="text-center">Password updated successfully!</p>
+                {/* Add any additional success message or styling here */}
+              </div>
+            )}
+          </CardBody>
+        </Card>
+      </Col>
+    </div>
+  );
+}
 export default ResetPasswordPage;

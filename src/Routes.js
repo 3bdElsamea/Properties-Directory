@@ -67,14 +67,14 @@ var routes = [
   },
   {
     path: "/categories/Update/:CategoryId",
-    name: "CategoriesUpdate",
+    name: "hiddenRoute",
     icon: "ni ni-bullet-list-67 text-blue",
     component: <CategoriesUpdate />,
     layout: "/dashboard",
   },
   {
     path: "/categories/Add",
-    name: "CategoriesAdd",
+    name: "hiddenRoute",
     icon: "ni ni-bullet-list-67 text-blue",
     component: <CategoriesAdd/>,
     layout: "/dashboard",
@@ -88,7 +88,7 @@ var routes = [
   },
   {
     path: "/locations/create",
-    name: "Create Locations",
+    name: "hiddenRoute",
     component: <CreateLocation />,
     layout: "/dashboard",
   },
@@ -101,21 +101,21 @@ var routes = [
   },
   {
     path: "/properties/add",
-    name: "Properties",
+    name: "hiddenRoute",
     icon: "ni ni-bag-17 text-blue",
     component: <PropertyAdd />,
     layout: "/dashboard",
   },
   {
     path: "/properties/update/:propertyId",
-    name: "Properties",
+    name: "hiddenRoute",
     icon: "ni ni-bag-17 text-blue",
     component: <PropertyUpdate />,
     layout: "/dashboard",
   },
   {
     path: "/properties/details/:propertyId",
-    name: "Properties",
+    name: "hiddenRoute",
     icon: "ni ni-bag-17 text-blue",
     component: <PropertyDetails />,
     layout: "/dashboard",
@@ -129,13 +129,13 @@ var routes = [
   },
   {
     path: "/Owners/Update/:ownerId",
-    name: "Update Owners",
+    name: "hiddenRoute",
     component: <OwnerUpdate />,
     layout: "/dashboard",
   },
   {
     path: "/Owners/Add",
-    name: "Add Owners",
+    name: "hiddenRoute",
     component: <OwnerAdd />,
     layout: "/dashboard",
   },
@@ -148,7 +148,7 @@ var routes = [
   },
   {
     path: "/Customers/details/:id",
-    name: "Customer Details",
+    name: "hiddenRoute",
     component: <CustomerDetails />,
     layout: "/dashboard",
   },
@@ -164,21 +164,21 @@ var routes = [
   {
     //create-employee
     path: "/create-employee",
-    name: "Create Employee",
+    name: "hiddenRoute",
     component: <CreateEmployee />,
     layout: "/dashboard",
   },
   {
     //update-employee
     path: "/update-employee/:id",
-    name: "Update Employee",
+    name: "hiddenRoute",
     component: <UpdateEmployee />,
     layout: "/dashboard",
   },
 
   {
     path: "/employees/details/:id",
-    name: "Employee Details",
+    name: "hiddenRoute",
     component: <EmployeeDetails />,
     layout: "/dashboard",
 
@@ -193,164 +193,40 @@ var routes = [
   },
   {
     path: "/roles/create",
-    name: "Create Roles",
+    name: "hiddenRoute",
     icon: "fa fa-unlock text-blue",
     component: <RolesCreate />,
     layout: "/dashboard",
   },
   {
-    path: "/roles/update/:id",
-    name: "Update Roles",
+    path: "/roles/:id",
+    name: "hiddenRoute",
     icon: "fa fa-unlock text-blue",
-    component: <RolesUpdate />,
+    component: <RolesUpdate/>,
     layout: "/dashboard",
   },
   {
     path: "/login",
-    name: "Login",
+    name: "hiddenRoute",
     icon: "ni ni-key-25 text-info",
     component: <Login />,
     layout: "/auth",
   },
   {
     path: "/forget-password",
-    name: "Forget Password",
+    name: "hiddenRoute",
     icon: "ni ni-key-25 text-info",
     component: <ForgetPassword />,
     layout: "/auth",
   },
   {
-    path: "/reset-password",
-    name: "Reset Password",
+    path: "/reset-password/:id",
+    name: "hiddenRoute",
     icon: "ni ni-key-25 text-info",
     component: <ResetPassword />,
     layout: "/auth",
   },
-  {
-    path: "/locations",
-    name: "Locations",
-    icon: "ni ni-pin-3 text-blue",
-    component: <Locations />,
-    layout: "/dashboard",
-  },
-  {
-    path: "/locations/create",
-    name: "Create Locations",
-    component: <CreateLocation />,
-    layout: "/dashboard",
-  },
-  {
-    path: "/customers",
-    name: "Customers",
-    icon: "fa fa-users text-blue",
-    component: <Customers />,
-    layout: "/dashboard",
-  },
-  {
-    path: "/Customers/details/:id",
-    name: "Customer Details",
-    component: <CustomerDetails />,
-    layout: "/dashboard",
-  },
-
   
-  {
-    path: "/employees",
-    name: "Employees",
-    icon: "fa fa-users text-blue",
-    component: <Employees />,
-    layout: "/dashboard",
-  },
-  {
-    //create-employee
-    path: "/create-employee",
-    name: "Create Employee",
-    component: <CreateEmployee />,
-    layout: "/dashboard",
-  },
-  {
-    //update-employee
-    path: "/update-employee/:id",
-    name: "Update Employee",
-    component: <UpdateEmployee />,
-    layout: "/dashboard",
-  },
-
-  {
-    path: "/employees/details/:id",
-    name: "Employee Details",
-    component: <EmployeeDetails />,
-    layout: "/dashboard",
-
-  },
-  {
-    path: "/categories",
-    name: "Categories",
-    icon: "ni ni-bullet-list-67 text-blue",
-    component: <Categories />,
-    layout: "/dashboard",
-  },
-  {
-    path: "/categories/Update/:CategoryId",
-    name: "CategoriesUpdate",
-    icon: "ni ni-bullet-list-67 text-blue",
-    component: <CategoriesUpdate />,
-    layout: "/dashboard",
-  },
-  {
-    path: "/categories/Add",
-    name: "CategoriesAdd",
-    icon: "ni ni-bullet-list-67 text-blue",
-    component: <CategoriesAdd/>,
-    layout: "/dashboard",
-  },
-  {
-    path: "/properties",
-    name: "Properties",
-    icon: "ni ni-bag-17 text-blue",
-    component: <Properties />,
-    layout: "/dashboard",
-  },
-  {
-    path: "/properties/add",
-    name: "Properties",
-    icon: "ni ni-bag-17 text-blue",
-    component: <PropertyAdd />,
-    layout: "/dashboard",
-  },
-  {
-    path: "/properties/update/:propertyId",
-    name: "Properties",
-    icon: "ni ni-bag-17 text-blue",
-    component: <PropertyUpdate />,
-    layout: "/dashboard",
-  },
-  {
-    path: "/properties/details/:propertyId",
-    name: "Properties",
-    icon: "ni ni-bag-17 text-blue",
-    component: <PropertyDetails />,
-    layout: "/dashboard",
-  },
-  {
-    path: "/Owners",
-    name: "Owners",
-    icon: "fa fa-users text-blue",
-    component: <Owners />,
-    layout: "/dashboard",
-  },
-  {
-    path: "/Owners/Update/:ownerId",
-    name: "Update Owners",
-    component: <OwnerUpdate />,
-    layout: "/dashboard",
-  },
-  {
-    path: "/Owners/Add",
-    name: "Add Owners",
-    component: <OwnerAdd />,
-    layout: "/dashboard",
-  },
 ];
 
 export default routes;

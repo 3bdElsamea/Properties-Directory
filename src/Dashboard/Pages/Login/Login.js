@@ -65,7 +65,6 @@ function Login() {
       });
   }
   
-  
 
   function handleForgotPasswordClick() {
     setIsForgotPassword(true);

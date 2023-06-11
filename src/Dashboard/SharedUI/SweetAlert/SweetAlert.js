@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import axios from "axios";
+import Btn from "../Btn/Btn";
+import { FaTrash } from "react-icons/fa";
 
 const SweetAlert = ({
   id,
@@ -65,7 +67,12 @@ const SweetAlert = ({
     <>
       <>
         {action === "delete" ? (
-          <i className="fa fa-trash text-danger" onClick={handleAction}></i>
+          <Btn
+            className="icon-button roleIcon deleteRole"
+            onClick={handleAction}
+            title={<FaTrash />}
+          />
+          /*<i className={"fa fa-trash text-danger"} onClick={handleAction}></i>*/
         ) : (
           <button
             className={`btn btn-${blocked ? "primary" : "danger"} btn-sm`}

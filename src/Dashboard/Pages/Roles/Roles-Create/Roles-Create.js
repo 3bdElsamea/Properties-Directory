@@ -22,9 +22,10 @@ const RolesCreate = () => {
 
   useEffect(() => {
     // Fetch permissions data from the API
-    AxiosDashboard.get("/permissions")
+    AxiosDashboard.get("/roles/get-permissions")
       .then((response) => {
-        setPermissions(response.data);
+        setPermissions(response.data.permissions);
+        console.log(response.data.permissions);
       })
       .catch((error) => {
         console.error("Error fetching permissions:", error);
@@ -50,8 +51,7 @@ const RolesCreate = () => {
     // Create a new role in the "roles" table with created_at and updated_at fields
     const newRole = {
       name: roleName,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
+      permissions: selectedPermissions, // Add selected permissions to the new role
     };
 
     AxiosDashboard.post("/roles", newRole)
@@ -63,8 +63,8 @@ const RolesCreate = () => {
           const rolePermission = {
             role_id: roleId,
             permission_id: permissionId,
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString(),
+            // created_at: new Date().toISOString(),
+            // updated_at: new Date().toISOString(),
           };
 
           AxiosDashboard.post("/role_permissions", rolePermission)
@@ -84,17 +84,22 @@ const RolesCreate = () => {
       });
   };
 
-  const permissionTokens = permissions.map((permission) => (
-    <div
-      key={permission.id}
-      className={`permission-token ${
-        selectedPermissions.includes(permission.id) ? "active" : ""
-      }`}
-      onClick={() => handleTokenToggle(permission.id)}
-    >
-      {permission.name}
-    </div>
-  ));
+  const permissionTokens = [];
+  for (let i = 0; i < permissions.length; i += 3) {
+    const rowTokens = permissions.slice(i, i + 3).map((permission) => (
+      <td
+        key={permission.id}
+        className={`permission-token ${
+          selectedPermissions.includes(permission.id) ? "active" : ""
+        }`}
+        onClick={() => handleTokenToggle(permission.id)}
+      >
+        {permission.name}
+      </td>
+    ));
+
+    permissionTokens.push(<tr key={i}>{rowTokens}</tr>);
+  }
 
   return (
     <>
@@ -121,32 +126,41 @@ const RolesCreate = () => {
                   </Col>
                 </Row>
               </CardHeader>
-              <Form onSubmit={handleSubmit} style={{textAlign:'center', marginLeft:'40px'}}>
+              <Form
+                onSubmit={handleSubmit}
+                style={{ textAlign: "center", marginLeft: "40px" }}
+              >
                 <Form.Group as={Row} controlId="formRoleName">
                   <Col sm={10}>
                     <Input
-                      className="form-control"
-                      style={{ width: "70%", marginBottom: "50px", marginTop: "20px"}}
+                      className="form-control mx-auto"
+                      style={{
+                        width: "70%",
+                        marginBottom: "50px",
+                        marginTop: "20px",
+                      }}
                       placeholder="Enter Role Name"
                       type="text"
                       name="roleName"
                       value={roleName}
                       id="roleName"
-                      handleChange={(event) =>
-                        setRoleName(event.target.value)
-                      }
+                      handleChange={(event) => setRoleName(event.target.value)}
                     />
                   </Col>
                 </Form.Group>
                 <Form.Group controlId="formPermissions">
                   <Form.Label>Select Permissions:</Form.Label>
-                  <div className="permission-tokens" style={{margin:"20px"}}>{permissionTokens}</div>
+                  <div className="permission-tokens" style={{ margin: "20px" }}>
+                    <table className="mx-auto">
+                      <tbody>{permissionTokens}</tbody>
+                    </table>
+                  </div>
                 </Form.Group>
                 <Btn
                   className="btn btn-primary"
                   title="Save"
                   name="create-role-btn"
-                  style={{marginTop:"20px"}}
+                  style={{ marginTop: "20px" }}
                 />
               </Form>
               <CardFooter className="py-4">
@@ -155,49 +169,7 @@ const RolesCreate = () => {
                     className="pagination justify-content-end mb-0"
                     listClassName="justify-content-end mb-0"
                   >
-                    <PaginationItem className="disabled">
-                      <PaginationLink
-                        href="#pablo"
-                        onClick={(e) => e.preventDefault()}
-                        tabIndex="-1"
-                      >
-                        <i className="fas fa-angle-left" />
-                        <span className="sr-only">Previous</span>
-                      </PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem className="active">
-                      <PaginationLink
-                        href="#pablo"
-                        onClick={(e) => e.preventDefault()}
-                      >
-                        1
-                      </PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationLink
-                        href="#pablo"
-                        onClick={(e) => e.preventDefault()}
-                      >
-                         2 <span className="sr-only">(current)</span>
-                      </PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationLink
-                        href="#pablo"
-                        onClick={(e) => e.preventDefault()}
-                      >
-                        3
-                      </PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationLink
-                        href="#pablo"
-                        onClick={(e) => e.preventDefault()}
-                      >
-                        <i className="fas fa-angle-right" />
-                        <span className="sr-only">Next</span>
-                      </PaginationLink>
-                    </PaginationItem>
+                    {/* Pagination items */}
                   </Pagination>
                 </nav>
               </CardFooter>

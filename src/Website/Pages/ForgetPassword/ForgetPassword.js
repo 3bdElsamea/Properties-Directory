@@ -29,7 +29,7 @@ const ForgotPasswordForm = () => {
         const emails = users.map((user) => user.email);
 
         if (emails.includes(email)) {
-          //const resetResponse = await Axios.post('/api/forgot-password', { email });
+          //const resetResponse = await Axios.post('/api/forget-password', { email });
 
           //if (resetResponse.status === 200) {
           setIsSubmitted(true);

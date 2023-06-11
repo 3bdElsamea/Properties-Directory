@@ -54,15 +54,7 @@ const Sidebar = (props) => {
   // creates the links that appear in the left menu / Sidebar
   const createLinks = (routes) => {
     const excludedNames = [
-      "Create Employee",
-      "Update Employee",
-      "Employee Details",
-      "Create Customer",
-      "Update Customer",
-      "Customer Details",
-      "Create Property",
-      "Update Property",
-      "Create Location",
+      "hiddenRoute"
     ];
     //unappear another links
     //make it array of links
