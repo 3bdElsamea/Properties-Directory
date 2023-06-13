@@ -8,11 +8,15 @@ import "./Dashboard/Assets/scss/argon-dashboard-react.scss";
 import AdminLayout from "./Dashboard/Layouts/Admin.js";
 import AuthLayout from "./Dashboard/Layouts/Auth.js";
 import Home from "./Website/Pages/Home/Home";
+import PropertiesList from "./Website/Pages/Properties/Properties-List/Properties-List";
+import Navbar from "./Website/Components/Navbar/Navbar";
 import LoginWebsite from "./Website/Pages/Login/Login";
 import ResetPassword from "./Website/Pages/ResetPassword/ResetPassword";
 import ErrorPage from "./Dashboard/Pages/ErrorPage/ErrorPage";
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
+import 'typeface-poppins';
+import './app.css'
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const jwt = localStorage.getItem("jwt");
@@ -24,7 +28,8 @@ root.render(
     && <Route path="/argon-dashboard-react/*" element={<Navigate to="/auth/login" replace />} />}
       <Route path="/dashboard/*" element={<AdminLayout />} />
       <Route path="/auth/*" element={<AuthLayout />} />
-      <Route path="/Home" element={<Home />} />
+      <Route path="/home" element={<><Navbar/> <Home /></>} />
+      <Route path="/properties" element={<><Navbar/> <PropertiesList /></>} />
       <Route path="/login" element={<LoginWebsite />} />
       <Route path="/reset-password" element={<ResetPassword />} />
       <Route path="*" element={<ErrorPage />} />
