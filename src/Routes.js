@@ -195,6 +195,34 @@ var routes = [
     layout: "/dashboard",
   },
 
+  //country
+  {
+    path: "/country",
+    name: "Country",
+    icon: "fa fa-globe text-blue",
+    component: <Country />,
+    layout: "/dashboard",
+  },
+  {
+    path: "/country/create",
+    name: "hiddenRoute",
+    component: <CreateCountry />,
+  },
+  //cities
+  {
+    path: "/cities",
+    name: "Cities",
+    icon: "fa fa-globe text-blue",
+    component: <Cities />,
+    layout: "/dashboard",
+  },
+  {
+    path: "/cities/create",
+    name: "hiddenRoute",
+    component: <CreateCity />,
+    layout: "/dashboard",
+  },
+
   {
     path: "/roles",
     name: "Roles",
