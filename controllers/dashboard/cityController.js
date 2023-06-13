@@ -4,13 +4,21 @@ import ApiFeatures from '../../utils/apiFeatures.js';
 import AppError from '../../utils/appError.js';
 import Country from '../../models/Country.js';
 
+const obj = {
+  include: [
+    {
+      model: Country,
+      attributes: ['name'],
+    },
+  ],
+};
 const getAllCities = catchAsync(async (req, res, next) => {
-  const cities = await new ApiFeatures(City, req.query).get();
+  const cities = await new ApiFeatures(City, req.query, obj).get();
   res.json(cities);
 });
 
 const getCityById = catchAsync(async (req, res, next) => {
-  const city = await City.findByPk(req.params.id);
+  const city = await City.findByPk(req.params.id, obj);
   if (!city) {
     return next(new AppError('City not found', 404));
   }
@@ -47,10 +55,4 @@ const toggleActive = catchAsync(async (req, res, next) => {
   }
 });
 
-export {
-  getAllCities,
-  getCityById,
-  createCity,
-  updateCity,
-  toggleActive,
-};
+export { getAllCities, getCityById, createCity, updateCity, toggleActive };
