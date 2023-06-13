@@ -68,11 +68,12 @@
     top: 100%;
     left: 0;
     background-color: #fff;
-    padding: 10px;
     display: none;
     min-width: 200px;
     z-index: 1;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    line-height: 3;
   }
   
   .visible_list:hover .sub-menu {
@@ -91,6 +92,7 @@
     text-decoration: none;
     color: black;
     font-weight: 300;
+    padding: 15px;
   }
 
   /* Megamenu */

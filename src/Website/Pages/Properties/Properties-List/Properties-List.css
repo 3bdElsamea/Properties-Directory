@@ -1,3 +1,8 @@
 .properties_container{
     background-color: #F7F7F7;
 }
+.properties_container>h3{
+    color: black;
+    font-weight: 600;
+    letter-spacing:1.5px;
+}
