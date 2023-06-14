@@ -13,11 +13,11 @@ const Report = sequelize.define(
     },
     customer_id: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
     },
     employee_id: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
     },
     action: {
       type: DataTypes.TEXT,
