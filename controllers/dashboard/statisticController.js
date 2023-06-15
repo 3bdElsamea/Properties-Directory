@@ -5,7 +5,6 @@ import ContactUs from '../../models/ContactUs.js';
 import Country from '../../models/Country.js';
 import Customer from '../../models/Customer.js';
 import Employee from '../../models/Employee.js';
-// import EmployeeRole from '../../models/EmployeeRole.js';
 import Notification from '../../models/Notification.js';
 import Owner from '../../models/Owner.js';
 import Permission from '../../models/Permission.js';
@@ -30,8 +29,6 @@ const getCountTable = catchAsync(async (req, res, next) => {
   const countryCount = await Country.count();
   const customerCount = await Customer.count();
   const employeeCount = await Employee.count();
-  // const employeeRoleCount = await EmployeeRole.count();
-  const notificationCount = await Notification.count();
   const ownerCount = await Owner.count();
   const permissionCount = await Permission.count();
   const propertyCount = await Property.count();
@@ -46,13 +43,10 @@ const getCountTable = catchAsync(async (req, res, next) => {
   res.json({
     categoryCount,
     cityCount,
-    chatCount,
     contactUsCount,
     countryCount,
     customerCount,
     employeeCount,
-    // employeeRoleCount,
-    notificationCount,
     ownerCount,
     permissionCount,
     propertyCount,
