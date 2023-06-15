@@ -1,8 +1,8 @@
 import express from 'express';
 import { config } from 'dotenv';
 import cors from 'cors';
-import morgan from 'morgan';
 import router from './routes.js';
+const morgan = require('morgan');
 
 const app = express();
 app.use(cors());
