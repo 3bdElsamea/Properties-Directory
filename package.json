@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "node --experimental-modules --es-module-specifier-resolution=node server.js",
     "dev": "nodemon server.js"
