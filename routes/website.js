@@ -6,8 +6,8 @@ import couuntTableRoute from '../routes/website/countTableRoute.js';
 
 const router = express.Router();
 
-router.get('/auth', authRoute);
-router.get('/data', getGeneralSetting);
+router.use('/auth', authRoute);
+router.use('/data', getGeneralSetting);
 router.use('/ContactsUs', ContactUsRoute);
 router.use('/countes',couuntTableRoute );
 

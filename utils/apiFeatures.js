@@ -22,6 +22,15 @@ class ApiFeatures {
           },
         };
       }
+      const intVal = ['bathrooms', 'bedrooms', 'garage', 'floors', 'year_built', 'area'];
+      if (intVal.includes(key)) {
+        return {
+          [key]: {
+            [Op.gte]: val,
+          },
+        };
+      }
+
       return {
         [key]: {
           [Op.like]: `%${val}%`,

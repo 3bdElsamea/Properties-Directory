@@ -41,4 +41,5 @@ router.patch(
   validationGeneralSetting,
   updateGeneralSetting,
 );
+
 export default router;
