@@ -4,6 +4,7 @@ import Category from './Category.js';
 import City from './City.js';
 import Owner from './Owner.js';
 import Employee from './Employee.js';
+// import Location from './Location.js';
 import PropertyImage from './PropertyImage.js';
 
 const Property = sequelize.define(
@@ -58,6 +59,10 @@ const Property = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    // type: {
+    //   type: DataTypes.ENUM('sale', 'rent'),
+    //   defaultValue: 'sale',
+    // },
     status: {
       type: DataTypes.ENUM('active', 'inactive'),
       defaultValue: 'active',
@@ -70,6 +75,10 @@ const Property = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    // location_id: {
+    //   type: DataTypes.INTEGER,
+    //   allowNull: false,
+    // },
     owner_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -84,12 +93,13 @@ const Property = sequelize.define(
   },
 );
 
-Property.hasMany(PropertyImage, { foreignKey: 'property_id' });
+// Property.hasMany(PropertyImage, { foreignKey: 'property_id' });
 
 Property.belongsTo(Category, { foreignKey: 'category_id' });
 Property.belongsTo(City, { foreignKey: 'city_id' });
 Property.belongsTo(Owner, { foreignKey: 'owner_id' });
 Property.belongsTo(Employee, { foreignKey: 'employee_id' });
 Property.hasMany(PropertyImage, { foreignKey: 'property_id' });
+// Property.hasOne(Location, { foreignKey: 'property_id' });
 
 export default Property;

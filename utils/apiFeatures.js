@@ -13,20 +13,52 @@ class ApiFeatures {
     const excludedFields = ['page', 'sort', 'limit', 'fields'];
     excludedFields.forEach((el) => delete queryObj[el]);
 
-    let entries = Object.entries(queryObj);
-    this.option['where'] = entries.map(([key, val] = entry) => {
-      if (key === 'created_at') {
+    this.option['where'] = Object.entries(queryObj).map(([key, val]) => {
+      const integerValue = [
+        'bedrooms',
+        'area',
+        'price',
+        'bathrooms',
+        'garage',
+        'floors',
+        'year_built',
+        'category_id',
+        'city_id',
+        'created_at',
+      ];
+
+      if (integerValue.includes(key)) {
+        const [operator1, value1, operator2, value2] = val.split('_');
+        const condition = {};
+        if (operator1 === 'gte') {
+          condition[Op.gte] = value1;
+        } else if (operator1 === 'lte') {
+          condition[Op.lte] = value1;
+        } else {
+          condition[Op.eq] = operator1;
+        }
+
+        if (operator2 === 'gte') {
+          condition[Op.gte] = value2;
+        } else if (operator2 === 'lte') {
+          condition[Op.lte] = value2;
+        }
+        return {
+          [key]: { ...condition },
+        };
+      } else if (key === 'status') {
         return {
           [key]: {
-            [Op.gt]: val,
+            [Op.eq]: val,
+          },
+        };
+      } else {
+        return {
+          [key]: {
+            [Op.like]: `%${val}%`,
           },
         };
       }
-      return {
-        [key]: {
-          [Op.like]: `%${val}%`,
-        },
-      };
     });
 
     return this;
@@ -70,6 +102,8 @@ class ApiFeatures {
     const result = await this.query.findAll(this.option);
     delete this.option['offset'];
     delete this.option['limit'];
+    delete this.option['include'];
+    delete this.option['attributes'];
     const resultCount = await this.query.count(this.option);
     const totalPage = Math.ceil(resultCount / limit);
 

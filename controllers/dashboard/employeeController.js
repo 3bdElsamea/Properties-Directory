@@ -2,14 +2,24 @@ import Employee from '../../models/Employee.js';
 import catchAsync from '../../utils/catchAsync.js';
 import ApiFeatures from '../../utils/apiFeatures.js';
 import AppError from '../../utils/appError.js';
+import Role from '../../models/Role.js';
+
+const obj = {
+  include: [
+    {
+      model: Role,
+      attributes: ['name'],
+    },
+  ],
+};
 
 const getAllEmployees = catchAsync(async (req, res) => {
-  const employees = await new ApiFeatures(Employee, req.query).get();
+  const employees = await new ApiFeatures(Employee, req.query, obj).get();
   res.json(employees);
 });
 
 const getEmployeeById = catchAsync(async (req, res, next) => {
-  const employee = await Employee.findByPk(req.params.id);
+  const employee = await Employee.findByPk(req.params.id, obj);
   if (!employee) {
     return next(new AppError('Employee not found', 404));
   }
@@ -25,7 +35,7 @@ const createEmployee = catchAsync(async (req, res) => {
 });
 
 const updateEmployee = catchAsync(async (req, res, next) => {
-  console.log("updateEmployee")
+  console.log('updateEmployee');
   const employee = await Employee.findByPk(req.params.id);
   if (!employee) {
     return next(new AppError('Employee not found', 404));
