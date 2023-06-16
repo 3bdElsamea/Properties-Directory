@@ -1,5 +1,5 @@
 import express from 'express';
-import getCountTable from '../../controllers/dashboard/countTableController.js';
+import getCountTable from '../../controllers/dashboard/statisticController.js';
 // import idParmaMiddleware from '../../middlewares/idParmaMiddleware.js';
 // import { validateCountryCreate, validateCountryUpdate } from '../../validation/validateCountry.js';
 

@@ -48,7 +48,7 @@ const authMiddleware = async (req, res, next) => {
 
     }else{
       const customer = await Customer.findOne({
-        where: { id: req.decodedData.id },
+        where: { id: req.decodedData.customerId },
       })
 
       if (!customer) {

@@ -4,7 +4,6 @@ import ApiFeatures from '../../utils/apiFeatures.js';
 import Employee from '../../models/Employee.js';
 import Customer from '../../models/Customer.js';
 
-//Get all reports
 const getAllReports = catchAsync(async (req, res, next) => {
   const obj = {
     include: [
@@ -18,4 +17,6 @@ const getAllReports = catchAsync(async (req, res, next) => {
       },
     ],
   };
+  const reports = await new ApiFeatures(Report, req.query, obj).get();
+  return res.json(reports);
 });

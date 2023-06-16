@@ -12,6 +12,7 @@ const obj = {
     },
   ],
 };
+
 const getAllCities = catchAsync(async (req, res, next) => {
   const cities = await new ApiFeatures(City, req.query, obj).get();
   res.json(cities);
