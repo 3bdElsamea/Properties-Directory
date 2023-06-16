@@ -9,6 +9,7 @@ import roleRoute from './dashboard/roleRoute.js';
 import employeeRoute from './dashboard/employeeRoute.js';
 import categoryRoute from './dashboard/categoryRoute.js';
 import { uploadImage } from '../utils/uploadImage.js';
+import getAllReports from '../controllers/dashboard/reportController.js';
 import validationGeneralSetting from '../validation/validationGeneralSetting.js';
 import { updateGeneralSetting } from '../controllers/generalSettingController.js';
 import authMiddleware from '../middlewares/authMiddleware.js';
@@ -28,7 +29,7 @@ router.use('/countries', permissionMiddleware('country'), countryRoute);
 router.use('/cities', permissionMiddleware('city'), cityRoute);
 router.use('/owners', permissionMiddleware('owner'), ownerRoute);
 router.use('/properties', permissionMiddleware('property'), propertyRoute);
-
+router.get('/reports', permissionMiddleware('report'), getAllReports);
 router.use(
   '/property-images',
   permissionMiddleware('property'),

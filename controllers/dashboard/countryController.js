@@ -21,8 +21,8 @@ const createCountry = catchAsync(async (req, res, next) => {
   const country = await Country.create({
     ...req.body,
   });
+  await createReport(req, 'created new country named ' + country.name);
   res.json(country);
-  createReport('Country created');
 });
 
 const updateCountry = catchAsync(async (req, res, next) => {
@@ -35,8 +35,8 @@ const updateCountry = catchAsync(async (req, res, next) => {
     const updatedCountry = await country.update({
       ...req.body,
     });
+    await createReport(req, 'updated country named ' + updatedCountry.name);
     res.json(updatedCountry);
-    createReport('Country updated');
   } else return next(new AppError('Country not found', 404));
 });
 
@@ -44,8 +44,10 @@ const toggleActive = catchAsync(async (req, res, next) => {
   const country = await Country.findByPk(req.params.id);
   if (country) {
     await country.toggleActive();
+    if (country.active)
+      await createReport(req, 'activated country named ' + country.name);
+    else await createReport(req, 'deactivated country named ' + country.name);
     res.json({ message: 'Country updated', country });
-    createReport('Country updated');
   } else {
     return next(new AppError('Country not found', 404));
   }

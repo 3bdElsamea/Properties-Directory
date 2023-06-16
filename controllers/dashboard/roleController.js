@@ -4,6 +4,7 @@ import Permission from '../../models/Permission.js';
 import AppError from '../../utils/appError.js';
 import RolePermission from '../../models/RolePermission.js';
 import ApiFeatures from '../../utils/apiFeatures.js';
+import createReport from '../../utils/report.js';
 
 export const getRoles = catchAsync(async (req, res, next) => {
   const obj = { include: RolePermission };
@@ -57,6 +58,8 @@ export const createRole = catchAsync(async (req, res, next) => {
 
   await RolePermission.bulkCreate(rolePermissions);
 
+  await createReport(req, `created role named ${role.name} created`);
+
   res.status(201).json({ message: 'Role created with permissions' });
 });
 
@@ -84,7 +87,7 @@ export const updateRole = catchAsync(async (req, res, next) => {
     }
   }
 
-  if (req.body.name){
+  if (req.body.name) {
     role.name = req.body.name;
     await role.save();
   }
@@ -92,6 +95,8 @@ export const updateRole = catchAsync(async (req, res, next) => {
   await RolePermission.destroy({ where: { role_id: roleId } });
 
   await RolePermission.bulkCreate(rolePermissions);
+
+  await createReport(req, `updated role named ${role.name}`);
 
   res.status(200).json({ message: 'Role updated successfully' });
 });
@@ -104,6 +109,8 @@ export const deleteRole = catchAsync(async (req, res, next) => {
     return next(new AppError('Role not found', 404));
   }
   await role.destroy();
+
+  await createReport(req, `deleted role named ${role.name}`);
   res.json({ role });
 });
 

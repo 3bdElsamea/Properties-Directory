@@ -21,7 +21,11 @@ const getAllProperties = catchAsync(async (req, res, next) => {
     ],
   };
 
-  const propertiesGeneralRequest = await new ApiFeatures(PropertyGeneralRequest, req.query, obj).get();
+  const propertiesGeneralRequest = await new ApiFeatures(
+    PropertyGeneralRequest,
+    req.query,
+    obj,
+  ).get();
 
   res.json(propertiesGeneralRequest);
 });
@@ -71,7 +75,7 @@ const matchingProperty = catchAsync(async (req, res, next) => {
     {},
   );
 
-  const matchingProperties = await PropertyGeneralRequest.findAll({
+  const matchingProperties = await `PropertyGeneralRequest`.findAll({
     where: whereClause,
     include: [
       {

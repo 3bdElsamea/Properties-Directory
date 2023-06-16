@@ -1,8 +1,8 @@
 import propertyImage from '../../models/PropertyImage.js';
 import property from '../../models/Property.js';
 import catchAsync from '../../utils/catchAsync.js';
-import ApiFeatures from '../../utils/apiFeatures.js';
 import AppError from '../../utils/appError.js';
+import createReport from '../../utils/report.js';
 
 const createPropertyImage = catchAsync(async (req, res, next) => {
   const propertyId = req.params.id;
@@ -22,6 +22,8 @@ const createPropertyImage = catchAsync(async (req, res, next) => {
     property_id: propertyId,
   });
 
+  await createReport(req, `Added new image to property with id ${propertyId}`);
+
   res.json(image);
 });
 
@@ -29,6 +31,7 @@ const deletePropertyImage = catchAsync(async (req, res, next) => {
   const image = await propertyImage.findByPk(req.params.id);
   if (image) {
     await image.destroy();
+    await createReport(req, `Removed image with id ${req.params.id}`);
     res.json({ message: 'Image removed' });
   }
   return next(new AppError('Image not found', 404));
