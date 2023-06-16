@@ -7,8 +7,8 @@ import propertyRoute from '../routes/website/propertyRoute.js';
 
 const router = express.Router();
 
-router.get('/auth', authRoute);
-router.get('/data', getGeneralSetting);
+router.use('/auth', authRoute);
+router.use('/data', getGeneralSetting);
 router.use('/ContactsUs', ContactUsRoute);
 router.use('/countes', couuntTableRoute);
 router.use('/properties', propertyRoute);
