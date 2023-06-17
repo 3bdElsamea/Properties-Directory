@@ -8,6 +8,7 @@ const isLoggedIn = localStorage.getItem("jwt");
 
 const Navbar = () => {
   return (
+
     <div class="row rowNav align-items-center justify-content-between">
       <div class="colnav col-auto">
         <div class="d-flex align-items-center justify-content-between">
