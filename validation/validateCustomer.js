@@ -8,7 +8,7 @@ const validateCustomerUpdate = (req, res, next) => {
     next,
     Joi.object({
       name: Joi.string().min(3).allow(),
-      phone: Joi.number().min(1000000),
+      phone: Joi.number().min(1000000).allow(),
       username: Joi.string().allow(),
     }),
   );

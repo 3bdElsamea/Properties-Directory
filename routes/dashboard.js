@@ -15,6 +15,8 @@ import { updateGeneralSetting } from '../controllers/generalSettingController.js
 import authMiddleware from '../middlewares/authMiddleware.js';
 import permissionMiddleware from '../middlewares/permissionMiddleware.js';
 import propertyImageRoute from './dashboard/properityImageRoute.js';
+import propertyRequestRoute from './dashboard/propertyRequestRoute.js';
+import notificationRoute from './dashboard/notificationRoute.js';
 const router = express.Router();
 
 router.use('/auth', authRoute);
@@ -29,6 +31,16 @@ router.use('/countries', permissionMiddleware('country'), countryRoute);
 router.use('/cities', permissionMiddleware('city'), cityRoute);
 router.use('/owners', permissionMiddleware('owner'), ownerRoute);
 router.use('/properties', permissionMiddleware('property'), propertyRoute);
+router.use(
+  '/notifications',
+  permissionMiddleware('notification'),
+  notificationRoute,
+);
+router.use(
+  '/property-requests',
+  permissionMiddleware('property'),
+  propertyRequestRoute,
+);
 router.get('/reports', permissionMiddleware('report'), getAllReports);
 router.use(
   '/property-images',
