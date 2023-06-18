@@ -68,7 +68,7 @@ const Navbar = () => {
               <div className="sub-menu">
                 <ul className="list-unstyled">
                   <li>
-                    <a href="#">About Us</a>
+                    <a href="about">About Us</a>
                   </li>
                   <li>
                     <a href="#">Contact Us</a>

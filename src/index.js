@@ -9,6 +9,7 @@ import AdminLayout from "./Dashboard/Layouts/Admin.js";
 import AuthLayout from "./Dashboard/Layouts/Auth.js";
 import Home from "./Website/Pages/Home/Home";
 import PropertiesList from "./Website/Pages/Properties/Properties-List/Properties-List";
+import About from "./Website/Pages/Page/AboutUs/AboutUs"
 import Navbar from "./Website/Components/Navbar/Navbar";
 import LoginWebsite from "./Website/Pages/Login/Login";
 import ResetPassword from "./Website/Pages/ResetPassword/ResetPassword";
@@ -30,6 +31,7 @@ root.render(
       <Route path="/auth/*" element={<AuthLayout />} />
       <Route path="/home" element={<><Navbar/> <Home /></>} />
       <Route path="/properties" element={<><Navbar/> <PropertiesList /></>} />
+      <Route path="/about" element={<><Navbar/> <About /></>} />
       <Route path="/login" element={<LoginWebsite />} />
       <Route path="/reset-password" element={<ResetPassword />} />
       <Route path="*" element={<ErrorPage />} />
