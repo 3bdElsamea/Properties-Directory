@@ -23,13 +23,14 @@ const createPropertyRequest = catchAsync(async (req, res) => {
     req,
     'created a new property request with id ' + propertyRequest.id,
   );
-  await Notification.create({
+  const notification = await Notification.create({
     customer_id: req.decodedData.customerId,
     title: 'New Property Request',
     message: `New request for Property with id ${propertyRequest.property_id} from Customer with id ${propertyRequest.customer_id}`,
   });
   await pusher.trigger('property-request', 'new-request', {
-    message: `New request for Property with id ${propertyRequest.property_id} from Customer with id ${propertyRequest.customer_id}`,
+    title: notification.title,
+    message: notification.message,
   });
 
   res.json(propertyRequest);
