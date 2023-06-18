@@ -2,11 +2,11 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const AxiosDashboard = axios.create({
-	baseURL: "http://3bsi.nader-mo.tech/dashboard",
+	baseURL: "https://estate-cetz.onrender.com/dashboard",
 });
 
 const AxiosWeb = axios.create({
-	baseURL: "http://3bsi.nader-mo.tech",
+	baseURL: "https://estate-cetz.onrender.com",
 });
 
 AxiosWeb.interceptors.request.use((config) => {

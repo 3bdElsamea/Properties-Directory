@@ -1,4 +1,6 @@
-import "./Properties-List.css";
+import "./Property-List-Filter.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 const PropertiesListFilter = () => {
   return (
@@ -37,7 +39,6 @@ const PropertiesListFilter = () => {
                 type="radio"
                 name="flexRadioDefault"
                 id="flexRadioDefault5"
-                checked="checked"
               />
               <label className="form-check-label" htmlFor="flexRadioDefault5">
                 Rent
@@ -66,7 +67,7 @@ const PropertiesListFilter = () => {
             </label>
             <label className="custom_checkbox">
               Apartments
-              <input type="checkbox" checked="checked" />
+              <input type="checkbox" />
               <span className="checkmark"></span>
             </label>
             <label className="custom_checkbox">
@@ -103,7 +104,7 @@ const PropertiesListFilter = () => {
           <h6 className="list-title">Bedrooms</h6>
           <div className="d-flex">
             <div className="selection">
-              <input id="any2" name="beds" type="radio" checked />
+              <input id="any2" name="beds" type="radio" />
               <label htmlFor="any2">Any</label>
             </div>
             <div className="selection">
@@ -128,7 +129,7 @@ const PropertiesListFilter = () => {
           <h6 className="list-title">Bathrooms</h6>
           <div className="d-flex">
             <div className="selection">
-              <input id="any3" name="baths" type="radio" checked />
+              <input id="any3" name="baths" type="radio" />
               <label htmlFor="any3">Any</label>
             </div>
             <div className="selection">
@@ -164,7 +165,7 @@ const PropertiesListFilter = () => {
             </label>
             <label className="custom_checkbox">
               Laundry Room
-              <input type="checkbox" checked="checked" />
+              <input type="checkbox" />
               <span className="checkmark"></span>
             </label>
             <label className="custom_checkbox">
@@ -179,23 +180,24 @@ const PropertiesListFilter = () => {
             </label>
           </div>
         </div>
-      </div>
-      <div class="widget-wrapper mb20">
-        <div class="btn-area d-grid align-items-center">
-          <button class="ud-btn btn-thm">
-            <span class="flaticon-search align-text-top pr10"></span>Search
-          </button>
+        <div className="widget-wrapper mb20">
+          <div className="btn-area d-grid align-items-center">
+            <button className="ud-btn btn-thm">
+              <span className="flaticon-search align-text-top pr10"></span>
+              <FontAwesomeIcon icon={faSearch} /> Search
+            </button>
+          </div>
         </div>
-      </div>
-      <div class="reset-area d-flex align-items-center justify-content-between">
-        <a class="reset-button" href="#">
-          <span class="flaticon-turn-back"></span>
-          <u>Reset all filters</u>
-        </a>
-        <a class="reset-button" href="#">
-          <span class="flaticon-favourite"></span>
-          <u>Save Search</u>
-        </a>
+        <div className="reset-area d-flex align-items-center justify-content-between">
+          <a className="reset-button" href="#">
+            <span className="flaticon-turn-back"></span>
+            <u>Reset all filters</u>
+          </a>
+          <a className="reset-button" href="#">
+            <span className="flaticon-favourite"></span>
+            <u>Save Search</u>
+          </a>
+        </div>
       </div>
     </>
   );
