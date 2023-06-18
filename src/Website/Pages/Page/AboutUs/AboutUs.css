@@ -1,5 +1,9 @@
 
   
+  *{
+    overflow-x: hidden;
+
+  }
   .background-image {
     background-image: url('https://creativelayers.net/themes/homez-html/images/background/about-page-bg.jpg');
     background-size: cover;
@@ -61,6 +65,7 @@
   .columnAbout {
     margin: 0 4%;
     text-align: center;
+    
   }
   
   .columnAbout h1 {
@@ -69,6 +74,7 @@
     margin-bottom: 10px;
     color: #000000;
     font-weight: 700;
+    
   }
   
   .columnAbout h6 {
@@ -76,4 +82,5 @@
     line-height: 1.5;
     margin-top: 0;
     color: #000000;
+    
   }
