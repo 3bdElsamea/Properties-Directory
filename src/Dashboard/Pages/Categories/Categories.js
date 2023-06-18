@@ -10,6 +10,8 @@ import { AxiosDashboard } from '../../../Axios';
 
 const Categories = () => {
   const [categoriesList, setCategoriesList] = useState([]);
+  const [totalPages, setTotalPages]=useState(0);
+
 
   useEffect(() => {
     getCategoriesList();
@@ -19,6 +21,7 @@ const Categories = () => {
     try {
       const response = await AxiosDashboard.get('/categories');
       setCategoriesList(response.data.data);
+      setTotalPages(response.data.totalPage);
     } catch (error) {
       console.log(error);
     }

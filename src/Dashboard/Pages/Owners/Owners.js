@@ -8,6 +8,8 @@ import { AxiosDashboard } from '../../../Axios';
 
 const Owners = () => {
   const [ownerList, setOwnerList] = useState([]);
+  const [totalPages, setTotalPages]=useState(0);
+
 
   useEffect(() => {
     getOwnerList();
@@ -32,6 +34,7 @@ const Owners = () => {
     try {
       const response = await AxiosDashboard.get('/owners');
       setOwnerList(response.data.data);
+      setTotalPages(response.data.totalPage);
     } catch (error) {
       console.log(error);
     }

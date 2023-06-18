@@ -104,7 +104,7 @@ const CreateEmployee = () => {
         'Content-Type': 'multipart/form-data', // Set the content type to multipart/form-data
       },
     });
-    navigate('/employees');
+    navigate('/dashboard/employees');
   } catch (error) {
     console.log(error);
   }

@@ -6,11 +6,14 @@ import SweetAlert from "../../SharedUI/SweetAlert/SweetAlert";
 
 const CreateCountry = () => {
   const [countryList, setCountryList] = useState([]);
+  const [totalPages, setTotalPages]=useState(0);
+
 
   const getAllCountries = async () => {
     try {
       const response = await AxiosDashboard.get("/countries");
       setCountryList(response.data?.data);
+      setTotalPages(response.data.totalPage);
     } catch (error) {
       console.log(error);
     }

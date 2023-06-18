@@ -11,6 +11,8 @@ import Roles from "./Dashboard/Pages/Roles/Roles-List/Roles-List.js";
 import RolesCreate from "./Dashboard/Pages/Roles/Roles-Create/Roles-Create.js";
 import RolesUpdate from "./Dashboard/Pages/Roles/Roles-Update/Roles-Update.js";
 import Setting from "./Dashboard/Pages/Setting/Setting.js";
+import About from "./Dashboard/Pages/AboutUs/Aboutus.js";
+import UpdateAbout from "./Dashboard/Pages/AboutUs/UpdateAbout.js";
 import Customers from "./Dashboard/Pages/Customers/Customers.js";
 import CustomerDetails from "Dashboard/Pages/Customers/CustomerDetails.js";
 import Employees from "./Dashboard/Pages/Employees/Employees.js";
@@ -26,12 +28,12 @@ import OwnerUpdate from "./Dashboard/Pages/Owners/OwnerUpdate.js";
 import OwnerAdd from "./Dashboard/Pages/Owners/OwnerAdd.js";
 import CategoriesUpdate from "./Dashboard/Pages/Categories/CategoriesUpdate.js";
 import CategoriesAdd from "./Dashboard/Pages/Categories/CategoriesAdd.js";
-import ErrorPage from "./Dashboard/Pages/ErrorPage/ErrorPage.js"
-import PropertyAdd from "./Dashboard//Pages/Properties/PropertyAdd.js"
-import PropertyUpdate from "./Dashboard/Pages/Properties/PropertyUpdate.js"
-import PropertyDetails from "./Dashboard/Pages/Properties/PropertyDetails.js"
-import OwnerDetails from './Dashboard/Pages/Owners/OwnerDetails.js';
-import PropertyImages from './Dashboard/Pages/Properties/propertyImages.js'
+import ErrorPage from "./Dashboard/Pages/ErrorPage/ErrorPage.js";
+import PropertyAdd from "./Dashboard//Pages/Properties/PropertyAdd.js";
+import PropertyUpdate from "./Dashboard/Pages/Properties/PropertyUpdate.js";
+import PropertyDetails from "./Dashboard/Pages/Properties/PropertyDetails.js";
+import OwnerDetails from "./Dashboard/Pages/Owners/OwnerDetails.js";
+import PropertyImages from "./Dashboard/Pages/Properties/propertyImages.js";
 var routes = [
   {
     path: "/index",
@@ -88,7 +90,7 @@ var routes = [
     path: "/categories/Add",
     name: "hiddenRoute",
     icon: "ni ni-bullet-list-67 text-blue",
-    component: <CategoriesAdd/>,
+    component: <CategoriesAdd />,
     layout: "/dashboard",
   },
 
@@ -169,13 +171,14 @@ var routes = [
   {
     path: "/employees",
     name: "Employees",
-    icon: "fa fa-users text-blue",
+    //add different icon for employees not users
+    icon: "fa fa-user text-blue",
     component: <Employees />,
     layout: "/dashboard",
   },
   {
     //create-employee
-    path: "/create-employee",
+    path: "/employee/create",
     name: "hiddenRoute",
     component: <CreateEmployee />,
     layout: "/dashboard",
@@ -212,7 +215,7 @@ var routes = [
   {
     path: "/cities",
     name: "Cities",
-    icon: "fa fa-globe text-blue",
+    icon: "fa fa-city text-blue",
     component: <Cities />,
     layout: "/dashboard",
   },
@@ -241,7 +244,21 @@ var routes = [
     path: "/roles/:id",
     name: "hiddenRoute",
     icon: "fa fa-unlock text-blue",
-    component: <RolesUpdate/>,
+    component: <RolesUpdate />,
+    layout: "/dashboard",
+  },
+  {
+    path: "/About",
+    name: "About",
+    icon: "ni ni-bullet-list-67 text-blue",
+    component: <About />,
+    layout: "/dashboard",
+  },
+  //to update about us
+  {
+    path: "/About/Update",
+    name: "hiddenRoute",
+    component: <UpdateAbout />,
     layout: "/dashboard",
   },
   {
@@ -265,7 +282,6 @@ var routes = [
     component: <ResetPassword />,
     layout: "/auth",
   },
-  
 ];
 
 export default routes;
