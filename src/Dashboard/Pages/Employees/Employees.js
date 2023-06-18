@@ -1,32 +1,55 @@
 import Tables from "../../SharedUI/Table/Tables";
 import Btn from "../../SharedUI/Btn/Btn";
-import { AxiosDashboard } from '../../../Axios';
+import { AxiosDashboard } from "../../../Axios";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import SweetAlert from "../../SharedUI/SweetAlert/SweetAlert";
 const Employees = () => {
   const [employeeList, setEmployeeList] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [totalPages, setTotalPages]=useState(0);
 
+  const handleSearch = (event) => {
+    setSearchQuery(event.target.value);
+  };
 
-  const getAllEmployees = async () => {
-    const response = await AxiosDashboard.get("/employees");
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const getAllEmployees = async (page) => {
+    const response = await AxiosDashboard.get("/employees", {
+      params: {
+        page: page,
+      },
+    });
     try {
       setEmployeeList(response.data?.data);
+      setTotalPages(response.data.totalPage);
+      
     } catch (error) {
       console.log(error);
     }
   };
- 
+
   useEffect(() => {
-    getAllEmployees();
-  }, []);
+    getAllEmployees(currentPage);
+  }, [currentPage]);
+
+  const filteredEmployeeList = employeeList.filter((item) =>
+    item.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <>
       <div>
         <Tables
           title="All Employees"
-          route="/dashboard/create-employee"
+          route="/dashboard/employee/create"
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
           content={
             <>
               <th scope="col">#</th>
@@ -39,9 +62,9 @@ const Employees = () => {
             </>
           }
           const
-          tableRows={employeeList.map((item, index) => (
+          tableRows={filteredEmployeeList.map((item, index) => (
             <tr key={item.id}>
-              <th scope="row">{index + 1}</th>
+              <th scope="row">{(currentPage - 1) * 10 + index + 1}</th>
               <td>{item.name}</td>
               <td>{item.email}</td>
               <td>{item.phone}</td>
@@ -66,11 +89,11 @@ const Employees = () => {
                   <Btn className="btn-success btn-sm fa fa-eye ml-4" />
                 </Link>
               </td>
-              <td>
-                
-              </td>
+              <td></td>
             </tr>
           ))}
+          searchQuery={searchQuery}
+          handleSearch={handleSearch}
         />
       </div>
     </>

@@ -6,11 +6,14 @@ import { AxiosDashboard } from '../../../Axios';
 
 const Customers = () => {
   const [customerList, setCustomerList] = useState([]);
+  const [totalPages, setTotalPages]=useState(0);
+
 
   const getAllCustomers = async () => {
     const response = await AxiosDashboard.get("/customers");
     try {
       setCustomerList(response.data?.data);
+      setTotalPages(response.data.totalPage);
     } catch (error) {
       console.log(error);
     }
@@ -27,7 +30,7 @@ const Customers = () => {
 
         <Tables
           title="All Customers"
-          route="/dashboard/customers"
+          route="/dashboard/customers/create"
           content={
             <>
               <th scope="col">#</th>

@@ -15,8 +15,29 @@ import {
 
 import Btn from "../Btn/Btn";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
-const Tables = ({ title, tableRows, route, content }) => {
+const Tables = ({
+  title,
+  tableRows,
+  route,
+  content,
+  currentPage,
+  totalPages,
+  onPageChange,
+}) => {
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSearch = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const filteredTableRows = tableRows.filter((item) =>
+    item.props.children[1].props.children
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase())
+  );
+
   return (
     <>
       <Navbar />
@@ -28,82 +49,73 @@ const Tables = ({ title, tableRows, route, content }) => {
             <Card className="shadow">
               <Row className="justify-content-between">
                 <Col>
-                  <CardHeader className="border-0">
-                    <Row>
-                      <Col>
-                        <h3 className="mb-0">{title}</h3>
-                      </Col>
-                      {route !== "/dashboard/customers" ? (
-                        <Col className="text-right">
-                          <Link to={route}>
-                            <Btn className="btn-primary btn fa fa-plus" />
-                          </Link>
-                        </Col>
-                      ) : null}
-                      
-                    </Row>
+                  <CardHeader className="border-0 d-flex justify-content-between">
+                    <h3 className="mb-0">{title}</h3>
+                    <div className="d-flex align-items-center">
+                      <div className="mr-2">
+                        <input
+                          type="text"
+                          placeholder="Search by name"
+                          value={searchQuery}
+                          onChange={handleSearch}
+                          className="form-control"
+                          style={{ maxWidth: "200px" }}
+                        />
+                      </div>
+                      <div>
+                        <Link to={route}>
+                          <Btn className="btn-primary btn fa fa-plus" />
+                        </Link>
+                      </div>
+                    </div>
                   </CardHeader>
+                  
                 </Col>
               </Row>
-              <Table 
-                className="align-items-center table-flush"
-                responsive
-              >
+              <Table className="align-items-center table-flush" responsive>
                 <thead className="thead-light">
-                  <tr>
-                    {content}
-                  </tr>
+                  <tr>{content}</tr>
                 </thead>
-                <tbody>
-                  {tableRows}
-                </tbody>
+                <tbody>{filteredTableRows}</tbody>
               </Table>
 
-              
               <CardFooter className="py-4">
                 <nav aria-label="...">
                   <Pagination
                     className="pagination justify-content-end mb-0"
                     listClassName="justify-content-end mb-0"
                   >
-                    <PaginationItem className="disabled">
+                    <PaginationItem
+                      className={currentPage === 1 ? "disabled" : ""}
+                    >
                       <PaginationLink
-                        href="#pablo"
-                        onClick={(e) => e.preventDefault()}
+                        href="#"
+                        onClick={() => onPageChange(currentPage - 1)}
                         tabIndex="-1"
                       >
                         <i className="fas fa-angle-left" />
                         <span className="sr-only">Previous</span>
                       </PaginationLink>
                     </PaginationItem>
-                    <PaginationItem className="active">
-                      <PaginationLink
-                        href="#pablo"
-                        onClick={(e) => e.preventDefault()}
+                    {Array.from({ length: totalPages }, (_, index) => (
+                      <PaginationItem
+                        key={index}
+                        className={currentPage === index + 1 ? "active" : ""}
                       >
-                        1
-                      </PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
+                        <PaginationLink
+                          href="#"
+                          onClick={() => onPageChange(index + 1)}
+                        >
+                          {index + 1}
+                        </PaginationLink>
+                      </PaginationItem>
+                    ))}
+                    <PaginationItem
+                      className={currentPage === totalPages ? "disabled" : ""}
+                    >
                       <PaginationLink
-                        href="#pablo"
-                        onClick={(e) => e.preventDefault()}
-                      >
-                        2 <span className="sr-only">(current)</span>
-                      </PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationLink
-                        href="#pablo"
-                        onClick={(e) => e.preventDefault()}
-                      >
-                        3
-                      </PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationLink
-                        href="#pablo"
-                        onClick={(e) => e.preventDefault()}
+                        href="#"
+                        onClick={() => onPageChange(currentPage + 1)}
                       >
                         <i className="fas fa-angle-right" />
                         <span className="sr-only">Next</span>

@@ -10,12 +10,16 @@ const Roles = () => {
   const [roles, setRoles] = useState([]);
   const [permissions, setPermissions] = useState([]);
   const [rolePermissions, setRolePermissions] = useState([]);
+  const [totalPages, setTotalPages]=useState(0);
+
 
   useEffect(() => {
     const jwt = localStorage.getItem("jwt");
     AxiosDashboard.get("/roles")
       .then((response) => {
         setRoles(response.data.roles.data);
+        setTotalPages(response.data.roles.totalPage);
+        console.log("hiii", response.data.roles.totalPage);
       })
       .catch((error) => {
         console.error("Error fetching roles:", error);

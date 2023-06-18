@@ -9,6 +9,7 @@ import { AxiosDashboard } from '../../../Axios';
 
 const Properties = () => {
   const [propertyList, setPropertyList] = useState([]);
+  const [totalPages, setTotalPages]=useState(0);
 
   useEffect(() => {
     getPropertyList();
@@ -18,6 +19,7 @@ const Properties = () => {
     try {
       const response = await AxiosDashboard.get('/properties');
       setPropertyList(response.data.data);
+      setTotalPages(response.data.totalPage);
     } catch (error) {
       console.log(error);
     }

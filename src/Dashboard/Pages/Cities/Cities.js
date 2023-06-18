@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 const CreateCity = () => {
   const [cityList, setCityList] = useState([]);
   const [countryList, setCountryList] = useState([]);
+  const [totalPages, setTotalPages]=useState(0);
+
 
   const getAllCities = async () => {
     try {
@@ -14,6 +16,7 @@ const CreateCity = () => {
       //get the country name
       const countryName = await AxiosDashboard.get("/countries");
       setCountryList(countryName.data?.data);
+      setTotalPages(response.data.totalPage);
     } catch (error) {
       console.log(error);
     }

@@ -9,12 +9,15 @@ const Requests = () => {
   const [requests, setRequests] = useState([]);
   const [customers, setCustomers] = useState([]);
   const [properties, setProperties] = useState([]);
+  const [totalPages, setTotalPages]=useState(0);
+
 
   useEffect(() => {
     // Fetch requests data from the API
     AxiosDashboard.get("/requests")
       .then((response) => {
         setRequests(response.data);
+        setTotalPages(response.data.totalPage);
       })
       .catch((error) => {
         console.error("Error fetching requests:", error);
@@ -24,6 +27,8 @@ const Requests = () => {
     AxiosDashboard.get("/customers")
       .then((response) => {
         setCustomers(response.data);
+
+
       })
       .catch((error) => {
         console.error("Error fetching customers:", error);
