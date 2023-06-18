@@ -21,7 +21,7 @@ const PropertiesList = () => {
 
   const getPropertyList = async () => {
     try {
-      const response = await AxiosDashboard.get("/properties");
+      const response = await AxiosWeb.get("/properties");
       console.log(response);
       setPropertyList(response.data.data);
       getCityNames(response.data.data);
@@ -34,7 +34,7 @@ const PropertiesList = () => {
     try {
       const cityNames = await Promise.all(
         properties.map(async (property) => {
-          const response = await AxiosDashboard.get(
+          const response = await AxiosWeb.get(
             "/cities/" + property.city_id
           );
           return response.data.name;

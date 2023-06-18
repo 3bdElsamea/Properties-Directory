@@ -34,9 +34,9 @@ root.render(
       <Route path="/home" element={<><Navbar/><Home /><Footer/> </>} />
       <Route path="/properties" element={<><Navbar/> <PropertiesList /><Footer/></>} />
       <Route path="/about" element={<><Navbar/> <About /><Footer/></>} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/login" element={<LoginWebsite />} />
-      <Route path="/reset-password" element={<ResetPassword />} />
+      <Route path="/register" element={<><Navbar/><Register /></>} />
+      <Route path="/login" element={<><Navbar/><LoginWebsite /></>} />
+      <Route path="/reset-password" element={<><Navbar/><ResetPassword /></>} />
       <Route path="*" element={<ErrorPage />} />
       {/* <Route path="*" element={<Navigate to="/admin/index" replace />} /> */}
     </Routes>

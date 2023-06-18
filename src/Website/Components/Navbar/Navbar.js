@@ -76,12 +76,6 @@ const Navbar = () => {
                 </ul>
               </div>
             </li>
-            <li className="visible_list">
-              {" "}
-              <a className="list-item" href="/register">
-                <span className="title">Resgister</span>
-              </a>
-            </li>
           </ul>
         </div>
       </div>

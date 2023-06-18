@@ -108,10 +108,6 @@ const PropertiesListFilter = () => {
               <label htmlFor="any2">Any</label>
             </div>
             <div className="selection">
-              <input id="studio2" name="beds" type="radio" />
-              <label htmlFor="studio2">Studio</label>
-            </div>
-            <div className="selection">
               <input id="one2" name="beds" type="radio" />
               <label htmlFor="one2">1+</label>
             </div>
@@ -122,6 +118,10 @@ const PropertiesListFilter = () => {
             <div className="selection">
               <input id="three2" name="beds" type="radio" />
               <label htmlFor="three2">3+</label>
+            </div>
+            <div className="selection">
+              <input id="three2" name="beds" type="radio" />
+              <label htmlFor="three2">4+</label>
             </div>
           </div>
         </div>

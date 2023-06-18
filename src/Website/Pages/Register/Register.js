@@ -66,13 +66,14 @@ function Register() {
       name: name,
       username: username,
       password: password,
-      confirmPassword: confirmPassword,
+      password_confirmation: confirmPassword,
       email: email,
       phone: phone,
     })
       .then((response) => {
         // Handle the response accordingly (e.g., show success message, redirect to login page)
         console.log("Registration successful: " + response.data);
+        window.location.href='/login';
       })
       .catch((error) => {
         // Display an error message to the user
