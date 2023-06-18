@@ -1,3 +1,131 @@
-.p_3{
+/* Navbar.css */
+
+/* Navbar container */
+.rowNav {
+    background-color: white;
+    padding-left: 120px;
+    padding-right: 120px;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    max-width: 101%;
+    font-weight: 550;
+    font-size: 15px;
+  }
+  
+  /* Logos */
+  .logos {
+    margin-right: 35px;
+  }
+  
+  .header-logo {
+    display: inline-block;
+    margin-right: 10px;
+  }
+  
+  /* Responsive menu */
+  #respMenu {
+    display: inline-block;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .visible_list,.megamenu_style{
+    display: inline-block;
+    position: relative;
+  }
+  
+  .list-item {
+    color: #333;
+    text-decoration: none;
+    position: relative;
+    display: inline-block;
+    padding: 10px 15px;
+  }
+  
+  .list-item:hover {
+    color: #EB6753;
+    text-decoration: none;
+  }
+
+  .title {
+    margin-right: 5px;
+  }
+  
+  .arrow {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    vertical-align: middle;
+    content: "";
+    border-top: 5px solid;
+    border-right: 5px solid transparent;
+    border-left: 5px solid transparent;
+  }
+  
+  .sub-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #fff;
+    display: none;
+    min-width: 200px;
+    z-index: 1;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    line-height: 3;
+  }
+  
+  .visible_list:hover .sub-menu {
+    display: block;
+  }
+  
+  .sub-menu li {
+    margin-bottom: 5px;
+  }
+
+  .sub-menu li:hover {
+    background-color: #FEF4F3;
+  }
+
+  .sub-menu li>a {
+    text-decoration: none;
     color: black;
-}
+    font-weight: 300;
+    padding: 15px;
+  }
+
+  /* Megamenu */
+  .megamenu_style {
+    position: relative;
+  }
+  
+  .dropdown-megamenu {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px;
+  }
+  
+  .colnav {
+    flex-basis: 33.33%;
+    padding: 0 10px;
+  }
+  
+  .mega_menu_list {
+    margin-bottom: 20px;
+  }
+  
+  /* Header buttons */
+  .header-btns {
+    margin-left: 10px;
+  }
+  
+  .btnNav {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 4px;
+    text-decoration: none;
+    text-align: center;
+    color: #fff;
+    margin-right: 90px;
+  }
