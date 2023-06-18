@@ -108,7 +108,7 @@ function Login() {
               alt="logo"
               className="logoLogin mb-4"
             />
-            <h1 className="text-center">Sign In</h1>
+            <h1 className="text-center titleAuth">Sign In</h1>
             <h5 className="text-center mb-4 text-gray">
               Happy to have you back!
             </h5>
@@ -182,6 +182,8 @@ function Login() {
                 >
                   Sign in
                 </Button>
+                <p style={{display: 'inline'}}>If you don't have an account,</p>
+                <a href="/register"> Sign Up</a>
               </div>
             </Form>
           </CardBody>

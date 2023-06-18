@@ -11,7 +11,9 @@ import Home from "./Website/Pages/Home/Home";
 import PropertiesList from "./Website/Pages/Properties/Properties-List/Properties-List";
 import About from "./Website/Pages/Page/AboutUs/AboutUs"
 import Navbar from "./Website/Components/Navbar/Navbar";
+import Footer from "./Website/Components/Footer/Footer"
 import LoginWebsite from "./Website/Pages/Login/Login";
+import Register from "./Website/Pages/Register/Register";
 import ResetPassword from "./Website/Pages/ResetPassword/ResetPassword";
 import ErrorPage from "./Dashboard/Pages/ErrorPage/ErrorPage";
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
@@ -29,9 +31,10 @@ root.render(
     && <Route path="/argon-dashboard-react/*" element={<Navigate to="/auth/login" replace />} />}
       <Route path="/dashboard/*" element={<AdminLayout />} />
       <Route path="/auth/*" element={<AuthLayout />} />
-      <Route path="/home" element={<><Navbar/> <Home /></>} />
-      <Route path="/properties" element={<><Navbar/> <PropertiesList /></>} />
-      <Route path="/about" element={<><Navbar/> <About /></>} />
+      <Route path="/home" element={<><Navbar/><Home /><Footer/> </>} />
+      <Route path="/properties" element={<><Navbar/> <PropertiesList /><Footer/></>} />
+      <Route path="/about" element={<><Navbar/> <About /><Footer/></>} />
+      <Route path="/register" element={<Register />} />
       <Route path="/login" element={<LoginWebsite />} />
       <Route path="/reset-password" element={<ResetPassword />} />
       <Route path="*" element={<ErrorPage />} />

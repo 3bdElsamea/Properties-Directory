@@ -1,0 +1,23 @@
+.content{width: 100%;}
+.heading h1{
+    text-align: center;
+    margin-top: 5rem;
+
+}
+.heading p{
+    text-align: center;
+
+}
+.featured .box {
+    box-shadow: 0 0 20px 0 rgb(112 121 138 / 30%);
+    border-radius: 9px;
+    text-align: center;
+    padding: 30px;
+    cursor: pointer;
+
+  }
+  .featured img {
+    width: 65px;
+    height: 65px;
+    margin: auto;
+  }
