@@ -20,3 +20,5 @@ const getAllReports = catchAsync(async (req, res, next) => {
   const reports = await new ApiFeatures(Report, req.query, obj).get();
   return res.json(reports);
 });
+
+export default getAllReports;

@@ -5,14 +5,14 @@ import Customer from '../../models/Customer.js';
 import catchAsync from '../../utils/catchAsync.js';
 import AppError from '../../utils/appError.js';
 import { sendEmailForgetPasswordCustomer } from '../../utils/emailSender.js';
+import role from '../../models/Role.js';
 
 config();
 
 export const register = catchAsync(async (req, res, next) => {
-
   const customer = await Customer.create({
     ...req.body,
-  })
+  });
 
   const token = jwt.sign(
     { customerId: customer.id },
@@ -129,5 +129,4 @@ export const deleteProfile = catchAsync(async (req, res, next) => {
   await customer.destroy();
 
   res.json({ message: 'Customer deleted successfully' });
-
 });

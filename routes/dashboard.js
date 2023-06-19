@@ -9,12 +9,14 @@ import roleRoute from './dashboard/roleRoute.js';
 import employeeRoute from './dashboard/employeeRoute.js';
 import categoryRoute from './dashboard/categoryRoute.js';
 import { uploadImage } from '../utils/uploadImage.js';
+import getAllReports from '../controllers/dashboard/reportController.js';
 import validationGeneralSetting from '../validation/validationGeneralSetting.js';
 import { updateGeneralSetting } from '../controllers/generalSettingController.js';
 import authMiddleware from '../middlewares/authMiddleware.js';
 import permissionMiddleware from '../middlewares/permissionMiddleware.js';
 import propertyImageRoute from './dashboard/properityImageRoute.js';
-import getStatistic from '../controllers/dashboard/statisticController.js';
+import propertyRequestRoute from './dashboard/propertyRequestRoute.js';
+import notificationRoute from './dashboard/notificationRoute.js';
 const router = express.Router();
 
 router.use('/auth', authRoute);
@@ -30,12 +32,22 @@ router.use('/cities', permissionMiddleware('city'), cityRoute);
 router.use('/owners', permissionMiddleware('owner'), ownerRoute);
 router.use('/properties', permissionMiddleware('property'), propertyRoute);
 router.use(
+  '/notifications',
+  permissionMiddleware('notification'),
+  notificationRoute,
+);
+router.use(
+  '/property-requests',
+  permissionMiddleware('property_request'),
+  propertyRequestRoute,
+);
+router.get('/reports', permissionMiddleware('report'), getAllReports);
+router.get('/statistic', getStatistic);
+router.use(
   '/property-images',
   permissionMiddleware('property'),
   propertyImageRoute,
 );
-
-router.get('/statistic', getStatistic);
 
 router.patch(
   '/data',

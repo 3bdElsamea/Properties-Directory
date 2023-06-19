@@ -7,6 +7,7 @@ import PropertyImage from '../../models/PropertyImage.js';
 import catchAsync from '../../utils/catchAsync.js';
 import ApiFeatures from '../../utils/apiFeatures.js';
 import AppError from '../../utils/appError.js';
+import createReport from '../../utils/report.js';
 
 const getAllProperties = catchAsync(async (req, res) => {
   const obj = {
@@ -27,7 +28,7 @@ const getAllProperties = catchAsync(async (req, res) => {
         model: Employee,
         attributes: ['name'],
       },
-    ]
+    ],
   };
   const properties = await new ApiFeatures(Property, req.query, obj).get();
   res.json(properties);
@@ -69,6 +70,7 @@ const createProperty = catchAsync(async (req, res, next) => {
   const property = await Property.create({
     ...req.body,
   });
+  await createReport(req, `created property with title ${property.title}`);
   res.json(property);
 });
 
@@ -79,6 +81,7 @@ const updateProperty = catchAsync(async (req, res, next) => {
     const updatedProperty = await property.update({
       ...req.body,
     });
+    await createReport(req, `updated property with title ${property.title}`);
     res.json(updatedProperty);
   } else {
     return next(new AppError('Property not found', 404));

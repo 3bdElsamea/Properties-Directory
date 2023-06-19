@@ -15,8 +15,8 @@ const Notification = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    employee_id: {
-      type: DataTypes.INTEGER,
+    title: {
+      type: DataTypes.STRING(255),
       allowNull: false,
     },
     message: {
@@ -34,6 +34,5 @@ const Notification = sequelize.define(
 );
 
 Notification.belongsTo(Customer, { foreignKey: 'customer_id' });
-Notification.belongsTo(Employee, { foreignKey: 'employee_id' });
 
 export default Notification;

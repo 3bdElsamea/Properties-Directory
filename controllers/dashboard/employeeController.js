@@ -3,6 +3,7 @@ import catchAsync from '../../utils/catchAsync.js';
 import ApiFeatures from '../../utils/apiFeatures.js';
 import AppError from '../../utils/appError.js';
 import Role from '../../models/Role.js';
+import createReport from '../../utils/report.js';
 
 const obj = {
   include: [
@@ -31,6 +32,7 @@ const createEmployee = catchAsync(async (req, res) => {
   const employee = await Employee.create({
     ...req.body,
   });
+  await createReport(req, `created employee named ${employee.name}`);
   res.json(employee);
 });
 
@@ -44,6 +46,14 @@ const updateEmployee = catchAsync(async (req, res, next) => {
   const updatedEmployee = await employee.update({
     ...req.body,
   });
+  if (req.body.blocked) {
+    await createReport(
+      req,
+      `Changed the status of the employee named ${updatedEmployee.name}`,
+    );
+  } else {
+    await createReport(req, `updated employee named ${updatedEmployee.name}`);
+  }
   res.json(updatedEmployee);
 });
 
@@ -51,6 +61,7 @@ const deleteEmployee = catchAsync(async (req, res) => {
   const employee = await Employee.findByPk(req.params.id);
   if (employee) {
     await employee.destroy();
+    await createReport(req, `deleted employee named ${employee.name}`);
     res.json({ message: 'Employee removed' });
   } else {
     res.status(404).json({ error: 'Employee not found' });
