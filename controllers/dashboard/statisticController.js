@@ -1,6 +1,5 @@
 import Category from '../../models/Category.js';
 import City from '../../models/City.js';
-import Chat from '../../models/Chat.js';
 import ContactUs from '../../models/ContactUs.js';
 import Country from '../../models/Country.js';
 import Customer from '../../models/Customer.js';
@@ -24,7 +23,6 @@ import catchAsync from '../../utils/catchAsync.js';
 const getCountTable = catchAsync(async (req, res, next) => {
   const categoryCount = await Category.count();
   const cityCount = await City.count();
-  const chatCount = await Chat.count();
   const contactUsCount = await ContactUs.count();
   const countryCount = await Country.count();
   const customerCount = await Customer.count();
@@ -39,6 +37,7 @@ const getCountTable = catchAsync(async (req, res, next) => {
   const roleCount = await Role.count();
   const rolePermissionCount = await RolePermission.count();
   const staticPageCount = await StaticPage.count();
+  const notificationCount = await Notification.count();
 
   res.json({
     categoryCount,
@@ -57,6 +56,7 @@ const getCountTable = catchAsync(async (req, res, next) => {
     roleCount,
     rolePermissionCount,
     staticPageCount,
+    notificationCount,
   });
 });
 

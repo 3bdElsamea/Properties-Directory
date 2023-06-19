@@ -63,10 +63,10 @@ const Property = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    // type: {
-    //   type: DataTypes.ENUM('sale', 'rent'),
-    //   defaultValue: 'sale',
-    // },
+    type: {
+      type: DataTypes.ENUM('sale', 'rent'),
+      defaultValue: 'sale',
+    },
     status: {
       type: DataTypes.ENUM('active', 'inactive'),
       defaultValue: 'active',
