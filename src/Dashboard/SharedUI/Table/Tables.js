@@ -16,27 +16,64 @@ import {
 import Btn from "../Btn/Btn";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-
+import { useEffect } from "react";
+import { AxiosDashboard } from "../../../Axios";
 const Tables = ({
   title,
-  tableRows,
   route,
   content,
   currentPage,
   totalPages,
   onPageChange,
 }) => {
+  const [filteredTableRows, setFilteredTableRows] = useState([]);
+  const [tableRows, setTableRows] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [endpoint, setEndpoint] = useState("");
+  const [query, setQuery] = useState("");
+  const [queryValue, setQueryValue] = useState("");
 
-  const handleSearch = (event) => {
-    setSearchQuery(event.target.value);
+  const fetchData = async () => {
+    try {
+      // Make an API request to fetch data from the backend endpoint
+      const response = await AxiosDashboard.get(
+        `/${endpoint}?${query}=${queryValue}`
+      );
+      const { tableRows: data } = response.data;
+
+      setTableRows(data);
+      setFilteredTableRows(filterRows(data));
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   };
 
-  const filteredTableRows = tableRows.filter((item) =>
-    item.props.children[1].props.children
-      .toLowerCase()
-      .includes(searchQuery.toLowerCase())
-  );
+
+  const handleSearch = (event) => {
+    const query = event.target.value;
+    setSearchQuery(query);
+    setQueryValue(query);
+    fetchData();
+  };
+  
+  
+  const filterRows = (rows, query) => {
+    return rows.filter((row) =>
+      row.name.toLowerCase().includes(query.toLowerCase())
+    );
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [endpoint, queryValue]);
+  
+  
+
+
+
+
+    
+  
 
   return (
     <>

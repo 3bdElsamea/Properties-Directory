@@ -7,27 +7,33 @@ import SweetAlert from "../../SharedUI/SweetAlert/SweetAlert";
 const Employees = () => {
   const [employeeList, setEmployeeList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [searchQuery, setSearchQuery] = useState("");
   const [totalPages, setTotalPages]=useState(0);
+  const [filteredEmployeeList, setFilteredEmployeeList] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearch = (event) => {
-    setSearchQuery(event.target.value);
+    const query = event.target.value;
+    setSearchQuery(query);
+    setFilteredEmployeeList(filterRows(employeeList, query));
   };
 
+  const filterRows = (rows, query) => {
+    return rows.filter((row) =>
+      row.name.toLowerCase().includes(query.toLowerCase())
+    );
+  };
+  
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
 
   const getAllEmployees = async (page) => {
-    const response = await AxiosDashboard.get("/employees", {
-      params: {
-        page: page,
-      },
-    });
     try {
-      setEmployeeList(response.data?.data);
-      setTotalPages(response.data.totalPage);
-      
+      const response = await AxiosDashboard.get(`/employees`);
+      const { data, meta } = response.data;
+      setEmployeeList(data);
+      setFilteredEmployeeList(filterRows(data, searchQuery));
+      setTotalPages(meta.totalPage);
     } catch (error) {
       console.log(error);
     }
@@ -35,12 +41,9 @@ const Employees = () => {
 
   useEffect(() => {
     getAllEmployees(currentPage);
-  }, [currentPage]);
+  }, [currentPage, searchQuery]);
 
-  const filteredEmployeeList = employeeList.filter((item) =>
-    item.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
+ 
   return (
     <>
       <div>
@@ -50,6 +53,13 @@ const Employees = () => {
           currentPage={currentPage}
           totalPages={totalPages}
           onPageChange={handlePageChange}
+          endpoint="employees"
+          query="name"
+          queryValue={searchQuery}
+          fetchData={getAllEmployees}
+          filteredTableRows={filteredEmployeeList}
+          setFilteredTableRows={setFilteredEmployeeList}
+
           content={
             <>
               <th scope="col">#</th>
@@ -61,8 +71,9 @@ const Employees = () => {
               <th scope="col">Actions</th>
             </>
           }
-          const
-          tableRows={filteredEmployeeList.map((item, index) => (
+        >
+          
+          {filteredEmployeeList.map((item, index) => (
             <tr key={item.id}>
               <th scope="row">{(currentPage - 1) * 10 + index + 1}</th>
               <td>{item.name}</td>
@@ -92,11 +103,12 @@ const Employees = () => {
               <td></td>
             </tr>
           ))}
-          searchQuery={searchQuery}
-          handleSearch={handleSearch}
-        />
+        </Tables> 
       </div>
     </>
+
+
+       
   );
 };
 
