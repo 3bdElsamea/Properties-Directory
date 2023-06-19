@@ -1,4 +1,4 @@
-.login-page {
+.register-page, .login-page {
   display: flex;
   height: 100vh;
   background-image: url("https://creativelayers.net/themes/homez-html/images/icon/login-page-icon.svg");
@@ -6,32 +6,39 @@
   background-size: 65%;
   background-position-x: 100%;
   background-position-y: 85%;
+  margin-top: -8%;
 }
 
-.login-card {
+.register-card, .login-card {
   width: 400px;
   border-radius: 10px;
   margin: 20% auto;
   margin-left: -20%;
 }
 
-.login-btn {
+.register-btn, .login-btn {
   background-color: #918e88;
   width: 100%;
   margin-top: 5%;
   border: none;
 }
 
-.login-btn:hover {
+.login-btn:hover, .register-btn:hover {
   background-color: #6d6b67;
+}
+
+.titleAuth{
+  margin-top: -80px;
+  margin-bottom: -15px;
 }
 
 .logoLogin {
   margin-left: 30%;
+  margin-top: 20px;
 }
 
 @media (max-width: 576px) {
-  .login-card {
+  .login-card, .register-card {
     width: 90%;
     margin: 10% auto;
   }

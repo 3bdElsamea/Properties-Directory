@@ -42,7 +42,10 @@ const BestProperties = () => {
         </div>
         
     </div>
-    <button className='btn'>View All</button>
+    <a href='/properties'>
+      <button className='btn'>View All</button>
+    </a>
+    
 </div>
   )
 }

@@ -1,7 +1,9 @@
 .footer {
     width: 100%;
     padding: 2rem 0;
-    background-color: #f8f8f8;
+    background-color: black;
+    color: white;
+    margin-top: 70px;
 }
 
 .footer .container {
@@ -12,6 +14,10 @@
 
 .footer .col {
     margin: auto;
+}
+
+.col h3{
+    color: white;
 }
 
 .footer h3 {
@@ -29,6 +35,11 @@
 .footer .icon {
     font-size: 1rem;
     margin: 2rem 3rem;
+    color: white;
+    cursor: pointer;
+}
+
+.footer .icon:hover {
     color: #EB6753;
 }
 
