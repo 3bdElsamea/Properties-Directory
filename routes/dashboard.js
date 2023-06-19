@@ -14,6 +14,7 @@ import { updateGeneralSetting } from '../controllers/generalSettingController.js
 import authMiddleware from '../middlewares/authMiddleware.js';
 import permissionMiddleware from '../middlewares/permissionMiddleware.js';
 import propertyImageRoute from './dashboard/properityImageRoute.js';
+import getStatistic from '../controllers/dashboard/statisticController.js';
 const router = express.Router();
 
 router.use('/auth', authRoute);
@@ -28,12 +29,13 @@ router.use('/countries', permissionMiddleware('country'), countryRoute);
 router.use('/cities', permissionMiddleware('city'), cityRoute);
 router.use('/owners', permissionMiddleware('owner'), ownerRoute);
 router.use('/properties', permissionMiddleware('property'), propertyRoute);
-
 router.use(
   '/property-images',
   permissionMiddleware('property'),
   propertyImageRoute,
 );
+
+router.get('/statistic', getStatistic);
 
 router.patch(
   '/data',
