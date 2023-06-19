@@ -52,6 +52,14 @@ class ApiFeatures {
             [Op.eq]: val,
           },
         };
+      }
+      // Else if key eq active compare it to integer
+      else if (key === 'active') {
+        return {
+          [key]: {
+            [Op.eq]: val,
+          },
+        };
       } else {
         return {
           [key]: {

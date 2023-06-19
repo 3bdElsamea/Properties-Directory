@@ -38,7 +38,7 @@ router.use(
 );
 router.use(
   '/property-requests',
-  permissionMiddleware('property'),
+  permissionMiddleware('property_request'),
   propertyRequestRoute,
 );
 router.get('/reports', permissionMiddleware('report'), getAllReports);

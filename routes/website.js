@@ -5,6 +5,7 @@ import ContactUsRoute from '../routes/website/contactUsRoute.js';
 import countTableRoute from '../routes/website/countTableRoute.js';
 import propertyRoute from '../routes/website/propertyRoute.js';
 import requestRoute from './website/requestRoute.js';
+import activeCitiesRoute from './website/activeCitiesRoute.js';
 import authMiddleware from '../middlewares/authMiddleware.js';
 
 const router = express.Router();
@@ -15,5 +16,6 @@ router.use('/ContactsUs', ContactUsRoute);
 router.use('/countes', countTableRoute);
 router.use('/properties', propertyRoute);
 router.use('/requests', authMiddleware, requestRoute);
+router.use('/activeCities', activeCitiesRoute);
 
 export default router;

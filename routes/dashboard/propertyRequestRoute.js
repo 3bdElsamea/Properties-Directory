@@ -9,12 +9,12 @@ import { validationUpdatePropertyRequest } from '../../validation/validateProper
 
 const router = express.Router();
 
+router.route('/').get(getAllPropertyRequests);
+
 router
   .route('/:id')
   .all(idParmaMiddleware)
   .patch(validationUpdatePropertyRequest, updatePropertyRequest)
   .delete(deletePropertyRequest);
-
-router.route('/').get(getAllPropertyRequests);
 
 export default router;

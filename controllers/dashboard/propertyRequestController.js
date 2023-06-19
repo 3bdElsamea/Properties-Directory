@@ -10,7 +10,7 @@ const obj = {
   include: [
     {
       model: Property,
-      attributes: ['name'],
+      attributes: ['title'],
     },
     {
       model: Customer,
