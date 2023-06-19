@@ -14,10 +14,10 @@ const Requests = () => {
 
   useEffect(() => {
     // Fetch requests data from the API
-    AxiosDashboard.get("/requests")
+    AxiosDashboard.get("/property-requests")
       .then((response) => {
-        setRequests(response.data);
-        setTotalPages(response.data.totalPage);
+        setRequests(response.data.data);
+        setTotalPages(response.data.data.totalPage);
       })
       .catch((error) => {
         console.error("Error fetching requests:", error);
@@ -35,7 +35,7 @@ const Requests = () => {
       });
 
     // Fetch properties data from the API
-    AxiosDashboard.get("/dashboard/properties")
+    AxiosDashboard.get("/properties")
       .then((response) => {
         setProperties(response.data);
       })

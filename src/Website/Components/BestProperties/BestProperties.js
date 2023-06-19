@@ -15,7 +15,7 @@ const BestProperties = () => {
         <p>Residential</p>
         <p>Agricultural</p>
     </div>
-    <div className='container'>
+    <div className='container bestPropContainer'>
         <div className='property'>     
         <img src={Apt1} alt='' />
         <div className='property-details'>

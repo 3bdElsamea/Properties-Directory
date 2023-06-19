@@ -29,7 +29,7 @@ h1{
     margin-bottom: 10px;
 }
 
-.container {
+.bestPropContainer {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;

@@ -282,6 +282,13 @@ var routes = [
     component: <ResetPassword />,
     layout: "/auth",
   },
+  {
+    path: "/requests",
+    name: "Requests",
+    icon: "ni ni-key-25 text-info",
+    component: <Requests />,
+    layout: "/dashboard",
+  },
 ];
 
 export default routes;

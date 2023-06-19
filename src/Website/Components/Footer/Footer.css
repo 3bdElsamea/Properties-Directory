@@ -1,4 +1,4 @@
-.footer {
+.footerWeb {
     width: 100%;
     padding: 2rem 0;
     background-color: black;
@@ -6,13 +6,13 @@
     margin-top: 70px;
 }
 
-.footer .container {
+.footerWeb .container {
     display: grid;
     grid-template-columns: repeat(4,1fr);
     gap: 1.2rem;
 }
 
-.footer .col {
+.footerWeb .col {
     margin: auto;
 }
 
@@ -20,36 +20,36 @@
     color: white;
 }
 
-.footer h3 {
+.footerWeb h3 {
     margin: .8rem 0
 }
 
-.footer p {
+.footerWeb p {
     margin: .4rem 0;
 }
 
-.footer .social {
+.footerWeb .social {
     text-align: center;
 }
 
-.footer .icon {
+.footerWeb .icon {
     font-size: 1rem;
     margin: 2rem 3rem;
     color: white;
     cursor: pointer;
 }
 
-.footer .icon:hover {
+.footerWeb .icon:hover {
     color: #EB6753;
 }
 
 @media screen and (max-width: 940px) {
-    .footer .container {
+    .footerWeb .container {
         grid-template-columns: repeat(2,1fr);
         gap: .5rem;
     }
 
-    .footer .icon {
+    .footerWeb .icon {
         margin: 1rem;
     }
 }

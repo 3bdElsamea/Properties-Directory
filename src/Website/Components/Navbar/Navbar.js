@@ -32,7 +32,7 @@ const Navbar = () => {
             </li>
             <li className="megamenu_style">
               {" "}
-              <a className="list-item" href="#">
+              <a className="list-item" href="/profile">
                 <span className="title">Profile</span>
               </a>
             </li>
@@ -71,7 +71,7 @@ const Navbar = () => {
                     <a href="about">About Us</a>
                   </li>
                   <li>
-                    <a href="#">Contact Us</a>
+                    <a href="/contact-us">Contact Us</a>
                   </li>
                 </ul>
               </div>

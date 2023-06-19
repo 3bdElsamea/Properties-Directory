@@ -205,7 +205,7 @@ function Register() {
               </FormGroup>
               {showErrorMessage && (
                 <span style={{ color: "red", fontSize: 12 }}>
-                  Error: Registration failed
+                  Registration failed
                 </span>
               )}
               <div className="text-center">
