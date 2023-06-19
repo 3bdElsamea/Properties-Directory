@@ -16,20 +16,6 @@ import {
 
 const router = express.Router();
 
-router
-  .route('/')
-  .get(getAllContactsUs)
-  .post(validationCreateContactUs, createContactUs);
-
-router
-  .route('/:id')
-  .all(idParmaMiddleware)
-  .get(getContactUsById)
-  .patch(validationUpdateContactUs, updateContactUs);
-
-router
-  .route('/:id/status')
-  .all(idParmaMiddleware)
-  .patch(validationUpdateContactUsStatus, statusContactUs);
+router.route('/').post(validationCreateContactUs, createContactUs);
 
 export default router;

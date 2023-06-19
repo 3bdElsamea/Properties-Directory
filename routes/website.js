@@ -11,7 +11,7 @@ const router = express.Router();
 
 router.use('/auth', authRoute);
 router.use('/data', getGeneralSetting);
-router.use('/ContactsUs', ContactUsRoute);
+router.use('/contact-us', ContactUsRoute);
 router.use('/properties', propertyRoute);
 router.use('/requests', authMiddleware, requestRoute);
 router.use('/activeCities', activeCitiesRoute);
