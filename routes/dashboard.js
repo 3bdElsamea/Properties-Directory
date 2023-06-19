@@ -17,6 +17,8 @@ import permissionMiddleware from '../middlewares/permissionMiddleware.js';
 import propertyImageRoute from './dashboard/properityImageRoute.js';
 import propertyRequestRoute from './dashboard/propertyRequestRoute.js';
 import notificationRoute from './dashboard/notificationRoute.js';
+import getStatistic from '../controllers/dashboard/statisticController.js';
+
 const router = express.Router();
 
 router.use('/auth', authRoute);
