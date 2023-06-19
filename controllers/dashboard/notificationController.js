@@ -14,13 +14,13 @@ const obj = {
 
 const getAllNotifications = catchAsync(async (req, res) => {
   const notifications = await Notification.findAll(obj);
-  // Get the count of read notifications only from notifications object
-  const readNotifications = notifications.filter(
-    (notification) => notification.is_read === 1,
+  const unreadNotifications = notifications.filter(
+    (notification) => notification.is_read === 0,
   );
   res.json({
+    total_notifications: notifications.length,
+    unread_notifications: unreadNotifications.length,
     notifications,
-    readNotifications: readNotifications.length,
   });
 });
 
@@ -37,10 +37,11 @@ const updateNotification = catchAsync(async (req, res, next) => {
   if (!notification) {
     return next(new AppError('No notification found with that ID', 404));
   }
+
   if (notification.is_read) {
     return res.json('Notification is already read');
   }
-  console.log('Hello ............ ..   ....', req.body);
+
   const updatedNotification = await notification.update(req.body);
 
   res.json(updatedNotification);
