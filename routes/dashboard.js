@@ -42,6 +42,7 @@ router.use(
   propertyRequestRoute,
 );
 router.get('/reports', permissionMiddleware('report'), getAllReports);
+router.get('/statistic', getStatistic);
 router.use(
   '/property-images',
   permissionMiddleware('property'),
