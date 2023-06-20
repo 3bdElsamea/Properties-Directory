@@ -8,7 +8,7 @@
 
 .footerWeb .container {
     display: grid;
-    grid-template-columns: repeat(4,1fr);
+    grid-template-columns: repeat(3,1fr);
     gap: 1.2rem;
 }
 
@@ -39,8 +39,18 @@
     cursor: pointer;
 }
 
-.footerWeb .icon:hover {
-    color: #EB6753;
+.fbIcon:hover {
+    color: #3b5998;
+}
+
+.twitterIcon:hover {
+    color: #1da1f2;
+}
+.instaIcon:hover {
+    color: #c32aa3;
+}
+.youtubeIcon:hover {
+    color: #ff0000;
 }
 
 @media screen and (max-width: 940px) {

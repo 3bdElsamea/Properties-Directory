@@ -6,39 +6,34 @@
   
   .contact-us h1 {
     text-align: center;
-    margin-bottom: 20px;
+    margin-top: -60px;
   }
   
-  .form-group {
-    margin-bottom: 20px;
-  }
-  
-  label {
+  .contactLabel {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
   }
   
-  input,
-  textarea {
+  .contactInput {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
   }
   
-  button {
+  .contactBtn {
     display: block;
     width: 100%;
     padding: 10px;
-    background-color: #4caf50;
+    background-color: #3773989e;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
   }
   
-  button:hover {
-    background-color: #45a049;
+  .contactBtn:hover {
+    background-color: #5496be;
   }
   

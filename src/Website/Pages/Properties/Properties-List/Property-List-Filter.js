@@ -11,6 +11,8 @@ const PropertiesListFilter = ({ setFilteredPropertyList }) => {
   const [bathroomsInput, setBathroomsInput] = useState("");
   const [minPriceInput, setMinPriceInput] = useState("");
   const [maxPriceInput, setMaxPriceInput] = useState("");
+  const [minAreaInput, setMinAreaInput] = useState("");
+  const [maxAreaInput, setMaxAreaInput] = useState("");
 
   const handleSearch = async (value) => {
     setSearchInput(value);
@@ -52,17 +54,17 @@ const PropertiesListFilter = ({ setFilteredPropertyList }) => {
 
   const handleMinPriceChange = (value) => {
     setMinPriceInput(value);
-    filterPropertiesByPriceRange(minPriceInput, maxPriceInput);
+    filterPropertiesByPriceRange(value, maxPriceInput);
   };
-
+  
   const handleMaxPriceChange = (value) => {
     setMaxPriceInput(value);
-    filterPropertiesByPriceRange(minPriceInput, maxPriceInput);
+    filterPropertiesByPriceRange(minPriceInput, value);
   };
 
   const filterPropertiesByPriceRange = async (minPrice, maxPrice) => {
     let queryParams = "";
-
+  
     if (minPrice && maxPrice) {
       queryParams = `?price=gte_${minPrice}_lte_${maxPrice}`;
     } else if (minPrice) {
@@ -70,6 +72,7 @@ const PropertiesListFilter = ({ setFilteredPropertyList }) => {
     } else if (maxPrice) {
       queryParams = `?price=lte_${maxPrice}`;
     }
+    
     try {
       const response = await AxiosWeb.get(`/properties${queryParams}`);
       setFilteredPropertyList(response.data.data);
@@ -77,6 +80,36 @@ const PropertiesListFilter = ({ setFilteredPropertyList }) => {
       console.log(error);
     }
   };
+
+  const handleMinAreaChange = (value) => {
+    setMinAreaInput(value);
+    filterPropertiesByAreaRange(value, maxAreaInput);
+  };
+  
+  const handleMaxAreaChange = (value) => {
+    setMaxAreaInput(value);
+    filterPropertiesByAreaRange(minAreaInput, value);
+  };
+
+  const filterPropertiesByAreaRange = async (minArea, maxArea) => {
+    let queryParams = "";
+  
+    if (minArea && maxArea) {
+      queryParams = `?area=gte_${minArea}_lte_${maxArea}`;
+    } else if (minArea) {
+      queryParams = `?area=gte_${minArea}`;
+    } else if (maxArea) {
+      queryParams = `?area=lte_${maxArea}`;
+    }
+    
+    try {
+      const response = await AxiosWeb.get(`/properties${queryParams}`);
+      setFilteredPropertyList(response.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
 
   return (
     <>
@@ -160,6 +193,8 @@ const PropertiesListFilter = ({ setFilteredPropertyList }) => {
               className="form-control"
               placeholder="Min"
               style={{ display: "inline-block", width: "90px" }}
+              value={minAreaInput}
+              onChange={(e) => handleMinAreaChange(e.target.value)}
             />
             <span style={{ fontWeight: "600" }}>-</span>
             <input
@@ -167,6 +202,8 @@ const PropertiesListFilter = ({ setFilteredPropertyList }) => {
               className="form-control ml-3"
               placeholder="Max"
               style={{ display: "inline-block", width: "90px" }}
+              value={maxAreaInput}
+              onChange={(e) => handleMaxAreaChange(e.target.value)}
             />
           </div>
         </div>

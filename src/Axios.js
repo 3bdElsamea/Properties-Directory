@@ -2,11 +2,13 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const AxiosDashboard = axios.create({
-	baseURL: "https://estate-cetz.onrender.com/dashboard",
+	//baseURL: "https://estate-cetz.onrender.com/dashboard",
+	baseURL: "http://localhost:3000/dashboard",
 });
 
 const AxiosWeb = axios.create({
-	baseURL: "https://estate-cetz.onrender.com",
+	//baseURL: "https://estate-cetz.onrender.com",
+	baseURL: "http://localhost:3000",
 });
 
 AxiosWeb.interceptors.request.use((config) => {

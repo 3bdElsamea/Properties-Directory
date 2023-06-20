@@ -8,29 +8,29 @@ import './TypesProperties.css'
 
 const FeaturedCard = () => {
   return (
-    <div class="content">
-    <div class="row">
-      <div class="col-3 box">
+    <div className="content">
+    <div className="row">
+      <div className="col-3 box">
         <img src={h1} alt='' />
         <h4>name</h4>
         <label>total</label>
       </div>
-      <div class="col-3 box">
+      <div className="col-3 box">
         <img src={h2} alt='' />
         <h4>name </h4>
         <label>total</label>
       </div>
-      <div class="col-3 box">
+      <div className="col-3 box">
         <img src={h3} alt='' />
         <h4>name </h4>
         <label>total</label>
       </div>
-      <div class="col-3 box">
+      <div className="col-3 box">
         <img src={h4} alt='' />
         <h4>name </h4>
         <label>total</label>
       </div>
-    {/* <div class="col-sm-3 box">
+    {/* <div className="col-sm-3 box">
         <img src={h6} alt='' />
         <h4>name </h4>
         <label>total</label>

@@ -18,6 +18,7 @@ import UpdateProfile from "./Website/Pages/Profile/UpdateProfile";
 import Register from "./Website/Pages/Register/Register";
 import ResetPassword from "./Website/Pages/ResetPassword/ResetPassword";
 import ContactUs from "./Website/Pages/ContactUs/ContactUs";
+import MyRequests from "./Website/Pages/MyRequests/MyRequests";
 import ErrorPage from "./Dashboard/Pages/ErrorPage/ErrorPage";
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
@@ -42,6 +43,7 @@ root.render(
       <Route path="/profile" element={<><Navbar/><Profile /><Footer/></>} />
       <Route path="/update_profile" element={<><Navbar/><UpdateProfile /><Footer/></>} />
       <Route path="/reset-password" element={<><Navbar/><ResetPassword /></>} />
+      <Route path="/my-requests" element={<><Navbar/><MyRequests /><Footer/></>} />
       <Route path="/contact-us" element={<><Navbar/><ContactUs /><Footer/></>} />
       <Route path="*" element={<ErrorPage />} />
       {/* <Route path="*" element={<Navigate to="/admin/index" replace />} /> */}

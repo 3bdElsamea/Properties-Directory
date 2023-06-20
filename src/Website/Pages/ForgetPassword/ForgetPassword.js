@@ -67,11 +67,13 @@ const ForgotPasswordForm = () => {
       ) : (
         <Form role="form" onSubmit={handleSubmit}>
           <div className="text-center text-muted mb-4">
+          <a href="/home">
             <img
               src="https://creativelayers.net/themes/homez-html/images/header-logo2.svg"
               alt="logo"
               className="mb-4"
             />
+            </a>
             <h1>Reset Password</h1>
           </div>
           <FormGroup className="mb-3">

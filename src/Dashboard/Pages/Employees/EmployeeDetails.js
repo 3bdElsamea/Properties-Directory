@@ -82,7 +82,7 @@ const EmployeeDetails = () => {
               </Row>
               <Row className="mt-3">
                 <Col md="auto">
-                  <i class="fa fa-shield-halved"></i>
+                  <i className="fa fa-shield-halved"></i>
                 </Col>
                 <Col>
                   <span className="font-weight-bold mr-1">Role:</span>

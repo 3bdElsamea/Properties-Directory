@@ -21,7 +21,7 @@ function ProfileForm() {
   return (
     <div className="col-xl-12">
       <div className="ps-widget bgc-white bdrs12 default-box-shadow2 p30 mb30 overflow-hidden position-relative">
-        <div className="col-xl-10">
+        <div className="col-xl-12">
           <div className="profile-box position-relative d-md-flex align-items-end mb50">
             <div className="profile-img position-relative overflow-hidden bdrs12 mb20-sm">
               <img
@@ -33,8 +33,8 @@ function ProfileForm() {
                 alt="profile_image"
               />
             </div>
-            <a href="update_profile" class="ud-btn btn-white mb30 updateBtn">
-              Update Profile<i class="fa fa-arrow"></i>
+            <a href="update_profile" className="ud-btn btn-white mb30 updateBtn">
+              Update Profile<i className="fa fa-arrow"></i>
             </a>
           </div>
         </div>

@@ -103,11 +103,13 @@ function Login() {
       <Col md={6} className="mx-auto">
         <Card className="login-card">
           <CardBody>
+            <a href="/home">
             <img
               src="https://creativelayers.net/themes/homez-html/images/header-logo2.svg"
               alt="logo"
               className="logoLogin mb-4"
             />
+            </a>
             <h1 className="text-center titleAuth">Sign In</h1>
             <h5 className="text-center mb-4 text-gray">
               Happy to have you back!

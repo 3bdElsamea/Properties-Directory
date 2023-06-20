@@ -131,7 +131,7 @@ function ProfileForm() {
                 </div>
               </div>
             </div>
-            <Btn type="submit" title="Save Changes" className="btn btn-primary updateBtn ud-btn btn-white mb30 updateBtn fs-5"/>
+            <Btn type="submit" title="Save Changes" className="btn btn-dark updateBtn ud-btn btn-white mb30 mt-4 updateBtn fs-5"/>
           </form>
         </div>
       </div>

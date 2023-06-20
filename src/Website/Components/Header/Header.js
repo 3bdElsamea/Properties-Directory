@@ -13,13 +13,13 @@ const Header = () => {
                 <div>
                     <input type='text' placeholder='Enter Keyword..' />
                 </div>
-                <div className='radio'> 
-                    <input type='radio' checked />
+                 <div className='radio'> 
+                {/*    <input type='radio' checked />
                     <label>Buy</label>
                     <input type='radio'  />
-                    <label>Rent</label>
+                    <label>Rent</label>*/}
                     <button type='submit'><AiOutlineSearch className='icon'/></button>
-                </div>
+                </div> 
             </form>
         </div>
     </div>

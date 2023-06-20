@@ -87,11 +87,13 @@ function Register() {
       <Col md={6} className="mx-auto">
         <Card className="register-card">
           <CardBody>
+          <a href="/home">
             <img
               src="https://creativelayers.net/themes/homez-html/images/header-logo2.svg"
               alt="logo"
               className="logoLogin mb-4"
             />
+            </a>
             <h1 className="text-center titleAuth">Register</h1>
             <h5 className="text-center mb-4 text-gray">Create a new account</h5>
             <Form role="form" onSubmit={handleSubmit}>

@@ -17,11 +17,18 @@ const PropertiesList = () => {
   const [cityName, setCityName] = useState([]);
   const [filteredPropertyList, setFilteredPropertyList] = useState([]);
   const [requestedProperties, setRequestedProperties] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Track user login status
 
   useEffect(() => {
     getPropertyList();
     getRequestedProperties();
+    checkLoginStatus(); 
   }, []);
+
+  const checkLoginStatus = () => {
+    const jwt = localStorage.getItem("jwt"); // Check for JWT in local storage
+    setIsLoggedIn(!!jwt); // Update the login status based on JWT availability
+  };
 
   const getPropertyList = async () => {
     try {
@@ -113,13 +120,14 @@ const PropertiesList = () => {
                     <span className="mr-5">For Rent</span>
                     {requestedProperties.includes(property.id) ? (
                       <span className="requestedSpan">Already requested</span>
-                    ) : (
-                      <Btn
-                        onClick={() => handleRequest(property.id)}
-                        title="Request"
-                        className="btn updateBtn ud-btn btn-secondary updateBtn fs-5"
-                      />
-                    )}
+                    ) : isLoggedIn ? (
+                    <Btn
+                      onClick={() => handleRequest(property.id)}
+                      title="Request"
+                      className="btn updateBtn ud-btn btn-secondary updateBtn fs-5"
+                      
+                    />
+                  ) : null} 
                   </div>
                 </div>
               ))
@@ -157,6 +165,7 @@ const PropertiesList = () => {
                         onClick={() => handleRequest(property.id)}
                         title="Request"
                         className="btn btn-primary updateBtn ud-btn btn-white updateBtn fs-5"
+                        style={{marginLeft: '20%', marginTop: '0'}}
                       />
                     )}
                   </div>
