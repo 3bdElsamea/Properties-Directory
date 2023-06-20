@@ -18,7 +18,7 @@ import propertyImageRoute from './dashboard/properityImageRoute.js';
 import propertyRequestRoute from './dashboard/propertyRequestRoute.js';
 import notificationRoute from './dashboard/notificationRoute.js';
 import getStatistic from '../controllers/dashboard/statisticController.js';
-import { getAllContactsUs } from '../controllers/website/contactUsController.js';
+
 const router = express.Router();
 
 router.use('/auth', authRoute);
@@ -49,11 +49,6 @@ router.use(
   '/property-images',
   permissionMiddleware('property'),
   propertyImageRoute,
-);
-router.get(
-  '/contact-us',
-  permissionMiddleware('static_page'),
-  getAllContactsUs,
 );
 
 router.patch(
