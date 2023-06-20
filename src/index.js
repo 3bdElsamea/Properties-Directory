@@ -16,6 +16,7 @@ import LoginWebsite from "./Website/Pages/Login/Login";
 import Register from "./Website/Pages/Register/Register";
 import ResetPassword from "./Website/Pages/ResetPassword/ResetPassword";
 import ErrorPage from "./Dashboard/Pages/ErrorPage/ErrorPage";
+import PropertyDetails from "./Website/Pages/PropertyDetails/PropertyDetails"
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 import 'typeface-poppins';
@@ -35,6 +36,7 @@ root.render(
       <Route path="/properties" element={<><Navbar/> <PropertiesList /><Footer/></>} />
       <Route path="/about" element={<><Navbar/> <About /><Footer/></>} />
       <Route path="/register" element={<><Navbar/><Register /></>} />
+      <Route path="/PropertyDetails/:propertyId" element={<><Navbar/><PropertyDetails /><Footer/></>} />
       <Route path="/login" element={<><Navbar/><LoginWebsite /></>} />
       <Route path="/reset-password" element={<><Navbar/><ResetPassword /></>} />
       <Route path="*" element={<ErrorPage />} />
