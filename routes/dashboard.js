@@ -19,6 +19,7 @@ import propertyRequestRoute from './dashboard/propertyRequestRoute.js';
 import notificationRoute from './dashboard/notificationRoute.js';
 import getStatistic from '../controllers/dashboard/statisticController.js';
 import { getAllContactsUs } from '../controllers/website/contactUsController.js';
+import chatRoute from './dashboard/chatRoute.js';
 
 const router = express.Router();
 
@@ -44,6 +45,9 @@ router.use(
   permissionMiddleware('property_request'),
   propertyRequestRoute,
 );
+
+router.use('/chat', chatRoute);
+
 router.get('/reports', permissionMiddleware('report'), getAllReports);
 router.get('/statistic', getStatistic);
 router.get(

@@ -26,7 +26,7 @@ const ChatConversation = sequelize.define('chat_conversation', {
     }
   }
 }, {
-  timestamps: false // Disable timestamps for this table
+  timestamps: false
 });
 
 ChatConversation.belongsTo(Customer, { foreignKey: 'customer_id' });

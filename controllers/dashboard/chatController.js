@@ -20,15 +20,6 @@ const getChatConversations = catchAsync(async (req, res) => {
 const getChatMessages = catchAsync(async (req, res) => {
   const messages = await ChatMessage.findAll({
     where: { conversation_id: req.params.id },
-    include: [
-      {
-        model: Customer,
-        attributes: ['name', 'phone', 'image'],
-      },
-      {
-        model: ChatMessage,
-      }
-    ],
   });
   res.json(messages);
 });
@@ -40,6 +31,7 @@ const sendChatMessage = catchAsync(async (req, res) => {
     sender: "employee",
     message_text: messageText,
   });
+  // send pusher notification to customer
   res.json(message);
 });
 
