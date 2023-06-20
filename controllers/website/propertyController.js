@@ -41,7 +41,7 @@ const getLastFiveProperties = catchAsync(async (req, res) => {
 const getPropertyById = catchAsync(async (req, res, next) => {
   const newObj = {
     ...obj,
-    include: [{ model: PropertyImage, attributes: ['id', 'imageلهف '] }],
+    include: [{ model: PropertyImage, attributes: ['id', 'image'] }],
   };
   const property = await Property.findByPk(req.params.id, newObj);
   if (!property) {
