@@ -71,25 +71,28 @@ export const updateRole = catchAsync(async (req, res, next) => {
     return next(new AppError(`Role with ID ${roleId} not found`, 404));
   }
 
+  if (req.body.name) {
+    role.name = req.body.name;
+    await role.save();
+  }
+
+  if (!req.body.permissions && req.body.name) {
+    await createReport(req, `updated role named ${role.name}`);
+    return res.status(200).json({ message: 'Role updated successfully' });
+  }
+
   const rolePermissions = req.body.permissions.map((permissionId) => ({
     role_id: roleId,
     permission_id: permissionId,
   }));
-
   for (const rolePermission of rolePermissions) {
     const { permission_id } = rolePermission;
-
     const permissionExists = await Permission.findOne({
       where: { id: permission_id },
     });
     if (!permissionExists) {
       return next(new AppError(`Permission ${permission_id} not found`, 404));
     }
-  }
-
-  if (req.body.name) {
-    role.name = req.body.name;
-    await role.save();
   }
 
   await RolePermission.destroy({ where: { role_id: roleId } });
