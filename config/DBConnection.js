@@ -1,6 +1,5 @@
 import Sequelize from 'sequelize';
 import { config } from 'dotenv';
-import catchAsync from '../utils/catchAsync.js';
 
 config();
 

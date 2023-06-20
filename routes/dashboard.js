@@ -18,6 +18,7 @@ import propertyImageRoute from './dashboard/properityImageRoute.js';
 import propertyRequestRoute from './dashboard/propertyRequestRoute.js';
 import notificationRoute from './dashboard/notificationRoute.js';
 import getStatistic from '../controllers/dashboard/statisticController.js';
+import { getAllContactsUs } from '../controllers/website/contactUsController.js';
 
 const router = express.Router();
 
@@ -45,6 +46,11 @@ router.use(
 );
 router.get('/reports', permissionMiddleware('report'), getAllReports);
 router.get('/statistic', getStatistic);
+router.get(
+  '/contact-us',
+  permissionMiddleware('static_page'),
+  getAllContactsUs,
+);
 router.use(
   '/property-images',
   permissionMiddleware('property'),
