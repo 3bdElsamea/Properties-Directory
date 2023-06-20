@@ -1,0 +1,39 @@
+.contact-us {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .contact-us h1 {
+    text-align: center;
+    margin-top: -60px;
+  }
+  
+  .contactLabel {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  .contactInput {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .contactBtn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #3773989e;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .contactBtn:hover {
+    background-color: #5496be;
+  }
+  

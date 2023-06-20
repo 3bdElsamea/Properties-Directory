@@ -10,8 +10,7 @@ import {
   FormGroup,
 } from "reactstrap";
 
-import Axios from "../../../Axios";
-import axios from "axios";
+import {AxiosWeb, WebAxios} from "../../../Axios";
 
 const ForgotPasswordForm = () => {
   const [email, setEmail] = useState("");
@@ -22,7 +21,7 @@ const ForgotPasswordForm = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.get("https://dummyjson.com/users");
+      const response = await AxiosWeb.get("/customers");
 
       if (response.status === 200) {
         const { users } = response.data;
@@ -68,11 +67,13 @@ const ForgotPasswordForm = () => {
       ) : (
         <Form role="form" onSubmit={handleSubmit}>
           <div className="text-center text-muted mb-4">
+          <a href="/home">
             <img
               src="https://creativelayers.net/themes/homez-html/images/header-logo2.svg"
               alt="logo"
               className="mb-4"
             />
+            </a>
             <h1>Reset Password</h1>
           </div>
           <FormGroup className="mb-3">

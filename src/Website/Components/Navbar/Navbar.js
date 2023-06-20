@@ -4,6 +4,7 @@ function handleLogout() {
   localStorage.removeItem("jwt"); // remove the JWT token from local storage
   window.location.href = "/login"; // redirect the user to the login page
 }
+
 const isLoggedIn = localStorage.getItem("jwt");
 
 const Navbar = () => {
@@ -25,22 +26,28 @@ const Navbar = () => {
             data-menu-style="horizontal"
           >
             <li className="visible_list">
-              {" "}
               <a className="list-item" href="/home">
                 <span className="title">Home</span>
               </a>
             </li>
-            <li className="megamenu_style">
-              {" "}
-              <a className="list-item" href="#">
-                <span className="title">Profile</span>
-              </a>
-            </li>
+            {isLoggedIn && (
+              <>
+                <li className="megamenu_style">
+                  <a className="list-item" href="/profile">
+                    <span className="title">Profile</span>
+                  </a>
+                </li>
+                <li className="megamenu_style">
+                  <a className="list-item" href="/my-requests">
+                    <span className="title">My Requests</span>
+                  </a>
+                </li>
+              </>
+            )}
             <li className="visible_list">
-              {" "}
               <a className="list-item" href="#">
                 <span className="title">Properties</span>
-                <span className="arrow "></span>
+                <span className="arrow"></span>
               </a>
               <div className="sub-menu">
                 <ul className="list-unstyled">
@@ -53,17 +60,13 @@ const Navbar = () => {
                   <li>
                     <a href="#">Properties for Sale</a>
                   </li>
-                  <li>
-                    <a href="#">Most Popular</a>
-                  </li>
                 </ul>
               </div>
             </li>
             <li className="visible_list">
-              {" "}
               <a className="list-item" href="#">
                 <span className="title">Pages</span>
-                <span className="arrow "></span>
+                <span className="arrow"></span>
               </a>
               <div className="sub-menu">
                 <ul className="list-unstyled">
@@ -71,7 +74,7 @@ const Navbar = () => {
                     <a href="about">About Us</a>
                   </li>
                   <li>
-                    <a href="#">Contact Us</a>
+                    <a href="/contact-us">Contact Us</a>
                   </li>
                 </ul>
               </div>
@@ -81,7 +84,7 @@ const Navbar = () => {
       </div>
       <div className="colnav col-auto">
         {isLoggedIn ? (
-          <button className="btn btn-danger btnNav" onClick={handleLogout}>
+          <button className="btn btn-danger btnNav" onClick={handleLogout} style={{backgroundColor:'#EB6753'}}>
             Logout
           </button>
         ) : (
