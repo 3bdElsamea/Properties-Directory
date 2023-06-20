@@ -1,4 +1,4 @@
-import { DataTypes } from 'sequelize';
+0import { DataTypes } from 'sequelize';
 import sequelize from '../config/DBConnection.js';
 import Customer from './Customer.js';
 import Employee from './Employee.js';
