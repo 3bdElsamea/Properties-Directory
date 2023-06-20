@@ -9,8 +9,8 @@ const app = express();
 app.use(cors());
 config();
 
-app.use('/', router);
 app.use('/refresh', refresh);
+app.use('/', router);
 
 // if (process.env.NODE_ENV === 'development') {
 //   app.use(morgan('dev'));
