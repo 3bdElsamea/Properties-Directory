@@ -7,20 +7,20 @@ import ApiFeatures from '../../utils/apiFeatures.js';
 import Customer from '../../models/Customer.js';
 import Property from '../../models/Property.js';
 
-const getAllProperties = catchAsync(async (req, res, next) => {
-  const obj = {
-    include: [
-      {
-        model: Customer,
-        attributes: ['name', 'email', 'image'],
-      },
-      {
-        model: Property,
-        attributes: ['title', 'price'],
-      },
-    ],
-  };
+const obj = {
+  include: [
+    {
+      model: Customer,
+      attributes: ['name', 'email', 'image'],
+    },
+    {
+      model: Property,
+      attributes: ['title', 'price'],
+    },
+  ],
+};
 
+const getAllGeneralRequests = catchAsync(async (req, res, next) => {
   const propertiesGeneralRequest = await new ApiFeatures(
     PropertyGeneralRequest,
     req.query,
@@ -30,66 +30,14 @@ const getAllProperties = catchAsync(async (req, res, next) => {
   res.json(propertiesGeneralRequest);
 });
 
-const getPropertyById = catchAsync(async (req, res, next) => {
+const getGeneralRequest = catchAsync(async (req, res, next) => {
   const { id } = req.params;
-  const getPropertyById = await PropertyGeneralRequest.findByPk(id, {
-    include: [
-      {
-        model: Customer,
-        attributes: ['name', 'email', 'image'],
-      },
-      {
-        model: Property,
-        attributes: ['title', 'price'],
-      },
-    ],
-  });
+  const generalRequest = await PropertyGeneralRequest.findByPk(id, obj);
 
-  if (!getPropertyById) {
-    return next(new AppError(`Property with this id ${id} not found`, 404));
+  if (!generalRequest) {
+    return next(new AppError(`General Request Not Found`, 404));
   }
-  res.json(getPropertyById);
+  res.json(generalRequest);
 });
 
-const matchingProperty = catchAsync(async (req, res, next) => {
-  const queryStringObj = { ...req.query };
-  const excludesField = [
-    'bathrooms',
-    'bedrooms',
-    'year_built',
-    'garage',
-    'floors',
-  ];
-
-  excludesField.forEach((field) => queryStringObj[field]);
-
-  console.log('Excluded fields:', excludesField);
-  console.log('Original request query:', req.query);
-  console.log('Filtered query object:', queryStringObj);
-
-  const whereClause = Object.entries(queryStringObj).reduce(
-    (acc, [key, value]) => {
-      acc[key] = { [Op.eq]: value };
-      return acc;
-    },
-    {},
-  );
-
-  const matchingProperties = await `PropertyGeneralRequest`.findAll({
-    where: whereClause,
-    include: [
-      {
-        model: Customer,
-        attributes: ['name', 'email', 'image'],
-      },
-      {
-        model: Property,
-        attributes: ['title', 'price'],
-      },
-    ],
-  });
-
-  res.json(matchingProperties);
-});
-
-export { getAllProperties, getPropertyById, matchingProperty };
+export { getAllGeneralRequests, getGeneralRequest };

@@ -21,10 +21,34 @@ const getStatistic = catchAsync(async (req, res, next) => {
   const employeeCount = await Employee.count();
   const ownerCount = await Owner.count();
   const propertyCount = await Property.count();
+  const activePropertyCount = await Property.count({
+    where: {
+      status: 'active',
+    },
+  });
+  const inactivePropertyCount = await Property.count({
+    where: {
+      status: 'inactive',
+    },
+  });
   const propertyGeneralRequestCount = await PropertyGeneralRequest.count();
   const propertyRequestCount = await PropertyRequest.count();
+  const pendingPropertyRequestCount = await PropertyRequest.count({
+    where: {
+      status: 'pending',
+    },
+  });
+  const approvedPropertyRequestCount = await PropertyRequest.count({
+    where: {
+      status: 'active',
+    },
+  });
+  const rejectedPropertyRequestCount = await PropertyRequest.count({
+    where: {
+      status: 'rejected',
+    },
+  });
   const staticPageCount = await StaticPage.count();
-
   res.json([
     {
       name: 'Category',
@@ -59,13 +83,34 @@ const getStatistic = catchAsync(async (req, res, next) => {
       count: propertyCount,
     },
     {
+      name: 'Active Property',
+      count: activePropertyCount,
+    },
+    {
+      name: 'Inactive Property',
+      count: inactivePropertyCount,
+    },
+    {
       name: 'Property General Request',
       count: propertyGeneralRequestCount,
     },
     {
       name: 'Property Request',
       count: propertyRequestCount,
-    }, {
+    },
+    {
+      name: 'Pending Property Request',
+      count: pendingPropertyRequestCount,
+    },
+    {
+      name: 'Approved Property Request',
+      count: approvedPropertyRequestCount,
+    },
+    {
+      name: 'Rejected Property Request',
+      count: rejectedPropertyRequestCount,
+    },
+    {
       name: 'Static Page',
       count: staticPageCount,
     },

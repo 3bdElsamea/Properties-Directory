@@ -5,6 +5,7 @@ import Property from '../../models/Property.js';
 import sequelize from '../../config/DBConnection.js';
 import AppError from '../../utils/appError.js';
 import createNotification from '../../utils/createNotification.js';
+import Customer from '../../models/Customer.js';
 
 const createPropertyRequest = catchAsync(async (req, res, next) => {
   const customerId = req.decodedData.customerId;
@@ -77,8 +78,16 @@ const createPropertyRequest = catchAsync(async (req, res, next) => {
       ' for property with id ' +
       req.params.id,
   );
+  // Get the property name only
+  const property = await Property.findByPk(req.params.id, {
+    attributes: ['title'],
+  });
+  // get the customer name only
+  const customer = await Customer.findByPk(customerId, {
+    attributes: ['name'],
+  });
   const title = 'New Property Request';
-  const message = `New request for Property with id ${propertyRequest.property_id} from Customer with id ${propertyRequest.customer_id}`;
+  const message = `New request for Property ${property.title} from Customer ${customer.name}`;
   await createNotification(customerId, title, message);
 
   res.json(propertyRequest);

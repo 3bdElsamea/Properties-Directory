@@ -1,18 +1,16 @@
 import express from 'express';
 
 import {
-  getAllProperties,
-  getPropertyById,
-  matchingProperty
+  getAllGeneralRequests,
+  getGeneralRequest,
 } from '../../controllers/dashboard/propertiesMatchingController.js';
 
 import idParmaMiddleware from '../../middlewares/idParmaMiddleware.js';
 
 const router = express.Router();
 
-router.route('/').get(getAllProperties);
-router.route('/matchingProperty').get(matchingProperty);
+router.route('/').get(getAllGeneralRequests);
 
-router.route('/:id').all(idParmaMiddleware).get(getPropertyById);
+router.route('/:id').all(idParmaMiddleware).get(getGeneralRequest);
 
 export default router;

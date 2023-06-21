@@ -33,7 +33,10 @@ const updatePropertyRequest = catchAsync(async (req, res, next) => {
   if (!propertyRequest) {
     return next(new AppError('No property request found with that ID', 404));
   }
-  const updatedPropertyRequest = await propertyRequest.update(req.body.status);
+  console.log('...............', req.body.status);
+  const updatedPropertyRequest = await propertyRequest.update({
+    status: req.body.status,
+  });
   await createReport(req, 'updated property request with id ' + req.params.id);
   res.json(updatedPropertyRequest);
 });
