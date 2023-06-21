@@ -6,20 +6,19 @@ import Btn from "../../../SharedUI/Btn/Btn";
 import "./Roles-List.css";
 import SweetAlert from "../../../SharedUI/SweetAlert/SweetAlert";
 
+const empPermissions = localStorage.getItem("permissions");
+
 const Roles = () => {
   const [roles, setRoles] = useState([]);
   const [permissions, setPermissions] = useState([]);
   const [rolePermissions, setRolePermissions] = useState([]);
-  const [totalPages, setTotalPages]=useState(0);
-
+  const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
-    const jwt = localStorage.getItem("jwt");
     AxiosDashboard.get("/roles")
       .then((response) => {
         setRoles(response.data.roles.data);
         setTotalPages(response.data.roles.totalPage);
-        console.log("hiii", response.data.roles.totalPage);
       })
       .catch((error) => {
         console.error("Error fetching roles:", error);
@@ -73,24 +72,30 @@ const Roles = () => {
       .filter((permission) => rolePermissionIds.includes(permission.id))
       .map((permission) => permission.name);
 
-    const permissionTableContent = rolePermissionNames.map((permissionName, index) => {
-      if (index > 0 && index % 3 === 0) {
-        return (
-          <React.Fragment key={permissionName}>
-            <br />
-            {permissionName}
-          </React.Fragment>
-        );
-      } else if (index > 0) {
-        return (
-          <React.Fragment key={permissionName}>
-            &nbsp; | {permissionName}
-          </React.Fragment>
-        );
-      } else {
-        return <React.Fragment key={permissionName}>{permissionName}</React.Fragment>;
+    const permissionTableContent = rolePermissionNames.map(
+      (permissionName, index) => {
+        if (index > 0 && index % 3 === 0) {
+          return (
+            <React.Fragment key={permissionName}>
+              <br />
+              {permissionName}
+            </React.Fragment>
+          );
+        } else if (index > 0) {
+          return (
+            <React.Fragment key={permissionName}>
+              &nbsp; | {permissionName}
+            </React.Fragment>
+          );
+        } else {
+          return (
+            <React.Fragment key={permissionName}>
+              {permissionName}
+            </React.Fragment>
+          );
+        }
       }
-    });
+    );
 
     const permissionTable = <div>{permissionTableContent}</div>;
 
@@ -119,16 +124,20 @@ const Roles = () => {
     );
   });
 
-  return (
-    <>
-      <Tables
-        content={trContent}
-        tableRows={tableContent}
-        title="All Roles"
-        route="/dashboard/roles/create"
-      />
-    </>
-  );
+  if (empPermissions.split(",").includes("role")) {
+    return (
+      <>
+        <Tables
+          content={trContent}
+          tableRows={tableContent}
+          title="All Roles"
+          route="/dashboard/roles/create"
+        />
+      </>
+    );
+  } else {
+    window.location.href = "/ErrorPage";
+  }
 };
 
 export default Roles;

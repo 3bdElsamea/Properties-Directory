@@ -49,6 +49,7 @@ function Login() {
         if (data.message !== "Invalid credentials") {
           // Save the JWT in the client-side storage
           localStorage.setItem("jwt", data.token);
+          localStorage.setItem("permissions", data.permissions);
           // Redirect the user to the dashboard or homepage
           window.location.href = "/dashboard/index";
           console.log("Success: " + data);

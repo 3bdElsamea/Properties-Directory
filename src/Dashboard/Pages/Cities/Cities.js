@@ -2,11 +2,12 @@ import Tables from "../../SharedUI/Table/Tables";
 import { AxiosDashboard } from "../../../Axios";
 import { useEffect, useState } from "react";
 
+const empPermissions = localStorage.getItem("permissions");
+
 const CreateCity = () => {
   const [cityList, setCityList] = useState([]);
   const [countryList, setCountryList] = useState([]);
-  const [totalPages, setTotalPages]=useState(0);
-
+  const [totalPages, setTotalPages] = useState(0);
 
   const getAllCities = async () => {
     try {
@@ -31,32 +32,36 @@ const CreateCity = () => {
     return country ? country.name : "";
   };
 
-  return (
-    <>
-      <div>
-        <Tables
-          title="All Cities"
-          route="/dashboard/cities/create"
-          content={
-            <>
-              <th scope="col">#</th>
-              <th scope="col">City</th>
-              <th scope="col">Country</th>
-              <th scope="col">CreatedAt</th>
-            </>
-          }
-          tableRows={cityList.map((item, index) => (
-            <tr key={item.id}>
-              <th scope="row">{index + 1}</th>
-              <td>{item.name}</td>
-              <td>{getCountryName(item.country_id)}</td>
-              <td>{item.created_at}</td>
-            </tr>
-          ))}
-        />
-      </div>
-    </>
-  );
+  if (empPermissions.split(",").includes("city")) {
+    return (
+      <>
+        <div>
+          <Tables
+            title="All Cities"
+            route="/dashboard/cities/create"
+            content={
+              <>
+                <th scope="col">#</th>
+                <th scope="col">City</th>
+                <th scope="col">Country</th>
+                <th scope="col">CreatedAt</th>
+              </>
+            }
+            tableRows={cityList.map((item, index) => (
+              <tr key={item.id}>
+                <th scope="row">{index + 1}</th>
+                <td>{item.name}</td>
+                <td>{getCountryName(item.country_id)}</td>
+                <td>{item.created_at}</td>
+              </tr>
+            ))}
+          />
+        </div>
+      </>
+    );
+  } else {
+    window.location.href = "/ErrorPage";
+  }
 };
 
 export default CreateCity;

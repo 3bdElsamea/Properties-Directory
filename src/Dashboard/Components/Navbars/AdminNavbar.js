@@ -22,15 +22,16 @@ import { AxiosDashboard } from "../../../Axios";
 const AdminNavbar = (props) => {
   function handleLogout() {
     localStorage.removeItem('jwt'); // remove the JWT token from local storage
+    localStorage.removeItem("permissions");
     window.location.href = '/auth/login'; // redirect the user to the login page
   }
 
   const [userData, setUserData] = useState(null);
 
     useEffect(() => {
-      fetchUserData();
+      //fetchUserData();
     }, []);
-  
+  /*
     function fetchUserData() {
       // Get the JWT from the client-side storage
       const jwt = localStorage.getItem('jwt');
@@ -68,7 +69,7 @@ const id = parsedPayload.employeeId;
         .catch(error => {
           console.error('Error:', error);
         });
-    }
+    }*/
 /*
   if (!userData) {
     return (

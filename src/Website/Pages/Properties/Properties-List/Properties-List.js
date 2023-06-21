@@ -27,8 +27,8 @@ const PropertiesList = () => {
   }, []);
 
   const checkLoginStatus = () => {
-    const jwt = localStorage.getItem("jwt"); // Check for JWT in local storage
-    setIsLoggedIn(!!jwt); // Update the login status based on JWT availability
+    const token = localStorage.getItem("token"); // Check for token in local storage
+    setIsLoggedIn(!!token); // Update the login status based on token availability
   };
 
   const getPropertyList = async () => {

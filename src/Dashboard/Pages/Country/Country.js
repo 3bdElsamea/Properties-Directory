@@ -4,10 +4,11 @@ import { AxiosDashboard } from "../../../Axios";
 import { useEffect, useState } from "react";
 import SweetAlert from "../../SharedUI/SweetAlert/SweetAlert";
 
+const empPermissions = localStorage.getItem("permissions");
+
 const CreateCountry = () => {
   const [countryList, setCountryList] = useState([]);
-  const [totalPages, setTotalPages]=useState(0);
-
+  const [totalPages, setTotalPages] = useState(0);
 
   const getAllCountries = async () => {
     try {
@@ -44,25 +45,25 @@ const CreateCountry = () => {
     getAllCountries();
   }, []);
 
-  return (
-    <>
-      <div>
-        <Tables
-          title="All Countries"
-          route="/dashboard/country/create"
-          content={
-            <>
-              <th scope="col">#</th>
-              <th scope="col">Name</th>
-              <th scope="col">CreatedAt</th>
-              <th scope="col">Status</th>
-             
-            </>
-          }
-          tableRows={countryList.map((item, index) => (
-            <tr key={item.id}>
-              <th scope="row">{index + 1}</th>
-              <td>{item.name}</td>
+  if (empPermissions.split(",").includes("country")) {
+    return (
+      <>
+        <div>
+          <Tables
+            title="All Countries"
+            route="/dashboard/country/create"
+            content={
+              <>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">CreatedAt</th>
+                <th scope="col">Status</th>
+              </>
+            }
+            tableRows={countryList.map((item, index) => (
+              <tr key={item.id}>
+                <th scope="row">{index + 1}</th>
+                <td>{item.name}</td>
                 <td>
                   <button
                     className={`btn btn-${
@@ -73,14 +74,16 @@ const CreateCountry = () => {
                     {item.active ? "Active" : "Inactive"}
                   </button>
                 </td>
-              <td>
-              </td>
-            </tr>
-          ))}
-        />
-      </div>
-    </>
-  );
+                <td></td>
+              </tr>
+            ))}
+          />
+        </div>
+      </>
+    );
+  } else {
+    window.location.href = "/ErrorPage";
+  }
 };
 
 export default CreateCountry;

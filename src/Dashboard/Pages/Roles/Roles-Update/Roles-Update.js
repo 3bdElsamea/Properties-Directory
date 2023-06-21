@@ -15,6 +15,8 @@ import Input from "../../../SharedUI/Input/Input";
 import Btn from "../../../SharedUI/Btn/Btn";
 import "./Roles-Update.css";
 
+const empPermissions = localStorage.getItem("permissions");
+
 const RolesUpdate = () => {
   const { roleId } = useParams();
   const [roleName, setRoleName] = useState("");
@@ -32,20 +34,23 @@ const RolesUpdate = () => {
       .catch((error) => {
         console.error("Error fetching permissions:", error);
       });
-  
+
     // Fetch existing role data
     AxiosDashboard.get(`/roles/${roleId}`)
       .then((response) => {
         setExistingRole(response.data.role);
         setRoleName(response.data.role.name);
-  
+
         // Set selectedPermissions to the old values, excluding any permissions that are not in the new role
         setSelectedPermissions(
           response.data.role.RolePermissions
-            ? response.data.role.RolePermissions.map((permission) => permission.id)
-                .filter((permissionId) =>
-                  response.data.permissions.some((permission) => permission.id === permissionId)
+            ? response.data.role.RolePermissions.map(
+                (permission) => permission.id
+              ).filter((permissionId) =>
+                response.data.permissions.some(
+                  (permission) => permission.id === permissionId
                 )
+              )
             : []
         );
         console.log(response.data.role.RolePermissions);
@@ -54,7 +59,6 @@ const RolesUpdate = () => {
         console.error("Error fetching role:", error);
       });
   }, [roleId]);
-  
 
   const handleTokenToggle = (permissionId) => {
     if (selectedPermissions.includes(permissionId)) {
@@ -109,82 +113,91 @@ const RolesUpdate = () => {
     return <div>Loading...</div>;
   }
 
-  return (
-    <>
-      {/* Page content */}
-      <Container className="mt--7" fluid>
-        {/* Table */}
-        <Row>
-          <div className="col">
-            <Card className="shadow">
-              <CardHeader className="border-0">
-                <Row>
-                  <Col>
-                    <h3 className="mb-0">Update Role</h3>
-                  </Col>
-                  <Col>
-                    <Link to="/dashboard/roles">
-                      <Btn
-                        className="btn btn-primary"
-                        style={{ marginLeft: "50%", minWidth: "100px" }}
-                        title="Show All Roles"
-                        name="back-btn"
+  if (empPermissions.split(",").includes("role")) {
+    return (
+      <>
+        {/* Page content */}
+        <Container className="mt--7" fluid>
+          {/* Table */}
+          <Row>
+            <div className="col">
+              <Card className="shadow">
+                <CardHeader className="border-0">
+                  <Row>
+                    <Col>
+                      <h3 className="mb-0">Update Role</h3>
+                    </Col>
+                    <Col>
+                      <Link to="/dashboard/roles">
+                        <Btn
+                          className="btn btn-primary"
+                          style={{ marginLeft: "50%", minWidth: "100px" }}
+                          title="Show All Roles"
+                          name="back-btn"
+                        />
+                      </Link>
+                    </Col>
+                  </Row>
+                </CardHeader>
+                <Form
+                  onSubmit={handleSubmit}
+                  style={{ textAlign: "center", marginLeft: "40px" }}
+                >
+                  <Form.Group as={Row} controlId="formRoleName">
+                    <Col sm={10}>
+                      <Input
+                        className="form-control mx-auto"
+                        style={{
+                          width: "70%",
+                          marginBottom: "50px",
+                          marginTop: "20px",
+                        }}
+                        placeholder="Enter Role Name"
+                        type="text"
+                        name="roleName"
+                        value={roleName}
+                        id="roleName"
+                        handleChange={(event) =>
+                          setRoleName(event.target.value)
+                        }
                       />
-                    </Link>
-                  </Col>
-                </Row>
-              </CardHeader>
-              <Form
-                onSubmit={handleSubmit}
-                style={{ textAlign: "center", marginLeft: "40px" }}
-              >
-                <Form.Group as={Row} controlId="formRoleName">
-                  <Col sm={10}>
-                    <Input
-                      className="form-control mx-auto"
-                      style={{
-                        width: "70%",
-                        marginBottom: "50px",
-                        marginTop: "20px",
-                      }}
-                      placeholder="Enter Role Name"
-                      type="text"
-                      name="roleName"
-                      value={roleName}
-                      id="roleName"
-                      handleChange={(event) => setRoleName(event.target.value)}
-                    />
-                  </Col>
-                </Form.Group>
-                <Form.Group controlId="formPermissions">
-                  <Form.Label>Select Permissions:</Form.Label>
-                  <div className="permission-tokens" style={{ margin: "20px" }}>
-                    <table className="mx-auto">
-                      <tbody>{permissionTokens}</tbody>
-                    </table>
-                  </div>
-                </Form.Group>
-                <Btn
-                  className="btn btn-primary"
-                  title="Save"
-                  name="update-role-btn"
-                  style={{ marginTop: "20px" }}
-                />
-              </Form>
-              <CardFooter className="py-4">
-                <nav aria-label="...">
-                  <Pagination
-                    className="pagination justify-content-end mb-0"
-                    listClassName="justify-content-end mb-0"
-                  ></Pagination>
-                </nav>
-              </CardFooter>
-            </Card>
-          </div>
-        </Row>
-      </Container>
-    </>
-  );
+                    </Col>
+                  </Form.Group>
+                  <Form.Group controlId="formPermissions">
+                    <Form.Label>Select Permissions:</Form.Label>
+                    <div
+                      className="permission-tokens"
+                      style={{ margin: "20px" }}
+                    >
+                      <table className="mx-auto">
+                        <tbody>{permissionTokens}</tbody>
+                      </table>
+                    </div>
+                  </Form.Group>
+                  <Btn
+                    className="btn btn-primary"
+                    title="Save"
+                    name="update-role-btn"
+                    style={{ marginTop: "20px" }}
+                  />
+                </Form>
+                <CardFooter className="py-4">
+                  <nav aria-label="...">
+                    <Pagination
+                      className="pagination justify-content-end mb-0"
+                      listClassName="justify-content-end mb-0"
+                    ></Pagination>
+                  </nav>
+                </CardFooter>
+              </Card>
+            </div>
+          </Row>
+        </Container>
+      </>
+    );
+  } else {
+    window.location.href = "/ErrorPage";
+  }
 };
 
 export default RolesUpdate;

@@ -21,8 +21,8 @@ const ResetPasswordPage = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordsMatch, setPasswordsMatch] = useState(true);
   const [passwordResetSuccess, setPasswordResetSuccess] = useState(false);
-  //const jwt = localStorage.getItem('jwt');
-  //const parts = jwt.split('.');
+  //const token = localStorage.getItem('token');
+  //const parts = token.split('.');
   //const encodedPayload = parts[1];
   //const payload = JSON.parse(atob(encodedPayload));
   //const id = payload.id;
