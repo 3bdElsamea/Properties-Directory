@@ -36,7 +36,7 @@ const CreateCity = () => {
       <div>
         <Tables
           title="All Cities"
-          route="/dashboard/city/create"
+          route="/dashboard/cities/create"
           content={
             <>
               <th scope="col">#</th>

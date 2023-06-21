@@ -32,7 +32,7 @@ root.render(
   <BrowserRouter>
     <Routes>
     {!jwt && <Route path="/reset-password" element={<ResetPassword />} /> 
-    && <Route path="/argon-dashboard-react/*" element={<Navigate to="/auth/login" replace />} />}
+    && <Route path="/*" element={<Navigate to="/auth/login" replace />} />}
       <Route path="/dashboard/*" element={<AdminLayout />} />
       <Route path="/auth/*" element={<AuthLayout />} />
       <Route path="/home" element={<><Navbar/><Home /><Footer/> </>} />

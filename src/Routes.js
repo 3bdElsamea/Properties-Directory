@@ -210,6 +210,7 @@ var routes = [
     path: "/country/create",
     name: "hiddenRoute",
     component: <CreateCountry />,
+    layout: "/dashboard",
   },
   //cities
   {
@@ -241,7 +242,7 @@ var routes = [
     layout: "/dashboard",
   },
   {
-    path: "/roles/:id",
+    path: "/roles/:roleId",
     name: "hiddenRoute",
     icon: "fa fa-unlock text-blue",
     component: <RolesUpdate />,

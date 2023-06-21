@@ -35,7 +35,7 @@ const PropertiesList = () => {
       const response = await AxiosWeb.get("/properties?title=");
       setPropertyList(response.data.data);
       setFilteredPropertyList(response.data.data);
-      getCityNames(response.data.data);
+      //getCityNames(response.data.data);
     } catch (error) {
       console.log(error);
     }
