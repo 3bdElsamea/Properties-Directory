@@ -21,6 +21,7 @@ import ContactUs from "./Website/Pages/ContactUs/ContactUs";
 import MyRequests from "./Website/Pages/MyRequests/MyRequests";
 import ErrorPage from "./Dashboard/Pages/ErrorPage/ErrorPage";
 import PropertyDetails from "./Website/Pages/PropertyDetails/PropertyDetails"
+import ResetPasswordDash from "./Dashboard/Pages/ResetPassword/ResetPassword";
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 import 'typeface-poppins';
@@ -32,21 +33,19 @@ const jwt = localStorage.getItem("jwt");
 root.render(
   <BrowserRouter>
     <Routes>
-    {!jwt && <Route path="/reset-password" element={<ResetPassword />} /> 
+    {!jwt && !<Route path="/auth/reset-password" element={<ResetPasswordDash />} />
     && <Route path="/*" element={<Navigate to="/auth/login" replace />} />}
       <Route path="/dashboard/*" element={<AdminLayout />} />
       <Route path="/auth/*" element={<AuthLayout />} />
       <Route path="/home" element={<><Navbar/><Home /><Footer/> </>} />
       <Route path="/properties" element={<><Navbar/> <PropertiesList /><Footer/></>} />
       <Route path="/about" element={<><Navbar/> <About /><Footer/></>} />
-      <Route path="/register" element={<><Navbar/><Register /></>} />
       <Route path="/PropertyDetails/:propertyId" element={<><Navbar/><PropertyDetails /><Footer/></>} />
-      <Route path="/login" element={<><Navbar/><LoginWebsite /></>} />
       <Route path="/register" element={<><Register /></>} />
       <Route path="/login" element={<><LoginWebsite /></>} />
       <Route path="/profile" element={<><Navbar/><Profile /><Footer/></>} />
       <Route path="/update_profile" element={<><Navbar/><UpdateProfile /><Footer/></>} />
-      <Route path="/reset-password" element={<><Navbar/><ResetPassword /></>} />
+      <Route path="/auth/reset-password/:id" element={<><ResetPassword /></>} />
       <Route path="/my-requests" element={<><Navbar/><MyRequests /><Footer/></>} />
       <Route path="/contact-us" element={<><Navbar/><ContactUs /><Footer/></>} />
       <Route path="*" element={<ErrorPage />} />

@@ -14,7 +14,7 @@ const ForgotPasswordForm = () => {
     };
     const config = {
       headers: {
-        'email': email, // Add the email as a custom header
+        'email': email,
         'Content-Type': 'application/json'
       }
     };

@@ -54,7 +54,7 @@ var routes = [
   },
   {
     path: "/requests",
-    name: empPermissions && empPermissions.split(",").includes("property_request") ? "property_request" : "hiddenRoute",
+    name: empPermissions && empPermissions.split(",").includes("property_request") ? "Requests" : "hiddenRoute",
     icon: "fa fa-shopping-basket text-blue",
     component: <Requests />,
     layout: "/dashboard",
@@ -264,11 +264,11 @@ var routes = [
     layout: "/auth",
   },
   {
-    path: "/reset-password/:id",
+    path: "/auth/reset-password/:id",
     name: "hiddenRoute",
     icon: "ni ni-key-25 text-info",
     component: <ResetPassword />,
-    layout: "/auth",
+    layout: "/dashboard",
   },
 ];
 
