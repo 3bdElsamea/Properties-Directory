@@ -85,3 +85,9 @@
   color: #000;
   font-weight: 600;
 }
+.no-products-message {
+  text-align: center;
+  font-size: 18px;
+  margin-top: 20px;
+  color: gray;
+}

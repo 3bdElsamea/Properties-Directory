@@ -2,12 +2,13 @@ import Tables from "../../SharedUI/Table/Tables";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import SweetAlert from "../../SharedUI/SweetAlert/SweetAlert";
-import { AxiosDashboard } from '../../../Axios';
+import { AxiosDashboard } from "../../../Axios";
+
+const empPermissions = localStorage.getItem("permissions");
 
 const Customers = () => {
   const [customerList, setCustomerList] = useState([]);
-  const [totalPages, setTotalPages]=useState(0);
-
+  const [totalPages, setTotalPages] = useState(0);
 
   const getAllCustomers = async () => {
     const response = await AxiosDashboard.get("/customers");
@@ -23,54 +24,55 @@ const Customers = () => {
   }, []);
 
   //use sweetalert to delete a customer
+  if (empPermissions.split(",").includes("customer")) {
+    return (
+      <>
+        <div>
+          <Tables
+            title="All Customers"
+            route="/dashboard/customers/create"
+            content={
+              <>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Phone Number</th>
+                <th scope="col">Actions</th>
+                <th scope="col"></th>
+              </>
+            }
+            tableRows={customerList.map((item, index) => (
+              <tr key={item.id}>
+                <th scope="row">{index + 1}</th>
+                <td>{item.name}</td>
+                <td>{item.email}</td>
+                <td>{item.phone}</td>
 
-  return (
-    <>
-      <div>
+                <td>
+                  <SweetAlert
+                    id={item.id}
+                    dataList={customerList}
+                    setdataList={setCustomerList}
+                    route="/customers"
+                    text="Are you sure you want to delete this customer?"
+                    action="delete"
+                  />
+                </td>
 
-        <Tables
-          title="All Customers"
-          route="/dashboard/customers/create"
-          content={
-            <>
-              <th scope="col">#</th>
-              <th scope="col">Name</th>
-              <th scope="col">Email</th>
-              <th scope="col">Phone Number</th>
-              <th scope="col">Actions</th>
-              <th scope="col"></th>
-            </>
-          }
-          tableRows={customerList.map((item, index) => (
-            <tr key={item.id}>
-              <th scope="row">{index + 1}</th>
-              <td>{item.name}</td>
-              <td>{item.email}</td>
-              <td>{item.phone}</td>
-
-              <td>
-                <SweetAlert
-                  id={item.id}
-                  dataList={customerList}
-                  setdataList={setCustomerList}
-                  route = "/customers"
-                  
-                  text="Are you sure you want to delete this customer?"
-                  action="delete"
-                />
-              </td>
-
-              <td>
-                <Link to={`/dashboard/customers/details/${item.id}`}>
-                  <i className="fa fa-eye btn-sm btn btn-info"></i>
-                </Link>
-              </td>
-            </tr>
-          ))}
-        />
-      </div>
-    </>
-  );
+                <td>
+                  <Link to={`/dashboard/customers/details/${item.id}`}>
+                    <i className="fa fa-eye btn-sm btn btn-info"></i>
+                  </Link>
+                </td>
+              </tr>
+            ))}
+          />
+        </div>
+      </>
+    );
+  } else {
+    window.location.href = "/ErrorPage";
+  }
 };
 
 export default Customers;

@@ -23,6 +23,7 @@ import ErrorPage from "./Dashboard/Pages/ErrorPage/ErrorPage";
 import PropertyDetails from "./Website/Pages/PropertyDetails/PropertyDetails"
 import PropertiesSellList from "./Website/Pages/PropertiesSell/PropertiesSellList"
 import PropertiesRentList from "./Website/Pages/PropertiesRent/PropertiesRentList"
+import ResetPasswordDash from "./Dashboard/Pages/ResetPassword/ResetPassword";
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 import 'typeface-poppins';
@@ -34,8 +35,8 @@ const jwt = localStorage.getItem("jwt");
 root.render(
   <BrowserRouter>
     <Routes>
-    {!jwt && <Route path="/reset-password" element={<ResetPassword />} /> 
-    && <Route path="/argon-dashboard-react/*" element={<Navigate to="/auth/login" replace />} />}
+    {!jwt && !<Route path="/auth/reset-password" element={<ResetPasswordDash />} />
+    && <Route path="/*" element={<Navigate to="/auth/login" replace />} />}
       <Route path="/dashboard/*" element={<AdminLayout />} />
       <Route path="/auth/*" element={<AuthLayout />} />
       <Route path="/home" element={<><Navbar/><Home /> <Footer/> </>} />
@@ -44,14 +45,12 @@ root.render(
       <Route path="/properties/rent" element={<><Navbar/> <PropertiesRentList /><Footer/></>} />
 
       <Route path="/about" element={<><Navbar/> <About /><Footer/></>} />
-      <Route path="/register" element={<><Navbar/><Register /></>} />
       <Route path="/PropertyDetails/:propertyId" element={<><Navbar/><PropertyDetails /><Footer/></>} />
-      <Route path="/login" element={<><Navbar/><LoginWebsite /></>} />
       <Route path="/register" element={<><Register /></>} />
       <Route path="/login" element={<><LoginWebsite /></>} />
       <Route path="/profile" element={<><Navbar/><Profile /><Footer/></>} />
       <Route path="/update_profile" element={<><Navbar/><UpdateProfile /><Footer/></>} />
-      <Route path="/reset-password" element={<><Navbar/><ResetPassword /></>} />
+      <Route path="/auth/reset-password/:id" element={<><ResetPassword /></>} />
       <Route path="/my-requests" element={<><Navbar/><MyRequests /><Footer/></>} />
       <Route path="/contact-us" element={<><Navbar/><ContactUs /><Footer/></>} />
       <Route path="*" element={<ErrorPage />} />

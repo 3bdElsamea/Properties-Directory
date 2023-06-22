@@ -2,7 +2,7 @@ import "./Property-List-Filter.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { AxiosWeb } from "../../../../Axios";
 
 const PropertiesListFilter = ({ setFilteredPropertyList }) => {
@@ -13,11 +13,51 @@ const PropertiesListFilter = ({ setFilteredPropertyList }) => {
   const [maxPriceInput, setMaxPriceInput] = useState("");
   const [minAreaInput, setMinAreaInput] = useState("");
   const [maxAreaInput, setMaxAreaInput] = useState("");
+  const [initialData, setInitialData] = useState([]);
 
-  const handleSearch = async (value) => {
-    setSearchInput(value);
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
     try {
-      const response = await AxiosWeb.get(`/properties?title=${value}`);
+      const response = await AxiosWeb.get("/properties");
+      setInitialData(response.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleSearch = async () => {
+    try {
+      const queryParams = [];
+      
+      if (searchInput) {
+        queryParams.push(`title=${searchInput}`);
+      }
+      if (bedroomsInput) {
+        queryParams.push(`bedrooms=${bedroomsInput}`);
+      }
+      if (bathroomsInput) {
+        queryParams.push(`bathrooms=${bathroomsInput}`);
+      }
+      if (minPriceInput && maxPriceInput) {
+        queryParams.push(`price=gte_${minPriceInput}_lte_${maxPriceInput}`);
+      } else if (minPriceInput) {
+        queryParams.push(`price=gte_${minPriceInput}`);
+      } else if (maxPriceInput) {
+        queryParams.push(`price=lte_${maxPriceInput}`);
+      }
+      if (minAreaInput && maxAreaInput) {
+        queryParams.push(`area=gte_${minAreaInput}_lte_${maxAreaInput}`);
+      } else if (minAreaInput) {
+        queryParams.push(`area=gte_${minAreaInput}`);
+      } else if (maxAreaInput) {
+        queryParams.push(`area=lte_${maxAreaInput}`);
+      }
+
+      const queryString = queryParams.length > 0 ? `?${queryParams.join("&")}` : "";
+      const response = await AxiosWeb.get(`/properties${queryString}`);
       setFilteredPropertyList(response.data.data);
     } catch (error) {
       console.log(error);
@@ -26,90 +66,38 @@ const PropertiesListFilter = ({ setFilteredPropertyList }) => {
 
   const handleBedroomsChange = (value) => {
     setBedroomsInput(value);
-    filterPropertiesByBedrooms(value);
   };
 
   const handleBathroomsChange = (value) => {
     setBathroomsInput(value);
-    filterPropertiesByBathrooms(value);
-  };
-
-  const filterPropertiesByBedrooms = async (value) => {
-    try {
-      const response = await AxiosWeb.get(`/properties?bedrooms=${value}`);
-      setFilteredPropertyList(response.data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const filterPropertiesByBathrooms = async (value) => {
-    try {
-      const response = await AxiosWeb.get(`/properties?bathrooms=${value}`);
-      setFilteredPropertyList(response.data.data);
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   const handleMinPriceChange = (value) => {
     setMinPriceInput(value);
-    filterPropertiesByPriceRange(value, maxPriceInput);
-  };
-  
-  const handleMaxPriceChange = (value) => {
-    setMaxPriceInput(value);
-    filterPropertiesByPriceRange(minPriceInput, value);
   };
 
-  const filterPropertiesByPriceRange = async (minPrice, maxPrice) => {
-    let queryParams = "";
-  
-    if (minPrice && maxPrice) {
-      queryParams = `?price=gte_${minPrice}_lte_${maxPrice}`;
-    } else if (minPrice) {
-      queryParams = `?price=gte_${minPrice}`;
-    } else if (maxPrice) {
-      queryParams = `?price=lte_${maxPrice}`;
-    }
-    
-    try {
-      const response = await AxiosWeb.get(`/properties${queryParams}`);
-      setFilteredPropertyList(response.data.data);
-    } catch (error) {
-      console.log(error);
-    }
+  const handleMaxPriceChange = (value) => {
+    setMaxPriceInput(value);
   };
 
   const handleMinAreaChange = (value) => {
     setMinAreaInput(value);
-    filterPropertiesByAreaRange(value, maxAreaInput);
-  };
-  
-  const handleMaxAreaChange = (value) => {
-    setMaxAreaInput(value);
-    filterPropertiesByAreaRange(minAreaInput, value);
   };
 
-  const filterPropertiesByAreaRange = async (minArea, maxArea) => {
-    let queryParams = "";
-  
-    if (minArea && maxArea) {
-      queryParams = `?area=gte_${minArea}_lte_${maxArea}`;
-    } else if (minArea) {
-      queryParams = `?area=gte_${minArea}`;
-    } else if (maxArea) {
-      queryParams = `?area=lte_${maxArea}`;
-    }
-    
-    try {
-      const response = await AxiosWeb.get(`/properties${queryParams}`);
-      setFilteredPropertyList(response.data.data);
-    } catch (error) {
-      console.log(error);
-    }
+  const handleMaxAreaChange = (value) => {
+    setMaxAreaInput(value);
   };
-  
+
+  const resetFilters = () => {
+    setFilteredPropertyList(initialData);
+    setSearchInput("");
+    setBedroomsInput("");
+    setBathroomsInput("");
+    setMinPriceInput("");
+    setMaxPriceInput("");
+    setMinAreaInput("");
+    setMaxAreaInput("");
+  };
 
   return (
     <>
@@ -122,10 +110,10 @@ const PropertiesListFilter = ({ setFilteredPropertyList }) => {
               className="form-control"
               placeholder="What are you looking for?"
               value={searchInput}
-              onChange={(e) => handleSearch(e.target.value)}
+              onChange={(e) => setSearchInput(e.target.value)}
             />
             <label>
-              <span className="flaticon-search"></span>
+              <FontAwesomeIcon icon={faSearch} />
             </label>
           </div>
         </div>
@@ -242,12 +230,15 @@ const PropertiesListFilter = ({ setFilteredPropertyList }) => {
             <option value="7">7</option>
           </select>
         </div>
-
-        <div className="reset-area d-flex align-items-center justify-content-between">
-          <a className="reset-button" href="#">
-            <span className="flaticon-turn-back"></span>
-            <u>Reset all filters</u>
-          </a>
+        <div className="reset-btn">
+          <button className="btn btn-default" onClick={resetFilters}>
+            Reset Filters
+          </button>
+        </div>
+        <div className="filter-btn">
+          <button className="btn btn-default" onClick={handleSearch}>
+            Filter
+          </button>
         </div>
       </div>
     </>

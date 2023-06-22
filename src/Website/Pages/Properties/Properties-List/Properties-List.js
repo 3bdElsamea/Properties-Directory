@@ -17,25 +17,28 @@ const PropertiesList = () => {
   const [cityName, setCityName] = useState([]);
   const [filteredPropertyList, setFilteredPropertyList] = useState([]);
   const [requestedProperties, setRequestedProperties] = useState([]);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Track user login status
+  const [showNoProducts, setShowNoProducts] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     getPropertyList();
     getRequestedProperties();
-    checkLoginStatus(); 
+    checkLoginStatus();
   }, []);
 
   const checkLoginStatus = () => {
-    const jwt = localStorage.getItem("jwt"); // Check for JWT in local storage
-    setIsLoggedIn(!!jwt); // Update the login status based on JWT availability
+    const token = localStorage.getItem("token"); // Check for token in local storage
+    setIsLoggedIn(!!token); // Update the login status based on token availability
   };
 
   const getPropertyList = async () => {
     try {
       const response = await AxiosWeb.get("/properties?title=");
-      setPropertyList(response.data.data);
-      setFilteredPropertyList(response.data.data);
-      getCityNames(response.data.data);
+      const properties = response.data.data;
+      setPropertyList(properties);
+      setFilteredPropertyList(properties);
+      setShowNoProducts(properties.length === 0);
+      // getCityNames(properties);
     } catch (error) {
       console.log(error);
     }
@@ -91,7 +94,9 @@ const PropertiesList = () => {
         </Col>
         <Col>
           <div className="card-column">
-            {filteredPropertyList.length > 0 ? (
+            {showNoProducts ? (
+              <div className="no-products-message">No products</div>
+            ) : (
               filteredPropertyList.map((property, index) => (
                 <div className="card propertyCard" key={property.id}>
                   <div className="cardImageContainer">
@@ -107,13 +112,16 @@ const PropertiesList = () => {
                     <a href={`/PropertyDetails/${property.id}`}>{property.title}</a>
                     <small>In {cityName[index]}</small>
                     <span>
-                      <FontAwesomeIcon icon={faBed} /> {property.bedrooms} <span className="details">bed</span>
+                      <FontAwesomeIcon icon={faBed} /> {property.bedrooms}{" "}
+                      <span className="details">bed</span>
                     </span>
                     <span>
-                      <FontAwesomeIcon icon={faBath} /> {property.bathrooms} <span className="details">bath</span>
+                      <FontAwesomeIcon icon={faBath} /> {property.bathrooms}{" "}
+                      <span className="details">bath</span>
                     </span>
                     <span>
-                      <FontAwesomeIcon icon={faRulerCombined} /> {property.area} <span className="details">sqft</span>
+                      <FontAwesomeIcon icon={faRulerCombined} /> {property.area}{" "}
+                      <span className="details">sqft</span>
                     </span>
                     <hr className="cardHr" />
                     <FontAwesomeIcon icon={faKey} />
@@ -121,53 +129,12 @@ const PropertiesList = () => {
                     {requestedProperties.includes(property.id) ? (
                       <span className="requestedSpan">Already requested</span>
                     ) : isLoggedIn ? (
-                    <Btn
-                      onClick={() => handleRequest(property.id)}
-                      title="Request"
-                      className="btn updateBtn ud-btn btn-secondary updateBtn fs-5"
-                      
-                    />
-                  ) : null} 
-                  </div>
-                </div>
-              ))
-            ) : (
-              propertyList.map((property, index) => (
-                <div className="card propertyCard" key={property.id}>
-                  <div className="cardImageContainer">
-                    <img
-                      src={property.image}
-                      alt="Property"
-                      width="100"
-                      height="100"
-                    />
-                    <div className="cardImageText">${property.price} / mo</div>
-                  </div>
-                  <div className="cardContent">
-                    <a href={`/properties/${property.id}`}>{property.title}</a>
-                    <small>In {cityName[index]}</small>
-                    <span>
-                      <FontAwesomeIcon icon={faBed} /> {property.bedrooms} <span className="details">bed</span>
-                    </span>
-                    <span>
-                      <FontAwesomeIcon icon={faBath} /> {property.bathrooms} <span className="details">bath</span>
-                    </span>
-                    <span>
-                      <FontAwesomeIcon icon={faRulerCombined} /> {property.area} <span className="details">sqft</span>
-                    </span>
-                    <hr className="cardHr" />
-                    <FontAwesomeIcon icon={faKey} />
-                    <span>For Rent</span>
-                    {requestedProperties.includes(property.id) ? (
-                      <span className="requestedSpan">Already requested</span>
-                      ) : (
                       <Btn
                         onClick={() => handleRequest(property.id)}
                         title="Request"
-                        className="btn btn-primary updateBtn ud-btn btn-white updateBtn fs-5"
-                        style={{marginLeft: '20%', marginTop: '0'}}
+                        className="btn updateBtn ud-btn btn-secondary updateBtn fs-5"
                       />
-                    )}
+                    ) : null}
                   </div>
                 </div>
               ))

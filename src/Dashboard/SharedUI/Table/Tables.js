@@ -31,12 +31,16 @@ const Tables = ({
   const handleSearch = (event) => {
     setSearchQuery(event.target.value);
   };
-
+/*
   const filteredTableRows = tableRows.filter((item) =>
     item.props.children[1].props.children
       .toLowerCase()
       .includes(searchQuery.toLowerCase())
-  );
+  );*/
+  const filteredTableRows = tableRows.filter((item) => {
+    const tableRowValue = item.props.children[1].props.children.toString();
+    return tableRowValue.toLowerCase().includes(searchQuery.toLowerCase());
+  });
 
   return (
     <>

@@ -3,11 +3,11 @@ import "./Navbar.css";
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
 
 function handleLogout() {
-  localStorage.removeItem("jwt"); // remove the JWT token from local storage
+  localStorage.removeItem("token"); // remove the token token from local storage
   window.location.href = "/login"; // redirect the user to the login page
 }
 
-const isLoggedIn = localStorage.getItem("jwt");
+const isLoggedIn = localStorage.getItem("token");
 
 const Navbar = () => {
   const [menuVisible, setMenuVisible] = useState(false);

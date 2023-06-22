@@ -34,6 +34,9 @@ import PropertyUpdate from "./Dashboard/Pages/Properties/PropertyUpdate.js";
 import PropertyDetails from "./Dashboard/Pages/Properties/PropertyDetails.js";
 import OwnerDetails from "./Dashboard/Pages/Owners/OwnerDetails.js";
 import PropertyImages from "./Dashboard/Pages/Properties/propertyImages.js";
+
+const empPermissions = localStorage.getItem("permissions");
+
 var routes = [
   {
     path: "/index",
@@ -49,32 +52,16 @@ var routes = [
     component: <ErrorPage />,
     layout: "/dashboard",
   },
-  /*
-  {
-    path: "/setting",
-    name: "Setting",
-    icon: "fa fa-gear text-blue",
-    component: <Setting />,
-    layout: "/dashboard",
-  },
-  {
-    path: "/user-profile",
-    name: "User Profile",
-    icon: "ni ni-single-02 text-yellow",
-    component: <Profile />,
-    layout: "/dashboard",
-  },
-  */
   {
     path: "/requests",
-    name: "hiddenRoute",
+    name: empPermissions && empPermissions.split(",").includes("property_request") ? "Requests" : "hiddenRoute",
     icon: "fa fa-shopping-basket text-blue",
     component: <Requests />,
     layout: "/dashboard",
   },
   {
     path: "/categories",
-    name: "Categories",
+    name: empPermissions && empPermissions.split(",").includes("category") ? "category" : "hiddenRoute",
     icon: "ni ni-bullet-list-67 text-blue",
     component: <Categories />,
     layout: "/dashboard",
@@ -96,7 +83,7 @@ var routes = [
 
   {
     path: "/properties",
-    name: "Properties",
+    name: empPermissions && empPermissions.split(",").includes("property") ? "property" : "hiddenRoute",
     icon: "ni ni-bag-17 text-blue",
     component: <Properties />,
     layout: "/dashboard",
@@ -131,7 +118,7 @@ var routes = [
   },
   {
     path: "/Owners",
-    name: "Owners",
+    name: empPermissions && empPermissions.split(",").includes("owner") ? "owner" : "hiddenRoute",
     icon: "fa fa-users text-blue",
     component: <Owners />,
     layout: "/dashboard",
@@ -156,7 +143,7 @@ var routes = [
   },
   {
     path: "/customers",
-    name: "Customers",
+    name: empPermissions && empPermissions.split(",").includes("customer") ? "customer" : "hiddenRoute",
     icon: "fa fa-users text-blue",
     component: <Customers />,
     layout: "/dashboard",
@@ -170,7 +157,7 @@ var routes = [
 
   {
     path: "/employees",
-    name: "Employees",
+    name: empPermissions && empPermissions.split(",").includes("employee") ? "employee" : "hiddenRoute",
     //add different icon for employees not users
     icon: "fa fa-user text-blue",
     component: <Employees />,
@@ -201,7 +188,7 @@ var routes = [
   //country
   {
     path: "/country",
-    name: "Country",
+    name: empPermissions && empPermissions.split(",").includes("country") ? "country" : "hiddenRoute",
     icon: "fa fa-globe text-blue",
     component: <Country />,
     layout: "/dashboard",
@@ -210,11 +197,12 @@ var routes = [
     path: "/country/create",
     name: "hiddenRoute",
     component: <CreateCountry />,
+    layout: "/dashboard",
   },
   //cities
   {
     path: "/cities",
-    name: "Cities",
+    name: empPermissions && empPermissions.split(",").includes("city") ? "city" : "hiddenRoute",
     icon: "fa fa-city text-blue",
     component: <Cities />,
     layout: "/dashboard",
@@ -228,7 +216,7 @@ var routes = [
 
   {
     path: "/roles",
-    name: "Roles",
+    name: empPermissions && empPermissions.split(",").includes("role") ? "role" : "hiddenRoute",
     icon: "fa fa-unlock text-blue",
     component: <Roles />,
     layout: "/dashboard",
@@ -241,7 +229,7 @@ var routes = [
     layout: "/dashboard",
   },
   {
-    path: "/roles/:id",
+    path: "/roles/:roleId",
     name: "hiddenRoute",
     icon: "fa fa-unlock text-blue",
     component: <RolesUpdate />,
@@ -249,7 +237,7 @@ var routes = [
   },
   {
     path: "/About",
-    name: "About",
+    name: empPermissions && empPermissions.split(",").includes("static_page") ? "about" : "hiddenRoute",
     icon: "ni ni-bullet-list-67 text-blue",
     component: <About />,
     layout: "/dashboard",
@@ -276,17 +264,10 @@ var routes = [
     layout: "/auth",
   },
   {
-    path: "/reset-password/:id",
+    path: "/auth/reset-password/:id",
     name: "hiddenRoute",
     icon: "ni ni-key-25 text-info",
     component: <ResetPassword />,
-    layout: "/auth",
-  },
-  {
-    path: "/requests",
-    name: "Requests",
-    icon: "ni ni-key-25 text-info",
-    component: <Requests />,
     layout: "/dashboard",
   },
 ];

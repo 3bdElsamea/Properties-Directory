@@ -49,7 +49,7 @@ const RequestsList = () => {
   };
 
   return (
-    <div className="requests_container" c>
+    <div className="requests_container">
       <h3>Show All Requests</h3>
       <Row className="requestsRow">
         <Col>
