@@ -39,6 +39,10 @@ export const createRole = catchAsync(async (req, res, next) => {
   const role = await Role.create({
     name: req.body.name,
   });
+  // if req.body.permissions has the permission of id 13 append the ids 6 and 11 also to the array
+  if (req.body.permissions.includes(13)) {
+    req.body.permissions.push(6, 11);
+  }
 
   const rolePermissions = req.body.permissions.map((permissionId) => ({
     role_id: role.id,

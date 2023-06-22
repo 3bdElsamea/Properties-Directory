@@ -8,6 +8,7 @@ const createNotification = async (customerId, title, message) => {
       message: message,
     });
     await pusher.trigger('property-request', 'new-request', {
+      id: notification.id,
       title: notification.title,
       message: notification.message,
     });
