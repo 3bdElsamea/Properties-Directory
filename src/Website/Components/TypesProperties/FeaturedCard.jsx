@@ -1,27 +1,26 @@
 import React from 'react'
-import h1  from '../../Assets/img/Home/h1.png'
-import h2 from '../../Assets/img/Home/h2.png'
+import hh1  from '../../Assets/img/Home/h1.png'
+import hh2 from '../../Assets/img/Home/h2.png'
 
 import './TypesProperties.css'
 
 const FeaturedCard = () => {
   return (
-    <div class="contentt">
     <div class="row">
-      <div class="col-6 box">
-        <img src={h1} alt='' />
-        <h4>For Rent</h4>
-        <label>total</label>
+      <div class="col-5 box">
+        <img src={hh1} alt='' />
+        <h2> <a href='/properties/rent'> For Rent</a> </h2> 
       </div>
-      <div class="col-6 box">
-        <img src={h2} alt='' />
-        <h4>For Sell </h4>
-        <label>total</label>
+      <div class="col-5 box">
+        <img src={hh2} alt='' />
+       <h2> <a href='/properties/sell'> For Sell </a> </h2> 
       </div>
     
     </div>
-  </div>
+ 
   )
 }
 
 export default FeaturedCard
+
+

@@ -42,7 +42,6 @@ const PropertyDetails = () => {
     };
   
   return (
-    <Container className="mt--7" fluid>
       <Row>
         <Col className="order-xl-1" xl="12">
           <Card className="shadow">
@@ -69,32 +68,32 @@ const PropertyDetails = () => {
                       alt="Property"
                       rounded
                       width="100%"
-                      height="auto"
-                      style={{ marginBottom: '20px' }}
+                      height="90%"
+                      style={{ marginBottom: '10px' }}
                     />
                   </Col>
                   <Col xs={12} md={6}>
-                    <div className="d-flex flex-column">
-                      <h5>Property Information</h5>
+                    <div className="d-flex flex-column mt-3">
+                      <h3>Property Information</h3>
                       <br />
 
                       {/* Property details */}
-                      <div className="d-flex align-items-center mb-2">
+                      <div className="d-flex align-items-center p-2 mb-2">
                         <i className="fas fa-envelope mr-2 text-info"></i>
                         <span className="font-weight-bold mr-1">Title:</span>
                         {property.title}
                       </div>
-                      <div className="d-flex align-items-center mb-2">
+                      <div className="d-flex align-items-center p-2  mb-2">
                         <i className="fas fa-dollar-sign mr-2 text-info"></i>
                         <span className="font-weight-bold mr-1">Price:</span>
                         {property.price}
                       </div>
-                      <div className="d-flex align-items-center mb-2">
+                      <div className="d-flex align-items-center p-2  mb-2">
                         <i className="fas fa-align-left mr-2 text-info"></i>
                         <span className="font-weight-bold mr-1">Description:</span>
                         {property.description}
                       </div>
-                      <div className="d-flex align-items-center mb-2">
+                      <div className="d-flex align-items-center p-2  mb-2">
                         <i className="fas fa-ruler-combined mr-2 text-info"></i>
                         <span className="font-weight-bold mr-1">Area:</span>
                         {property.area}
@@ -118,7 +117,7 @@ const PropertyDetails = () => {
                             src={image.image}
                             alt="Property"
                             rounded
-                            width="250"
+                            width="100%"
                             height="180"
                             style={{ marginBottom: '20px' }}
                           />
@@ -140,7 +139,7 @@ const PropertyDetails = () => {
                           src={image.image}
                           alt="Property"
                           rounded
-                          width="250"
+                          width="100%"
                           height="180"
                           style={{ marginBottom: '20px' }}
                         />
@@ -153,7 +152,6 @@ const PropertyDetails = () => {
           </Card>
         </Col>
       </Row>
-    </Container>
   )
 }
 

@@ -1,4 +1,6 @@
+import React, { useState } from "react";
 import "./Navbar.css";
+import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
 
 function handleLogout() {
   localStorage.removeItem("jwt"); // remove the JWT token from local storage
@@ -8,90 +10,93 @@ function handleLogout() {
 const isLoggedIn = localStorage.getItem("jwt");
 
 const Navbar = () => {
+  const [menuVisible, setMenuVisible] = useState(false);
+
+  const toggleMenu = () => {
+    setMenuVisible(!menuVisible);
+  };
+
   return (
-    <div className="row rowNav align-items-center justify-content-between">
-      <div className="colnav col-auto">
-        <div className="d-flex align-items-center justify-content-between">
-          <div className="logos mr35">
-            <a className="header-logo logo1" href="/home">
-              <img
-                src="https://creativelayers.net/themes/homez-html/images/header-logo2.svg"
-                alt="Header Logo"
-              />
-            </a>
-          </div>
-          <ul
-            id="respMenu"
-            className="ace-responsive-menu"
-            data-menu-style="horizontal"
-          >
-            <li className="visible_list">
-              <a className="list-item" href="/home">
-                <span className="title">Home</span>
-              </a>
+    <div className={`navbar ${menuVisible ? "menu-open" : ""}`}>
+      <div className="navbar-container">
+        <div className="logo-container">
+          <a className="header-logo logo1" href="/home">
+            <img
+              src="https://creativelayers.net/themes/homez-html/images/header-logo2.svg"
+              alt="Header Logo"
+            />
+          </a>
+        </div>
+        <div className={`nav-menu ${menuVisible ? "active" : ""}`}>
+          <ul>
+            <li>
+              <a href="/home">Home</a>
             </li>
             {isLoggedIn && (
               <>
-                <li className="megamenu_style">
-                  <a className="list-item" href="/profile">
-                    <span className="title">Profile</span>
-                  </a>
+                <li>
+                  <a href="/profile">Profile</a>
                 </li>
-                <li className="megamenu_style">
-                  <a className="list-item" href="/my-requests">
-                    <span className="title">My Requests</span>
-                  </a>
+                <li>
+                  <a href="/my-requests">My Requests</a>
                 </li>
               </>
             )}
-            <li className="visible_list">
-              <a className="list-item" href="#">
-                <span className="title">Properties</span>
+            <li>
+              <a href="#">
+                Properties
                 <span className="arrow"></span>
               </a>
-              <div className="sub-menu">
-                <ul className="list-unstyled">
-                  <li>
-                    <a href="/properties">All Properties</a>
-                  </li>
-                  <li>
-                    <a href="#">Properties for Rent</a>
-                  </li>
-                  <li>
-                    <a href="#">Properties for Sale</a>
-                  </li>
-                </ul>
-              </div>
+              <ul className="sub-menu">
+                <li>
+                  <a href="/properties">All Properties</a>
+                </li>
+                <li>
+                  <a href="#">Properties for Rent</a>
+                </li>
+                <li>
+                  <a href="#">Properties for Sale</a>
+                </li>
+              </ul>
             </li>
-            <li className="visible_list">
-              <a className="list-item" href="#">
-                <span className="title">Pages</span>
+            <li>
+              <a href="#">
+                Pages
                 <span className="arrow"></span>
               </a>
-              <div className="sub-menu">
-                <ul className="list-unstyled">
-                  <li>
-                    <a href="about">About Us</a>
-                  </li>
-                  <li>
-                    <a href="/contact-us">Contact Us</a>
-                  </li>
-                </ul>
-              </div>
+              <ul className="sub-menu">
+                <li>
+                  <a href="about">About Us</a>
+                </li>
+                <li>
+                  <a href="/contact-us">Contact Us</a>
+                </li>
+              </ul>
             </li>
           </ul>
         </div>
-      </div>
-      <div className="colnav col-auto">
-        {isLoggedIn ? (
-          <button className="btn btn-danger btnNav" onClick={handleLogout} style={{backgroundColor:'#EB6753'}}>
-            Logout
-          </button>
-        ) : (
-          <a href="/login">
-            <button className="btn btn-dark btnNav">Login</button>
-          </a>
-        )}
+        <div className="nav-buttons">
+          {isLoggedIn ? (
+            <button
+              className="btn btn-danger btnNav"
+              onClick={handleLogout}
+              style={{ backgroundColor: "#EB6753" }}
+            >
+              Logout
+            </button>
+          ) : (
+            <a href="/login">
+              <button className="btn btn-dark btnNav">Login</button>
+            </a>
+          )}
+        </div>
+        <div className="mobile-menu-toggle" onClick={toggleMenu}>
+          {menuVisible ? (
+            <AiOutlineClose className="close-icon" />
+          ) : (
+            <AiOutlineMenu className="menu-icon" />
+          )}
+        </div>
       </div>
     </div>
   );

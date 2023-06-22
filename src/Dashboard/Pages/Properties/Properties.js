@@ -64,7 +64,7 @@ const Properties = () => {
         <>
           <th scope="col">ID</th>
           <th scope="col">Title</th>
-          <th scope="col">Description</th>
+          {/* <th scope="col">Description</th> */}
           <th scope="col">Price</th>
           <th scope="col">Image</th>
           {/* <th scope="col">Area</th>
@@ -88,7 +88,7 @@ const Properties = () => {
         <tr key={property.id}>
           <th scope="row">{property.id}</th>
           <td>{property.title}</td>
-          <td>{property.description}</td>
+          {/* <td>{property.description}</td> */}
           <td>{property.price}</td>
           <td>
             <img src={property.image} alt="Property" width="100" height="100" />

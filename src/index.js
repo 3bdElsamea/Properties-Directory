@@ -21,6 +21,8 @@ import ContactUs from "./Website/Pages/ContactUs/ContactUs";
 import MyRequests from "./Website/Pages/MyRequests/MyRequests";
 import ErrorPage from "./Dashboard/Pages/ErrorPage/ErrorPage";
 import PropertyDetails from "./Website/Pages/PropertyDetails/PropertyDetails"
+import PropertiesSellList from "./Website/Pages/PropertiesSell/PropertiesSellList"
+import PropertiesRentList from "./Website/Pages/PropertiesRent/PropertiesRentList"
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 import 'typeface-poppins';
@@ -36,8 +38,11 @@ root.render(
     && <Route path="/argon-dashboard-react/*" element={<Navigate to="/auth/login" replace />} />}
       <Route path="/dashboard/*" element={<AdminLayout />} />
       <Route path="/auth/*" element={<AuthLayout />} />
-      <Route path="/home" element={<><Navbar/><Home /><Footer/> </>} />
+      <Route path="/home" element={<><Navbar/><Home /> <Footer/> </>} />
       <Route path="/properties" element={<><Navbar/> <PropertiesList /><Footer/></>} />
+      <Route path="/properties/sell" element={<><Navbar/> <PropertiesSellList /><Footer/></>} />
+      <Route path="/properties/rent" element={<><Navbar/> <PropertiesRentList /><Footer/></>} />
+
       <Route path="/about" element={<><Navbar/> <About /><Footer/></>} />
       <Route path="/register" element={<><Navbar/><Register /></>} />
       <Route path="/PropertyDetails/:propertyId" element={<><Navbar/><PropertyDetails /><Footer/></>} />

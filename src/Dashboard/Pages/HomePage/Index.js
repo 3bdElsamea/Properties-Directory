@@ -49,8 +49,8 @@ const Index = (props) => {
     <>
       <Header />
       {/* Page content */}
-      <Container className="mt--7" fluid>
-        <Row>
+      {/* <Container className="mt--7" fluid> */}
+        {/* <Row>
           <Col className="mb-5 mb-xl-0" xl="8">
             <Card className="bg-gradient-default shadow">
               <CardHeader className="bg-transparent">
@@ -94,15 +94,15 @@ const Index = (props) => {
               </CardHeader>
               <CardBody>
                 {/* Chart */}
-                <div className="chart">
+                {/* <div className="chart">
                   <Line
                     data={chartExample1[chartExample1Data]}
                     options={chartExample1.options}
                     getDatasetAtEvent={(e) => console.log(e)}
                   />
                 </div>
-              </CardBody>
-            </Card>
+              </CardBody> */}
+            {/* </Card>
           </Col>
           <Col xl="4">
             <Card className="shadow">
@@ -118,13 +118,13 @@ const Index = (props) => {
               </CardHeader>
               <CardBody>
                 {/* Chart */}
-                <div className="chart">
+                {/* <div className="chart">
                   <Bar
                     data={chartExample2.data}
                     options={chartExample2.options}
                   />
-                </div>
-              </CardBody>
+                </div> */}
+              {/* </CardBody>
             </Card>
           </Col>
         </Row>
@@ -313,8 +313,8 @@ const Index = (props) => {
               </Table>
             </Card>
           </Col>
-        </Row>
-      </Container>
+        </Row> */} 
+      {/* </Container> */}
     </>
   );
 };

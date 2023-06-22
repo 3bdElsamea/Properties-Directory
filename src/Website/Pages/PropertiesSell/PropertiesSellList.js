@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PropertiesListFilter from "./Property-List-Filter";
 import { Row, Col } from "reactstrap";
-import { AxiosWeb } from "../../../../Axios";
+import { AxiosWeb } from "../../../Axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBed,
@@ -9,10 +9,10 @@ import {
   faRulerCombined,
   faKey,
 } from "@fortawesome/free-solid-svg-icons";
-import "./Properties-List.css";
-import Btn from "../../../../Dashboard/SharedUI/Btn/Btn";
+import "./PropertiesSellList.css";
+import Btn from "../../SharedUI/Btn/Btn";
 
-const PropertiesList = () => {
+const PropertiesSellList = () => {
   const [propertyList, setPropertyList] = useState([]);
   const [cityName, setCityName] = useState([]);
   const [filteredPropertyList, setFilteredPropertyList] = useState([]);
@@ -32,7 +32,7 @@ const PropertiesList = () => {
 
   const getPropertyList = async () => {
     try {
-      const response = await AxiosWeb.get("/properties?title=");
+      const response = await AxiosWeb.get("/properties?category_id=25");
       setPropertyList(response.data.data);
       setFilteredPropertyList(response.data.data);
       getCityNames(response.data.data);
@@ -117,7 +117,7 @@ const PropertiesList = () => {
                     </span>
                     <hr className="cardHr" />
                     <FontAwesomeIcon icon={faKey} />
-                    <span className="mr-5">For Rent</span>
+                    {/* <span className="mr-5">{property.catageory} </span> */}
                     {requestedProperties.includes(property.id) ? (
                       <span className="requestedSpan">Already requested</span>
                     ) : isLoggedIn ? (
@@ -179,4 +179,4 @@ const PropertiesList = () => {
   );
 };
 
-export default PropertiesList;
+export default PropertiesSellList;
