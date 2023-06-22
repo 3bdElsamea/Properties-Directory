@@ -15,7 +15,9 @@ const obj = {
 };
 
 const getAllEmployees = catchAsync(async (req, res) => {
-  const employees = await new ApiFeatures(Employee, req.query, obj).get();
+  const employees = await new ApiFeatures(Employee, req.query, {
+    ...obj,
+  }).get();
   res.json(employees);
 });
 
