@@ -10,7 +10,7 @@ const obj = {
       attributes: ['name'],
     },
   ],
-  order: [['created_at', 'ASC']],
+  order: [['created_at', 'DESC']],
 };
 
 const getAllNotifications = catchAsync(async (req, res) => {
