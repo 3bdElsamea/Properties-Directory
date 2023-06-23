@@ -5,6 +5,9 @@ import Employee from '../../models/Employee.js';
 import Property from '../../models/Property.js';
 import AppError from '../../utils/appError.js';
 import pusher from '../../config/pusher.js';
+import createNotification from '../../utils/createNotification.js';
+import customer from '../../models/Customer.js';
+import Customer from '../../models/Customer.js';
 
 const startChatConversations = catchAsync(async (req, res, next) => {
   const property = await Property.findByPk(req.params.id);
@@ -18,10 +21,12 @@ const startChatConversations = catchAsync(async (req, res, next) => {
     },
   });
   if (conversationExists) {
-    return next(new AppError('Conversation already exists', 400));
+    req.params.id = conversationExists.id;
+    return getChatMessages(req, res, next);
   }
   const conversation = await ChatConversation.create({
     customer_id: req.decodedData.customerId,
+    // employee_id: property.employee_id,
     employee_id: property.employee_id,
   });
   res.json(conversation);
@@ -54,6 +59,26 @@ const sendChatMessage = catchAsync(async (req, res) => {
     sender: 'customer',
     message_text: messageText,
   });
+  // find conversation name\
+  const conversation = await ChatConversation.findByPk(conversationId, {
+    include: [
+      {
+        model: Employee,
+        attributes: ['name'],
+      },
+      {
+        model: Customer,
+        attributes: ['name'],
+      },
+    ],
+  });
+  console.log(conversation);
+  // create notification for the employee
+  await createNotification(
+    req.decodedData.customerId,
+    'New message',
+    `Message for ${conversation.Employee.name} from ${conversation.Customer.name}`,
+  );
   // send pusher notification to employee
   await pusher.trigger(`chat-${conversationId}`, 'message_to_employee', {
     message: message.message_text,
