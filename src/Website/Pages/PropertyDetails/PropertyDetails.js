@@ -43,7 +43,7 @@ const PropertyDetails = () => {
   
   return (
       <Row>
-        <Col className="order-xl-1" xl="12">
+        <Col className="order-xl-3" xl="12">
           <Card className="shadow">
             <CardHeader className="bg-white border-0">
               <Row className="align-items-center">
@@ -78,28 +78,59 @@ const PropertyDetails = () => {
                       <br />
 
                       {/* Property details */}
-                      <div className="d-flex align-items-center p-2 mb-2">
+                      <div className="d-flex align-items mb-4">
                         <i className="fas fa-envelope mr-2 text-info"></i>
                         <span className="font-weight-bold mr-1">Title:</span>
                         {property.title}
                       </div>
-                      <div className="d-flex align-items-center p-2  mb-2">
+                      <div className="d-flex align-items mb-4">
                         <i className="fas fa-dollar-sign mr-2 text-info"></i>
                         <span className="font-weight-bold mr-1">Price:</span>
                         {property.price}
                       </div>
-                      <div className="d-flex align-items-center p-2  mb-2">
+                      <div className="d-flex align-items mb-4">
                         <i className="fas fa-align-left mr-2 text-info"></i>
                         <span className="font-weight-bold mr-1">Description:</span>
                         {property.description}
                       </div>
-                      <div className="d-flex align-items-center p-2  mb-2">
+                      <div className="d-flex align-items mb-4">
                         <i className="fas fa-ruler-combined mr-2 text-info"></i>
                         <span className="font-weight-bold mr-1">Area:</span>
                         {property.area}
                       </div>
+                      <div className="d-flex align-items mb-4">
+                        <i className="fas fa-bath mr-2 text-info"></i>
+                        <span className="font-weight-bold mr-1">bathrooms:</span>
+                        {property.bathrooms}
+                      </div>
+                      <div className="d-flex align-items mb-4">
+                        <i className="fas fa-bed  mr-2 text-info"></i>
+                        <span className="font-weight-bold mr-1">bedrooms:</span>
+                        {property.bedrooms}
+                      </div>
+                      <div className="d-flex align-items mb-4">
+                        <i className="fas fa-car mr-2 text-info"></i>
+                        <span className="font-weight-bold mr-1">garage:</span>
+                        {property.garage}
+                      </div>
+                      <div className="d-flex align-items mb-4">
+                        <i className="fas fa-layer-group mr-2 text-info"></i>
+                        <span className="font-weight-bold mr-1">floors:</span>
+                        {property.floors}
+                      </div>
+                      <div className="d-flex align-items mb-4">
+                        <i className="fas fa-calendar-alt mr-2 text-info"></i>
+                        <span className="font-weight-bold mr-1">year built:</span>
+                        {property.year_built}
+                      </div>
                    
-                     
+                   
+                      {/* <td>{property.area}</td>
+          <td>{property.bathrooms}</td>
+          <td>{property.bedrooms}</td>
+          <td>{property.garage}</td>
+          <td>{property.floors}</td>
+          <td>{property.year_built}</td> */}
                    
                       {/* Add other property details here */}
                     </div>

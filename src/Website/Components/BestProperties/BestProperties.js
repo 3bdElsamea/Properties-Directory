@@ -29,13 +29,13 @@ const BestProperties = () => {
             <h4 className="section-title text-center text-uppercase fs-1  fw-bold" style={{ color: '#EB6753' }}>Our Properties</h4>
             <h1 className="mb-4 p-3">Explore Our <span className="text-uppercase" style={{ color: '#EB6753' }}>Properties</span></h1>
           </div>
-          <div className="row g-4">
+          <div className="row g-4 ">
             {properties.map(property => (
-              <div className="col-lg-4 col-md-6 mb-4 wow fadeInUp" data-wow-delay="0.1s" key={property.id}>
+              <div className="col-lg-4 col-md-6 mb-4 cardImage wow fadeInUp" data-wow-delay="0.1s" key={property.id}>
                 <div className="room-item shadow rounded overflow-hidden">
-                  <div className="position-relative">
-                    <img className="img-fluid" src={property.image} alt="" />
-                    <small className="position-absolute start-0 top-100 translate-middle-y  text-white rounded py-1 px-3 ms-4" style={{ backgroundColor: '#EB6753' }}>d;,d;,;c</small>
+                  <div className="position-relative cardImage">
+                    <img className="img-fluid w-100 h-100" src={property.image} alt="" />
+                    {/* <small className="position-absolute start-0 top-100 translate-middle-y  text-white rounded py-1 px-3 ms-4" style={{ backgroundColor: '#EB6753' }}>d;,d;,;c</small> */}
                   </div>
                   <div className="p-4 mt-2">
                     <div className="d-flex justify-content-between mb-3">
@@ -52,9 +52,10 @@ const BestProperties = () => {
                       <small className="border-end m-2 "><i className="fa fa-bed  m-1"  style={{ color: '#EB6753' }}></i> Bedrooms: {property.bedrooms}</small>
                       <small className="border-end m-2 "><i className="fa fa-bath  me-1"  style={{ color: '#EB6753' }}></i> Bathrooms: {property.bathrooms}</small>
                     </div>
-                    <p className="text-body mb-3">{property.description}</p>
+                    <p className="text-body">{property.description.length > 50 ? property.description.slice(0, 50) + '...' : property.description}</p>
                     <div className="d-flex justify-content-between">
-                      <a className="btn btn-sm btn rounded py-2 px-4" href="" style={{ color: '#ffff', backgroundColor:'#19172F' }}>View Detail</a>
+                    <a className="btn btn-sm btn rounded py-2 px-4" href={`/PropertyDetails/${property.id}`} style={{ color: '#ffff', backgroundColor:'#19172F' }}>View Detail</a>
+
                     </div>
                   </div>
                 </div>

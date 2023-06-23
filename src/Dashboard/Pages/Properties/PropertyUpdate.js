@@ -42,8 +42,7 @@ const PropertyUpdate = () => {
     owner_id: "",
     employee_id: "", 
  });
-  const [oldImage, setOldImage] = useState(""); // New state variable for old image URL
-  const [updateImage, setUpdateImage] = useState(false); // New state variable to track if the image should be updated
+ const acceptedImageTypes = ["image/png", "image/jpeg", "image/jpg"];
 
   const validationSchema = Yup.object().shape({
     title: Yup.string().required("Title is required"),
@@ -61,7 +60,16 @@ const PropertyUpdate = () => {
     city_id: Yup.number().required(" is required"),
     owner_id: Yup.number().required(" is required"),
     employee_id: Yup.number().required(" is required"),
-
+    image: Yup.mixed().test(
+      "fileFormat",
+      "Invalid file format. Only image files are accepted.",
+      (value) => {
+        if (value && value instanceof File) {
+          return acceptedImageTypes.includes(value.type);
+        }
+        return true; // Skip validation if no file is selected
+      }
+    ),
     // Add validation rules for other fields
   });
 
@@ -87,18 +95,33 @@ const PropertyUpdate = () => {
       },
     validationSchema,
     onSubmit: () => {
-      const filteredValues = { ...formik.values };
-      if (!updateImage) {
-        delete filteredValues.image;
-      }
-
-      AxiosDashboard.patch(`/properties/${propertyId}`, filteredValues)
+      const formData = new FormData();
+      
+      // Add the updated values to the formData
+      Object.entries(formik.values).forEach(([key, value]) => {
+        if (key === 'image') {
+          if (value instanceof File) {
+            if (!acceptedImageTypes.includes(value.type)) {
+              // Display an error message or handle invalid file type
+              console.log("Invalid file type. Only PNG, JPEG, and JPG images are accepted.");
+              return;
+            }
+            formData.append(key, value);
+          }
+        } else {
+          formData.append(key, value);
+        }
+      });
+      
+      AxiosDashboard.patch(`/properties/${propertyId}`, formData)
         .then((res) => {
-          console.log(res.data.data);
+          console.log(res.data);
           navigate("/dashboard/properties");
         })
         .catch((err) => console.log(err));
     },
+    
+    
   });
 
   useEffect(() => {
@@ -146,8 +169,6 @@ const PropertyUpdate = () => {
           employee_id,
         });
 
-        // Set oldImage state
-        setOldImage(image);
 
         // Set formik values
         formik.setValues({
@@ -172,7 +193,9 @@ const PropertyUpdate = () => {
       })
       .catch((err) => console.log(err));
   }, [propertyId]);
-
+  const handleImageChange = (event) => {
+    formik.setFieldValue("image", event.target.files[0]);
+  };
   const [ownerOptions, setOwnerOptions] = useState([]);
   const [employeeOptions, setEmployeeOptions] = useState([]);
   const [categoryOptions, setCategoryOptions] = useState([]);
@@ -368,52 +391,23 @@ const PropertyUpdate = () => {
                         </Col>
                       </Row>
                       <FormGroup>
-                    <label className="form-control-label" htmlFor="input-image">
-                      Image
-                    </label>
-                    {oldImage && (
-                      <div>
-                        <img
-                          src={oldImage}
-                          alt="Old Image"
-                          className="img-fluid mb-3"
-                        />
-                        <FormGroup check>
-                          <label check>
-                            <Input
-                              type="checkbox"
-                              checked={updateImage}
-                              onChange={(event) =>
-                                setUpdateImage(event.target.checked)
-                              }
-                            />{" "}
-                            Update Image
-                          </label>
-                        </FormGroup>
-                      </div>
-                    )}
-                    {(!oldImage || updateImage) && (
-                      <Input
-                        className="form-control-alternative"
+                        <label className="form-control-label" htmlFor="input-image">
+                          Image
+                        </label>
+                        <Input
+                        className="form-control-alternative w-100"
                         type="file"
                         accept="image/*"
                         name="image"
-                        onChange={(event) => {
-
-                          formik.setFieldValue(
-                            "image",
-                            event.currentTarget.files[0]
-                          );
-                        }}
+                        onChange={(event) => handleImageChange(event)}
                         invalid={formik.touched.image && formik.errors.image}
                       />
-                    )}
-                    {formik.touched.image && formik.errors.image && (
-                      <div className="invalid-feedback">
-                        {formik.errors.image}
-                      </div>
-                    )}
-                  </FormGroup>
+
+                        {formik.touched.image && formik.errors.image && (
+                          <div className="invalid-feedback">{formik.errors.image}</div>
+                        )}
+                        
+                      </FormGroup>
                       <Row>
                         <Col lg="12">
                           <FormGroup>
