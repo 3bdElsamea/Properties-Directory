@@ -9,6 +9,19 @@ const empPermissions = localStorage.getItem("permissions");
 const CreateCountry = () => {
   const [countryList, setCountryList] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSearch = (event) => {
+    const query = event.target.value;
+    setSearchQuery(query);
+    console.log(query);
+  };
+  
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
 
   const getAllCountries = async () => {
     try {
@@ -43,7 +56,7 @@ const CreateCountry = () => {
 
   useEffect(() => {
     getAllCountries();
-  }, []);
+  }, [currentPage]);
 
   if (empPermissions.split(",").includes("country")) {
     return (
@@ -52,6 +65,15 @@ const CreateCountry = () => {
           <Tables
             title="All Countries"
             route="/dashboard/country/create"
+            totalPages={totalPages}
+            currentPage={currentPage}
+            endpoint="countries"
+            onPageChange={handlePageChange}
+            handleSearch={handleSearch}
+            searchQuery={searchQuery}
+            query="name"
+            queryValue={searchQuery}
+
             content={
               <>
                 <th scope="col">#</th>
@@ -60,10 +82,12 @@ const CreateCountry = () => {
                 <th scope="col">Status</th>
               </>
             }
-            tableRows={countryList.map((item, index) => (
-              <tr key={item.id}>
-                <th scope="row">{index + 1}</th>
+           tableData={(item, index) => (
+            <>
+            <th scope="row">{(currentPage - 1) * 10 + index + 1}</th>
+              
                 <td>{item.name}</td>
+                <td>{item.created_at}</td>
                 <td>
                   <button
                     className={`btn btn-${
@@ -75,12 +99,15 @@ const CreateCountry = () => {
                   </button>
                 </td>
                 <td></td>
-              </tr>
-            ))}
-          />
+                </>
+              )}
+            />
         </div>
       </>
     );
+
+            
+
   } else {
     window.location.href = "/ErrorPage";
   }

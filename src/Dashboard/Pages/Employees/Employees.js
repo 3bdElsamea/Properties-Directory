@@ -11,10 +11,12 @@ const Employees = () => {
   const [employeeList, setEmployeeList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
-  const [totalPages, setTotalPages] = useState(0);
+  const [totalPages, setTotalPages]=useState(0);
 
   const handleSearch = (event) => {
-    setSearchQuery(event.target.value);
+    const query = event.target.value;
+    setSearchQuery(query);
+    console.log(query);
   };
 
   const handlePageChange = (page) => {
@@ -22,26 +24,33 @@ const Employees = () => {
   };
 
   const getAllEmployees = async (page) => {
-    const response = await AxiosDashboard.get("/employees", {
-      params: {
-        page: page,
-      },
-    });
     try {
-      setEmployeeList(response.data?.data);
-      setTotalPages(response.data.totalPage);
+      const response = await AxiosDashboard.get(`/employees`);
+      const { data } = response.data;
+      const { meta } = response.data.totalPage;
+      setEmployeeList(data);
+      setTotalPages(meta);
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const filterRows = (rows, query) => {
+    if (!query || query.trim() === "") {
+      return rows; // Return all rows when there is no query or it's empty after trimming
+    }
+  
+    return rows.filter((row) => {
+      const name = row.name ? row.name.toLowerCase() : "";
+      return name.includes(query.toLowerCase());
+    });
   };
 
   useEffect(() => {
     getAllEmployees(currentPage);
   }, [currentPage]);
 
-  const filteredEmployeeList = employeeList.filter((item) =>
-    item.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredEmployeeList = filterRows(employeeList, searchQuery);
 
   if (empPermissions.split(",").includes("employee")) {
     return (
@@ -53,6 +62,10 @@ const Employees = () => {
             currentPage={currentPage}
             totalPages={totalPages}
             onPageChange={handlePageChange}
+            endpoint="employees"
+            query="name"
+            queryValue={searchQuery}
+            handleSearch  ={handleSearch}
             content={
               <>
                 <th scope="col">#</th>
@@ -64,14 +77,13 @@ const Employees = () => {
                 <th scope="col">Actions</th>
               </>
             }
-            const
-            tableRows={filteredEmployeeList.map((item, index) => (
-              <tr key={item.id}>
-                <th scope="row">{(currentPage - 1) * 10 + index + 1}</th>
+            tableData={(item, index) => (
+              <>
+              <th scope="row">{(currentPage - 1) * 10 + index + 1}</th>
                 <td>{item.name}</td>
                 <td>{item.email}</td>
                 <td>{item.phone}</td>
-                <td>{item.role}</td>
+                <td>{item.Role?item.Role.name:"no role"}</td>
                 <td>
                   <SweetAlert
                     id={item.id}
@@ -93,10 +105,8 @@ const Employees = () => {
                   </Link>
                 </td>
                 <td></td>
-              </tr>
-            ))}
-            searchQuery={searchQuery}
-            handleSearch={handleSearch}
+              </>
+            )}
           />
         </div>
       </>

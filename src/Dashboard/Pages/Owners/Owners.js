@@ -10,32 +10,41 @@ const empPermissions = localStorage.getItem("permissions");
 
 const Owners = () => {
   const [ownerList, setOwnerList] = useState([]);
+const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
-  const [totalPages, setTotalPages] = useState(0);
-  const handleSearch = (event) => {
-    setSearchQuery(event.target.value);
-  };
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
 
+  const handleSearch = (event) => {
+    const query = event.target.value;
+    setSearchQuery(query);
+    console.log(query);
+  };
 
-  // const deleteOwner = async (ownerId) => {
-  //   try {
-  //     const response = await AxiosDashboard.delete(`/owners/${ownerId}`);
-  //     if (response.data.status.data === 200) {
-  //       setOwnerList((prevOwnerList) =>
-  //         prevOwnerList.filter((owner) => owner.id !== ownerId)
-  //       );
-  //     } else {
-  //       throw new Error("Failed to delete the owner.");
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  useEffect(() => {
+    getOwnerList();
+  }, [currentPage]);
+
+  const deleteOwner = async (ownerId) => {
+    try {
+      const response = await AxiosDashboard.delete(`/owners/${ownerId}`);
+      if (response.data.status.data === 200) {
+        setOwnerList((prevOwnerList) =>
+          prevOwnerList.filter((owner) => owner.id !== ownerId)
+        );
+      } else {
+        throw new Error("Failed to delete the owner.");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
+
 
   const getOwnerList = async (page) => {
     try {
@@ -72,10 +81,16 @@ const Owners = () => {
     return (
       <Tables
         title="All Owners"
-        currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={handlePageChange}
+        onPageChange={handlePageChange}
         route="/dashboard/Owners/Add"
+        totalPages={totalPages}
+        currentPage={currentPage}
+        handlePageChange={handlePageChange}
+        searchQuery={searchQuery}
+        handleSearch={handleSearch}
+        endpoint="owners"
+        query="name"
+        queryValue={searchQuery}
         content={
           <>
             <th scope="col">id</th>
@@ -88,9 +103,10 @@ const Owners = () => {
             <th scope="col">Actions</th>
           </>
         }
-        tableRows={ownerList.map((owner) => (
-          <tr key={owner.id}>
-            <th scope="row">{owner.id}</th>
+        tableData={(owner, index) => (
+          <>
+            <th scope="row">{(currentPage - 1) * 10 + index + 1}</th>
+
             <td>{owner.name}</td>
             <td>{owner.email}</td>
             <td>{owner.phone}</td>
@@ -118,8 +134,8 @@ const Owners = () => {
               handleAction={() => deleteOwner(owner.id)} // Pass the correct ID here
             /> */}
             </td>
-          </tr>
-        ))}
+          </>
+        )}
       />
     );
   } else {

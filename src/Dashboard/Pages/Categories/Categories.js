@@ -99,6 +99,9 @@ const Categories = () => {
   } else {
     window.location.href = "/ErrorPage";
   }
+
+
+  
 };
 
 export default Categories;

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { NavLink as NavLinkRRD, Link } from "react-router-dom";
 // nodejs library to set properties for components
 import { PropTypes } from "prop-types";
+import { Badge, DropdownItem } from "reactstrap";
 
 // reactstrap components
 import {
@@ -13,7 +14,6 @@ import {
   CardTitle,
   Collapse,
   DropdownMenu,
-  DropdownItem,
   UncontrolledDropdown,
   DropdownToggle,
   FormGroup,
@@ -34,6 +34,7 @@ import {
   Row,
   Col,
 } from "reactstrap";
+// import { ReactNotifications } from "react-notifications-component";
 
 var ps;
 
@@ -53,9 +54,7 @@ const Sidebar = (props) => {
   };
   // creates the links that appear in the left menu / Sidebar
   const createLinks = (routes) => {
-    const excludedNames = [
-      "hiddenRoute"
-    ];
+    const excludedNames = ["hiddenRoute"];
     //unappear another links
     //make it array of links
     return routes
