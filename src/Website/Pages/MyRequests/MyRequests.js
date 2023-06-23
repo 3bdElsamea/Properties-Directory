@@ -56,7 +56,11 @@ const RequestsList = () => {
           <div className="card-column-request">
             {requestList?.length > 0 &&
               requestList.map((request) => (
-                <div className="card requestCard" style={{width: '80%'}} key={request.id}>
+                <div
+                  className="card requestCard"
+                  style={{ width: "80%" }}
+                  key={request.id}
+                >
                   <div className="cardContent">
                     <a href={`/properties/${request.property_id}`}>
                       {request.Property.title}
@@ -65,15 +69,17 @@ const RequestsList = () => {
                       <FontAwesomeIcon icon={faInfoCircle} /> {request.status}{" "}
                     </span>
                     <Btn
-                        className="btn btn-dark"
-                      onClick={() => window.location.href = "/properties/"+request.property_id}
+                      className="btn btn-dark"
+                      onClick={() =>
+                        (window.location.href =
+                          "/PropertyDetails/" + request.property_id)
+                      }
                       title="Details"
                     />
                     <hr className="cardHr" />
                     <span className="mr-5">
                       Requested at: {request.created_at.split("T")[0]}
                     </span>
-                    
                   </div>
                 </div>
               ))}

@@ -17,7 +17,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className={`navbar ${menuVisible ? "menu-open" : ""}`}>
+    <div className={`navbar rowNav ${menuVisible ? "menu-open" : ""}`}>
       <div className="navbar-container">
         <div className="logo-container">
           <a className="header-logo logo1" href="/home">
@@ -29,20 +29,20 @@ const Navbar = () => {
         </div>
         <div className={`nav-menu ${menuVisible ? "active" : ""}`}>
           <ul>
-            <li>
+            <li className="navLi">
               <a href="/home">Home</a>
             </li>
             {isLoggedIn && (
               <>
-                <li>
+                <li className="navLi">
                   <a href="/profile">Profile</a>
                 </li>
-                <li>
+                <li className="navLi">
                   <a href="/my-requests">My Requests</a>
                 </li>
               </>
             )}
-            <li>
+            <li className="navLi">
               <a href="#">
                 Properties
                 <span className="arrow"></span>
@@ -52,14 +52,14 @@ const Navbar = () => {
                   <a href="/properties">All Properties</a>
                 </li>
                 <li>
-                  <a href="#">Properties for Rent</a>
+                  <a href="/properties/rent">Properties for Rent</a>
                 </li>
                 <li>
-                  <a href="#">Properties for Sale</a>
+                  <a href="/properties/sell">Properties for Sale</a>
                 </li>
               </ul>
             </li>
-            <li>
+            <li className="navLi">
               <a href="#">
                 Pages
                 <span className="arrow"></span>

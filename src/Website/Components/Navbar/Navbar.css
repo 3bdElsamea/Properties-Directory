@@ -1,26 +1,20 @@
-/* Navbar.css */
-
 /* Navbar container */
 .rowNav {
     background-color: white;
-    padding-left: 120px;
-    padding-right: 120px;
-    padding-top: 25px;
-    padding-bottom: 25px;
-    max-width: 101%;
+    max-width: 100%;
     font-weight: 550;
     font-size: 15px;
   }
   
-  /* Logos */
-  .logos {
-    margin-right: 35px;
-  }
-  
   .header-logo {
     display: inline-block;
-    margin-right: 10px;
+    margin-right: 70px;
   }
+
+  .navLi {
+    margin-left: 30px;
+  }
+
   
   /* Responsive menu */
   #respMenu {
@@ -43,10 +37,6 @@
     padding: 10px 15px;
   }
   
-  .list-item:hover {
-    color: #EB6753;
-    text-decoration: none;
-  }
 
   .title {
     margin-right: 5px;
@@ -114,6 +104,7 @@
   .mega_menu_list {
     margin-bottom: 20px;
   }
+
   
   /* Header buttons */
   .header-btns {
@@ -209,10 +200,12 @@
     text-decoration: none;
     color: #333;
   }
-  
-  .nav-menu ul li a:hover {
-    background-color: #f1f1f1;
+
+  .navLi:hover{
+    border-radius: 30px;
+    background-color: #eb67530e;
   }
+  
   
   .nav-menu ul .sub-menu {
     display: none;
@@ -246,6 +239,7 @@
     font-weight: bold;
     border-radius: 4px;
     cursor: pointer;
+    margin-left: 80px;
   }
   
   .btnNav:hover {

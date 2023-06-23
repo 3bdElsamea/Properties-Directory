@@ -1,3 +1,6 @@
 * {
     font-family: 'Poppins', sans-serif;
 }
+.input-group-prepend{
+    margin-left: -10px;
+}

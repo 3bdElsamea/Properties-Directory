@@ -4,11 +4,14 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import "./Profile.css";
 import Btn from "../../../Dashboard/SharedUI/Btn/Btn";
+import { useNavigate } from "react-router-dom";
 
 const ProfileForm = () => {
   const [userData, setUserData] = useState(null);
   const [showErrorMessage, setShowErrorMessage] = useState(false);
   const [showErrorvalidation, setErrorvalidation] = useState("");
+  const [imageFile, setImageFile] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -27,19 +30,25 @@ const ProfileForm = () => {
     username: Yup.string().required("Username is required"),
     name: Yup.string().required("Name is required"),
     email: Yup.string()
-      .email("Invalid email address")
+      .matches(
+        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+        "Invalid email address"
+      )
       .required("Email is required"),
+
     phone: Yup.string()
       .matches(/^\d+$/, "Phone number must be numeric")
       .required("Phone number is required"),
-      password: Yup.string().test(
-        "password-strength",
-        "Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one special character.",
-        (value) => {
-            // Apply regex validation
-            return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!_/#.%*?&])[A-Za-z\d@./_#$!%*?&]{8,}$/.test(value);
-          }
-      )
+    password: Yup.string().test(
+      "password-strength",
+      "Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one special character.",
+      (value) => {
+        // Apply regex validation
+        return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!_/#.%*?&])[A-Za-z\d@./_#$!%*?&]{8,}$/.test(
+          value
+        );
+      }
+    ),
   });
 
   const formik = useFormik({
@@ -51,7 +60,7 @@ const ProfileForm = () => {
       password: "",
     },
     validationSchema,
-    
+
     onSubmit: async (values) => {
       const updatedValues = {
         username: values.username,
@@ -61,10 +70,25 @@ const ProfileForm = () => {
         password: values.password || userData.password,
       };
       try {
-        
+        if (imageFile) {
+          const allowedExtensions = /\.(jpeg|png|jpg)$/i;
+          if (!allowedExtensions.test(imageFile.name)) {
+            setShowErrorMessage(true);
+            setErrorvalidation("Invalid file format. Only image files are allowed.");
+            return; // Stop form submission
+          }
+          const formData = new FormData();
+          formData.append("image", imageFile);
+          const response = await AxiosWeb.patch("/auth/me", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          });
+          updatedValues.image = response.data.imageUrl;
+        }
         const response = await AxiosWeb.patch("/auth/me", updatedValues);
         console.log("Updated profile data:", response.data);
-        window.location.href = "/profile";
+        navigate("/profile");
       } catch (error) {
         if (error.response && error.response.status === 500) {
           console.log(error.response.data.error.errors[0].message);
@@ -78,6 +102,11 @@ const ProfileForm = () => {
 
   const { values, touched, errors, handleChange, handleSubmit } = formik;
 
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    setImageFile(file);
+  };
+
   return (
     <div className="col-xl-6 mt-5" style={{ marginLeft: "25%" }}>
       <div className="ps-widget bgc-white bdrs12 default-box-shadow2 p30 mb30 overflow-hidden position-relative">
@@ -87,7 +116,7 @@ const ProfileForm = () => {
               <img
                 className="profileImg"
                 src={
-                  userData?.image ||
+                  values?.image ||
                   "https://st3.depositphotos.com/6672868/13701/v/450/depositphotos_137014128-stock-illustration-user-profile-icon.jpg"
                 }
                 alt="profile_image"
@@ -97,13 +126,14 @@ const ProfileForm = () => {
         </div>
         <div className="col-lg-12">
           <h2 className="mb30">Update Profile</h2>
-          <form onSubmit={formik.handleSubmit} className="form-style1">
+          
+          <form onSubmit={handleSubmit} className="form-style1">
             <div className="row">
               <div className="col-sm-6 col-xl-6">
                 <div className="mb20">
                   <label
-                    htmlFor="username"
                     className="heading-color ff-heading fw600 mb10"
+                    htmlFor="username"
                   >
                     Username
                   </label>
@@ -111,20 +141,20 @@ const ProfileForm = () => {
                     type="text"
                     id="username"
                     name="username"
-                    className="form-control"
                     value={values.username}
                     onChange={handleChange}
+                    className="form-control"
                   />
-                  {errors.username && touched.username && (
-                    <span className="text-danger">{errors.username}</span>
+                  {touched.username && errors.username && (
+                    <div className="error text-danger">{errors.username}</div>
                   )}
                 </div>
               </div>
               <div className="col-sm-6 col-xl-6">
                 <div className="mb20">
                   <label
-                    htmlFor="name"
                     className="heading-color ff-heading fw600 mb10"
+                    htmlFor="name"
                   >
                     Name
                   </label>
@@ -132,22 +162,20 @@ const ProfileForm = () => {
                     type="text"
                     id="name"
                     name="name"
-                    className="form-control"
                     value={values.name}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
+                    onChange={handleChange}
+                    className="form-control"
                   />
-
-                  {errors.name && touched.name && (
-                    <span className="text-danger">{errors.name}</span>
+                  {touched.name && errors.name && (
+                    <div className="error text-danger">{errors.name}</div>
                   )}
                 </div>
               </div>
               <div className="col-sm-6 col-xl-6">
                 <div className="mb20">
                   <label
-                    htmlFor="email"
                     className="heading-color ff-heading fw600 mb10"
+                    htmlFor="email"
                   >
                     Email
                   </label>
@@ -155,20 +183,20 @@ const ProfileForm = () => {
                     type="email"
                     id="email"
                     name="email"
-                    className="form-control"
                     value={values.email}
                     onChange={handleChange}
+                    className="form-control"
                   />
-                  {errors.email && touched.email && (
-                    <span className="text-danger">{errors.email}</span>
+                  {touched.email && errors.email && (
+                    <div className="error text-danger">{errors.email}</div>
                   )}
                 </div>
               </div>
               <div className="col-sm-6 col-xl-6">
                 <div className="mb20">
                   <label
-                    htmlFor="phone"
                     className="heading-color ff-heading fw600 mb10"
+                    htmlFor="phone"
                   >
                     Phone
                   </label>
@@ -176,20 +204,20 @@ const ProfileForm = () => {
                     type="text"
                     id="phone"
                     name="phone"
-                    className="form-control"
                     value={values.phone}
                     onChange={handleChange}
+                    className="form-control"
                   />
-                  {errors.phone && touched.phone && (
-                    <span className="text-danger">{errors.phone}</span>
+                  {touched.phone && errors.phone && (
+                    <div className="error text-danger">{errors.phone}</div>
                   )}
                 </div>
               </div>
-              <div className="col-sm-12">
+              <div className="col-sm-6 col-xl-6">
                 <div className="mb20">
                   <label
-                    htmlFor="password"
                     className="heading-color ff-heading fw600 mb10"
+                    htmlFor="password"
                   >
                     Password
                   </label>
@@ -198,15 +226,35 @@ const ProfileForm = () => {
                     id="password"
                     name="password"
                     className="form-control"
-                    //value={values.password}
                     onChange={handleChange}
                   />
-                  {errors.password && touched.password && (
-                    <span className="text-danger">{errors.password}</span>
+                  {touched.password && errors.password && (
+                    <div className="error text-danger">{errors.password}</div>
                   )}
                 </div>
               </div>
-              
+              <div className="col-sm-6 col-xl-6">
+                <div className="mb20">
+                  <label
+                    className="heading-color ff-heading fw600 mb10"
+                    htmlFor="image"
+                  >
+                    Profile Image
+                  </label>
+                  <input
+                    type="file"
+                    id="image"
+                    name="image"
+                    onChange={handleImageChange}
+                  />
+                  {touched.image && errors.image && (
+                    <div className="error text-danger">{errors.image}</div>
+                  )}
+                </div>
+              </div>
+              {showErrorMessage && (
+            <div className="error-message text-danger">{showErrorvalidation}</div>
+          )}
             </div>
             <Btn
               type="submit"

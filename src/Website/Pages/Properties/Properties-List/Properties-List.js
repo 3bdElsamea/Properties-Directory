@@ -132,7 +132,7 @@ const PropertiesList = () => {
                       <Btn
                         onClick={() => handleRequest(property.id)}
                         title="Request"
-                        className="btn updateBtn ud-btn btn-secondary updateBtn fs-5"
+                        className="btn updateBtn ud-btn btn-secondary mt-0 updateBtn fs-5"
                       />
                     ) : null}
                   </div>

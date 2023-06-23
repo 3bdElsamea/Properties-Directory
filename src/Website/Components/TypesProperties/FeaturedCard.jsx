@@ -6,12 +6,12 @@ import './TypesProperties.css'
 
 const FeaturedCard = () => {
   return (
-    <div class="row">
-      <div class="col-5 box">
+    <div className="row">
+      <div className="col-5 box">
         <img src={hh1} alt='' />
         <h2> <a href='/properties/rent'> For Rent</a> </h2> 
       </div>
-      <div class="col-5 box">
+      <div className="col-5 box">
         <img src={hh2} alt='' />
        <h2> <a href='/properties/sell'> For Sell </a> </h2> 
       </div>
