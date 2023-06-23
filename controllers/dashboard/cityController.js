@@ -15,12 +15,16 @@ const obj = {
 };
 
 const getAllCities = catchAsync(async (req, res, next) => {
-  const cities = await new ApiFeatures(City, req.query, obj).get();
+  const cities = await new ApiFeatures(City, req.query, {
+    ...obj,
+  }).get();
   res.json(cities);
 });
 
 const getCityById = catchAsync(async (req, res, next) => {
-  const city = await City.findByPk(req.params.id, obj);
+  const city = await City.findByPk(req.params.id, {
+    ...obj,
+  });
   if (!city) {
     return next(new AppError('City not found', 404));
   }
