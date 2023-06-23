@@ -29,9 +29,9 @@ const updateCountry = catchAsync(async (req, res, next) => {
   const { id } = req.params;
   const country = await Country.findByPk(id);
   if (country) {
-    if (req.body.active) {
-      delete req.body.active;
-    }
+    // if (req.body.active) {
+    //   delete req.body.active;
+    // }
     const updatedCountry = await country.update({
       ...req.body,
     });

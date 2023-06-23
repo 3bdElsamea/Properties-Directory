@@ -7,8 +7,7 @@ import Customer from '../../models/Customer.js';
 const getChatConversations = catchAsync(async (req, res) => {
   const conversations = await ChatConversation.findAll({
     where: {
-      // employee_id: req.decodedData.employeeId
-      employee_id: 1,
+      employee_id: req.decodedData.employeeId,
     },
     include: [
       {
