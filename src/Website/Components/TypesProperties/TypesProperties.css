@@ -1,11 +1,17 @@
-.content{width: 100%;}
 .heading h1{
     text-align: center;
-    margin-top: 5rem;
+    margin-top: -3rem;
+    padding-bottom: 23px;
+
 
 }
 .heading p{
     text-align: center;
+    color: #EB6753;
+
+}
+.box a {
+  color: #EB6753;
 
 }
 .featured .box {
@@ -14,10 +20,19 @@
     text-align: center;
     padding: 30px;
     cursor: pointer;
+    margin-left: 65px;
+    transition: .5s;
+
+  }
+  .box:hover{
+    transform:scale(1.1);
 
   }
   .featured img {
     width: 65px;
     height: 65px;
     margin: auto;
+  }
+  .box h2 {
+    padding-top: 11px;
   }

@@ -1,4 +1,3 @@
-import "./ForgetPassword.css";
 import React, { useState } from "react";
 import {
   Button,
@@ -8,59 +7,40 @@ import {
   InputGroupAddon,
   InputGroup,
   FormGroup,
+  Alert
 } from "reactstrap";
 
-import Axios from "../../../Axios";
-import axios from "axios";
+import { AxiosWeb } from "../../../Axios";
 
 const ForgotPasswordForm = () => {
   const [email, setEmail] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isValidEmail, setIsValidEmail] = useState(true);
+  const [isEmailExist, setIsEmailExist] = useState(true);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await axios.get("https://dummyjson.com/users");
-
-      if (response.status === 200) {
-        const { users } = response.data;
-        const emails = users.map((user) => user.email);
-
-        if (emails.includes(email)) {
-          //const resetResponse = await Axios.post('/api/forget-password', { email });
-
-          //if (resetResponse.status === 200) {
-          setIsSubmitted(true);
-          //} else {
-          // Handle error response from the server
-          //}
-          console.log("valid");
-        } else {
-          console.log("not valid");
-          setEmail("");
-          setIsValidEmail(false);
-        }
-      } else {
-        // Handle error response from the server
-        console.log("Server Error");
-      }
+      setIsSubmitted(true);
+      await AxiosWeb.post("/auth/forget-password", { email });
+      setIsEmailExist(true)
     } catch (error) {
       // Handle network errors
       console.log("Network Error: " + error);
+      if (error.code === "ERR_BAD_REQUEST") {
+        setIsEmailExist(false)
+      }
     }
   };
 
   const handleEmailChange = (e) => {
-    console.log("handle");
     setEmail(e.target.value);
-    setIsValidEmail(true);
+    //setIsEmailExist(true); // Reset the email existence status when the email changes
   };
 
   return (
     <div>
-      {isSubmitted ? (
+      {isEmailExist && isSubmitted ? (
         <p>
           An email with instructions to reset your password has been sent to{" "}
           {email}.
@@ -68,11 +48,13 @@ const ForgotPasswordForm = () => {
       ) : (
         <Form role="form" onSubmit={handleSubmit}>
           <div className="text-center text-muted mb-4">
-            <img
-              src="https://creativelayers.net/themes/homez-html/images/header-logo2.svg"
-              alt="logo"
-              className="mb-4"
-            />
+            <a href="/home">
+              <img
+                src="https://creativelayers.net/themes/homez-html/images/header-logo2.svg"
+                alt="logo"
+                className="mb-4"
+              />
+            </a>
             <h1>Reset Password</h1>
           </div>
           <FormGroup className="mb-3">
@@ -89,20 +71,14 @@ const ForgotPasswordForm = () => {
                 placeholder="Email Address"
                 required
               />
-              {!isValidEmail && (
-                <span
-                  style={{
-                    color: "red",
-                    fontSize: 12,
-                    backgroundColor: "white",
-                  }}
-                >
-                  There's no account for this email
-                </span>
-              )}
+              
             </InputGroup>
           </FormGroup>
-
+          {!isEmailExist && (
+                <Alert color="danger" className="mt-3">
+                  There's no account for this email
+              </Alert>
+              )}
           <div className="text-center">
             <Button className="login-btn my-2" color="primary" type="submit">
               Reset Password

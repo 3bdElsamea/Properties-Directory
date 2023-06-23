@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Badge } from 'reactstrap';
-import Tables from '../../SharedUI/Table/Tables';
-import Btn from '../../SharedUI/Btn/Btn';
-import SweetAlert from '../../SharedUI/SweetAlert/SweetDelete';
-import { AxiosDashboard } from '../../../Axios';
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { Badge } from "reactstrap";
+import Tables from "../../SharedUI/Table/Tables";
+import Btn from "../../SharedUI/Btn/Btn";
+import SweetAlert from "../../SharedUI/SweetAlert/SweetDelete";
+import { AxiosDashboard } from "../../../Axios";
 
+const empPermissions = localStorage.getItem("permissions");
 
 const Properties = () => {
   const [propertyList, setPropertyList] = useState([]);
@@ -30,7 +31,7 @@ const Properties = () => {
 
   const getPropertyList = async () => {
     try {
-      const response = await AxiosDashboard.get('/properties');
+      const response = await AxiosDashboard.get("/properties");
       setPropertyList(response.data.data);
       setTotalPages(response.data.totalPage);
     } catch (error) {
@@ -40,14 +41,20 @@ const Properties = () => {
 
   const toggleActive = async (propertyId) => {
     try {
-      const property = propertyList.find((property) => property.id === propertyId);
-      const newStatus = property.status === 'active' ? 'inactive' : 'active';
-  
-      await AxiosDashboard.patch(`/properties/${propertyId}`, { status: newStatus });
-  
+      const property = propertyList.find(
+        (property) => property.id === propertyId
+      );
+      const newStatus = property.status === "active" ? "inactive" : "active";
+
+      await AxiosDashboard.patch(`/properties/${propertyId}`, {
+        status: newStatus,
+      });
+
       setPropertyList((prevList) =>
         prevList.map((property) =>
-          property.id === propertyId ? { ...property, status: newStatus } : property
+          property.id === propertyId
+            ? { ...property, status: newStatus }
+            : property
         )
       );
     } catch (error) {
@@ -62,7 +69,7 @@ const Properties = () => {
           prevpropertyList.filter((property) => property.id !== propertyId)
         );
       } else {
-        throw new Error('Failed to delete the property.');
+        throw new Error("Failed to delete the property.");
       }
     } catch (error) {
       console.log(error);
@@ -96,11 +103,11 @@ const Properties = () => {
           <th scope="col">Garage</th>
           <th scope="col">Floors</th>
           <th scope="col">Year Built</th> */}
-          <th scope="col">Status</th>
-          {/* <th scope="col">Category ID</th>
+            <th scope="col">Status</th>
+            {/* <th scope="col">Category ID</th>
           <th scope="col">City ID</th>
           <th scope="col">Property Type ID</th> */}
-          {/* <th scope="col">Owner ID</th>
+            {/* <th scope="col">Owner ID</th>
           <th scope="col">Employee ID</th> */}
           <th scope="col">Created At</th>
           <th scope="col">Updated At</th>
@@ -111,7 +118,7 @@ const Properties = () => {
         <>
           <th scope="row">{(currentPage - 1) * 10 + index + 1}</th>
           <td>{property.title}</td>
-          <td>{property.description}</td>
+          {/* <td>{property.description}</td> */}
           <td>{property.price}</td>
           <td>
             <img src={property.image} alt="Property" width="100" height="100" />
@@ -122,32 +129,33 @@ const Properties = () => {
           <td>{property.garage}</td>
           <td>{property.floors}</td>
           <td>{property.year_built}</td> */}
-          <td>
-          <Badge
-            color={property.status === 'active' ? 'success' : 'danger'}
-            onClick={() => toggleActive(property.id)}
-            style={{ cursor: 'pointer', fontSize: '12px' }}
-          >
-            {property.status.charAt(0).toUpperCase() + property.status.slice(1)}
-          </Badge>
-        </td>
-          {/* <td>{property.category_id}</td>
+            <td>
+              <Badge
+                color={property.status === "active" ? "success" : "danger"}
+                onClick={() => toggleActive(property.id)}
+                style={{ cursor: "pointer", fontSize: "12px" }}
+              >
+                {property.status.charAt(0).toUpperCase() +
+                  property.status.slice(1)}
+              </Badge>
+            </td>
+            {/* <td>{property.category_id}</td>
           <td>{property.city_id}</td>
           <td>{property.property_type_id}</td> */}
-          {/* <td>{property.owner_id}</td>
+            {/* <td>{property.owner_id}</td>
           <td>{property.employee_id}</td> */}
-          <td>{property.created_at}</td>
-          <td>{property.updated_at}</td>
-          <td>
-            <Link to={`/dashboard/Properties/update/${property.id}`}>
-              <Btn className="btn-primary btn fa fa-edit" />
-            </Link>
-            
+            <td>{property.created_at}</td>
+            <td>{property.updated_at}</td>
+            <td>
+              <Link to={`/dashboard/Properties/update/${property.id}`}>
+                <Btn className="btn-primary btn fa fa-edit" />
+              </Link>
+
               <Link to={`/dashboard/Properties/details/${property.id}`}>
                 <Btn className="btn-success btn fa fa-eye" />
               </Link>
 
-            {/* <SweetAlert 
+              {/* <SweetAlert 
               id={property.id}
               dataList={propertyList}
               setdataList={setPropertyList}

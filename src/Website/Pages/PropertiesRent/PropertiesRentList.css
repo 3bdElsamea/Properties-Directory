@@ -1,0 +1,88 @@
+.properties_container {
+    background-color: #f7f7f7;
+    padding-left: 9%;
+    padding-right: 6%;
+    padding-top: 5%;
+  }
+  .properties_container > h3 {
+    color: black;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    margin-bottom: 5%;
+  }
+  .colNum1 {
+    max-width: 33% !important;
+  }
+  
+  .propertiesRow {
+    max-width: 100%;
+  }
+  .card-column {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  .propertyCard {
+    border-radius: 15px !important;
+    max-height: 400px;
+    overflow: hidden;
+  }
+  
+  .cardImageContainer > img {
+    border-top-left-radius: 15px !important;
+    border-top-right-radius: 15px !important;
+    width: 100%;
+    height: 220px;
+  }
+  .cardImageContainer > img:hover {
+    transform: scale(1.1);
+    transition: transform 0.5s ease;
+  }
+  .cardContent {
+    font-size: 14px;
+    margin-top: 20px;
+    margin-left: 20px;
+    line-height: 30px;
+  }
+  .cardContent > a {
+    color: black;
+    display: block;
+    font-weight: 600;
+  }
+  .cardContent > a:hover {
+    color: black;
+  }
+  .cardContent > small {
+    color: #717171;
+    display: block;
+  }
+  .cardContent > span {
+    margin-right: 20px;
+    font-weight: 300;
+  }
+  .cardContent > p {
+    display: inline-block;
+    margin-left: 8px;
+    font-size: 15px;
+  }
+  .cardHr {
+    width: 85%;
+    margin-bottom: 4px;
+  }
+  
+  .cardImageContainer {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .cardImageText {
+    position: absolute;
+    top: 77%;
+    left: 5%;
+    border-radius: 6px;
+    padding: 5px;
+    background-color: #fff;
+    color: #000;
+    font-weight: 600;
+  }
+  

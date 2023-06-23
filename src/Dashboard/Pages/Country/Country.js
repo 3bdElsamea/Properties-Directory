@@ -4,6 +4,8 @@ import { AxiosDashboard } from "../../../Axios";
 import { useEffect, useState } from "react";
 import SweetAlert from "../../SharedUI/SweetAlert/SweetAlert";
 
+const empPermissions = localStorage.getItem("permissions");
+
 const CreateCountry = () => {
   const [countryList, setCountryList] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
@@ -15,6 +17,11 @@ const CreateCountry = () => {
     setSearchQuery(query);
     console.log(query);
   };
+  
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
 
   const getAllCountries = async () => {
     try {
@@ -51,49 +58,59 @@ const CreateCountry = () => {
     getAllCountries();
   }, [currentPage]);
 
-  return (
-    <>
-      <div>
-        <Tables
-          title="All Countries"
-          route="/dashboard/country/create"
-          totalPages={totalPages}
-          currentPage={currentPage}
-          endpoint="countries"
-          query="name"
-          handleSearch={handleSearch}
-          searchQuery={searchQuery}
-          content={
+  if (empPermissions.split(",").includes("country")) {
+    return (
+      <>
+        <div>
+          <Tables
+            title="All Countries"
+            route="/dashboard/country/create"
+            totalPages={totalPages}
+            currentPage={currentPage}
+            endpoint="countries"
+            onPageChange={handlePageChange}
+            handleSearch={handleSearch}
+            searchQuery={searchQuery}
+            query="name"
+            queryValue={searchQuery}
+
+            content={
+              <>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">CreatedAt</th>
+                <th scope="col">Status</th>
+              </>
+            }
+           tableData={(item, index) => (
             <>
-              <th scope="col">#</th>
-              <th scope="col">Name</th>
-              <th scope="col">CreatedAt</th>
-              <th scope="col">Status</th>
-              <th></th>
-            </>
-          }
-          tableData={(item, index) => (
-            <>
-              <th scope="row">{(currentPage - 1) * 10 + index + 1}</th>
-              <td>{item.name}</td>
-              <td>{item.created_at}</td>
-              <td>
-                <button
-                  className={`btn btn-${
-                    item.active ? "success" : "danger"
-                  } btn-sm`}
-                  onClick={() => handleToggle(item.id, item.active)}
-                >
-                  {item.active ? "Active" : "Inactive"}
-                </button>
-              </td>
-              <td></td>
-            </>
-          )}
-        />
-      </div>
-    </>
-  );
+            <th scope="row">{(currentPage - 1) * 10 + index + 1}</th>
+              
+                <td>{item.name}</td>
+                <td>{item.created_at}</td>
+                <td>
+                  <button
+                    className={`btn btn-${
+                      item.active ? "success" : "danger"
+                    } btn-sm`}
+                    onClick={() => handleToggle(item.id, item.active)}
+                  >
+                    {item.active ? "Active" : "Inactive"}
+                  </button>
+                </td>
+                <td></td>
+                </>
+              )}
+            />
+        </div>
+      </>
+    );
+
+            
+
+  } else {
+    window.location.href = "/ErrorPage";
+  }
 };
 
 export default CreateCountry;

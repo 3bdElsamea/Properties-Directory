@@ -1,6 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import {AxiosWeb} from "../../../../Axios";
 import "./AboutUs.css";
+
 const AboutSection = () => {
+  const [description, setDescription] = useState("");
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const response = await AxiosWeb.get("/data");
+      setDescription(response.data.data.description);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
   return (
     <div className="about-section">
       <div className="background-image">
@@ -16,16 +33,10 @@ const AboutSection = () => {
         </div>
         <div className="right-section">
           <p>
-            It doesn’t matter how organized you are — a surplus of toys will
-            always ensure your house is a mess waiting to happen. Fortunately,
-            getting kids on board with the idea of ditching their stuff is a lot
-            easier than it sounds.
-          </p>
+            {description.split('Whether')[0]}
+          </p><br/>
           <p>
-            Maecenas quis viverra metus, et efficitur ligula. Nam congue augue
-            et ex congue, sed luctus lectus congue. Integer convallis
-            condimentum sem. Duis elementum tortor eget condimentum tempor.
-            Praesent sollicitudin lectus ut pharetra pulvinar.
+            {description.split('Whether')[1]}
           </p>
         </div>
       </div>

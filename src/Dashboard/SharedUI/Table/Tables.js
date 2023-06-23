@@ -31,7 +31,6 @@ const Tables = ({
   const [searchQuery, setSearchQuery] = useState("");
   const [queryValue, setQueryValue] = useState("");
 
-
   const fetchData = async () => {
     try {
       // Make an API request to fetch data from the backend endpoint
@@ -57,12 +56,12 @@ const Tables = ({
       return rows; // Return all rows when there is no query or it's empty after trimming
     }
 
-    console.log(rows)
+    console.log(rows);
     return rows.filter(
       (row) =>
         //make it for name or title
         row.name.toLowerCase().includes(query.toLowerCase()) ||
-    row.title && row.title.toLowerCase().includes(query.toLowerCase())
+        (row.title && row.title.toLowerCase().includes(query.toLowerCase()))
     );
   };
 
@@ -77,14 +76,14 @@ const Tables = ({
   return (
     <>
       <Navbar />
-      <Container className="mt--7" fluid>
+      <Container className="mt--6" fluid>
         <Row>
           <div className="col">
             <Card className="shadow">
               <Row className="justify-content-between">
                 <Col>
                   <CardHeader className="border-0 d-flex justify-content-between">
-                    <h3 className="mb-0">{title}</h3>
+                    <h3 className="mb-0 text-primary">{title}</h3>
                     <div className="d-flex align-items-center">
                       <div className="mr-2">
                         <input
@@ -107,7 +106,10 @@ const Tables = ({
               </Row>
               <Table className="align-items-center table-flush" responsive>
                 <thead className="thead-light">
-                  <tr>{content}</tr>
+                  <tr>
+                    {content}
+
+                </tr>
                 </thead>
                 <tbody>
                   {filteredTableRows.map((item, index) => (

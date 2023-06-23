@@ -1,43 +1,26 @@
 import React from 'react'
-import h1  from '../../Assets/img/Home/h1.png'
-import h2 from '../../Assets/img/Home/h2.png'
-import h3  from '../../Assets/img/Home/h3.png'
-import h4  from '../../Assets/img/Home/h4.png'
-import h6  from '../../Assets/img/Home/h6.png'
+import hh1  from '../../Assets/img/Home/h1.png'
+import hh2 from '../../Assets/img/Home/h2.png'
+
 import './TypesProperties.css'
 
 const FeaturedCard = () => {
   return (
-    <div class="content">
-    <div class="row">
-      <div class="col-3 box">
-        <img src={h1} alt='' />
-        <h4>name</h4>
-        <label>total</label>
+    <div className="row">
+      <div className="col-5 box">
+        <img src={hh1} alt='' />
+        <h2> <a href='/properties/rent'> For Rent</a> </h2> 
       </div>
-      <div class="col-3 box">
-        <img src={h2} alt='' />
-        <h4>name </h4>
-        <label>total</label>
+      <div className="col-5 box">
+        <img src={hh2} alt='' />
+       <h2> <a href='/properties/sell'> For Sell </a> </h2> 
       </div>
-      <div class="col-3 box">
-        <img src={h3} alt='' />
-        <h4>name </h4>
-        <label>total</label>
-      </div>
-      <div class="col-3 box">
-        <img src={h4} alt='' />
-        <h4>name </h4>
-        <label>total</label>
-      </div>
-    {/* <div class="col-sm-3 box">
-        <img src={h6} alt='' />
-        <h4>name </h4>
-        <label>total</label>
-      </div> */}
+    
     </div>
-  </div>
+ 
   )
 }
 
 export default FeaturedCard
+
+

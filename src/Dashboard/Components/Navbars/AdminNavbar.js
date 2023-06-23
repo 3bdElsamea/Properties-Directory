@@ -23,12 +23,10 @@ import {
 import { AxiosDashboard } from "../../../Axios";
 import Notifications from "./Notifications";
 
-
-
 const AdminNavbar = (props) => {
-  
   function handleLogout() {
     localStorage.removeItem("jwt"); // remove the JWT token from local storage
+    localStorage.removeItem("permissions");
     window.location.href = "/auth/login"; // redirect the user to the login page
   }
 
@@ -52,54 +50,49 @@ const AdminNavbar = (props) => {
   //     .catch((error) => {
   //       console.error("Error:", error);
   //     });
-  
-
-
 
   useEffect(() => {
-    fetchUserData();
+    //fetchUserData();
   }, []);
-
-  function fetchUserData() {
-    // Get the JWT from the client-side storage
-    const jwt = localStorage.getItem("jwt");
-
-    // Send a request to the backend to get the user's data
-    AxiosDashboard.get("/employees", {
-      headers: {
-        Authorization: `Bearer ${jwt}`,
-      },
-    })
-      .then((response) => response.data)
-      .then((data) => {
-        const payload = jwt.split(".")[1];
-        const decodedPayload = atob(payload);
-        const parsedPayload = JSON.parse(decodedPayload);
-        const id = parsedPayload.employeeId;
-
-        console.log("id=" + id);
-        console.log("jwt=" + jwt);
-        const url = `http://3bsi.nader-mo.tech/dashboard/employees/${id}`;
-        // Send a request to the backend to get the user's data
-        AxiosDashboard.get(url, {
-          headers: {
-            Authorization: `Bearer ${jwt}`,
-          },
-        })
-          .then((response) => response.data)
-          .then((data) => {
-            setUserData(data);
-          })
-          .catch((error) => {
-            console.error("Error:", error);
-          });
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-
-  }
+  /*
+    function fetchUserData() {
+      // Get the JWT from the client-side storage
+      const jwt = localStorage.getItem('jwt');
   
+      // Send a request to the backend to get the user's data
+      AxiosDashboard.get('/employees', {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      })
+        .then(response => response.data)
+        .then(data => {
+          const payload = jwt.split('.')[1];
+const decodedPayload = atob(payload);
+const parsedPayload = JSON.parse(decodedPayload);
+const id = parsedPayload.employeeId;
+
+          console.log("id="+id);
+          console.log("jwt="+jwt);
+          const url = `http://3bsi.nader-mo.tech/dashboard/employees/${id}`;
+          // Send a request to the backend to get the user's data
+          AxiosDashboard.get(url, {
+            headers: {
+              Authorization: `Bearer ${jwt}`,
+            },
+          })
+            .then(response => response.data)
+            .then(data => {
+              setUserData(data);
+            })
+            .catch(error => {
+              console.error('Error:', error);
+            });
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    }*/
   /*
   if (!userData) {
     return (
@@ -131,7 +124,7 @@ const AdminNavbar = (props) => {
                 </InputGroup>
               </FormGroup>
             </Form>
-            <Notifications/>
+            <Notifications />
             {/* <ReactNotifications /> */}
 
             <Nav className="align-items-center d-none d-md-flex" navbar>
@@ -178,11 +171,7 @@ const AdminNavbar = (props) => {
                   </DropdownItem>
                 </DropdownMenu>
               </UncontrolledDropdown>
-
-              
             </Nav>
-
-
           </Container>
         </Navbar>
       </div>

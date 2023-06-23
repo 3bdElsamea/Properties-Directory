@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { AxiosDashboard } from "../../../Axios"; // Import Axios instance
+import { AxiosDashboard } from "../../../Axios";
+import { Link } from "react-router-dom";
 import Tables from "../../SharedUI/Table/Tables";
 import { FaInfoCircle } from "react-icons/fa";
 import Btn from "../../SharedUI/Btn/Btn";
@@ -7,37 +8,46 @@ import "./Requests.css";
 
 const Requests = () => {
   const [requests, setRequests] = useState([]);
-  const [customers, setCustomers] = useState([]);
-  const [properties, setProperties] = useState([]);
-  const [totalPages, setTotalPages]=useState(0);
-
+  const [totalPages, setTotalPages] = useState(0);
+  const [customers, setCustomers] = useState({});
+  const [properties, setProperties] = useState({});
 
   useEffect(() => {
     // Fetch requests data from the API
-    AxiosDashboard.get("/requests")
+    AxiosDashboard.get("/property-requests")
       .then((response) => {
-        setRequests(response.data);
-        setTotalPages(response.data.totalPage);
+        setRequests(response.data.data);
+        setTotalPages(response.data.data.totalPage);
       })
       .catch((error) => {
         console.error("Error fetching requests:", error);
       });
+  }, []);
 
+  useEffect(() => {
     // Fetch customers data from the API
     AxiosDashboard.get("/customers")
       .then((response) => {
-        setCustomers(response.data);
-
-
+        const customersData = response.data.data.reduce((acc, customer) => {
+          acc[customer.id] = customer.name;
+          return acc;
+        }, {});
+        setCustomers(customersData);
       })
       .catch((error) => {
         console.error("Error fetching customers:", error);
       });
+  }, []);
 
+  useEffect(() => {
     // Fetch properties data from the API
-    AxiosDashboard.get("/dashboard/properties")
+    AxiosDashboard.get("/properties")
       .then((response) => {
-        setProperties(response.data);
+        const propertiesData = response.data.data.reduce((acc, property) => {
+          acc[property.id] = property.title;
+          return acc;
+        }, {});
+        setProperties(propertiesData);
       })
       .catch((error) => {
         console.error("Error fetching properties:", error);
@@ -46,7 +56,7 @@ const Requests = () => {
 
   const updateRequestStatus = (requestId, newStatus) => {
     // Update request status in the API
-    AxiosDashboard.patch(`/requests/${requestId}`, { status: newStatus })
+    AxiosDashboard.patch(`/property-requests/${requestId}`, { status: newStatus })
       .then(() => {
         // Update the requests state with the updated status
         const updatedRequests = requests.map((request) => {
@@ -74,57 +84,28 @@ const Requests = () => {
       <th>Property Title</th>
       <th>Status</th>
       <th>Created At</th>
-      <th>Updated At</th>
     </>
   );
 
   const tableContent = requests.map((request) => {
-    // Find the customer and property associated with the request
-    const customer = customers.find((user) => user.id === request.customer_id);
-    const property = properties.find(
-      (property) => property.id === request.property_id
-    );
-
-    const handleCustomerClick = () => {
-      // Redirect to the customer details page
-      window.location.href = `/dashboard/Customers/details/${customer.id}`;
-    };
-
-    const handlePropertyClick = () => {
-      // Redirect to the property details page
-      window.location.href = `dashboard/properties/${property.id}`;
-    };
+    const customerName = customers[request.customer_id] || "";
+    const propertyTitle = properties[request.property_id] || "";
+    console.log(request.customer_id);
 
     return (
       <tr key={request.id}>
         <td>{request.id}</td>
         <td>
-          {customer ? (
-            <>
-              {`${customer.firstName} ${customer.lastName}`}
-              <Btn
-                onClick={handleCustomerClick}
-                className="icon-button requInfo"
-                title={<FaInfoCircle />}
-              />
-            </>
-          ) : (
-            ""
-          )}
+          <Link to={"/dashboard/customers/details/" + request.customer_id} className="icon-link mr-2">
+            <FaInfoCircle />
+          </Link>
+          {customerName}
         </td>
         <td>
-          {property ? (
-            <>
-              {property.title}
-              <Btn
-                onClick={handlePropertyClick}
-                className="icon-button requInfo"
-                title={<FaInfoCircle />}
-              />
-            </>
-          ) : (
-            ""
-          )}
+        <Link to={"/dashboard/Properties/details/" + request.property_id} className="icon-link mr-2">
+            <FaInfoCircle />
+          </Link>
+          {propertyTitle}
         </td>
         <td>
           <select
@@ -137,8 +118,7 @@ const Requests = () => {
             <option value="rejected">Rejected</option>
           </select>
         </td>
-        <td>{request.created_at}</td>
-        <td>{request.updated_at}</td>
+        <td>{request.created_at.split("T")[0]}</td>
       </tr>
     );
   });

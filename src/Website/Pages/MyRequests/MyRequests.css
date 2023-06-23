@@ -1,0 +1,31 @@
+.requests_container {
+    background-color: #f7f7f7;
+    padding-left: 9%;
+    padding-right: 6%;
+    padding-top: 5%;
+    padding-bottom: 70px;
+  }
+  .requests_container > h3 {
+    color: black;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    margin-bottom: 5%;
+  }
+  .colNum1 {
+    max-width: 33% !important;
+  }
+  
+  .requestsRow {
+    max-width: 100%;
+  }
+
+  .card-column-request {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+  .requestCard {
+    border-radius: 15px !important;
+    max-height: 400px;
+    overflow: hidden;
+  }

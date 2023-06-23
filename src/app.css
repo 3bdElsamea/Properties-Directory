@@ -3,6 +3,9 @@
 }
 
 .rnc__notification-container--bottom-left {
-    bottom: 50px !important; 
+    bottom: 70px !important; 
     left: -100px !important;
+}
+.input-group-prepend{
+    margin-left: -10px;
 }
