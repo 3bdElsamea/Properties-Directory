@@ -53,10 +53,11 @@
     color: #ff0000;
 }
 
-@media screen and (max-width: 940px) {
+@media  (max-width: 800px) {
     .footerWeb .container {
-        grid-template-columns: repeat(2,1fr);
+        grid-template-columns: repeat(1,0.9fr);
         gap: .5rem;
+        text-align: center;
     }
 
     .footerWeb .icon {

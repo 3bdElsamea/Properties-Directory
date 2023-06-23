@@ -80,3 +80,16 @@
     color: #000000;
     
   }
+
+  @media (max-width: 800px) {
+    .columnAbout {
+      display: block;
+      color: red !important;
+      margin-top: 20px;
+      width: 98%;
+    }
+    .right-section>p{
+      display: block;
+    }
+
+  }

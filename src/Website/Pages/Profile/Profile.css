@@ -117,16 +117,15 @@
 
   .updateBtn{
     margin-bottom: 35px;
-    margin-left: 150px;
+    text-align: center;
+  }
+  .updateProfile{
+    margin-left: 25%;
   }
   
   /* Responsive Styles */
   
-  @media (max-width: 767px) {
-    .profile-box {
-      flex-direction: column;
-      align-items: flex-start;
-    }
+  @media (max-width: 1200px) {
   
     .profile-img {
       margin-right: 0;
@@ -142,16 +141,7 @@
       flex-basis: 100%;
       max-width: 100%;
     }
-  }
-  
-  @media (min-width: 768px) and (max-width: 1199px) {
-    .profile-box {
-      flex-direction: row;
-    }
-  
-    .col-xl-7 {
-      flex-basis: 70%;
-      max-width: 70%;
+    .updateProfile{
+      margin-left: 0;
     }
   }
-  
