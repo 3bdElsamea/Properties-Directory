@@ -13,6 +13,8 @@ const Roles = () => {
   const [permissions, setPermissions] = useState([]);
   const [rolePermissions, setRolePermissions] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
+    
+
 
   useEffect(() => {
     AxiosDashboard.get("/roles")

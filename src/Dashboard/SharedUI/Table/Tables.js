@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import {
   Card,
   CardHeader,
@@ -11,50 +12,78 @@ import {
   Col,
   Navbar,
 } from "reactstrap";
-// core components
-
 import Btn from "../Btn/Btn";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { AxiosDashboard } from "../../../Axios";
 
 const Tables = ({
   title,
-  tableRows,
   route,
-  content,
   currentPage,
   totalPages,
   onPageChange,
+  endpoint,
+  query,
+  content,
+  tableData,
 }) => {
+  const [tableRows, setTableRows] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [queryValue, setQueryValue] = useState("");
+
+  const fetchData = async () => {
+    try {
+      // Make an API request to fetch data from the backend endpoint
+      const response = await AxiosDashboard.get(`/${endpoint}`, {
+        params: { [query]: queryValue }, // Pass the query parameter
+        params: { page: currentPage }, // Move the page parameter inside the params object
+      });
+      const { data } = response.data;
+      setTableRows(data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
   const handleSearch = (event) => {
-    setSearchQuery(event.target.value);
+    const query = event.target.value;
+    setSearchQuery(query);
+    setQueryValue(query); // Set the query value for API request
   };
-/*
-  const filteredTableRows = tableRows.filter((item) =>
-    item.props.children[1].props.children
-      .toLowerCase()
-      .includes(searchQuery.toLowerCase())
-  );*/
-  const filteredTableRows = tableRows.filter((item) => {
-    const tableRowValue = item.props.children[1].props.children.toString();
-    return tableRowValue.toLowerCase().includes(searchQuery.toLowerCase());
-  });
+
+  const filterRows = (rows, query) => {
+    if (!query || query.trim() === "") {
+      return rows; // Return all rows when there is no query or it's empty after trimming
+    }
+
+    console.log(rows);
+    return rows.filter(
+      (row) =>
+        //make it for name or title
+        row.name.toLowerCase().includes(query.toLowerCase()) ||
+        (row.title && row.title.toLowerCase().includes(query.toLowerCase()))
+    );
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [endpoint, queryValue, searchQuery, currentPage]);
+
+  const filteredTableRows = searchQuery
+    ? filterRows(tableRows, searchQuery)
+    : tableRows;
 
   return (
     <>
       <Navbar />
-      {/* Page content */}
-      <Container className="mt--7" fluid>
-        {/* Table */}
+      <Container className="mt--6" fluid>
         <Row>
           <div className="col">
             <Card className="shadow">
               <Row className="justify-content-between">
                 <Col>
                   <CardHeader className="border-0 d-flex justify-content-between">
-                    <h3 className="mb-0">{title}</h3>
+                    <h3 className="mb-0 text-primary">{title}</h3>
                     <div className="d-flex align-items-center">
                       <div className="mr-2">
                         <input
@@ -73,22 +102,25 @@ const Tables = ({
                       </div>
                     </div>
                   </CardHeader>
-                  
                 </Col>
               </Row>
               <Table className="align-items-center table-flush" responsive>
                 <thead className="thead-light">
-                  <tr>{content}</tr>
+                  <tr>
+                    {content}
+
+                </tr>
                 </thead>
-                <tbody>{filteredTableRows}</tbody>
+                <tbody>
+                  {filteredTableRows.map((item, index) => (
+                    <tr key={item.id}>{tableData(item, index)}</tr>
+                  ))}
+                </tbody>
               </Table>
 
               <CardFooter className="py-4">
                 <nav aria-label="...">
-                  <Pagination
-                    className="pagination justify-content-end mb-0"
-                    listClassName="justify-content-end mb-0"
-                  >
+                  <Pagination className="pagination justify-content-end mb-0">
                     <PaginationItem
                       className={currentPage === 1 ? "disabled" : ""}
                     >
@@ -101,19 +133,6 @@ const Tables = ({
                         <span className="sr-only">Previous</span>
                       </PaginationLink>
                     </PaginationItem>
-                    {Array.from({ length: totalPages }, (_, index) => (
-                      <PaginationItem
-                        key={index}
-                        className={currentPage === index + 1 ? "active" : ""}
-                      >
-                        <PaginationLink
-                          href="#"
-                          onClick={() => onPageChange(index + 1)}
-                        >
-                          {index + 1}
-                        </PaginationLink>
-                      </PaginationItem>
-                    ))}
                     <PaginationItem
                       className={currentPage === totalPages ? "disabled" : ""}
                     >

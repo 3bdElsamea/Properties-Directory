@@ -45,7 +45,9 @@ const Admin = (props) => {
 
   return (
     <>
+
       <Sidebar
+
         {...props}
         routes={routes}
         logo={{
@@ -61,6 +63,7 @@ const Admin = (props) => {
           {...props}
           brandText={getBrandText(props?.location?.pathname)}
         />
+
         <Routes>
           {getRoutes(routes)}
           <Route
@@ -68,6 +71,7 @@ const Admin = (props) => {
             element={<Navigate to="/dashboard/ErrorPage" replace />}
           />
         </Routes>
+
         <Container fluid>
           <AdminFooter />
         </Container>

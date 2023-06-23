@@ -13,15 +13,28 @@ const empPermissions = localStorage.getItem("permissions");
 const Categories = () => {
   const [categoriesList, setCategoriesList] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSearch = (event) => {
+    const query = event.target.value;
+    setSearchQuery(query);
+    console.log(query);
+  };
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
 
   useEffect(() => {
     getCategoriesList();
-  }, []);
+  }, [currentPage]);
 
   const getCategoriesList = async () => {
     try {
       const response = await AxiosDashboard.get("/categories");
-      setCategoriesList(response.data.data);
+      console.log(response);
+      setCategoriesList(response.data);
       setTotalPages(response.data.totalPage);
     } catch (error) {
       console.log(error);
@@ -48,6 +61,14 @@ const Categories = () => {
       <Tables
         title="All Categories"
         route="/dashboard/Categories/Add"
+        totalPages={totalPages}
+        currentPage={currentPage}
+        onPageChange={handlePageChange}
+        handleSearch={handleSearch}
+        searchQuery={searchQuery}
+        query="name"
+        endpoint="categories"
+        queryValue={searchQuery}
         content={
           <>
             <th scope="col">ID</th>
@@ -57,12 +78,16 @@ const Categories = () => {
             <th scope="col">Actions</th>
           </>
         }
-        tableRows={categoriesList.map((category) => (
-          <tr
-            key={category.id}
-            style={{ backgroundColor: category.active ? "white" : "#f6f9fc" }}
-          >
-            <th scope="row">{category.id}</th>
+
+        // tableData={(category, index)}
+        //   <tr
+        //     key={category.id}
+        //     style={{ backgroundColor: category.active ? "white" : "#f6f9fc" }}
+        //   >
+        //     <th scope="row">{category.id}</th>
+        tableData={(category, index) => (
+          <>
+            <th scope="row">{(currentPage - 1) * 10 + index + 1}</th>
             <td>{category.name}</td>
             <td>
               <Badge
@@ -79,13 +104,16 @@ const Categories = () => {
                 <Btn className="btn-primary btn fa fa-edit" />
               </Link>
             </td>
-          </tr>
-        ))}
+          </>
+        )}
       />
     );
   } else {
     window.location.href = "/ErrorPage";
   }
+
+
+  
 };
 
 export default Categories;

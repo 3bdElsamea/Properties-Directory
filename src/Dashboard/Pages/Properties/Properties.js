@@ -10,11 +10,24 @@ const empPermissions = localStorage.getItem("permissions");
 
 const Properties = () => {
   const [propertyList, setPropertyList] = useState([]);
-  const [totalPages, setTotalPages] = useState(0);
+  const [totalPages, setTotalPages]=useState(0);
+  const [currentPage, setCurrentPage]=useState(1);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const handleSearch = (event) => {
+    const query = event.target.value;
+    setSearchQuery(query);
+  };
+
+
 
   useEffect(() => {
     getPropertyList();
-  }, []);
+  }, [currentPage]);
 
   const getPropertyList = async () => {
     try {
@@ -63,10 +76,20 @@ const Properties = () => {
     }
   };
 
+
+  
+
   return (
     <Tables
       title="All Properties"
       route="/dashboard/Properties/add"
+      currentPage={currentPage}
+      totalPages={totalPages}
+      onPageChange={handlePageChange}
+      handleSearch={handleSearch}
+      searchQuery={searchQuery}
+      endpoint="properties"
+      query="title"
       content={
         <>
           <th scope="col">ID</th>
@@ -91,9 +114,9 @@ const Properties = () => {
           <th scope="col">Actions</th>
         </>
       }
-      tableRows={propertyList.map((property) => (
-        <tr key={property.id}>
-          <th scope="row">{property.id}</th>
+      tableData={(property, index) => (
+        <>
+          <th scope="row">{(currentPage - 1) * 10 + index + 1}</th>
           <td>{property.title}</td>
           {/* <td>{property.description}</td> */}
           <td>{property.price}</td>
@@ -142,10 +165,11 @@ const Properties = () => {
               handleAction={() => deleteProperty(property.id)} // Pass the correct ID here
 
             /> */}
-            </td>
-          </tr>
-        ))}
-      />
-    );
-  };
+          
+          </td>
+        </>
+      )}
+    />
+  );
+};
 export default Properties;

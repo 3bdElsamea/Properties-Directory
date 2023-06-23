@@ -28,12 +28,17 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 import 'typeface-poppins';
 import './app.css'
+import 'react-notifications-component/dist/theme.css'
+
+
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const jwt = localStorage.getItem("jwt");
 
 root.render(
+
   <BrowserRouter>
+  
     <Routes>
     {!jwt && !<Route path="/auth/reset-password" element={<ResetPasswordDash />} />
     && <Route path="/*" element={<Navigate to="/auth/login" replace />} />}

@@ -1,6 +1,11 @@
 * {
     font-family: 'Poppins', sans-serif;
 }
+
+.rnc__notification-container--bottom-left {
+    bottom: 70px !important; 
+    left: -100px !important;
+}
 .input-group-prepend{
     margin-left: -10px;
 }
