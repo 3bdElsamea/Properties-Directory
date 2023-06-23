@@ -6,8 +6,15 @@ import SweetAlert from "../../SharedUI/SweetAlert/SweetAlert";
 
 const CreateCountry = () => {
   const [countryList, setCountryList] = useState([]);
-  const [totalPages, setTotalPages]=useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("");
 
+  const handleSearch = (event) => {
+    const query = event.target.value;
+    setSearchQuery(query);
+    console.log(query);
+  };
 
   const getAllCountries = async () => {
     try {
@@ -42,7 +49,7 @@ const CreateCountry = () => {
 
   useEffect(() => {
     getAllCountries();
-  }, []);
+  }, [currentPage]);
 
   return (
     <>
@@ -50,33 +57,39 @@ const CreateCountry = () => {
         <Tables
           title="All Countries"
           route="/dashboard/country/create"
+          totalPages={totalPages}
+          currentPage={currentPage}
+          endpoint="countries"
+          query="name"
+          handleSearch={handleSearch}
+          searchQuery={searchQuery}
           content={
             <>
               <th scope="col">#</th>
               <th scope="col">Name</th>
               <th scope="col">CreatedAt</th>
               <th scope="col">Status</th>
-             
+              <th></th>
             </>
           }
-          tableRows={countryList.map((item, index) => (
-            <tr key={item.id}>
-              <th scope="row">{index + 1}</th>
+          tableData={(item, index) => (
+            <>
+              <th scope="row">{(currentPage - 1) * 10 + index + 1}</th>
               <td>{item.name}</td>
-                <td>
-                  <button
-                    className={`btn btn-${
-                      item.active ? "success" : "danger"
-                    } btn-sm`}
-                    onClick={() => handleToggle(item.id, item.active)}
-                  >
-                    {item.active ? "Active" : "Inactive"}
-                  </button>
-                </td>
+              <td>{item.created_at}</td>
               <td>
+                <button
+                  className={`btn btn-${
+                    item.active ? "success" : "danger"
+                  } btn-sm`}
+                  onClick={() => handleToggle(item.id, item.active)}
+                >
+                  {item.active ? "Active" : "Inactive"}
+                </button>
               </td>
-            </tr>
-          ))}
+              <td></td>
+            </>
+          )}
         />
       </div>
     </>

@@ -1,0 +1,50 @@
+/* NotificationIcon.css */
+
+.notification-icon-dropdown .fa-bell {
+  font-size: 24px;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: #ff4a4f;
+  color: #ffffff;
+  font-size: 12px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.dropdown-menu-arrow {
+  position: absolute;
+  top: -5px;
+  right: -100px;
+  overflow-y: auto;
+  max-height: 400px;
+}
+
+.dropdown-menu-arrow::-webkit-scrollbar {
+  width: 6px;
+  background-color: #f5f5f5;
+}
+
+.dropdown-menu-arrow::-webkit-scrollbar-thumb {
+  background-color: #2f6dbe;
+  border-radius: 3px;
+}
+
+.notification-item {
+  border-radius: 50px;
+}
+
+
+.dropdown-menu-arrow .notification-read {
+  background-color: #afcceedc;
+}
+/* .notification-content {
+  border-bottom: 1px solid #e6e6e6;
+} */

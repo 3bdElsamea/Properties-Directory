@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import {
   Card,
   CardHeader,
@@ -11,76 +12,72 @@ import {
   Col,
   Navbar,
 } from "reactstrap";
-// core components
-
 import Btn from "../Btn/Btn";
 import { Link } from "react-router-dom";
-import { useState } from "react";
-import { useEffect } from "react";
 import { AxiosDashboard } from "../../../Axios";
+
 const Tables = ({
   title,
   route,
-  content,
   currentPage,
   totalPages,
   onPageChange,
+  endpoint,
+  query,
+  content,
+  tableData,
 }) => {
-  const [filteredTableRows, setFilteredTableRows] = useState([]);
   const [tableRows, setTableRows] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [endpoint, setEndpoint] = useState("");
-  const [query, setQuery] = useState("");
   const [queryValue, setQueryValue] = useState("");
+
 
   const fetchData = async () => {
     try {
       // Make an API request to fetch data from the backend endpoint
-      const response = await AxiosDashboard.get(
-        `/${endpoint}?${query}=${queryValue}`
-      );
-      const { tableRows: data } = response.data;
-
+      const response = await AxiosDashboard.get(`/${endpoint}`, {
+        params: { [query]: queryValue }, // Pass the query parameter
+        params: { page: currentPage }, // Move the page parameter inside the params object
+      });
+      const { data } = response.data;
       setTableRows(data);
-      setFilteredTableRows(filterRows(data));
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
 
-
   const handleSearch = (event) => {
     const query = event.target.value;
     setSearchQuery(query);
-    setQueryValue(query);
-    fetchData();
+    setQueryValue(query); // Set the query value for API request
   };
-  
-  
+
   const filterRows = (rows, query) => {
-    return rows.filter((row) =>
-      row.name.toLowerCase().includes(query.toLowerCase())
+    if (!query || query.trim() === "") {
+      return rows; // Return all rows when there is no query or it's empty after trimming
+    }
+
+    console.log(rows)
+    return rows.filter(
+      (row) =>
+        //make it for name or title
+        row.name.toLowerCase().includes(query.toLowerCase()) ||
+    row.title && row.title.toLowerCase().includes(query.toLowerCase())
     );
   };
 
   useEffect(() => {
     fetchData();
-  }, [endpoint, queryValue]);
-  
-  
+  }, [endpoint, queryValue, searchQuery, currentPage]);
 
-
-
-
-    
-  
+  const filteredTableRows = searchQuery
+    ? filterRows(tableRows, searchQuery)
+    : tableRows;
 
   return (
     <>
       <Navbar />
-      {/* Page content */}
       <Container className="mt--7" fluid>
-        {/* Table */}
         <Row>
           <div className="col">
             <Card className="shadow">
@@ -106,22 +103,22 @@ const Tables = ({
                       </div>
                     </div>
                   </CardHeader>
-                  
                 </Col>
               </Row>
               <Table className="align-items-center table-flush" responsive>
                 <thead className="thead-light">
                   <tr>{content}</tr>
                 </thead>
-                <tbody>{filteredTableRows}</tbody>
+                <tbody>
+                  {filteredTableRows.map((item, index) => (
+                    <tr key={item.id}>{tableData(item, index)}</tr>
+                  ))}
+                </tbody>
               </Table>
 
               <CardFooter className="py-4">
                 <nav aria-label="...">
-                  <Pagination
-                    className="pagination justify-content-end mb-0"
-                    listClassName="justify-content-end mb-0"
-                  >
+                  <Pagination className="pagination justify-content-end mb-0">
                     <PaginationItem
                       className={currentPage === 1 ? "disabled" : ""}
                     >
@@ -134,19 +131,6 @@ const Tables = ({
                         <span className="sr-only">Previous</span>
                       </PaginationLink>
                     </PaginationItem>
-                    {Array.from({ length: totalPages }, (_, index) => (
-                      <PaginationItem
-                        key={index}
-                        className={currentPage === index + 1 ? "active" : ""}
-                      >
-                        <PaginationLink
-                          href="#"
-                          onClick={() => onPageChange(index + 1)}
-                        >
-                          {index + 1}
-                        </PaginationLink>
-                      </PaginationItem>
-                    ))}
                     <PaginationItem
                       className={currentPage === totalPages ? "disabled" : ""}
                     >

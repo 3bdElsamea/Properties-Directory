@@ -1,3 +1,8 @@
 * {
     font-family: 'Poppins', sans-serif;
 }
+
+.rnc__notification-container--bottom-left {
+    bottom: 50px !important; 
+    left: -100px !important;
+}

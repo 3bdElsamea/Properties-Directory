@@ -34,6 +34,8 @@ import PropertyUpdate from "./Dashboard/Pages/Properties/PropertyUpdate.js";
 import PropertyDetails from "./Dashboard/Pages/Properties/PropertyDetails.js";
 import OwnerDetails from "./Dashboard/Pages/Owners/OwnerDetails.js";
 import PropertyImages from "./Dashboard/Pages/Properties/propertyImages.js";
+import Report from "./Dashboard/Pages/ReportsData/Report.js";
+import Contact from "./Dashboard/Pages/ContactUs/ContactUs.js";
 var routes = [
   {
     path: "/index",
@@ -260,6 +262,24 @@ var routes = [
     name: "hiddenRoute",
     component: <UpdateAbout />,
     layout: "/dashboard",
+  },
+  //reports
+  {
+    path: "/report",
+    name: "Report",
+    icon: "fa fa-file text-blue",
+    component: <Report />,
+    layout: "/dashboard",
+
+  },
+  //contact us
+  {
+    path: "/contact",
+    name: "ContactUs",
+    icon: "fa fa-phone text-blue",
+    component: <Contact />,
+    layout: "/dashboard",
+
   },
   {
     path: "/login",

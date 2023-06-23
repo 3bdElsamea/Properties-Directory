@@ -1,0 +1,84 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.contact-card {
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transition: box-shadow 0.3s ease-in-out;
+    cursor: pointer;
+  }
+  
+  .contact-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .contact-card-header {
+    background-color: #f0f0f0;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .contact-card-title {
+    color: #010050;
+    font-size: 18px;
+    margin-bottom: 0;
+  }
+  
+  .contact-card-body {
+    padding: 10px;
+  }
+  
+  .contact-card-footer {
+    background-color: #f0f0f0;
+    border-top: 1px solid #ddd;
+    padding: 5px;
+    text-align: right;
+  }
+
+  .contact-card-footer p{
+    color: rgb(139, 34, 34);
+    font-weight: bold;
+  }
+  
+  .contact-card-timestamp {
+    color: #777;
+    font-size: 12px;
+    margin-bottom: 0;
+  }
+  .contact-card-timestamp span{
+    color: #777;
+
+  }
+
+  .header p{
+    color: rgb(25, 25, 250);
+    font-weight: bold;
+    font-size: 13px;
+  }
+
+  .status-badge {
+    display: inline-block;
+    padding: 5px 10px;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 12px;
+    text-transform: capitalize;
+  }
+  
+  .status-badge.active {
+    background-color: green;
+    color: white;
+  }
+  
+  .status-badge.rejected {
+    background-color: red;
+    color: white;
+  }
+  
+  .status-badge.pending {
+    background-color: orange;
+    color: white;
+  }
+  
+  
