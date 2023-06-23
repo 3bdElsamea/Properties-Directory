@@ -14,6 +14,7 @@ import {
 import { AxiosWeb } from "../../../Axios";
 import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { useNavigate } from "react-router-dom";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("Name is required."),
@@ -21,7 +22,7 @@ const validationSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email.").required("Email is required."),
   phone: Yup.string()
   .matches(
-    /^\+(?:[0-9] ?){6,14}[0-9]$/,
+    /^(?:[0-9] ?){6,14}[0-9]$/,
     "Invalid phone number."
   )
   .required("Phone is required."),
@@ -43,12 +44,13 @@ const validationSchema = Yup.object().shape({
 function Register() {
   const [showErrorMessage, setShowErrorMessage] = useState(false);
   const [showErrorvalidation, setErrorvalidation] = useState("");
+  const navigate = useNavigate();
 
   function handleSubmit(values) {
     AxiosWeb.post("/auth/register", values)
       .then((response) => {
         console.log("Registration successful: " + response.data);
-        window.location.href = "/login";
+        navigate("/login");
       })
       .catch((error) => {
         if (error.response && error.response.status === 500) {

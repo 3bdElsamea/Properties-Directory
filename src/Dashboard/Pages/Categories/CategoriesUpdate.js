@@ -78,7 +78,7 @@ const CategoriesUpdate = () => {
     return !(name || active);
   };
 
-  if (empPermissions.split(",").includes("category")) {
+  if (empPermissions.includes("category")) {
     return (
       <Container className="mt--7" fluid>
         <Row>

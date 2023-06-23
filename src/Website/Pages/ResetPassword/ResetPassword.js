@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useParams } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import {
   Button,
   Card,
@@ -38,6 +39,7 @@ const validationSchema = Yup.object().shape({
 const ResetPasswordPage = () => {
   const [passwordResetSuccess, setPasswordResetSuccess] = useState(false);
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const handleSubmit = (values) => {
     const { password, password_confirmation } = values;
@@ -68,7 +70,7 @@ const ResetPasswordPage = () => {
 
   if (passwordResetSuccess) {
     setTimeout(() => {
-      window.location.href = "/login";
+      navigate("/login");
     }, 3000);
   }
 

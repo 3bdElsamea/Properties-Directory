@@ -61,9 +61,9 @@ const BestProperties = () => {
               </div>
             ))}
         <div className="col-lg-4 col-md-6 mb-4 wow fadeInUp">
-        <div class="cardAll card_red text-center">
-            <div class="title">
-              <i class="fa fa-home" aria-hidden="true"></i>
+        <div className="cardAll card_red text-center">
+            <div className="title">
+              <i className="fa fa-home" aria-hidden="true"></i>
               <h2>ALL Properties</h2>
             </div>
             

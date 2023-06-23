@@ -22,7 +22,7 @@ const AboutUs = () => {
         console.error('Error fetching contact information:', error);
       }
     };
-
+/*
     const fetchStatistics = async () => {
       try {
         const response = await AxiosDashboard.get('/statistic');
@@ -31,21 +31,21 @@ const AboutUs = () => {
         console.error('Error fetching statistics:', error);
       }
     };
-
+*/
     fetchContactInfo();
-    fetchStatistics();
+    //fetchStatistics();
   }, []);
 
   if (!contactInfo) {
     return <div>Loading...</div>;
   }
   // Filter the statistics array to include only the categories you want to display
-  const filteredStatistics = statistics.filter(
+  /*const filteredStatistics = statistics.filter(
     statistic =>
     statistic.name === 'Property' ||
       statistic.name === 'Employee' ||
       statistic.name === 'Customer' 
-  );
+  );*/
 
   return (
     <div className="container-xxl py-5">
@@ -56,7 +56,7 @@ const AboutUs = () => {
             <h2 className="mb-4 mt-4" style={{ color: '#0F172B' }}>Welcome to <span className="text-uppercase text-lg" style={{ color: '#EB6753' }}>Homez</span></h2>
             <p className="mb-4">{contactInfo.description}</p>
             <div className="row g-3 pb-4">
-            {filteredStatistics.map((statistic, index) => (
+            {/* {filteredStatistics.map((statistic, index) => (
                 <div className="col-sm-4 wow fadeIn" data-wow-delay={`${0.1 * (index + 1)}s`} key={index}>
                   <div className="border rounded p-1">
                     <div className="border rounded text-center p-4">
@@ -74,7 +74,7 @@ const AboutUs = () => {
                     </div>
                   </div>
                 </div>
-              ))}
+              ))} */}
             </div>
             
             <Link to="/about" className="btn btn py-3 px-5 mt-2" style={{ backgroundColor: '#19172F' ,color:'#ffff'}}>
