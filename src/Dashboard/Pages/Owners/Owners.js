@@ -10,36 +10,49 @@ const empPermissions = localStorage.getItem("permissions");
 
 const Owners = () => {
   const [ownerList, setOwnerList] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("");
   const [totalPages, setTotalPages] = useState(0);
-
-  useEffect(() => {
-    getOwnerList();
-  }, []);
-
-  const deleteOwner = async (ownerId) => {
-    try {
-      const response = await AxiosDashboard.delete(`/owners/${ownerId}`);
-      if (response.data.status.data === 200) {
-        setOwnerList((prevOwnerList) =>
-          prevOwnerList.filter((owner) => owner.id !== ownerId)
-        );
-      } else {
-        throw new Error("Failed to delete the owner.");
-      }
-    } catch (error) {
-      console.log(error);
-    }
+  const handleSearch = (event) => {
+    setSearchQuery(event.target.value);
   };
 
-  const getOwnerList = async () => {
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+
+  // const deleteOwner = async (ownerId) => {
+  //   try {
+  //     const response = await AxiosDashboard.delete(`/owners/${ownerId}`);
+  //     if (response.data.status.data === 200) {
+  //       setOwnerList((prevOwnerList) =>
+  //         prevOwnerList.filter((owner) => owner.id !== ownerId)
+  //       );
+  //     } else {
+  //       throw new Error("Failed to delete the owner.");
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  const getOwnerList = async (page) => {
     try {
-      const response = await AxiosDashboard.get("/owners");
-      setOwnerList(response.data.data);
+      const response = await AxiosDashboard.get("/owners", {
+        params: {
+          page: page,
+        },
+      });
+      setOwnerList(response.data?.data);
       setTotalPages(response.data.totalPage);
     } catch (error) {
       console.log(error);
     }
   };
+  useEffect(() => {
+    getOwnerList(currentPage);
+  }, [currentPage]);
 
   const getStatusBadgeColor = (status) => {
     const lowerCaseStatus = status.toLowerCase();
@@ -59,6 +72,9 @@ const Owners = () => {
     return (
       <Tables
         title="All Owners"
+        currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
         route="/dashboard/Owners/Add"
         content={
           <>

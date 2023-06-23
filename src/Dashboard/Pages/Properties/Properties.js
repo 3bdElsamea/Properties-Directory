@@ -10,21 +10,39 @@ const empPermissions = localStorage.getItem("permissions");
 
 const Properties = () => {
   const [propertyList, setPropertyList] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("");
   const [totalPages, setTotalPages] = useState(0);
+  
 
-  useEffect(() => {
-    getPropertyList();
-  }, []);
+  const handleSearch = (event) => {
+    setSearchQuery(event.target.value);
+  };
 
-  const getPropertyList = async () => {
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+
+  const getPropertyList = async (page) => {
     try {
-      const response = await AxiosDashboard.get("/properties");
-      setPropertyList(response.data.data);
+      const response = await AxiosDashboard.get("/properties", {
+        params: {
+          page: page,
+        },
+      });
+      setPropertyList(response.data?.data);
       setTotalPages(response.data.totalPage);
     } catch (error) {
       console.log(error);
     }
   };
+  useEffect(() => {
+    getPropertyList(currentPage);
+  }, [currentPage]);
+
+
+
 
   const toggleActive = async (propertyId) => {
     try {
@@ -48,30 +66,33 @@ const Properties = () => {
       console.log(error);
     }
   };
-  const deleteProperty = async (propertyId) => {
-    try {
-      const response = await AxiosDashboard.delete(`/properties/${propertyId}`);
-      if (response.status === 200) {
-        setPropertyList((prevpropertyList) =>
-          prevpropertyList.filter((property) => property.id !== propertyId)
-        );
-      } else {
-        throw new Error("Failed to delete the property.");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const deleteProperty = async (propertyId) => {
+  //   try {
+  //     const response = await AxiosDashboard.delete(`/properties/${propertyId}`);
+  //     if (response.status === 200) {
+  //       setPropertyList((prevpropertyList) =>
+  //         prevpropertyList.filter((property) => property.id !== propertyId)
+  //       );
+  //     } else {
+  //       throw new Error("Failed to delete the property.");
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   return (
     <Tables
       title="All Properties"
       route="/dashboard/Properties/add"
+      currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
       content={
         <>
           <th scope="col">ID</th>
           <th scope="col">Title</th>
-          <th scope="col">Description</th>
+          <th scope="col">Address</th>
           <th scope="col">Price</th>
           <th scope="col">Image</th>
           {/* <th scope="col">Area</th>
@@ -95,7 +116,7 @@ const Properties = () => {
         <tr key={property.id}>
           <th scope="row">{property.id}</th>
           <td>{property.title}</td>
-          {/* <td>{property.description}</td> */}
+          <td>{property.address}</td>
           <td>{property.price}</td>
           <td>
             <img src={property.image} alt="Property" width="100" height="100" />

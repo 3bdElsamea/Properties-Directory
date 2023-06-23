@@ -46,7 +46,7 @@ const Tables = ({
     <>
       <Navbar />
       {/* Page content */}
-      <Container className="mt--7" fluid>
+      <Container className="" fluid>
         {/* Table */}
         <Row>
           <div className="col">
@@ -54,7 +54,7 @@ const Tables = ({
               <Row className="justify-content-between">
                 <Col>
                   <CardHeader className="border-0 d-flex justify-content-between">
-                    <h3 className="mb-0">{title}</h3>
+                    <h3 className="mb-0 text-dark">{title}</h3>
                     <div className="d-flex align-items-center">
                       <div className="mr-2">
                         <input
