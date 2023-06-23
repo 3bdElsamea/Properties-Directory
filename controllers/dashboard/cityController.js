@@ -46,9 +46,6 @@ const updateCity = catchAsync(async (req, res, next) => {
   const city = await City.findByPk(id);
 
   if (city) {
-    if (req.body.active) {
-      delete req.body.active;
-    }
     const updatedCity = await city.update({
       ...req.body,
     });

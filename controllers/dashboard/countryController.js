@@ -30,18 +30,10 @@ const updateCountry = catchAsync(async (req, res, next) => {
   const { id } = req.params;
   const country = await Country.findByPk(id);
   if (country) {
-    // if (req.body.active) {
-    //   delete req.body.active;
-    // }
     const updatedCountry = await country.update({
       ...req.body,
     });
-    // IF Country deactivated then deactivate all cities in it vise versa
-    if (!updatedCountry.active) {
-      await City.update({ active: 0 });
-    } else {
-      await City.update({ active: 1 });
-    }
+
     await createReport(req, 'updated country named ' + updatedCountry.name);
     res.json(updatedCountry);
   } else return next(new AppError('Country not found', 404));
