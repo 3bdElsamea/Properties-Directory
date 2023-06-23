@@ -3,6 +3,7 @@ import catchAsync from '../../utils/catchAsync.js';
 import ApiFeatures from '../../utils/apiFeatures.js';
 import AppError from '../../utils/appError.js';
 import createReport from '../../utils/report.js';
+import City from '../../models/City.js';
 
 const getAllCountries = catchAsync(async (req, res) => {
   const countries = await new ApiFeatures(Country, req.query).get();
@@ -35,6 +36,12 @@ const updateCountry = catchAsync(async (req, res, next) => {
     const updatedCountry = await country.update({
       ...req.body,
     });
+    // IF Country deactivated then deactivate all cities in it vise versa
+    if (!updatedCountry.active) {
+      await City.update({ active: 0 });
+    } else {
+      await City.update({ active: 1 });
+    }
     await createReport(req, 'updated country named ' + updatedCountry.name);
     res.json(updatedCountry);
   } else return next(new AppError('Country not found', 404));
