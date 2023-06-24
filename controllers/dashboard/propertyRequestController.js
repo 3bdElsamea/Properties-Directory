@@ -20,11 +20,9 @@ const obj = {
 };
 
 const getAllPropertyRequests = catchAsync(async (req, res) => {
-  const propertyRequests = await new ApiFeatures(
-    PropertyRequest,
-    req.query,
-    obj,
-  ).get();
+  const propertyRequests = await new ApiFeatures(PropertyRequest, req.query, {
+    ...obj,
+  }).get();
   res.json(propertyRequests);
 });
 
