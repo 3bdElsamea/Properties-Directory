@@ -3,29 +3,21 @@ import { Link } from "react-router-dom";
 import { Badge } from "reactstrap";
 import Tables from "../../SharedUI/Table/Tables";
 import Btn from "../../SharedUI/Btn/Btn";
-import SweetAlert from "../../SharedUI/SweetAlert/SweetDelete";
 import { AxiosDashboard } from "../../../Axios";
 
 const empPermissions = localStorage.getItem("permissions");
 
 const Properties = () => {
+
   const [propertyList, setPropertyList] = useState([]);
   const [totalPages, setTotalPages]=useState(0);
   const [currentPage, setCurrentPage]=useState(1);
   const [searchQuery, setSearchQuery] = useState('');
 
- 
-
   const handleSearch = (event) => {
     const query = event.target.value;
     setSearchQuery(query);
   };
-
-
-
-  useEffect(() => {
-    getPropertyList();
-  }, [currentPage]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -50,8 +42,6 @@ const Properties = () => {
   }, [currentPage]);
 
 
-
-
   const toggleActive = async (propertyId) => {
     try {
       const property = propertyList.find(
@@ -74,6 +64,7 @@ const Properties = () => {
       console.log(error);
     }
   };
+
   // const deleteProperty = async (propertyId) => {
   //   try {
   //     const response = await AxiosDashboard.delete(`/properties/${propertyId}`);
@@ -142,7 +133,7 @@ const Properties = () => {
           <td>{property.garage}</td>
           <td>{property.floors}</td>
           <td>{property.year_built}</td> */}
-            <td>
+          <td>
               <Badge
                 color={property.status === "active" ? "success" : "danger"}
                 onClick={() => toggleActive(property.id)}
