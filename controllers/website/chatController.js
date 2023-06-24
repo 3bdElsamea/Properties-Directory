@@ -27,14 +27,7 @@ const startChatConversations = catchAsync(async (req, res, next) => {
       req.params.id,
       conversationExists.id,
     );
-    //   save the id and the chat messages in a object
-    const obj = {
-      chat_id: conversationExists.id,
-      messages: await ChatMessage.findAll({
-        where: { conversation_id: conversationExists.id },
-      }),
-    };
-    return res.json(obj);
+    return getChatMessages(req, res, next);
   }
   const conversation = await ChatConversation.create({
     customer_id: req.decodedData.customerId,
@@ -60,7 +53,10 @@ const getChatMessages = catchAsync(async (req, res) => {
   const messages = await ChatMessage.findAll({
     where: { conversation_id: req.params.id },
   });
-  res.json(messages);
+  res.json({
+    chat_id: req.params.id,
+    messages,
+  });
 });
 
 const sendChatMessage = catchAsync(async (req, res) => {

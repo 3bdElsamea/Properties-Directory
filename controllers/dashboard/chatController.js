@@ -23,7 +23,10 @@ const getChatMessages = catchAsync(async (req, res) => {
   const messages = await ChatMessage.findAll({
     where: { conversation_id: req.params.id },
   });
-  res.json(messages);
+  res.json({
+    chat_id: req.params.id,
+    messages,
+  });
 });
 
 const sendChatMessage = catchAsync(async (req, res) => {
