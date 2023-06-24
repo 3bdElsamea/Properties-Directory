@@ -24,11 +24,17 @@ const PropertyAdd = () => {
       .matches(/^[a-zA-Z ]+$/, "Title should contain only letters and spaces."),
     slug: Yup.string().required("Slug is required."),
     description: Yup.string()
-      .required("Description is required.")
-      .matches(
-        /^[a-zA-Z ]+$/,
-        "Description should contain only letters and spaces."
-      ),
+    .required("Description is required.")
+    .matches(
+      /^[a-zA-Z ,.]+$/,
+      "Description should contain only letters, spaces, periods, and commas."
+    ),
+    address: Yup.string()
+    .required("address is required.")
+    .matches(
+      /^[a-zA-Z ,.]+$/,
+      "address should contain only letters, spaces, periods, and commas."
+    ),
     price: Yup.number().required("Price is required"),
     image: Yup.mixed().required("Image is required"),
     area: Yup.number().required("Area is required"),
@@ -65,6 +71,7 @@ const PropertyAdd = () => {
     initialValues: {
       title: "",
       slug: "",
+      address:"",
       description: "",
       price: "",
       image: null,
@@ -225,6 +232,33 @@ const PropertyAdd = () => {
                                 {formik.errors.slug}
                               </div>
                             )}
+                          </FormGroup>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col lg="12">
+                          <FormGroup>
+                            <label
+                              className="form-control-label"
+                              htmlFor="input-address"
+                            >
+                              Address
+                            </label>
+                            <Input
+                              className="form-control-alternative w-100"
+                              type="textarea"
+                              placeholder="Enter address"
+                              name="address"
+                              value={formik.values.address}
+                              onChange={formik.handleChange}
+                              onBlur={formik.handleBlur}
+                            />
+                            {formik.touched.address &&
+                              formik.errors.address && (
+                                <div className="text-danger">
+                                  {formik.errors.address}
+                                </div>
+                              )}
                           </FormGroup>
                         </Col>
                       </Row>

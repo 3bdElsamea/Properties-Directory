@@ -10,7 +10,7 @@ const empPermissions = localStorage.getItem("permissions");
 
 const Owners = () => {
   const [ownerList, setOwnerList] = useState([]);
-  const [totalPages, setTotalPages] = useState(0);
+const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -43,15 +43,25 @@ const Owners = () => {
     }
   };
 
-  const getOwnerList = async () => {
+
+
+
+  const getOwnerList = async (page) => {
     try {
-      const response = await AxiosDashboard.get("/owners");
-      setOwnerList(response.data.data);
+      const response = await AxiosDashboard.get("/owners", {
+        params: {
+          page: page,
+        },
+      });
+      setOwnerList(response.data?.data);
       setTotalPages(response.data.totalPage);
     } catch (error) {
       console.log(error);
     }
   };
+  useEffect(() => {
+    getOwnerList(currentPage);
+  }, [currentPage]);
 
   const getStatusBadgeColor = (status) => {
     const lowerCaseStatus = status.toLowerCase();
@@ -71,6 +81,7 @@ const Owners = () => {
     return (
       <Tables
         title="All Owners"
+        onPageChange={handlePageChange}
         route="/dashboard/Owners/Add"
         totalPages={totalPages}
         currentPage={currentPage}
