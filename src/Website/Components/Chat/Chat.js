@@ -32,8 +32,6 @@ const ChatComponent = ({ propertyId }) => {
       setMessages(response.data.messages);
       setConversationId(response.data.chat_id);
       setIsChatHistoryLoaded(true);
-      scrollToBottom();
-
     } catch (error) {
       console.log(error);
     }
