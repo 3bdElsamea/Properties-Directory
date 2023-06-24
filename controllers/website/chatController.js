@@ -22,7 +22,19 @@ const startChatConversations = catchAsync(async (req, res, next) => {
   });
   if (conversationExists) {
     req.params.id = conversationExists.id;
-    return getChatMessages(req, res, next);
+    console.log(
+      'conversation exists....',
+      req.params.id,
+      conversationExists.id,
+    );
+    //   save the id and the chat messages in a object
+    const obj = {
+      chat_id: conversationExists.id,
+      messages: await ChatMessage.findAll({
+        where: { conversation_id: conversationExists.id },
+      }),
+    };
+    return res.json(obj);
   }
   const conversation = await ChatConversation.create({
     customer_id: req.decodedData.customerId,
