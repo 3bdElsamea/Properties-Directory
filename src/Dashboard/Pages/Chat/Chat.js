@@ -63,8 +63,7 @@ const Chat = () => {
     const fetchMessages = async () => {
       try {
         const response = await AxiosDashboard.get(
-          //`/chat/conversations/${conversationId}/messages`
-          `/chat/conversations/1/messages`
+          `/chat/conversations/${conversationId}/messages`
         );
         const messages = response.data.messages;
         setChat(messages);
@@ -119,7 +118,7 @@ const Chat = () => {
                           }}
                         >
                           {lastMessage
-                            ? lastMessage.message_text.length > 40
+                            ? lastMessage?.message_text.length > 40
                               ? `${lastMessage.message_text.slice(0, 40)}...`
                               : lastMessage.message_text
                             : "Loading..."}
