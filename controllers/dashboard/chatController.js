@@ -36,11 +36,11 @@ const sendChatMessage = catchAsync(async (req, res) => {
     sender: 'employee',
     message_text: messageText,
   });
-  // send pusher notification to customer
+
   await pusher.trigger(`chat-${conversationId}`, 'message_to_customer', {
-    message: message.message_text,
+    message: message.toJSON(),
   });
-  res.json(message);
+  res.json(message); //
 });
 
 export { getChatConversations, getChatMessages, sendChatMessage };

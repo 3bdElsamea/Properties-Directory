@@ -88,7 +88,7 @@ const sendChatMessage = catchAsync(async (req, res) => {
   );
   // send pusher notification to employee
   await pusher.trigger(`chat-${conversationId}`, 'message_to_employee', {
-    message: message.message_text,
+    message: message.toJSON(),
   });
   res.json(message);
 });
