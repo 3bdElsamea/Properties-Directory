@@ -56,7 +56,7 @@ const ResetPasswordPage = () => {
   return (
     <div>
       <Col md={6} className="ml-5">
-        <Card className="login-card">
+        <Card className="login-card" style={{marginLeft:'20%'}}>
           <CardBody>
             <h1 className="text-center">Reset Password</h1>
             {!passwordResetSuccess ? (

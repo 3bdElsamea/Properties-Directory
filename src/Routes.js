@@ -254,7 +254,7 @@ var routes = [
   //reports
   {
     path: "/report",
-    name: "Report",
+    name: empPermissions && empPermissions.split(",").includes("report") ? "Report" : "hiddenRoute",
     icon: "fa fa-file text-blue",
     component: <Report />,
     layout: "/dashboard",
@@ -263,7 +263,7 @@ var routes = [
   //contact us
   {
     path: "/contact",
-    name: "ContactUs",
+    name: empPermissions && empPermissions.split(",").includes("contact_us") ? "ContactUs" : "hiddenRoute",
     icon: "fa fa-phone text-blue",
     component: <Contact />,
     layout: "/dashboard",

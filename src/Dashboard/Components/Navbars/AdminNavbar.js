@@ -3,6 +3,9 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FiBell } from "react-icons/fi";
 import { Badge } from "reactstrap";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+
 
 import {
   DropdownMenu,
@@ -112,66 +115,13 @@ const id = parsedPayload.employeeId;
             >
               {props.brandText}
             </Link>
-            <Form className="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto">
-              <FormGroup className="mb-0">
-                <InputGroup className="input-group-alternative">
-                  <InputGroupAddon addonType="prepend">
-                    <InputGroupText>
-                      <i className="fas fa-search" />
-                    </InputGroupText>
-                  </InputGroupAddon>
-                  <Input placeholder="Search" type="text" />
-                </InputGroup>
-              </FormGroup>
-            </Form>
+            <span>
             <Notifications />
             {/* <ReactNotifications /> */}
-
-            <Nav className="align-items-center d-none d-md-flex" navbar>
-              <UncontrolledDropdown nav>
-                <DropdownToggle className="pr-0" nav>
-                  <Media className="align-items-center">
-                    <span className="avatar avatar-sm rounded-circle">
-                      <img
-                        alt="..."
-                        src={require("../../Assets/img/theme/team-4-800x800.jpg")}
-                      />
-                    </span>
-                    <Media className="ml-2 d-none d-lg-block">
-                      <span className="mb-0 text-sm font-weight-bold">
-                        {userData ? userData.name : "Loading..."}
-                      </span>
-                    </Media>
-                  </Media>
-                </DropdownToggle>
-                <DropdownMenu className="dropdown-menu-arrow" right>
-                  <DropdownItem className="noti-title" header tag="div">
-                    <h6 className="text-overflow m-0">Welcome!</h6>
-                  </DropdownItem>
-                  <DropdownItem to="/dashboard/user-profile" tag={Link}>
-                    <i className="ni ni-single-02" />
-                    <span>My profile</span>
-                  </DropdownItem>
-                  <DropdownItem to="/dashboard/user-profile" tag={Link}>
-                    <i className="ni ni-settings-gear-65" />
-                    <span>Settings</span>
-                  </DropdownItem>
-                  <DropdownItem to="/dashboard/user-profile" tag={Link}>
-                    <i className="ni ni-calendar-grid-58" />
-                    <span>Activity</span>
-                  </DropdownItem>
-                  <DropdownItem to="/dashboard/user-profile" tag={Link}>
-                    <i className="ni ni-support-16" />
-                    <span>Support</span>
-                  </DropdownItem>
-                  <DropdownItem divider />
-                  <DropdownItem onClick={handleLogout}>
-                    <i className="ni ni-user-run" />
-                    <span>Logout</span>
-                  </DropdownItem>
-                </DropdownMenu>
-              </UncontrolledDropdown>
-            </Nav>
+            <span onClick={handleLogout}>
+            <FontAwesomeIcon icon={faSignOutAlt} style={{ fontSize: '25px', color: 'white', cursor: 'pointer' }} />
+                  </span>
+            </span>
           </Container>
         </Navbar>
       </div>
