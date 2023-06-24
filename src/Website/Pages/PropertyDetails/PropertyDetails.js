@@ -44,6 +44,7 @@ const PropertyDetails = () => {
     };
   
   return (
+    
       <Row>
         <Col className="order-xl-3" xl="12">
           <Card className="shadow">
