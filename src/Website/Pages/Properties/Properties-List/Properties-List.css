@@ -91,3 +91,19 @@
   margin-top: 20px;
   color: gray;
 }
+@media (max-width: 1000px) {
+  .card-column {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  .propertiesRow{
+    display: block !important;
+  }
+}
+@media (max-width: 700px) {
+  .card-column {
+    grid-template-columns: repeat(1, 1fr) !important;
+  }
+  .propertiesRow{
+    display: block !important;
+  }
+}

@@ -15,7 +15,7 @@ import {
   import Btn from "../Btn/Btn";
   // core components
   
-  const Tables = ({ title, tableRows, route, content }) => {
+  const Tablee = ({ title, tableRows, route, content, totalPages, currentPage, onPageChange }) => {
     return (
       <>
         {/* Page content */}
@@ -30,7 +30,7 @@ import {
                       <h3 className="mb-0">{title}</h3>
                     </Col>
                     <Col>
-                      <Link to="/admin/roles/create">
+                      <Link to="/dashboard/roles/create">
                         <Btn
                           className="btn btn-primary"
                           style={{ marginLeft: "70%", minWidth: "50px", fontSize: "20px" }}
@@ -53,48 +53,26 @@ import {
                       className="pagination justify-content-end mb-0"
                       listClassName="justify-content-end mb-0"
                     >
-                      <PaginationItem className="disabled">
+                      <PaginationItem className={currentPage === 1 ? "disabled" : ""}>
                         <PaginationLink
-                          href="#pablo"
-                          onClick={(e) => e.preventDefault()}
-                          tabIndex="-1"
-                        >
-                          <i className="fas fa-angle-left" />
-                          <span className="sr-only">Previous</span>
-                        </PaginationLink>
+                          previous
+                          onClick={() => onPageChange(currentPage - 1)}
+                          disabled={currentPage === 1}
+                        />
                       </PaginationItem>
-                      <PaginationItem className="active">
+                      {Array.from({ length: totalPages }, (_, index) => (
+                        <PaginationItem key={index + 1} active={currentPage === index + 1}>
+                          <PaginationLink onClick={() => onPageChange(index + 1)}>
+                            {index + 1}
+                          </PaginationLink>
+                        </PaginationItem>
+                      ))}
+                      <PaginationItem className={currentPage === totalPages ? "disabled" : ""}>
                         <PaginationLink
-                          href="#pablo"
-                          onClick={(e) => e.preventDefault()}
-                        >
-                          1
-                        </PaginationLink>
-                      </PaginationItem>
-                      <PaginationItem>
-                        <PaginationLink
-                          href="#pablo"
-                          onClick={(e) => e.preventDefault()}
-                        >
-                          2 <span className="sr-only">(current)</span>
-                        </PaginationLink>
-                      </PaginationItem>
-                      <PaginationItem>
-                        <PaginationLink
-                          href="#pablo"
-                          onClick={(e) => e.preventDefault()}
-                        >
-                          3
-                        </PaginationLink>
-                      </PaginationItem>
-                      <PaginationItem>
-                        <PaginationLink
-                          href="#pablo"
-                          onClick={(e) => e.preventDefault()}
-                        >
-                          <i className="fas fa-angle-right" />
-                          <span className="sr-only">Next</span>
-                        </PaginationLink>
+                          next
+                          onClick={() => onPageChange(currentPage + 1)}
+                          disabled={currentPage === totalPages}
+                        />
                       </PaginationItem>
                     </Pagination>
                   </nav>
@@ -107,4 +85,4 @@ import {
     );
   };
   
-  export default Tables;
+  export default Tablee;

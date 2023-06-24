@@ -6,14 +6,14 @@
   background-size: 65%;
   background-position-x: 100%;
   background-position-y: 85%;
-  margin-top: -8%;
+  margin-top: -5%;
 }
 
 .register-card, .login-card {
   width: 400px;
   border-radius: 10px;
   margin: 20% auto;
-  margin-left: -20%;
+  margin-left: -30%;
 }
 
 .register-btn, .login-btn {
@@ -37,7 +37,7 @@
   margin-top: 20px;
 }
 
-@media (max-width: 576px) {
+@media (max-width: 800px) {
   .login-card, .register-card {
     width: 90%;
     margin: 10% auto;

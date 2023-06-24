@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { AxiosDashboard } from "../../../../Axios";
-import Tables from "../../../SharedUI/Table/Tables";
+import Table from "../../../SharedUI/Table/Table";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import Btn from "../../../SharedUI/Btn/Btn";
 import "./Roles-List.css";
@@ -13,8 +13,6 @@ const Roles = () => {
   const [permissions, setPermissions] = useState([]);
   const [rolePermissions, setRolePermissions] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
-    
-
 
   useEffect(() => {
     AxiosDashboard.get("/roles")
@@ -129,7 +127,7 @@ const Roles = () => {
   if (empPermissions.split(",").includes("role")) {
     return (
       <>
-        <Tables
+        <Table
           content={trContent}
           tableRows={tableContent}
           title="All Roles"

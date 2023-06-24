@@ -15,7 +15,7 @@ const NotificationIcon = () => {
   const [unreadCount, setUnreadCount] = useState();
 
   const fetchNotifications = () => {
-    console.log(process.env.PUSHER_APP_KEY);
+    //console.log(process.env.PUSHER_APP_KEY);
     // Get the JWT from the client-side storage
     const jwt = localStorage.getItem("jwt");
     AxiosDashboard.get("/notifications", {

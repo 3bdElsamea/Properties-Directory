@@ -26,6 +26,7 @@ const CreateCountry = () => {
   const getAllCountries = async () => {
     try {
       const response = await AxiosDashboard.get("/countries");
+      console.log(response.data?.data)
       setCountryList(response.data?.data);
       setTotalPages(response.data.totalPage);
     } catch (error) {

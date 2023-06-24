@@ -108,7 +108,7 @@ const ProfileForm = () => {
   };
 
   return (
-    <div className="col-xl-6 mt-5" style={{ marginLeft: "25%" }}>
+    <div className="col-xl-6 mt-5 updateProfile">
       <div className="ps-widget bgc-white bdrs12 default-box-shadow2 p30 mb30 overflow-hidden position-relative">
         <div className="col-xl-10">
           <div className="profile-box position-relative d-md-flex align-items-end mb50">
@@ -256,11 +256,14 @@ const ProfileForm = () => {
             <div className="error-message text-danger">{showErrorvalidation}</div>
           )}
             </div>
+            <div className="col-sm- col-xl-12">
             <Btn
               type="submit"
               title="Save Changes"
               className="btn btn-dark updateBtn ud-btn btn-white mb30 mt-4 updateBtn fs-5"
             />
+            </div>
+
           </form>
         </div>
       </div>

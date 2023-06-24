@@ -15,8 +15,7 @@ import {
 } from "reactstrap";
 import ForgotPasswordForm from "../ForgetPassword/ForgetPassword";
 
-import {AxiosWeb} from '../../../Axios';
-//import axios from "axios";
+import { AxiosWeb } from "../../../Axios";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -36,10 +35,10 @@ function Login() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    
+
     AxiosWeb.post("/auth/login", {
       email: email,
-      password: password
+      password: password,
     })
       .then((response) => {
         if (response.data.message !== "Invalid credentials") {
@@ -84,7 +83,7 @@ function Login() {
                       href="#pablo"
                       onClick={(e) => e.preventDefault()}
                     >
-                      <small style={{color:"gray"}} onClick={handleBackToLoginClick}>
+                      <small style={{ color: "gray" }} onClick={handleBackToLoginClick}>
                         Back to login
                       </small>
                     </a>
@@ -104,11 +103,11 @@ function Login() {
         <Card className="login-card">
           <CardBody>
             <a href="/home">
-            <img
-              src="https://creativelayers.net/themes/homez-html/images/header-logo2.svg"
-              alt="logo"
-              className="logoLogin mb-4"
-            />
+              <img
+                src="https://creativelayers.net/themes/homez-html/images/header-logo2.svg"
+                alt="logo"
+                className="logoLogin mb-4"
+              />
             </a>
             <h1 className="text-center titleAuth">Sign In</h1>
             <h5 className="text-center mb-4 text-gray">
@@ -172,19 +171,15 @@ function Login() {
                     href="#pablo"
                     onClick={handleForgotPasswordClick}
                   >
-                    <small style={{color:"gray"}}>Forgot password?</small>
+                    <small style={{ color: "gray" }}>Forgot password?</small>
                   </a>
                 )}
               </div>
               <div className="text-center">
-                <Button
-                  className="my-2 login-btn"
-                  color="primary"
-                  type="submit"
-                >
+                <Button className="my-2 login-btn" color="primary" type="submit">
                   Sign in
                 </Button>
-                <p style={{display: 'inline'}}>If you don't have an account,</p>
+                <p style={{ display: "inline" }}>If you don't have an account,</p>
                 <a href="/register"> Sign Up</a>
               </div>
             </Form>

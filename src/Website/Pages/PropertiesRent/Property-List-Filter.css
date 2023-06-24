@@ -183,3 +183,8 @@
   font-weight: 300;
   margin-left: -1px;
 }
+@media (max-width: 1000px) {
+  .hsidebar-content {
+    min-width: 300% ;
+  }
+}
