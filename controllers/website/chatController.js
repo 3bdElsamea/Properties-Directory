@@ -84,7 +84,7 @@ const sendChatMessage = catchAsync(async (req, res) => {
     ],
   });
   console.log(conversation);
-  // create notification for the employee
+
   await createNotification(
     req.decodedData.customerId,
     'New message',
