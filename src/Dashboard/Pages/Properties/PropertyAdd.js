@@ -147,7 +147,7 @@ const PropertyAdd = () => {
   const fetchCatageroies = async () => {
     try {
       const response = await AxiosDashboard.get("/categories"); // Replace with the correct URL for fetching owners data
-      const categories = response.data.data;
+      const categories = response.data;
       const catageoryOptions = categories.map((city) => ({
         value: city.id,
         label: city.name,

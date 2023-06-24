@@ -36,6 +36,7 @@ import OwnerDetails from "./Dashboard/Pages/Owners/OwnerDetails.js";
 import PropertyImages from "./Dashboard/Pages/Properties/propertyImages.js";
 import Report from "./Dashboard/Pages/ReportsData/Report.js";
 import Contact from "./Dashboard/Pages/ContactUs/ContactUs.js";
+import Chat from "./Dashboard/Pages/Chat/Chat.js"
 
 const empPermissions = localStorage.getItem("permissions");
 
@@ -289,6 +290,14 @@ var routes = [
     icon: "ni ni-key-25 text-info",
     component: <ResetPassword />,
     layout: "/dashboard",
+  },
+  {
+    path: "/chat",
+    name: empPermissions && empPermissions.split(",").includes("chat") ? "Chat" : "hiddenRoute",
+    icon: "fa fa-phone text-blue",
+    component: <Chat />,
+    layout: "/dashboard",
+
   },
 ];
 

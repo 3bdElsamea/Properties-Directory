@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencilAlt, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { Badge } from "reactstrap";
-import Tables from "../../SharedUI/Table/Tables";
+import Tables from "../../SharedUI/Table/Table";
 // import Btn from "../../SharedUI/Btn/Btn";
 // import SweetAlert from "../../SharedUI/SweetAlert/SweetAlert";
 import { AxiosDashboard } from "../../../Axios";
@@ -99,9 +99,6 @@ const Categories = () => {
   } else {
     window.location.href = "/ErrorPage";
   }
-
-
-  
 };
 
 export default Categories;

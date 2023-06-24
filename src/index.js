@@ -24,6 +24,7 @@ import PropertyDetails from "./Website/Pages/PropertyDetails/PropertyDetails"
 import PropertiesSellList from "./Website/Pages/PropertiesSell/PropertiesSellList"
 import PropertiesRentList from "./Website/Pages/PropertiesRent/PropertiesRentList"
 import ResetPasswordDash from "./Dashboard/Pages/ResetPassword/ResetPassword";
+import PropertiesSearch from "./Website/Pages/PropertiesSearch/PropertiesSearch"
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 import 'typeface-poppins';
@@ -48,7 +49,7 @@ root.render(
       <Route path="/properties" element={<><Navbar/> <PropertiesList /><Footer/></>} />
       <Route path="/properties/sell" element={<><Navbar/> <PropertiesSellList /><Footer/></>} />
       <Route path="/properties/rent" element={<><Navbar/> <PropertiesRentList /><Footer/></>} />
-
+      <Route path="/properties/search" element={<><Navbar/> <PropertiesSearch /><Footer/></>} />
       <Route path="/about" element={<><Navbar/> <About /><Footer/></>} />
       <Route path="/PropertyDetails/:propertyId" element={<><Navbar/><PropertyDetails /><Footer/></>} />
       <Route path="/register" element={<><Register /></>} />
