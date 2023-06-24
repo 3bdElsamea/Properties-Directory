@@ -19,7 +19,7 @@ const Chat = () => {
   const [customerList, setCustomerList] = useState([]);
   const [message, setMessage] = useState("");
   const [chat, setChat] = useState([]);
-  const [conversationId, setConversationId] = useState(1); // Assuming conversation ID is 1
+  const [conversationId, setConversationId] = useState(1);
 
   const handleMessageChange = (event) => {
     setMessage(event.target.value);
@@ -28,7 +28,6 @@ const Chat = () => {
   const handleSendMessage = async () => {
     if (message.trim() !== "") {
       const newMessage = { conversationId, messageText: message };
-
       try {
         await AxiosDashboard.post("/chat/messages", newMessage);
         setChat([...chat, { message_text: message, sender: "employee" }]);
@@ -64,10 +63,14 @@ const Chat = () => {
     const fetchMessages = async () => {
       try {
         const response = await AxiosDashboard.get(
-          `/chat/conversations/${conversationId}/messages`
+          //`/chat/conversations/${conversationId}/messages`
+          `/chat/conversations/1/messages`
         );
-        const messages = response.data;
+        const messages = response.data.messages;
         setChat(messages);
+        //const convID = response.data.messages.chat_id;
+        //setConversationId(convID);
+        //console.log(conversationId);
       } catch (error) {
         console.error("Error fetching messages:", error);
       }
@@ -84,7 +87,7 @@ const Chat = () => {
             <div className="user-list shadow">
               <ListGroup>
                 {customerList.map((customer, index) => {
-                  const conversationMessages = chat.filter(
+                  const conversationMessages = chat?.filter(
                     (message) =>
                       message.conversationId === customer.conversationId
                   );
@@ -116,8 +119,8 @@ const Chat = () => {
                           }}
                         >
                           {lastMessage
-                            ? lastMessage.message_text.length > 50
-                              ? `${lastMessage.message_text.slice(0, 50)}...`
+                            ? lastMessage.message_text.length > 40
+                              ? `${lastMessage.message_text.slice(0, 40)}...`
                               : lastMessage.message_text
                             : "Loading..."}
                         </p>{" "}
@@ -130,7 +133,7 @@ const Chat = () => {
           </Col>
           <Col md="8" className="chatCol shadow">
             <div className="chat-screen">
-              {chat.map((message, index) => (
+              {chat?.map((message, index) => (
                 <div
                   key={index}
                   className={`message ${
