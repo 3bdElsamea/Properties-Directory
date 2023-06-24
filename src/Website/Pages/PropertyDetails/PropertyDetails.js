@@ -16,6 +16,8 @@ import {
     Row,
     Col,
   } from "reactstrap";
+  import ChatComponent from '../../Components/Chat/Chat';
+
   // ...
   
 const PropertyDetails = () => {
@@ -180,8 +182,11 @@ const PropertyDetails = () => {
                 )}
               </Row>
             </CardBody>
+            <ChatComponent propertyId={propertyId} />
+
           </Card>
         </Col>
+
       </Row>
   )
 }
