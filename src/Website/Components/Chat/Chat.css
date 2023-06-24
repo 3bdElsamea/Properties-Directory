@@ -64,6 +64,7 @@
     width: 6px;
   }
   
+  
   .chat-messages::-webkit-scrollbar-thumb {
     background-color: #888;
     border-radius: 3px;
