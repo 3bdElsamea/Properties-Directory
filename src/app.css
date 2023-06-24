@@ -3,8 +3,8 @@
 }
 
 .rnc__notification-container--bottom-left {
-    bottom: 70px !important; 
-    left: -100px !important;
+    bottom: 50px !important; 
+    left: -200px !important;
 }
 .input-group-prepend{
     margin-left: -10px;
