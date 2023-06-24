@@ -38,7 +38,6 @@ const startChatConversations = catchAsync(async (req, res, next) => {
   }
   const conversation = await ChatConversation.create({
     customer_id: req.decodedData.customerId,
-    // employee_id: property.employee_id,
     employee_id: property.employee_id,
   });
   res.json(conversation);
