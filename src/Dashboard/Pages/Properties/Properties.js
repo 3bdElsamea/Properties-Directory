@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { Badge } from "reactstrap";
 import Tables from "../../SharedUI/Table/Tables";
 import Btn from "../../SharedUI/Btn/Btn";
-import SweetAlert from "../../SharedUI/SweetAlert/SweetDelete";
 import { AxiosDashboard } from "../../../Axios";
 
 const empPermissions = localStorage.getItem("permissions");
@@ -15,14 +14,10 @@ const Properties = () => {
   const [currentPage, setCurrentPage]=useState(1);
   const [searchQuery, setSearchQuery] = useState('');
 
- 
-
   const handleSearch = (event) => {
     const query = event.target.value;
     setSearchQuery(query);
   };
-
-
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
