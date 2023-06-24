@@ -1,74 +1,71 @@
 import React, { useEffect, useState } from "react";
 import { AxiosDashboard } from "../../../Axios";
-import { Link } from "react-router-dom";
 import Tables from "../../SharedUI/Table/Tables";
+import { Link } from "react-router-dom";
 import { FaInfoCircle } from "react-icons/fa";
-import Btn from "../../SharedUI/Btn/Btn";
-import "./Requests.css";
+
+const empPermissions = localStorage.getItem("permissions");
 
 const Requests = () => {
   const [requests, setRequests] = useState([]);
+  const [requestList, setRequestList] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("");
   const [customers, setCustomers] = useState({});
   const [properties, setProperties] = useState({});
+  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    // Fetch requests data from the API
-    AxiosDashboard.get("/property-requests")
-      .then((response) => {
-        setRequests(response.data.data);
-        setTotalPages(response.data.data.totalPage);
-      })
-      .catch((error) => {
-        console.error("Error fetching requests:", error);
-      });
-  }, []);
+  const handleSearch = (event) => {
+    const query = event.target.value;
+    setSearchQuery(query);
+  };
 
-  useEffect(() => {
-    // Fetch customers data from the API
-    AxiosDashboard.get("/customers")
-      .then((response) => {
-        const customersData = response.data.data.reduce((acc, customer) => {
-          acc[customer.id] = customer.name;
-          return acc;
-        }, {});
-        setCustomers(customersData);
-      })
-      .catch((error) => {
-        console.error("Error fetching customers:", error);
-      });
-  }, []);
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
 
-  useEffect(() => {
-    // Fetch properties data from the API
-    AxiosDashboard.get("/properties")
-      .then((response) => {
-        const propertiesData = response.data.data.reduce((acc, property) => {
-          acc[property.id] = property.title;
-          return acc;
-        }, {});
-        setProperties(propertiesData);
-      })
-      .catch((error) => {
-        console.error("Error fetching properties:", error);
-      });
-  }, []);
+  const getAllRequests = async () => {
+    try {
+      const response = await AxiosDashboard.get("/property-requests");
+      const requests = response.data.data;
+      const totalPages = response.data.totalPages;
+      setRequestList(requests);
+      setTotalPages(totalPages);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
 
   const updateRequestStatus = (requestId, newStatus) => {
+    // Update the requests state with the updated status locally
+    const updatedRequests = requests.map((request) => {
+      if (request.id === requestId) {
+        return { ...request, status: newStatus };
+      }
+      return request;
+    });
+    setRequests(updatedRequests);
+
     // Update request status in the API
-    AxiosDashboard.patch(`/property-requests/${requestId}`, { status: newStatus })
+    AxiosDashboard.patch(`/property-requests/${requestId}`, {
+      status: newStatus,
+    })
       .then(() => {
-        // Update the requests state with the updated status
-        const updatedRequests = requests.map((request) => {
-          if (request.id === requestId) {
-            return { ...request, status: newStatus };
-          }
-          return request;
-        });
-        setRequests(updatedRequests);
+        // API call was successful
       })
       .catch((error) => {
         console.error("Error updating request status:", error);
+        // Revert the local update if the API call fails
+        const revertedRequests = requests.map((request) => {
+          if (request.id === requestId) {
+            return { ...request, status: request.status };
+          }
+          return request;
+        });
+        setRequests(revertedRequests);
       });
   };
 
@@ -77,57 +74,82 @@ const Requests = () => {
     updateRequestStatus(requestId, newStatus);
   };
 
-  const trContent = (
-    <>
-      <th>ID</th>
-      <th>Customer Name</th>
-      <th>Property Title</th>
-      <th>Status</th>
-      <th>Created At</th>
-    </>
-  );
+  useEffect(() => {
+    getAllRequests();
+  }, []);
+  
 
-  const tableContent = requests.map((request) => {
-    const customerName = customers[request.customer_id] || "";
-    const propertyTitle = properties[request.property_id] || "";
-    console.log(request.customer_id);
-
+  if (empPermissions.split(",").includes("property_request")) {
     return (
-      <tr key={request.id}>
-        <td>{request.id}</td>
-        <td>
-          <Link to={"/dashboard/customers/details/" + request.customer_id} className="icon-link mr-2">
-            <FaInfoCircle />
-          </Link>
-          {customerName}
-        </td>
-        <td>
-        <Link to={"/dashboard/Properties/details/" + request.property_id} className="icon-link mr-2">
-            <FaInfoCircle />
-          </Link>
-          {propertyTitle}
-        </td>
-        <td>
-          <select
-            value={request.status}
-            onChange={(event) => handleStatusChange(request.id, event)}
-            className="status-select"
-          >
-            <option value="pending">Pending</option>
-            <option value="active">Active</option>
-            <option value="rejected">Rejected</option>
-          </select>
-        </td>
-        <td>{request.created_at.split("T")[0]}</td>
-      </tr>
+      <>
+        <div>
+          {loading ? (
+            <p>Loading...</p>
+          ) : (
+            <Tables
+              title="All Requests"
+              route="/dashboard/property_request/create"
+              totalPages={totalPages}
+              currentPage={currentPage}
+              endpoint="property-requests"
+              onPageChange={handlePageChange}
+              handleSearch={handleSearch}
+              searchQuery={searchQuery}
+              query="status"
+              queryValue={searchQuery}
+              content={
+                <>
+                  <th scope="col">#</th>
+                  <th scope="col">Customer</th>
+                  <th scope="col">Property</th>
+                  <th>Status</th>
+                  <th>Created At</th>
+                </>
+              }
+              tableData={(item, index) => (
+                <>
+                  <th scope="row">{(currentPage - 1) * 10 + index + 1}</th>
+                  <td>
+                    <Link
+                      to={"/dashboard/customers/details/" + item.customer_id}
+                      className="icon-link mr-2"
+                    >
+                      <FaInfoCircle />
+                    </Link>
+                    {item.Customer.name}
+                  </td>
+                  <td>
+                    <Link
+                      to={"/dashboard/Properties/details/" + item.property_id}
+                      className="icon-link mr-2"
+                    >
+                      <FaInfoCircle />
+                    </Link>
+                    {item.Property.title}
+                  </td>
+                  <td>
+                    <select
+                      onChange={(event) => handleStatusChange(item.id, event)}
+                      className="status-select"
+                      value={item.status}
+                    >
+                      <option value="pending">Pending</option>
+                      <option value="active">Active</option>
+                      <option value="rejected">Rejected</option>
+                    </select>
+                  </td>
+                  <td>{item.created_at.split("T")[0]}</td>
+                </>
+              )}
+            />
+          )}
+        </div>
+      </>
     );
-  });
-
-  return (
-    <>
-      <Tables title="Requests" tableRows={tableContent} content={trContent} />
-    </>
-  );
+  } else {
+    window.location.href = "/ErrorPage";
+    return null;
+  }
 };
 
 export default Requests;
