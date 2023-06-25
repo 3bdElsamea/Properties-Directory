@@ -14,6 +14,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import "./Chat.css";
+import Pusher from "pusher-js";
 
 const Chat = () => {
   const [customerList, setCustomerList] = useState([]);
@@ -62,7 +63,7 @@ const Chat = () => {
     fetchCustomerList();
   }, []);
 
-  useEffect(() => {
+  //useEffect(() => {
     const fetchMessages = async () => {
       try {
         const response = await AxiosDashboard.get(
@@ -78,6 +79,25 @@ const Chat = () => {
     if (currentConversationId) {
       fetchMessages();
     }
+  //}, [currentConversationId]);
+
+  useEffect(() => {
+    const pusher = new Pusher("fb1c526a7f07ebcc0179", {
+      cluster: "eu",
+    });
+
+    const channel = pusher.subscribe(`chat-${currentConversationId}`);
+    console.log(`chat-${currentConversationId}`);
+
+    fetchMessages();
+    channel.bind("message_to_employee", function (data) {
+      console.log("data", data);
+      //setMessage( data.message);
+    });
+    return () => {
+      pusher.unsubscribe(`chat-${currentConversationId}`);
+      pusher.disconnect();
+    };
   }, [currentConversationId]);
 
   return (

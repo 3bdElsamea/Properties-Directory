@@ -47,7 +47,7 @@ const RolesUpdate = () => {
             ? response.data.role.RolePermissions.map(
                 (permission) => permission.id
               ).filter((permissionId) =>
-                response.data.permissions.some(
+                response.data.permissions?.some(
                   (permission) => permission.id === permissionId
                 )
               )
