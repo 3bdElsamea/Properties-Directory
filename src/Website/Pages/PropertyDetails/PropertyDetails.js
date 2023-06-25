@@ -210,7 +210,7 @@ const PropertyDetails = () => {
           </Card>
         </Col>
       </Row>
-      <ChatComponent />
+      <ChatComponent propertyId={propertyId} />
     </Container>
   );
 };
