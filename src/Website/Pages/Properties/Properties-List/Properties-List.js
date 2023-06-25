@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PropertiesListFilter from "./Property-List-Filter";
 import { Row, Col } from "reactstrap";
-import { AxiosWeb } from "../../../../Axios";
+import { AxiosWeb, AxiosDashboard } from "../../../../Axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBed,
@@ -19,16 +19,32 @@ const PropertiesList = () => {
   const [requestedProperties, setRequestedProperties] = useState([]);
   const [showNoProducts, setShowNoProducts] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [categoriesList, setCategoriesList] = useState([]);
+  const [categoryNames, setCategoryNames] = useState([]);
 
   useEffect(() => {
     getPropertyList();
     getRequestedProperties();
     checkLoginStatus();
+    getCategoriesList();
   }, []);
 
+  const getCategoriesList = async () => {
+    try {
+      const response = await AxiosDashboard.get("/categories");
+      const categories = response.data;
+      setCategoriesList(categories);
+
+      const names = categories.map(category => category.name);
+      setCategoryNames(names);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const checkLoginStatus = () => {
-    const token = localStorage.getItem("token"); // Check for token in local storage
-    setIsLoggedIn(!!token); // Update the login status based on token availability
+    const token = localStorage.getItem("token");
+    setIsLoggedIn(!!token);
   };
 
   const getPropertyList = async () => {
@@ -38,16 +54,15 @@ const PropertiesList = () => {
       setPropertyList(properties);
       setFilteredPropertyList(properties);
       setShowNoProducts(properties.length === 0);
-      // getCityNames(properties);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const getCityNames = async (properties) => {
+  const getCityNames = async properties => {
     try {
       const cityNames = await Promise.all(
-        properties.map(async (property) => {
+        properties.map(async property => {
           const response = await AxiosWeb.get(`/cities/${property.cityId}`);
           return response.data.name;
         })
@@ -62,7 +77,7 @@ const PropertiesList = () => {
     try {
       const response = await AxiosWeb.get("/requests");
       const requestedPropertyIds = response.data.map(
-        (request) => request.property_id
+        request => request.property_id
       );
       setRequestedProperties(requestedPropertyIds);
     } catch (error) {
@@ -70,15 +85,13 @@ const PropertiesList = () => {
     }
   };
 
-  const handleRequest = async (property_id) => {
+  const handleRequest = async property_id => {
     try {
       await AxiosWeb.post(`/requests/${property_id}`);
-      // Handle success or show a message to the user
       console.log("Request submitted successfully!");
-      setRequestedProperties((prevState) => [...prevState, property_id]);
+      setRequestedProperties(prevState => [...prevState, property_id]);
     } catch (error) {
       console.log(error);
-      // Handle error or show an error message to the user
     }
   };
 
@@ -125,7 +138,13 @@ const PropertiesList = () => {
                     </span>
                     <hr className="cardHr" />
                     <FontAwesomeIcon icon={faKey} />
-                    <span className="mr-5">For Rent</span>
+                    {categoriesList.map(category => (
+                      property.category_id === category.id && (
+                        <span className="mr-5" key={category.id}>
+                          {category.name}
+                        </span>
+                      )
+                    ))}
                     {requestedProperties.includes(property.id) ? (
                       <span className="requestedSpan">Already requested</span>
                     ) : isLoggedIn ? (

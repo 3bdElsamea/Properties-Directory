@@ -1,12 +1,24 @@
 import React, { useEffect, useState } from "react";
 import {AxiosWeb} from "../../../../Axios";
+import {AxiosDashboard} from "../../../../Axios";
+
 import "./AboutUs.css";
 
 const AboutSection = () => {
   const [description, setDescription] = useState("");
+  const [statistics, setStatistics] = useState([]);
 
+  const fetchStatistics = async () => {
+    try {
+      const response = await AxiosDashboard.get('/statistic');
+      setStatistics(response.data);
+    } catch (error) {
+      console.error('Error fetching statistics:', error);
+    }
+  };
   useEffect(() => {
     fetchData();
+    fetchStatistics();
   }, []);
 
   const fetchData = async () => {
@@ -17,6 +29,12 @@ const AboutSection = () => {
       console.error("Error fetching data:", error);
     }
   };
+  const filteredStatistics = statistics.filter(
+    statistic =>
+    statistic.name === 'Property' ||
+      statistic.name === 'Employee' ||
+      statistic.name === 'Customer' 
+  );
 
   return (
     <div className="about-section">
@@ -46,18 +64,27 @@ const AboutSection = () => {
         className="realEstateImg"
       />
       <div className="row rowAbout">
-        <div className="column columnAbout">
-          <h1>4M</h1>
-          <h6>Award Winning</h6>
-        </div>
-        <div className="column columnAbout">
-          <h1>12K</h1>
-          <h6>Property Ready</h6>
-        </div>
-        <div className="column columnAbout">
-          <h1>20M</h1>
-          <h6>Happy Customers</h6>
-        </div>
+      <div className="row g-3 pb-4">
+            {filteredStatistics.map((statistic, index) => (
+                <div className="col-sm-4 wow fadeIn" data-wow-delay={`${0.1 * (index + 1)}s`} key={index}>
+                  <div className=" p-4">
+                    <div className="  text-center p-4">
+                      {statistic.name === 'Employee' && (
+                        <i className="fa fa-users-cog fa-2x  mb-2" style={{ color: '#EB6753' }}></i>
+                      )}
+                      {statistic.name === 'Customer' && (
+                        <i className="fa fa-users fa-2x  mb-2" style={{ color: '#EB6753' }}></i>
+                      )}
+                      {statistic.name === 'Property' && (
+                        <i className="fa fa-hotel fa-2x mb-2" style={{ color: '#EB6753' }}></i>
+                      )}
+                      <h2 className="mb-1" data-toggle="counter-up">{statistic.count}</h2>
+                      <p className="mb-0">{statistic.name}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
       </div>
     </div>
   );

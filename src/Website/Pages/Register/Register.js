@@ -15,50 +15,58 @@ import { AxiosWeb } from "../../../Axios";
 import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
+import Swal from "react-bootstrap-sweetalert";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("Name is required."),
   username: Yup.string().required("Username is required."),
   email: Yup.string().email("Invalid email.").required("Email is required."),
   phone: Yup.string()
-  .matches(
-    /^(?:[0-9] ?){6,14}[0-9]$/,
-    "Invalid phone number."
-  )
-  .required("Phone is required."),
-    password: Yup.string()
-  .required("Password is required.")
-  .test(
-    "password-strength",
-    "Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one special character.",
-    (value) =>
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
-        value
-      )
-  ),  password_confirmation: Yup.string()
+    .matches(/^(?:[0-9] ?){6,14}[0-9]$/, "Invalid phone number.")
+    .required("Phone is required."),
+  password: Yup.string()
+    .required("Password is required.")
+    .test(
+      "password-strength",
+      "Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one special character.",
+      (value) =>
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
+          value
+        )
+    ),
+  password_confirmation: Yup.string()
     .oneOf([Yup.ref("password"), null], "Passwords must match")
     .required("Confirm Password is required."),
 });
 
-
 function Register() {
   const [showErrorMessage, setShowErrorMessage] = useState(false);
-  const [showErrorvalidation, setErrorvalidation] = useState("");
+  const [showErrorValidation, setErrorValidation] = useState("");
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
   const navigate = useNavigate();
 
   function handleSubmit(values) {
     AxiosWeb.post("/auth/register", values)
       .then((response) => {
         console.log("Registration successful: " + response.data);
-        navigate("/login");
+        setShowSuccessAlert(true);
+        setShowErrorMessage(false);
       })
       .catch((error) => {
         if (error.response && error.response.status === 500) {
-          console.log( error.response.data.error.errors[0].message);}
+          //console.log(error.response.data.error.errors[0].message);
+          setErrorValidation(error.response.data.error.errors[0].message);
+        } else {
+          console.log("Error: " + error);
+          setErrorValidation("An error occurred during registration, Email and Phone must be unique");
+        }
         setShowErrorMessage(true);
-        setErrorvalidation(error.response.data.error.errors[0].message);
-        console.log("Error: " + error);
+        setShowSuccessAlert(false);
       });
+  }  
+
+  function handleSuccessAlertConfirm() {
+    navigate("/login");
   }
 
   return (
@@ -74,9 +82,7 @@ function Register() {
               />
             </a>
             <h1 className="text-center titleAuth">Register</h1>
-            <h5 className="text-center mb-4 text-gray">
-              Create a new account
-            </h5>
+            <h5 className="text-center mb-4 text-gray">Create a new account</h5>
             <Formik
               initialValues={{
                 name: "",
@@ -115,9 +121,7 @@ function Register() {
                         value={values.name}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        className={
-                          touched.name && errors.name ? "is-invalid" : ""
-                        }
+                        className={touched.name && errors.name ? "is-invalid" : ""}
                       />
                       <ErrorMessage
                         name="name"
@@ -143,9 +147,7 @@ function Register() {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         className={
-                          touched.username && errors.username
-                            ? "is-invalid"
-                            : ""
+                          touched.username && errors.username ? "is-invalid" : ""
                         }
                       />
                       <ErrorMessage
@@ -171,9 +173,7 @@ function Register() {
                         value={values.email}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        className={
-                          touched.email && errors.email ? "is-invalid" : ""
-                        }
+                        className={touched.email && errors.email ? "is-invalid" : ""}
                       />
                       <ErrorMessage
                         name="email"
@@ -198,9 +198,7 @@ function Register() {
                         value={values.phone}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        className={
-                          touched.phone && errors.phone ? "is-invalid" : ""
-                        }
+                        className={touched.phone && errors.phone ? "is-invalid" : ""}
                       />
                       <ErrorMessage
                         name="phone"
@@ -226,9 +224,7 @@ function Register() {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         className={
-                          touched.password && errors.password
-                            ? "is-invalid"
-                            : ""
+                          touched.password && errors.password ? "is-invalid" : ""
                         }
                       />
                       <ErrorMessage
@@ -255,7 +251,8 @@ function Register() {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         className={
-                          touched.password_confirmation && errors.password_confirmation
+                          touched.password_confirmation &&
+                          errors.password_confirmation
                             ? "is-invalid"
                             : ""
                         }
@@ -268,10 +265,33 @@ function Register() {
                     </InputGroup>
                   </FormGroup>
                   {showErrorMessage && (
-                    <div className="text-center text-danger mb-3">
-                      Registration failed. Please try again.<br/>
-                      {showErrorvalidation}
-                    </div>
+                    <Swal
+                      danger
+                      showCancelButton={false}
+                      showConfirmButton
+                      focusConfirmBtn
+                      confirmBtnText="OK"
+                      confirmBtnBsStyle="success"
+                      title="Error"
+                      icon="error"
+                      onConfirm={() => setShowErrorMessage(false)}
+                    >
+                      <p>{showErrorValidation}</p>
+                    </Swal>
+                  )}
+                  {showSuccessAlert && (
+                    <Swal
+                      success
+                      showCancelButton={false}
+                      showConfirmButton
+                      focusConfirmBtn
+                      confirmBtnText="OK"
+                      confirmBtnBsStyle="success"
+                      title="Success"
+                      onConfirm={handleSuccessAlertConfirm}
+                    >
+                      <p>Registration successful!</p>
+                    </Swal>
                   )}
                   <div className="text-center">
                     <Button
@@ -286,15 +306,11 @@ function Register() {
                 </Form>
               )}
             </Formik>
-            <div className="text-center">
-                <p style={{ display: "inline" }}>Already have an account? </p>
-                <a href="/login">Sign In</a>
-              </div>
           </CardBody>
         </Card>
       </Col>
     </div>
   );
-};
+}
 
 export default Register;

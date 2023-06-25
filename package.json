@@ -66,6 +66,7 @@
     "pusher-js": "^8.2.0",
     "react": ">=16.0.0",
     "react-bootstrap": "^2.7.4",
+    "react-bootstrap-sweetalert": "^5.2.0",
     "react-chartjs-2": "^2.11.2",
     "react-copy-to-clipboard": "5.1.0",
     "react-datetime": "3.2.0",

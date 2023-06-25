@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import PropertiesListFilter from "./Property-List-Filter";
+import PropertiesListFilter from "../Properties/Properties-List/Property-List-Filter";
 import { Row, Col } from "reactstrap";
 import { AxiosWeb } from "../../../Axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,7 +12,7 @@ import {
 import "./PropertiesSellList.css";
 import Btn from "../../SharedUI/Btn/Btn";
 
-const PropertiesSellList = () => {
+const PropertiesRentList = () => {
   const [propertyList, setPropertyList] = useState([]);
   const [cityName, setCityName] = useState([]);
   const [filteredPropertyList, setFilteredPropertyList] = useState([]);
@@ -24,11 +24,11 @@ const PropertiesSellList = () => {
     getRequestedProperties();
     checkLoginStatus(); 
   }, []);
-
   const checkLoginStatus = () => {
-    const jwt = localStorage.getItem("jwt"); // Check for JWT in local storage
-    setIsLoggedIn(!!jwt); // Update the login status based on JWT availability
+    const token = localStorage.getItem("token"); // Check for token in local storage
+    setIsLoggedIn(!!token); // Update the login status based on token availability
   };
+
 
   const getPropertyList = async () => {
     try {
@@ -104,7 +104,7 @@ const PropertiesSellList = () => {
                     <div className="cardImageText">${property.price} / mo</div>
                   </div>
                   <div className="cardContent">
-                    <a href={`/PropertyDetails/${property.id}`}>{property.title}</a>
+                    <a href={`/properties/${property.id}`}>{property.title}</a>
                     <small>In {cityName[index]}</small>
                     <span>
                       <FontAwesomeIcon icon={faBed} /> {property.bedrooms} <span className="details">bed</span>
@@ -121,13 +121,12 @@ const PropertiesSellList = () => {
                     {requestedProperties.includes(property.id) ? (
                       <span className="requestedSpan">Already requested</span>
                     ) : isLoggedIn ? (
-                    <Btn
-                      onClick={() => handleRequest(property.id)}
-                      title="Request"
-                      className="btn updateBtn ud-btn btn-secondary updateBtn fs-5"
-                      
-                    />
-                  ) : null} 
+                      <Btn
+                        onClick={() => handleRequest(property.id)}
+                        title="Request"
+                        className="btn updateBtnProperty ud-btn btn-secondary mt-0 updateBtn fs-5"
+                      />
+                    ) : null}
                   </div>
                 </div>
               ))
@@ -144,7 +143,7 @@ const PropertiesSellList = () => {
                     <div className="cardImageText">${property.price} / mo</div>
                   </div>
                   <div className="cardContent">
-                    <a href={`/properties/${property.id}`}>{property.title}</a>
+                    <a href={`/PropertyDetails/${property.id}`}>{property.title}</a>
                     <small>In {cityName[index]}</small>
                     <span>
                       <FontAwesomeIcon icon={faBed} /> {property.bedrooms} <span className="details">bed</span>
@@ -179,4 +178,4 @@ const PropertiesSellList = () => {
   );
 };
 
-export default PropertiesSellList;
+export default PropertiesRentList;
