@@ -19,7 +19,7 @@ const BestProperties = () => {
 
   return (
   
-    <div className='best my-4'>
+    <div className='best my-6'>
        <Helmet>
         <link href="https://fonts.googleapis.com/css?family=Roboto:300" rel="stylesheet" />
       </Helmet>
@@ -40,13 +40,7 @@ const BestProperties = () => {
                   <div className="p-4 mt-2">
                     <div className="d-flex justify-content-between mb-3">
                       <h5 className="mb-0">{property.title}</h5>
-                      <div className="ps-2">
-                        <small className="fa fa-star " style={{ color: '#EB6753' }}></small>
-                        <small className="fa fa-star " style={{ color: '#EB6753' }}></small>
-                        <small className="fa fa-star " style={{ color: '#EB6753' }}></small>
-                        <small className="fa fa-star " style={{ color: '#EB6753' }}></small>
-                        <small className="fa fa-star " style={{ color: '#EB6753' }}></small>
-                      </div>
+                    
                     </div>
                     <div className="d-flex mb-3">
                       <small className="border-end m-2 "><i className="fa fa-bed  m-1"  style={{ color: '#EB6753' }}></i> Bedrooms: {property.bedrooms}</small>

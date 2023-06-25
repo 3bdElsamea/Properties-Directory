@@ -105,7 +105,7 @@ const PropertyAdd = () => {
 
   const fetchOwners = async () => {
     try {
-      const response = await AxiosDashboard.get("/owners"); // Replace with the correct URL for fetching owners data
+      const response = await AxiosDashboard.get("/owners?limit=100"); // Replace with the correct URL for fetching owners data
       const owners = response.data.data;
       const ownerOptions = owners.map((owner) => ({
         value: owner.id,
@@ -118,7 +118,7 @@ const PropertyAdd = () => {
   };
   const fetchEmployees = async () => {
     try {
-      const response = await AxiosDashboard.get("/employees"); // Replace with the correct URL for fetching owners data
+      const response = await AxiosDashboard.get("/employees?limit=100"); // Replace with the correct URL for fetching owners data
       const employees = response.data.data;
       const employeeOptions = employees.map((employee) => ({
         value: employee.id,
@@ -132,7 +132,7 @@ const PropertyAdd = () => {
 
   const fetchCities = async () => {
     try {
-      const response = await AxiosDashboard.get("/cities"); // Replace with the correct URL for fetching owners data
+      const response = await AxiosDashboard.get("/cities?limit=100"); // Replace with the correct URL for fetching owners data
       const cities = response.data.data;
       const cityOptions = cities.map((city) => ({
         value: city.id,
