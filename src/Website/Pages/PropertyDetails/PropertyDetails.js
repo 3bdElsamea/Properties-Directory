@@ -91,10 +91,12 @@ const PropertyDetails = () => {
                     <Btn
                       onClick={() => handleRequest(property.id)}
                       title="Request"
-                      className="btn updateBtnProperty ud-btn btn-secondary mt-0 updateBtn fs-5"
+                      className="btn updateBtnProperty ud-btn btn-success mt-1 mb-0 updateBtn fs-5"
                     />
                   ) : null}
                 </Col>
+
+              
               </Row>
             </CardHeader>
 
@@ -201,16 +203,7 @@ const PropertyDetails = () => {
                   <Link to="/properties" className="btn btn-primary">
                     Back to Properties
                   </Link>
-                  <span className="requestedSpan">Already requested</span>
-                  { property && requestedProperties.includes(property.id) ? (
-                      <span className="requestedSpan">Already requested</span>
-                    ) : isLoggedIn ? (
-                      <Btn
-                        onClick={() => handleRequest(property.id)}
-                        title="Request"
-                        className="btn updateBtnProperty ud-btn btn-secondary mt-0 updateBtn fs-5"
-                      />
-                    ) : null}
+                
                 </Col>
               </Row>
             </CardBody>
