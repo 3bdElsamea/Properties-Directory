@@ -58,7 +58,7 @@ const PropertiesListFilter = ({ setFilteredPropertyList }) => {
         queryParams.push(`area=lte_${maxAreaInput}`);
       }
 
-      const queryString = queryParams.length > 0 ? `?${queryParams.join("&")}` : "";
+      const queryString = queryParams.length> 0 ? `?${queryParams.join("&")}` : "";
       const response = await AxiosWeb.get(`/properties${queryString}`);
       setFilteredPropertyList(response.data.data);
       setErrorMessage("");
