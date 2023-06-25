@@ -92,7 +92,7 @@ const Employees = () => {
                     text="You are about to change the block status of this employee."
                     route="/employees"
                     action="block"
-                    initialBlocked={item.blocked}
+                    initialBlocked={item.blocked == 0 ? 1 : 0}
                   />
                 </td>
                 <td>

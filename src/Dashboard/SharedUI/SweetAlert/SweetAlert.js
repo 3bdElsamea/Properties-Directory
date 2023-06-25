@@ -30,8 +30,7 @@ const SweetAlert = ({
       if (result.isConfirmed) {
         const updatedList = dataList.filter((data) => data.id !== id);
         if (action === "delete") {
-          AxiosDashboard
-            .delete(`${route}/${id}`)
+          AxiosDashboard.delete(`${route}/${id}`)
             .then((response) => {
               setdataList(updatedList);
               console.log(response.data);
@@ -40,15 +39,13 @@ const SweetAlert = ({
               console.log(error);
             });
         } else if (action === "block") {
-          const updatedBlocked = !blocked;
-          AxiosDashboard
-            .patch(`${route}/${id}`, { blocked: updatedBlocked })
+          AxiosDashboard.patch(`${route}/${id}`, { blocked: initialBlocked })
             .then((response) => {
-              console.log(response.data);
-              setBlocked(updatedBlocked);
+              console.log("jooo", response.data);
+              setBlocked(blocked);
               setdataList(
                 dataList.map((data) =>
-                  data.id === id ? { ...data, blocked: updatedBlocked } : data
+                  data.id === id ? { ...data, blocked: blocked } : data
                 )
               );
             })
@@ -73,13 +70,12 @@ const SweetAlert = ({
             onClick={handleAction}
             title={<FaTrash />}
           />
-          /*<i className={"fa fa-trash text-danger"} onClick={handleAction}></i>*/
         ) : (
           <button
-            className={`btn btn-${blocked ? "primary" : "danger"} btn-sm`}
+            className={`btn btn-${blocked ? "danger" : "primary"} btn-sm`}
             onClick={handleAction}
           >
-            {blocked ? "Blocked" : "Unblocked"}
+            {blocked ? "Block" : "Unblock"}
           </button>
         )}
       </>
