@@ -5,44 +5,72 @@ import Btn from '../../SharedUI/Btn/Btn';
 import { AxiosWeb } from '../../../Axios';
 import { Link } from 'react-router-dom';
 import {
-    Button,
-    Card,
-    CardHeader,
-    CardBody,
-    FormGroup,
-    Form,
-    Input,
-    Container,
-    Row,
-    Col,
-  } from "reactstrap";
-  import ChatComponent from '../../Components/Chat/Chat';
+  Button,
+  Card,
+  CardHeader,
+  CardBody,
+  FormGroup,
+  Form,
+  Input,
+  Container,
+  Row,
+  Col,
+} from 'reactstrap';
+import ChatComponent from '../../Components/Chat/Chat';
 
-  // ...
-  
 const PropertyDetails = () => {
-    const { propertyId } = useParams();
-    const [property, setProperty] = useState(null);
-    const [showAllGallery, setShowAllGallery] = useState(false);
-    // const history = useHistory();
-  
-    useEffect(() => {
-      getPropertyDetails();
-    }, []);
-  
-    const getPropertyDetails = async () => {
-      try {
-        const response = await AxiosWeb.get(`/properties/${propertyId}`);
-        setProperty(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-  
-    const toggleShowAllGallery = () => {
-      setShowAllGallery(!showAllGallery);
-    };
-  
+  const { propertyId } = useParams();
+  const [property, setProperty] = useState(null);
+  const [showAllGallery, setShowAllGallery] = useState(false);
+  const [requestedProperties, setRequestedProperties] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    getPropertyDetails();
+    getRequestedProperties();
+    checkLoginStatus();
+  }, []);
+
+  const checkLoginStatus = () => {
+    const token = localStorage.getItem('token'); // Check for token in local storage
+    setIsLoggedIn(!!token); // Update the login status based on token availability
+  };
+
+  const getPropertyDetails = async () => {
+    try {
+      const response = await AxiosWeb.get(`/properties/${propertyId}`);
+      setProperty(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const toggleShowAllGallery = () => {
+    setShowAllGallery(!showAllGallery);
+  };
+
+  const getRequestedProperties = async () => {
+    try {
+      const response = await AxiosWeb.get('/requests');
+      const requestedPropertyIds = response.data.map((request) => request.property_id);
+      setRequestedProperties(requestedPropertyIds);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleRequest = async (property_id) => {
+    try {
+      await AxiosWeb.post(`/requests/${property_id}`);
+      // Handle success or show a message to the user
+      console.log('Request submitted successfully!');
+      setRequestedProperties((prevState) => [...prevState, property_id]);
+    } catch (error) {
+      console.log(error);
+      // Handle error or show an error message to the user
+    }
+  };
+
   return (
     <Container>
       <Row>
@@ -51,13 +79,21 @@ const PropertyDetails = () => {
             <CardHeader className="bg-white border-0">
               <Row className="align-items-center">
                 <Col xs="8">
-                  <h3 className="mb-0">Property Gallery</h3>
+                  <h3 className="mb-0">Property Details</h3>
                 </Col>
                 <Col xs="4" className="text-right">
                   <Button color="primary" size="sm" onClick={toggleShowAllGallery}>
                     {showAllGallery ? 'Hide All Gallery' : 'Show All Gallery'}
                   </Button>
-                
+                  {property && requestedProperties.includes(property.id) ? (
+                    <span className="requestedSpan">Already requested</span>
+                  ) : isLoggedIn ? (
+                    <Btn
+                      onClick={() => handleRequest(property.id)}
+                      title="Request"
+                      className="btn updateBtnProperty ud-btn btn-secondary mt-0 updateBtn fs-5"
+                    />
+                  ) : null}
                 </Col>
               </Row>
             </CardHeader>
@@ -71,71 +107,49 @@ const PropertyDetails = () => {
                       alt="Property"
                       rounded
                       width="100%"
-                      height="90%"
-                      style={{ marginBottom: '10px' }}
+                      height="85%"
+                      style={{ marginBottom: '10px', marginTop: '25px' }}
                     />
                   </Col>
                   <Col xs={12} md={6}>
                     <div className="d-flex flex-column mt-3">
                       <h3>Property Information</h3>
                       <br />
-
-                      {/* Property details */}
                       <div className="d-flex align-items mb-4">
                         <i className="fas fa-envelope mr-2 text-info"></i>
                         <span className="font-weight-bold mr-1">Title:</span>
-                        {property.title}
-                      </div>
-                      <div className="d-flex align-items mb-4">
-                        <i className="fas fa-dollar-sign mr-2 text-info"></i>
+                        <span>{property.title}</span>
+                        <i className="fas fa-dollar-sign ml-4 text-info"></i>
                         <span className="font-weight-bold mr-1">Price:</span>
-                        {property.price}
+                        <span>{property.price}</span>
                       </div>
                       <div className="d-flex align-items mb-4">
                         <i className="fas fa-align-left mr-2 text-info"></i>
                         <span className="font-weight-bold mr-1">Description:</span>
-                        {property.description}
+                        <span>{property.description}</span>
                       </div>
                       <div className="d-flex align-items mb-4">
                         <i className="fas fa-ruler-combined mr-2 text-info"></i>
                         <span className="font-weight-bold mr-1">Area:</span>
-                        {property.area}
-                      </div>
-                      <div className="d-flex align-items mb-4">
-                        <i className="fas fa-bath mr-2 text-info"></i>
-                        <span className="font-weight-bold mr-1">bathrooms:</span>
-                        {property.bathrooms}
-                      </div>
-                      <div className="d-flex align-items mb-4">
-                        <i className="fas fa-bed  mr-2 text-info"></i>
-                        <span className="font-weight-bold mr-1">bedrooms:</span>
-                        {property.bedrooms}
+                        <span>{property.area}</span>
+                        <i className="fas fa-bath ml-3 text-info"></i>
+                        <span className="font-weight-bold mr-1">Bathrooms:</span>
+                        <span>{property.bathrooms}</span>
+                        <i className="fas fa-bed ml-3 text-info"></i>
+                        <span className="font-weight-bold mr-1">Bedrooms:</span>
+                        <span>{property.bedrooms}</span>
                       </div>
                       <div className="d-flex align-items mb-4">
                         <i className="fas fa-car mr-2 text-info"></i>
-                        <span className="font-weight-bold mr-1">garage:</span>
-                        {property.garage}
+                        <span className="font-weight-bold mr-1">Garage:</span>
+                        <span>{property.garage}</span>
+                        <i className="fas fa-layer-group ml-3 text-info"></i>
+                        <span className="font-weight-bold mr-1">Floors:</span>
+                        <span>{property.floors}</span>
+                        <i className="fas fa-calendar-alt ml-3 text-info"></i>
+                        <span className="font-weight-bold mr-1">Year Built:</span>
+                        <span>{property.year_built}</span>
                       </div>
-                      <div className="d-flex align-items mb-4">
-                        <i className="fas fa-layer-group mr-2 text-info"></i>
-                        <span className="font-weight-bold mr-1">floors:</span>
-                        {property.floors}
-                      </div>
-                      <div className="d-flex align-items mb-4">
-                        <i className="fas fa-calendar-alt mr-2 text-info"></i>
-                        <span className="font-weight-bold mr-1">year built:</span>
-                        {property.year_built}
-                      </div>
-                   
-                   
-                      {/* <td>{property.area}</td>
-          <td>{property.bathrooms}</td>
-          <td>{property.bedrooms}</td>
-          <td>{property.garage}</td>
-          <td>{property.floors}</td>
-          <td>{property.year_built}</td> */}
-                   
-                      {/* Add other property details here */}
                     </div>
                   </Col>
                 </Row>
@@ -155,7 +169,6 @@ const PropertyDetails = () => {
                             height="180"
                             style={{ marginBottom: '20px' }}
                           />
-                       
                         </div>
                       </Col>
                     ))
@@ -182,15 +195,31 @@ const PropertyDetails = () => {
                   ))
                 )}
               </Row>
-            </CardBody>
-            <ChatComponent propertyId={propertyId} />
 
+              <Row>
+                <Col>
+                  <Link to="/properties" className="btn btn-primary">
+                    Back to Properties
+                  </Link>
+                  <span className="requestedSpan">Already requested</span>
+                  { property && requestedProperties.includes(property.id) ? (
+                      <span className="requestedSpan">Already requested</span>
+                    ) : isLoggedIn ? (
+                      <Btn
+                        onClick={() => handleRequest(property.id)}
+                        title="Request"
+                        className="btn updateBtnProperty ud-btn btn-secondary mt-0 updateBtn fs-5"
+                      />
+                    ) : null}
+                </Col>
+              </Row>
+            </CardBody>
           </Card>
         </Col>
-
       </Row>
-      </Container>
-  )
-}
+      <ChatComponent />
+    </Container>
+  );
+};
 
-export default PropertyDetails
+export default PropertyDetails;
