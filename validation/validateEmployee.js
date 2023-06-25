@@ -28,7 +28,7 @@ const validationEmployeeUpdate = (req, res, next) => {
       email: Joi.string().email().allow(),
       password: Joi.string().min(8).allow(),
       username: Joi.string().min(3).allow(),
-      blocked: Joi.boolean().allow(),
+      blocked: Joi.number().integer().min(0).max(1).allow(),
       role_id: Joi.number().integer().allow(),
     }),
   );
