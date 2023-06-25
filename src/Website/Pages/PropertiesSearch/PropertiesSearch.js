@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import PropertiesListFilter from "./Property-List-Filter";
+import PropertiesListFilter from "../Properties/Properties-List/Property-List-Filter";
 import { Row, Col } from "reactstrap";
 import { AxiosWeb } from "../../../Axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
