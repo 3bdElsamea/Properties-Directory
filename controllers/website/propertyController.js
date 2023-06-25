@@ -28,20 +28,29 @@ const obj = {
 
 const getAllActiveProperties = catchAsync(async (req, res) => {
   req.query.status = 'active';
-  const properties = await new ApiFeatures(Property, req.query, obj).get();
+  const properties = await new ApiFeatures(Property, req.query, {
+    ...obj,
+  }).get();
   res.json(properties);
 });
 
 const getLastFiveProperties = catchAsync(async (req, res) => {
   req.query = { limit: '5', sort: 'created_at', status: 'active' };
-  const properties = await new ApiFeatures(Property, req.query, obj).get();
+  const properties = await new ApiFeatures(Property, req.query, {
+    ...obj,
+  }).get();
   res.json(properties);
 });
 
 const getPropertyById = catchAsync(async (req, res, next) => {
   const newObj = {
-    ...obj,
-    include: [{ model: PropertyImage, attributes: ['id', 'image'] }],
+    include: [
+      { model: PropertyImage, attributes: ['id', 'image'] },
+      {
+        model: Category,
+        attributes: ['name'],
+      },
+    ],
   };
   const property = await Property.findByPk(req.params.id, newObj);
   if (!property) {
