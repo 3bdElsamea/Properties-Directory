@@ -14,6 +14,7 @@ const PropertiesListFilter = ({ setFilteredPropertyList }) => {
   const [minAreaInput, setMinAreaInput] = useState("");
   const [maxAreaInput, setMaxAreaInput] = useState("");
   const [initialData, setInitialData] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     fetchData();
@@ -24,6 +25,7 @@ const PropertiesListFilter = ({ setFilteredPropertyList }) => {
       const response = await AxiosWeb.get("/properties");
       setInitialData(response.data.data);
     } catch (error) {
+      setErrorMessage("Failed to fetch data.");
       console.log(error);
     }
   };
@@ -59,7 +61,9 @@ const PropertiesListFilter = ({ setFilteredPropertyList }) => {
       const queryString = queryParams.length > 0 ? `?${queryParams.join("&")}` : "";
       const response = await AxiosWeb.get(`/properties${queryString}`);
       setFilteredPropertyList(response.data.data);
+      setErrorMessage("");
     } catch (error) {
+      setErrorMessage("Only numbers are allowed");
       console.log(error);
     }
   };
@@ -240,6 +244,7 @@ const PropertiesListFilter = ({ setFilteredPropertyList }) => {
             Filter
           </button>
         </div>
+        {errorMessage && <p className="error-message text-danger">{errorMessage}</p>}
       </div>
     </>
   );
