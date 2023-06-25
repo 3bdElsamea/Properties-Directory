@@ -11,9 +11,10 @@ import {
   CardHeader,
   FormGroup,
   Input,
+  Button,
 } from "reactstrap";
 import { useNavigate } from "react-router-dom";
-
+import { Link } from "react-router-dom";
 const empPermissions = localStorage.getItem("permissions");
 
 const CreateCountry = () => {
@@ -63,10 +64,18 @@ const CreateCountry = () => {
             <Col className="order-xl-1 ms-auto" xl="8">
               <Card className="bg-white shadow">
                 <CardHeader className="bg-white border-0">
-                  <Row className="align-items-center justify-content-center">
+                  <Row className="align-items-center justify-content-between">
                     <Col xs="8">
-                      <h3 className="mb-0 text-center">Add Country</h3>
+                      <h3 className="mb-0">Add Country</h3>
                     </Col>
+                    <Col className="text-right">
+                    <Link to={"/dashboard/country"}>
+                      <Button className="btn btn-danger btn-sm" type="button">
+                        <i className="fa fa-arrow-left mr-2"> Back</i>
+                      </Button>
+                    </Link>
+                  </Col>
+
                   </Row>
                 </CardHeader>
                 <CardBody>
@@ -114,7 +123,7 @@ const CreateCountry = () => {
                                 />
                               </FormGroup>
                             </Col>
-                            <Col className="text-right" lg="12">
+                            <Col className="text-center" lg="12">
                               <button
                                 type="submit"
                                 className="btn btn-primary my-4"

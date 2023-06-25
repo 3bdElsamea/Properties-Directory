@@ -11,8 +11,11 @@ import {
   CardHeader,
   FormGroup,
   Input,
+  Button,
 } from "reactstrap";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+
 
 const empPermissions = localStorage.getItem("permissions");
 
@@ -64,7 +67,14 @@ const CreateCountry = () => {
               <CardHeader className="bg-white border-0">
                 <Row className="align-items-center justify-content-center">
                   <Col xs="8">
-                    <h3 className="mb-0 text-center">Add City</h3>
+                    <h3 className="mb-0">Add City</h3>
+                  </Col>
+                  <Col className="text-right">
+                    <Link to={"/dashboard/cities"}>
+                      <Button className="btn btn-danger btn-sm" type="button">
+                        <i className="fa fa-arrow-left mr-2"> Back</i>
+                      </Button>
+                    </Link>
                   </Col>
                 </Row>
               </CardHeader>
