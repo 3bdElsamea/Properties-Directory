@@ -19,7 +19,7 @@ const Chat = () => {
   const [customerList, setCustomerList] = useState([]);
   const [message, setMessage] = useState("");
   const [chat, setChat] = useState([]);
-  const [conversationId, setConversationId] = useState(1);
+  const [currentConversationId, setCurrentConversationId] = useState(null);
 
   const handleMessageChange = (event) => {
     setMessage(event.target.value);
@@ -27,7 +27,10 @@ const Chat = () => {
 
   const handleSendMessage = async () => {
     if (message.trim() !== "") {
-      const newMessage = { conversationId, messageText: message };
+      const newMessage = {
+        conversationId: currentConversationId,
+        messageText: message,
+      };
       try {
         await AxiosDashboard.post("/chat/messages", newMessage);
         setChat([...chat, { message_text: message, sender: "employee" }]);
@@ -63,20 +66,19 @@ const Chat = () => {
     const fetchMessages = async () => {
       try {
         const response = await AxiosDashboard.get(
-          `/chat/conversations/${conversationId}/messages`
+          `/chat/conversations/${currentConversationId}/messages`
         );
         const messages = response.data.messages;
         setChat(messages);
-        //const convID = response.data.messages.chat_id;
-        //setConversationId(convID);
-        //console.log(conversationId);
       } catch (error) {
         console.error("Error fetching messages:", error);
       }
     };
 
-    fetchMessages();
-  }, [conversationId]);
+    if (currentConversationId) {
+      fetchMessages();
+    }
+  }, [currentConversationId]);
 
   return (
     <>
@@ -87,8 +89,7 @@ const Chat = () => {
               <ListGroup>
                 {customerList.map((customer, index) => {
                   const conversationMessages = chat?.filter(
-                    (message) =>
-                      message.conversationId === customer.conversationId
+                    (message) => message.conversationId === customer.id
                   );
 
                   const lastMessage = conversationMessages.reduce(
@@ -96,9 +97,12 @@ const Chat = () => {
                       prev.message_id > current.message_id ? prev : current,
                     {}
                   );
-
                   return (
-                    <ListGroupItem className="messageItem pt-4" key={index}>
+                    <ListGroupItem
+                      className="messageItem pt-4"
+                      key={index}
+                      onClick={() => setCurrentConversationId(customer.id)}
+                    >
                       <img
                         className="rounded-circle mb-4 mr-3"
                         src={
@@ -118,7 +122,7 @@ const Chat = () => {
                           }}
                         >
                           {lastMessage
-                            ? lastMessage?.message_text.length > 40
+                            ? lastMessage?.message_text?.length > 40
                               ? `${lastMessage.message_text.slice(0, 40)}...`
                               : lastMessage.message_text
                             : "Loading..."}
@@ -131,6 +135,11 @@ const Chat = () => {
             </div>
           </Col>
           <Col md="8" className="chatCol shadow">
+            {!currentConversationId && (
+              <p style={{ margin: "2%" }}>
+                Choose a conversation to show its messages...
+              </p>
+            )}{" "}
             <div className="chat-screen">
               {chat?.map((message, index) => (
                 <div
@@ -144,22 +153,24 @@ const Chat = () => {
                   {message.message_text}
                 </div>
               ))}
-              <div className="message-input">
-                <InputGroup>
-                  <Input
-                    type="text"
-                    value={message}
-                    onChange={handleMessageChange}
-                    placeholder="Type your message..."
-                    onKeyDown={handleKeyDown}
-                  />
-                  <InputGroupAddon addonType="append">
-                    <Button color="primary" onClick={handleSendMessage}>
-                      <FontAwesomeIcon icon={faPaperPlane} />
-                    </Button>
-                  </InputGroupAddon>
-                </InputGroup>
-              </div>
+              {currentConversationId && (
+                <div className="message-input">
+                  <InputGroup>
+                    <Input
+                      type="text"
+                      value={message}
+                      onChange={handleMessageChange}
+                      placeholder="Type your message..."
+                      onKeyDown={handleKeyDown}
+                    />
+                    <InputGroupAddon addonType="append">
+                      <Button color="primary" onClick={handleSendMessage}>
+                        <FontAwesomeIcon icon={faPaperPlane} />
+                      </Button>
+                    </InputGroupAddon>
+                  </InputGroup>
+                </div>
+              )}{" "}
             </div>
           </Col>
         </Row>
