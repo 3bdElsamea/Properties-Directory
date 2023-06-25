@@ -23,26 +23,23 @@ const PropertyAdd = () => {
       .required("Title is required.")
       .matches(/^[a-zA-Z ]+$/, "Title should contain only letters and spaces."),
     slug: Yup.string().required("Slug is required."),
-    description: Yup.string()
-    .required("Description is required.")
-    .matches(
-      /^[a-zA-Z ,.]+$/,
-      "Description should contain only letters, spaces, periods, and commas."
-    ),
+    description: Yup.mixed()
+    .required("Description is required."),
+    
     address: Yup.string()
     .required("address is required.")
     .matches(
       /^[a-zA-Z ,.]+$/,
       "address should contain only letters, spaces, periods, and commas."
     ),
-    price: Yup.number().required("Price is required"),
+    price: Yup.number().positive("Price must be a positive number").required("Price is required"),
     image: Yup.mixed().required("Image is required"),
-    area: Yup.number().required("Area is required"),
-    bathrooms: Yup.number().required("Number of bathrooms is required"),
-    bedrooms: Yup.number().required("Number of bedrooms is required"),
-    garage: Yup.number().required("Number of garage is required"),
-    floors: Yup.number().required("Number of floors is required"),
-    year_built: Yup.number().required("Year built is required"),
+    area: Yup.number().positive("Area must be a positive number").required("Area is required"),
+  bathrooms: Yup.number().positive("Number of bathrooms must be a positive number").required("Number of bathrooms is required"),
+  bedrooms: Yup.number().positive("Number of bedrooms must be a positive number").required("Number of bedrooms is required"),
+    garage: Yup.number().min(0, "Number of garage must be zero or a positive number").required("Number of garage is required"),
+    floors: Yup.number().positive("Number of floors must be a positive number").required("Number of floors is required"),
+    year_built: Yup.number().positive("Year built must be a positive number").required("Year built is required"),
     status: Yup.string().required("Status is required"),
     category_id: Yup.string().required("Category ID is required"),
     city_id: Yup.string().required("City ID is required"),
@@ -105,7 +102,7 @@ const PropertyAdd = () => {
 
   const fetchOwners = async () => {
     try {
-      const response = await AxiosDashboard.get("/owners"); // Replace with the correct URL for fetching owners data
+      const response = await AxiosDashboard.get("/owners?limit=100"); // Replace with the correct URL for fetching owners data
       const owners = response.data.data;
       const ownerOptions = owners.map((owner) => ({
         value: owner.id,
@@ -118,7 +115,7 @@ const PropertyAdd = () => {
   };
   const fetchEmployees = async () => {
     try {
-      const response = await AxiosDashboard.get("/employees"); // Replace with the correct URL for fetching owners data
+      const response = await AxiosDashboard.get("/employees?limit=100"); // Replace with the correct URL for fetching owners data
       const employees = response.data.data;
       const employeeOptions = employees.map((employee) => ({
         value: employee.id,
@@ -132,7 +129,7 @@ const PropertyAdd = () => {
 
   const fetchCities = async () => {
     try {
-      const response = await AxiosDashboard.get("/cities"); // Replace with the correct URL for fetching owners data
+      const response = await AxiosDashboard.get("/cities?limit=100"); // Replace with the correct URL for fetching owners data
       const cities = response.data.data;
       const cityOptions = cities.map((city) => ({
         value: city.id,
