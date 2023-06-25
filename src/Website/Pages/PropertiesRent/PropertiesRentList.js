@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import PropertiesListFilter from "./Property-List-Filter";
+import PropertiesListFilter from "../Properties/Properties-List/Property-List-Filter";
 import { Row, Col } from "reactstrap";
 import { AxiosWeb } from "../../../Axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -24,11 +24,11 @@ const PropertiesRentList = () => {
     getRequestedProperties();
     checkLoginStatus(); 
   }, []);
-
   const checkLoginStatus = () => {
-    const jwt = localStorage.getItem("jwt"); // Check for JWT in local storage
-    setIsLoggedIn(!!jwt); // Update the login status based on JWT availability
+    const token = localStorage.getItem("token"); // Check for token in local storage
+    setIsLoggedIn(!!token); // Update the login status based on token availability
   };
+
 
   const getPropertyList = async () => {
     try {
@@ -121,13 +121,12 @@ const PropertiesRentList = () => {
                     {requestedProperties.includes(property.id) ? (
                       <span className="requestedSpan">Already requested</span>
                     ) : isLoggedIn ? (
-                    <Btn
-                      onClick={() => handleRequest(property.id)}
-                      title="Request"
-                      className="btn updateBtn ud-btn btn-secondary updateBtn fs-5"
-                      
-                    />
-                  ) : null} 
+                      <Btn
+                        onClick={() => handleRequest(property.id)}
+                        title="Request"
+                        className="btn updateBtnProperty ud-btn btn-secondary mt-0 updateBtn fs-5"
+                      />
+                    ) : null}
                   </div>
                 </div>
               ))
