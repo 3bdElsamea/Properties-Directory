@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import "./Chat.css";
 import { AxiosWeb } from "../../../Axios";
+import Pusher from "pusher-js";
+
 const ChatComponent = ({ propertyId }) => {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [messages, setMessages] = useState([
@@ -13,7 +15,6 @@ const ChatComponent = ({ propertyId }) => {
   const [conversationId, setConversationId] = useState("");
   const messagesEndRef = useRef(null);
 
-
   const toggleChat = () => {
     setIsChatOpen(!isChatOpen);
   };
@@ -21,7 +22,6 @@ const ChatComponent = ({ propertyId }) => {
   const handleMessageChange = (e) => {
     setNewMessage(e.target.value);
   };
-
 
   const fetchChatHistory = async () => {
     try {
@@ -42,17 +42,15 @@ const ChatComponent = ({ propertyId }) => {
       return;
     }
     try {
-      console.log("hiii", conversationId);
       const response = await AxiosWeb.post(`/chat/messages`, {
         messageText: newMessage,
         conversationId: conversationId,
       });
-      console.log(response);
-      console.log(response.data);
-      setMessages([...messages, response.data]);
+      setMessages((prevMessages) => [...prevMessages, response.data]);
       setNewMessage("");
       scrollToBottom();
-
+      // console.log(response);
+      // console.log(response.data);
     } catch (error) {
       console.log(error);
     }
@@ -62,10 +60,32 @@ const ChatComponent = ({ propertyId }) => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  // const pusher = new Pusher("fb1c526a7f07ebcc0179", {
+  //   cluster: "eu",
+  // });
+
+  // const channel = pusher.subscribe(`chat-${conversationId}`);
+  // console.log(`chat-${conversationId}`);
 
   useEffect(() => {
+    const pusher = new Pusher("fb1c526a7f07ebcc0179", {
+      cluster: "eu",
+    });
+
+    const channel = pusher.subscribe(`chat-${conversationId}`);
+    console.log(`chat-${conversationId}`);
+
     fetchChatHistory();
-  }, [propertyId]);
+    scrollToBottom();
+    channel.bind("message_to_customer", function (data) {
+      console.log("data", data);
+      setMessages((prevMessages) => [...prevMessages, data.message]);
+    });
+    return () => {
+      pusher.unsubscribe(`chat-${conversationId}`);
+      pusher.disconnect();
+    };
+  }, [conversationId]);
 
   return (
     <div className="chat-component">
@@ -79,10 +99,7 @@ const ChatComponent = ({ propertyId }) => {
         <div className="chat-dialog">
           <div className="chat-header">
             <h4>Chat</h4>
-            <button
-              className="close-btn"
-              onClick={() => toggleChat(false)}
-            >
+            <button className="close-btn" onClick={() => toggleChat(false)}>
               <i className="fas fa-times fa-sm"></i>
             </button>
           </div>

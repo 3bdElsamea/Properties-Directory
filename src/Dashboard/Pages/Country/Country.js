@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { AxiosDashboard } from "../../../Axios";
 import { useEffect, useState } from "react";
 import SweetAlert from "../../SharedUI/SweetAlert/SweetAlert";
+import Btn from "../../SharedUI/Btn/Btn";
+
 
 const empPermissions = localStorage.getItem("permissions");
 
@@ -81,6 +83,7 @@ const CreateCountry = () => {
                 <th scope="col">Name</th>
                 <th scope="col">CreatedAt</th>
                 <th scope="col">Status</th>
+                <th scope="col">Action</th>
               </>
             }
            tableData={(item, index) => (
@@ -99,7 +102,12 @@ const CreateCountry = () => {
                     {item.active ? "Active" : "Inactive"}
                   </button>
                 </td>
-                <td></td>
+                <td>
+                  <Link to={`/dashboard/country/update/${item.id}`}>
+                    <Btn className="btn-primary btn-sm fa fa-edit" />
+                  </Link>
+              </td>
+                
                 </>
               )}
             />

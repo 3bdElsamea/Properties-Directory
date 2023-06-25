@@ -1,6 +1,8 @@
 import Tables from "../../SharedUI/Table/Tables";
 import { AxiosDashboard } from "../../../Axios";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import Btn from "../../SharedUI/Btn/Btn";
 
 const empPermissions = localStorage.getItem("permissions");
 
@@ -65,6 +67,7 @@ const CreateCity = () => {
                 <th scope="col">Country</th>
                 <th scope="col">CreatedAt</th>
                 <th scope="col">Status</th>
+                <th scope="col">Action</th>
             </>
             }
             tableData={(item, index) => (
@@ -82,6 +85,11 @@ const CreateCity = () => {
                   {item.active ? "Active" : "Inactive"}
                 </span>
 
+              </td>
+              <td>
+                  <Link to={`/dashboard/cities/update/${item.id}`}>
+                    <Btn className="btn-primary btn-sm fa fa-edit" />
+                  </Link>
               </td>
             </>
             )}

@@ -21,8 +21,10 @@ import UpdateEmployee from "./Dashboard/Pages/Employees/UpdateEmployee.js";
 import EmployeeDetails from "./Dashboard/Pages/Employees/EmployeeDetails.js";
 import Country from "./Dashboard/Pages/Country/Country.js";
 import CreateCountry from "./Dashboard/Pages/Country/CreateCountry.js";
+import UpdateCountry from "./Dashboard/Pages/Country/UpdateCountry.js";
 import Cities from "./Dashboard/Pages/Cities/Cities.js";
 import CreateCity from "./Dashboard/Pages/Cities/CreateCity.js";
+import UpdateCity from "./Dashboard/Pages/Cities/UpdateCity.js";
 import Owners from "./Dashboard/Pages/Owners/Owners.js";
 import OwnerUpdate from "./Dashboard/Pages/Owners/OwnerUpdate.js";
 import OwnerAdd from "./Dashboard/Pages/Owners/OwnerAdd.js";
@@ -202,6 +204,12 @@ var routes = [
     component: <CreateCountry />,
     layout: "/dashboard",
   },
+  {
+    path: "/country/update/:id",
+    name: "hiddenRoute",
+    component: <UpdateCountry />,
+    layout: "/dashboard",
+  },
   //cities
   {
     path: "/cities",
@@ -214,6 +222,12 @@ var routes = [
     path: "/cities/create",
     name: "hiddenRoute",
     component: <CreateCity />,
+    layout: "/dashboard",
+  },
+  {  
+    path: "/cities/update/:id",
+    name: "hiddenRoute",
+    component: <UpdateCity />,
     layout: "/dashboard",
   },
 
