@@ -22,6 +22,16 @@ const empPermissions = localStorage.getItem("permissions");
 const UpdateEmployee = () => {
   const navigate = useNavigate();
   const { id } = useParams();
+  const [roles, setRoles] = useState([]);
+
+  const getRoles = async () => {
+    try {
+      const response = await AxiosDashboard.get(`/roles`);
+      setRoles(response.data?.roles.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const [employee, setEmployee] = useState({
     name: "",
@@ -29,7 +39,7 @@ const UpdateEmployee = () => {
     phone: "",
     password: "",
     image: "",
-    role: "",
+    role_id: "",
     blocked: false,
   });
 
@@ -41,9 +51,11 @@ const UpdateEmployee = () => {
     email: Yup.string().email("Invalid email.").required("Email is required."),
 
     phone: Yup.string().matches(
-      /^\+[0-9]{10,12}$/,
-      "Phone number should be valid number."
+      /^\d+$/,
+      "Phone number must be numeric."
     ),
+
+      
     password: Yup.string()
       .min(8, "Password must be at least 8 characters.")
       .max(20, "Password must not exceed 20 characters.")
@@ -64,12 +76,12 @@ const UpdateEmployee = () => {
       phone: "",
       password: "",
       image: "",
-      role: "",
+      role_id: "",
     },
     validationSchema,
 
     onSubmit: (values) => {
-      const updatedEmployee = { ...values, blocked: employee.blocked };
+      const updatedEmployee = { ...values};
 
       // Filter out empty values
       const filteredValues = Object.keys(updatedEmployee).reduce((acc, key) => {
@@ -78,6 +90,7 @@ const UpdateEmployee = () => {
         }
         return acc;
       }, {});
+      delete filteredValues.role;
 
       AxiosDashboard.patch(`/employees/${id}`, filteredValues)
         .then((res) => {
@@ -91,10 +104,11 @@ const UpdateEmployee = () => {
   // Fetch employee data from API on component mount
   useEffect(() => {
     AxiosDashboard.get(`/employees/${id}`).then((res) => {
-      const { name, email, phone, image, role, blocked } = res.data;
-      setEmployee({ ...employee, name, email, phone, image, role, blocked });
-      formik.setValues({ name, email, phone, role });
+      const { name, email, phone, image, role_id} = res.data;
+      setEmployee({ ...employee, name, email, phone, image, role_id});
+      formik.setValues({ name, email, phone, role_id });
     });
+    getRoles();
   }, [id, areAllFieldsEmpty]);
 
   const areAllFieldsEmpty = () => {
@@ -205,14 +219,17 @@ const UpdateEmployee = () => {
                     <Input
                       className="form-control-alternative"
                       id="role"
-                      type="select"
+                      type="select"                      
                       {...formik.getFieldProps("role")}
                       invalid={formik.touched.role && formik.errors.role}
                     >
-                      <option value="">Select a role</option>
-                      <option value="admin">Admin</option>
-                      <option value="manager">Manager</option>
-                      <option value="employee">Employee</option>
+                      <option value="" disabled>Select a role</option>
+                      {roles?.map((role) => (
+                        <option key={role.id} value={role.id}>
+                          {role.name}
+                        </option>
+                      ))}
+                      
                     </Input>
                     {formik.touched.role && formik.errors.role && (
                       <div className="invalid-feedback">
@@ -225,7 +242,7 @@ const UpdateEmployee = () => {
                       <button
                         className="btn-danger btn"
                         onClick={formik.handleSubmit}
-                        type="button"
+                        type="submit"
                         disabled={areAllFieldsEmpty}
                       >
                         Update

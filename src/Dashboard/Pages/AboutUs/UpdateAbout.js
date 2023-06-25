@@ -68,7 +68,9 @@ const UpdateAbout = () => {
     try {
       const formData = new FormData();
       formData.append("title", about.title);
-      formData.append("logo", about.logo);
+      if (about.logo !== null) {
+        formData.append("logo", about.logo);
+      }
       formData.append("description", about.description);
       formData.append("phone", about.phone);
       formData.append("email", about.email);

@@ -75,11 +75,7 @@ const Contact = () => {
                           {new Date(contactItem.created_at).toLocaleString()}
                         </span>
                       </p>
-                      <span
-                        className={`status-badge ${contactItem.status.toLowerCase()}`}
-                      >
-                        {contactItem.status}
-                      </span>
+                     
                     </CardFooter>
                   </Card>
                 </Col>
