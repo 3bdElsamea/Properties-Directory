@@ -31,21 +31,22 @@ import 'typeface-poppins';
 import './app.css'
 import 'react-notifications-component/dist/theme.css'
 
-
-
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const jwt = localStorage.getItem("jwt");
 
 root.render(
-
   <BrowserRouter>
-  
     <Routes>
-    {!jwt && !<Route path="/auth/reset-password" element={<ResetPasswordDash />} />
-    && <Route path="/*" element={<Navigate to="/auth/login" replace />} />}
-      <Route path="/dashboard/*" element={<AdminLayout />} />
+      {!jwt ? (
+        <Route path="/dashboard/*" element={<Navigate to="/auth/login" replace />} />
+      ) : (
+        <>
+          <Route path="/dashboard/*" element={<AdminLayout />} />
+        </>
+      )}
       <Route path="/auth/*" element={<AuthLayout />} />
       <Route path="/home" element={<><Navbar/><Home /> <Footer/> </>} />
+      <Route path="/" element={<><Navbar/><Home /> <Footer/> </>} />
       <Route path="/properties" element={<><Navbar/> <PropertiesList /><Footer/></>} />
       <Route path="/properties/sell" element={<><Navbar/> <PropertiesSellList /><Footer/></>} />
       <Route path="/properties/rent" element={<><Navbar/> <PropertiesRentList /><Footer/></>} />
@@ -56,11 +57,11 @@ root.render(
       <Route path="/login" element={<><LoginWebsite /></>} />
       <Route path="/profile" element={<><Navbar/><Profile /><Footer/></>} />
       <Route path="/update_profile" element={<><Navbar/><UpdateProfile /><Footer/></>} />
-      <Route path="/auth/reset-password/:id" element={<><ResetPassword /></>} />
       <Route path="/my-requests" element={<><Navbar/><MyRequests /><Footer/></>} />
       <Route path="/contact-us" element={<><Navbar/><ContactUs /><Footer/></>} />
+      <Route path="/dashboard/auth/reset-password/:id" element={<><ResetPasswordDash /></>} />
+      <Route path="/auth/reset-password/:id" element={<><ResetPassword /></>} />
       <Route path="*" element={<ErrorPage />} />
-      {/* <Route path="*" element={<Navigate to="/admin/index" replace />} /> */}
     </Routes>
   </BrowserRouter>
 );

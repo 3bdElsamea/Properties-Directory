@@ -23,7 +23,6 @@ const EmployeeDetails = () => {
   useEffect(() => {
     getEmployees();
   }, []);
-
   if (empPermissions.split(",").includes("employee")) {
     return (
       <Container className="mt--5 " fluid>
@@ -45,7 +44,7 @@ const EmployeeDetails = () => {
                 </Row>
               </CardHeader>
               <CardBody>
-                <Row className="bg-danger">
+                {/*<Row className="bg-danger">
                   <Col className="md-auto">
                     <div className="card-profile-image">
                       <img
@@ -55,7 +54,7 @@ const EmployeeDetails = () => {
                       />
                     </div>
                   </Col>
-                </Row>
+    </Row>*/}
                 <Row className="mb-3">
                   <Col md="auto">
                     <i className="fa fa-user"></i>
@@ -89,7 +88,7 @@ const EmployeeDetails = () => {
                   </Col>
                   <Col>
                     <span className="font-weight-bold mr-1">Role:</span>
-                    {employee.role}
+                    {employee.Role?employee.Role.name:"No Role"}
                   </Col>
                 </Row>
               </CardBody>

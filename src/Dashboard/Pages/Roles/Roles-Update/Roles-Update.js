@@ -23,6 +23,7 @@ const RolesUpdate = () => {
   const [permissions, setPermissions] = useState([]);
   const [selectedPermissions, setSelectedPermissions] = useState([]);
   const [existingRole, setExistingRole] = useState(null);
+  const [error, setError] = useState(null); // State variable to hold the error message
 
   useEffect(() => {
     // Fetch permissions data from the API
@@ -89,6 +90,7 @@ const RolesUpdate = () => {
       })
       .catch((error) => {
         console.error("Error updating role:", error);
+        setError("Name and Permissions are required"); // Set the error message in the state variable
       });
   };
 
@@ -172,6 +174,7 @@ const RolesUpdate = () => {
                       <table className="mx-auto">
                         <tbody>{permissionTokens}</tbody>
                       </table>
+                      {error && <span className="text-danger">{error}</span>}
                     </div>
                   </Form.Group>
                   <Btn

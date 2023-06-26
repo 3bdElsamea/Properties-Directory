@@ -221,7 +221,7 @@ const UpdateEmployee = () => {
                       id="role"
                       type="select"                      
                       {...formik.getFieldProps("role")}
-                      invalid={formik.touched.role && formik.errors.role}
+                      invalid={formik.touched?.role && formik.errors.role}
                     >
                       <option value="" disabled>Select a role</option>
                       {roles?.map((role) => (
@@ -231,7 +231,7 @@ const UpdateEmployee = () => {
                       ))}
                       
                     </Input>
-                    {formik.touched.role && formik.errors.role && (
+                    {formik.touched?.role && formik.errors.role && (
                       <div className="invalid-feedback">
                         {formik.errors.role}
                       </div>

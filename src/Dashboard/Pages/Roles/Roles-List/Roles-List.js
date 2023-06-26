@@ -105,20 +105,24 @@ const Roles = () => {
         <td>{role.name}</td>
         <td>{permissionTable}</td>
         <td>
-          <Btn
-            className="icon-button roleIcon updateRole"
-            onClick={() => handleUpdate(role.id)}
-            title={<FaEdit />}
-          />
-          <SweetAlert
-            id={role.id}
-            dataList={roles}
-            setdataList={setRoles}
-            route="http://3bsi.nader-mo.tech/dashboard/roles"
-            text="Are you sure you want to delete this role?"
-            action="delete"
-            handleAction={() => handleDeleteRole(role.id)}
-          />
+          {role.name !== "super-admin" && (
+            <>
+              <Btn
+                className="icon-button roleIcon updateRole"
+                onClick={() => handleUpdate(role.id)}
+                title={<FaEdit />}
+              />
+              <SweetAlert
+                id={role.id}
+                dataList={roles}
+                setdataList={setRoles}
+                route="http://3bsi.nader-mo.tech/dashboard/roles"
+                text="Are you sure you want to delete this role?"
+                action="delete"
+                handleAction={() => handleDeleteRole(role.id)}
+              />
+            </>
+          )}
         </td>
       </tr>
     );

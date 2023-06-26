@@ -144,6 +144,7 @@ const PropertiesList = () => {
                         </span>
                       )
                     ))}
+                    
                     {requestedProperties.includes(property.id) ? (
                       <span className="requestedSpan">Already requested</span>
                     ) : isLoggedIn ? (

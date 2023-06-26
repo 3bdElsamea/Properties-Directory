@@ -148,8 +148,8 @@ const Properties = () => {
           <td>{property.property_type_id}</td> */}
             {/* <td>{property.owner_id}</td>
           <td>{property.employee_id}</td> */}
-            <td>{property.created_at}</td>
-            <td>{property.updated_at}</td>
+            <td>{new Date(property.created_at).toLocaleString()}</td>
+            <td>{new Date(property.updated_at).toLocaleString()}</td>
             <td>
               <Link to={`/dashboard/Properties/update/${property.id}`}>
                 <Btn className="btn-primary btn fa fa-edit" />

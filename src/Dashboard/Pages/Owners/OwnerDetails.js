@@ -40,7 +40,7 @@ const OwnerDetails = () => {
       <Container className="mt--7" fluid>
         <Row>
           <Col className="order-xl-1" xl="12">
-            <Card className="shadow">
+            <Card className="shadow w-75">
               <CardHeader className="bg-white border-0">
                 <Row className="align-items-center">
                   <Col xs="8">

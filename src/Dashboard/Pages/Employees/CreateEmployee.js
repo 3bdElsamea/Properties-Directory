@@ -374,12 +374,15 @@ const CreateEmployee = () => {
                                 <option value="" disabled selected>
                                   Select Role
                                 </option>
-                                {roles.map((role) => (
-                                  <option key={role.id} value={role.id}>
-                                    {role.name}
-                                  </option>
-                                ))}
+                                {roles
+                                  .filter((role) => role.name !== "super-admin") // Filter out "super-admin" role
+                                  .map((role) => (
+                                    <option key={role.id} value={role.id}>
+                                      {role.name}
+                                    </option>
+                                  ))}
                               </Input>
+
                               <ErrorMessage
                                 name="role"
                                 component="div"

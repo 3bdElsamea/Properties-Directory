@@ -21,6 +21,7 @@ const RolesCreate = () => {
   const [roleName, setRoleName] = useState("");
   const [permissions, setPermissions] = useState([]);
   const [selectedPermissions, setSelectedPermissions] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     // Fetch permissions data from the API
@@ -65,8 +66,6 @@ const RolesCreate = () => {
           const rolePermission = {
             role_id: roleId,
             permission_id: permissionId,
-            // created_at: new Date().toISOString(),
-            // updated_at: new Date().toISOString(),
           };
 
           AxiosDashboard.post("/role_permissions", rolePermission)
@@ -75,6 +74,7 @@ const RolesCreate = () => {
             })
             .catch((error) => {
               console.error("Error creating role permission:", error);
+              setError("Error creating role permission");
             });
         });
 
@@ -82,7 +82,7 @@ const RolesCreate = () => {
         window.location.href = "/dashboard/roles";
       })
       .catch((error) => {
-        console.error("Error creating role:", error);
+        setError("Name and Permissions are required");
       });
   };
 
@@ -102,6 +102,7 @@ const RolesCreate = () => {
 
     permissionTokens.push(<tr key={i}>{rowTokens}</tr>);
   }
+
   if (empPermissions.split(",").includes("role")) {
     return (
       <>
@@ -162,6 +163,7 @@ const RolesCreate = () => {
                         <tbody>{permissionTokens}</tbody>
                       </table>
                     </div>
+                  {error && <span className="text-danger">{error}</span>}
                   </Form.Group>
                   <Btn
                     className="btn btn-primary"

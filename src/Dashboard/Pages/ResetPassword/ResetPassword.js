@@ -144,8 +144,9 @@ const ResetPasswordPage = () => {
                 )}
               </Formik>
             ) : (
-              <div>
+              <div marginLeft='20%'>
                 <p className="text-center">Password updated successfully!</p>
+                <a className="text-center" href='/auth/login'>Back to Login</a>
                 {/* Add any additional success message or styling here */}
               </div>
             )}

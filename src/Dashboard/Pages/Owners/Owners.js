@@ -10,7 +10,7 @@ const empPermissions = localStorage.getItem("permissions");
 
 const Owners = () => {
   const [ownerList, setOwnerList] = useState([]);
-const [totalPages, setTotalPages] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -43,9 +43,6 @@ const [totalPages, setTotalPages] = useState(0);
     }
   };
 
-
-
-
   const getOwnerList = async (page) => {
     try {
       const response = await AxiosDashboard.get("/owners", {
@@ -63,7 +60,8 @@ const [totalPages, setTotalPages] = useState(0);
     getOwnerList(currentPage);
   }, [currentPage]);
 
-  const getStatusBadgeColor = (status) => {
+  {
+    /*} const getStatusBadgeColor = (status) => {
     const lowerCaseStatus = status.toLowerCase();
     switch (lowerCaseStatus) {
       case "active":
@@ -75,7 +73,8 @@ const [totalPages, setTotalPages] = useState(0);
       default:
         return "primary";
     }
-  };
+  };*/
+  }
 
   if (empPermissions.split(",").includes("owner")) {
     return (
@@ -98,7 +97,7 @@ const [totalPages, setTotalPages] = useState(0);
             <th scope="col">Email</th>
             <th scope="col">Phone</th>
             <th scope="col">National ID</th>
-            <th scope="col">Status</th>
+            {/*<th scope="col">Status</th>*/}
             <th scope="col">Created At</th>
             <th scope="col">Actions</th>
           </>
@@ -111,12 +110,12 @@ const [totalPages, setTotalPages] = useState(0);
             <td>{owner.email}</td>
             <td>{owner.phone}</td>
             <td>{owner.national_id}</td>
-            <td>
+            {/*<td>
               <Badge color={getStatusBadgeColor(owner.status)}>
                 {owner.status}
               </Badge>
-            </td>
-            <td>{owner.created_at}</td>
+        </td>*/}
+            <td>{new Date(owner.created_at).toLocaleString()}</td>
             <td>
               <Link to={`/dashboard/Owners/Update/${owner.id}`}>
                 <Btn className="btn-primary btn fa fa-edit" />

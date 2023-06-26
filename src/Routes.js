@@ -89,7 +89,7 @@ var routes = [
   {
     path: "/properties",
     name: empPermissions && empPermissions.split(",").includes("property") ? "property" : "hiddenRoute",
-    icon: "ni ni-bag-17 text-blue",
+    icon: "fa fa-home text-blue",
     component: <Properties />,
     layout: "/dashboard",
   },
@@ -124,7 +124,7 @@ var routes = [
   {
     path: "/Owners",
     name: empPermissions && empPermissions.split(",").includes("owner") ? "owner" : "hiddenRoute",
-    icon: "fa fa-users text-blue",
+    icon: "fa fa-person text-blue",
     component: <Owners />,
     layout: "/dashboard",
   },
@@ -254,7 +254,7 @@ var routes = [
   },
   {
     path: "/About",
-    name: empPermissions && empPermissions.split(",").includes("static_page") ? "about" : "hiddenRoute",
+    name: empPermissions && empPermissions.split(",").includes("static_page") ? "Setting" : "hiddenRoute",
     icon: "ni ni-bullet-list-67 text-blue",
     component: <About />,
     layout: "/dashboard",
@@ -278,7 +278,7 @@ var routes = [
   //contact us
   {
     path: "/contact",
-    name: empPermissions && empPermissions.split(",").includes("contact_us") ? "ContactUs" : "hiddenRoute",
+    name: empPermissions && empPermissions.split(",").includes("contact_us") ? "Contact Us" : "hiddenRoute",
     icon: "fa fa-phone text-blue",
     component: <Contact />,
     layout: "/dashboard",
@@ -308,7 +308,7 @@ var routes = [
   {
     path: "/chat",
     name: empPermissions && empPermissions.split(",").includes("chat") ? "Chat" : "hiddenRoute",
-    icon: "fa fa-phone text-blue",
+    icon: "fa fa-message text-blue",
     component: <Chat />,
     layout: "/dashboard",
 

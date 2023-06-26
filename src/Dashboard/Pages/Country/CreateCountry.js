@@ -49,7 +49,7 @@ const CreateCountry = () => {
 
       //Send form data to the API add blocked status
       await AxiosDashboard.post("/countries", countryData);
-      navigate("/dashboard/countries");
+      navigate("/dashboard/country");
     } catch (error) {
       console.log(error);
     }

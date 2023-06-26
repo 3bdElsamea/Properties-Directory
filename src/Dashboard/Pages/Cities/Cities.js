@@ -10,9 +10,8 @@ const CreateCity = () => {
   const [cityList, setCityList] = useState([]);
   const [countryList, setCountryList] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
-  const [currentPage, setCurrentPage]=useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
-
 
   const handleSearch = (event) => {
     const query = event.target.value;
@@ -21,6 +20,27 @@ const CreateCity = () => {
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
+  };
+
+  const handleToggle = async (id, active) => {
+    try {
+      const response = await AxiosDashboard.patch(
+        `/cities/${id}/toggle-active`
+      );
+      const updatedCountryList = cityList.map((city) => {
+        if (city.id === id) {
+          return {
+            ...city,
+            active: !active,
+          };
+        }
+        return city;
+      });
+      setCountryList(updatedCountryList);
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const getAllCities = async () => {
@@ -54,13 +74,13 @@ const CreateCity = () => {
             title="All Cities"
             route="/dashboard/cities/create"
             totalPages={totalPages}
-          currentPage={currentPage}
-          endpoint="cities"
-          onPageChange= {handlePageChange}
-          handleSearch={handleSearch}
-          searchQuery={searchQuery}
-          query="name"
-          content={
+            currentPage={currentPage}
+            endpoint="cities"
+            onPageChange={handlePageChange}
+            handleSearch={handleSearch}
+            searchQuery={searchQuery}
+            query="name"
+            content={
               <>
                 <th scope="col">#</th>
                 <th scope="col">City</th>
@@ -68,7 +88,7 @@ const CreateCity = () => {
                 <th scope="col">CreatedAt</th>
                 <th scope="col">Status</th>
                 <th scope="col">Action</th>
-            </>
+              </>
             }
             tableData={(item, index) => (
               <>
@@ -77,28 +97,26 @@ const CreateCity = () => {
                 <td>{getCountryName(item.country_id)}</td>
                 <td>{item.created_at}</td>
                 <td>
-                <span
-                  className={`badge rounded-pill px-3 py-2 bg-${
-                    item.active ? "success" : "danger"
-                  }`}
-                >
-                  {item.active ? "Active" : "Inactive"}
-                </span>
-
-              </td>
-              <td>
+                  <button
+                    className={`btn btn-${
+                      item.active ? "success" : "danger"
+                    } btn-sm`}
+                    onClick={() => handleToggle(item.id, item.active)}
+                  >
+                    {item.active ? "Active" : "Inactive"}
+                  </button>
+                </td>
+                <td>
                   <Link to={`/dashboard/cities/update/${item.id}`}>
                     <Btn className="btn-primary btn-sm fa fa-edit" />
                   </Link>
-              </td>
-            </>
+                </td>
+              </>
             )}
           />
         </div>
       </>
-  
-
-  );
+    );
   } else {
     window.location.href = "/ErrorPage";
   }

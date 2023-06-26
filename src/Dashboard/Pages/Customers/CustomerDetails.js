@@ -55,7 +55,7 @@ const CustomerDetails = () => {
                 <Row className="justify-content-center">
                   <Col xs="8" className="text-left">
                     <Row>
-                      <Col xs="2">
+                      <Col xs="3">
                         <h6 className="mb-0">UserName:</h6>
                       </Col>
                       <Col>
@@ -63,7 +63,7 @@ const CustomerDetails = () => {
                       </Col>
                     </Row>
                     <Row>
-                      <Col xs="2">
+                      <Col xs="3">
                         <h6 className="mb-0">Name:</h6>
                       </Col>
                       <Col>
@@ -71,7 +71,7 @@ const CustomerDetails = () => {
                       </Col>
                     </Row>
                     <Row>
-                      <Col xs="2">
+                      <Col xs="3">
                         <h6 className="mb-0">Email:</h6>
                       </Col>
                       <Col>
@@ -79,7 +79,7 @@ const CustomerDetails = () => {
                       </Col>
                     </Row>
                     <Row>
-                      <Col xs="2">
+                      <Col xs="3">
                         <h6 className="mb-0">Phone:</h6>
                       </Col>
                       <Col>

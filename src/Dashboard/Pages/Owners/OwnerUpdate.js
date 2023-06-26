@@ -28,7 +28,7 @@ const OwnerUpdate = () => {
     phone: "",
     image: "",
     national_id: "",
-    status: "",
+    //status: "",
     created_at: "",
   });
 
@@ -44,7 +44,7 @@ const OwnerUpdate = () => {
     national_id: Yup.string()
       .required("National ID is required")
       .matches(/^[0-9]{14}$/, "National ID must be a 14-digit number"),
-    status: Yup.string().required("Status is required"),
+    //status: Yup.string().required("Status is required"),
   });
   // Formik form submission handler
   const formik = useFormik({
@@ -54,7 +54,7 @@ const OwnerUpdate = () => {
       email: "",
       phone: "",
       national_id: "",
-      status: "",
+      //status: "",
     },
     validationSchema,
 
@@ -80,7 +80,8 @@ const OwnerUpdate = () => {
 
   useEffect(() => {
     AxiosDashboard.get(`/owners/${ownerId}`).then((res) => {
-      const { name, slug, email, phone, national_id, status } = res.data;
+      {/*const { name, slug, email, phone, national_id, status } = res.data;*/}
+      const { name, slug, email, phone, national_id } = res.data;
       setOwnerInfo({
         ...ownerInfo,
         name,
@@ -88,9 +89,10 @@ const OwnerUpdate = () => {
         email,
         phone,
         national_id,
-        status,
+        //status,
       });
-      formik.setValues({ name, slug, email, phone, national_id, status });
+      {/*formik.setValues({ name, slug, email, phone, national_id, status });*/}
+      formik.setValues({ name, slug, email, phone, national_id });
     });
   }, [ownerId, areAllFieldsEmpty]);
 
@@ -259,7 +261,7 @@ const OwnerUpdate = () => {
                     <Row>
                       <Col lg="7">
                         <FormGroup>
-                          <label
+                          {/*<label
                             className="form-control-label"
                             htmlFor="input-status"
                           >
@@ -279,11 +281,12 @@ const OwnerUpdate = () => {
                             <option value="rejected">rejected</option>
                             <option value="pending">pending</option>
                           </Input>
+                          
                           {formik.touched.status && formik.errors.status && (
                             <div className="invalid-feedback">
                               {formik.errors.status}
                             </div>
-                          )}
+                          )}*/}
                         </FormGroup>
                       </Col>
                     </Row>

@@ -22,9 +22,8 @@ const Contact = () => {
   const getContactData = async () => {
     try {
       setContactDataLoading(true);
-      const response = await AxiosDashboard.get("/Contact-us");
-      const { data } = response.data;
-      setContactData(data);
+      const response = await AxiosDashboard.get("/contact-us");
+      setContactData(response.data);
       setContactDataLoading(false);
     } catch (error) {
       setContactDataLoading(false);
@@ -50,7 +49,7 @@ const Contact = () => {
             <p>Error loading contact data: {contactDataErrorMessage}</p>
           ) : (
             <Row>
-              {contactData.map((contactItem, index) => (
+              {contactData?.map((contactItem, index) => (
                 <Col key={index} lg={12} md={12} sm={12} className="px-5 py-3">
                   <Card className="contact-card">
                     <CardHeader className="d-flex justify-content-between header">

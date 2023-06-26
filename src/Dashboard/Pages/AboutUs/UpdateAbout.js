@@ -68,7 +68,7 @@ const UpdateAbout = () => {
     try {
       const formData = new FormData();
       formData.append("title", about.title);
-      if (about.logo !== null) {
+      if (typeof(about.logo) !== 'string') {
         formData.append("logo", about.logo);
       }
       formData.append("description", about.description);
@@ -80,6 +80,7 @@ const UpdateAbout = () => {
       formData.append("youtube", about.socialMedia.youtube);
       formData.append("twitter", about.socialMedia.twitter);
 
+      console.log(formData, about);
       const response = await AxiosDashboard.patch("/data", formData);
       console.log(response.data);
       navigate("/dashboard/About");
