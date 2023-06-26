@@ -4,7 +4,8 @@ import AppError from '../../utils/appError.js';
 import ApiFeatures from '../../utils/apiFeatures.js';
 
 const getAllContactsUs = catchAsync(async (req, res, next) => {
-  const contactsUs = await new ApiFeatures(ContactUs, req.query).get();
+  // const contactsUs = await new ApiFeatures(ContactUs, req.query).get();
+  const contactsUs = await ContactUs.findAll();
   res.json(contactsUs);
 });
 
