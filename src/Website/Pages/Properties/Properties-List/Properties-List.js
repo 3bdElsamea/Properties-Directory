@@ -123,7 +123,6 @@ const PropertiesList = () => {
                   </div>
                   <div className="cardContent">
                     <a href={`/PropertyDetails/${property.id}`}>{property.title}</a>
-                    <small>In {cityName[index]}</small>
                     <span>
                       <FontAwesomeIcon icon={faBed} /> {property.bedrooms}{" "}
                       <span className="details">bed</span>
