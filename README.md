@@ -85,7 +85,7 @@ The Properties Directory project is divided into two main components:
 2. [Back-end branch](https://github.com/3bdElsamea/Properties-Directory/tree/backend)
 
 ## How to Run:
-run these commands step by step
+Run these commands step by step
 
 ```
 git init
