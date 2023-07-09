@@ -80,4 +80,24 @@ The Properties Directory project is divided into two main components:
 8. Contact Us
    - Provides a contact form for visitors or users to submit questions, comments, or feedback to system administrators or the customer support team.
 
-Please note that the above feature list is a high-level overview of the functionality provided by the Properties Directory system. For more detailed information, please refer to the system's documentation or consult the relevant code files.
+## Repo Structure:
+1. [Front-end branch (default)](https://github.com/3bdElsamea/Properties-Directory/tree/frontend)
+2. [Back-end branch](https://github.com/3bdElsamea/Properties-Directory/tree/backend)
+
+## How to Run:
+``` git init ```
+
+``` git clone https://github.com/3bdElsamea/Properties-Directory.git ```
+
+``` npm install ```
+
+``` npm start ```
+
+
+## Front-end Team:
+1. [Lamis Tarek](https://github.com/LamisTarek)
+2. [Asmaa Abd ELhalem](https://github.com/asmaa388)
+3. [Enas Gamal](https://github.com/enasgamal9)
+
+
+Please note that the above feature list is a high-level overview of the functionality provided by the Properties Directory system. For more detailed information, please refer to code files.
