@@ -85,13 +85,21 @@ The Properties Directory project is divided into two main components:
 2. [Back-end branch](https://github.com/3bdElsamea/Properties-Directory/tree/backend)
 
 ## How to Run:
-``` git init ```
+```
+git init
+```
 
-``` git clone https://github.com/3bdElsamea/Properties-Directory.git ```
+```
+git clone https://github.com/3bdElsamea/Properties-Directory.git
+```
 
-``` npm install ```
+```
+npm install
+```
 
-``` npm start ```
+```
+npm start
+```
 
 
 ## Front-end Team:
