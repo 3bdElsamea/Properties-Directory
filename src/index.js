@@ -4,7 +4,6 @@ import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 
 import "./Dashboard/Assets/plugins/nucleo/css/nucleo.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import "./Dashboard/Assets/scss/argon-dashboard-react.scss";
 import AdminLayout from "./Dashboard/Layouts/Admin.js";
 import AuthLayout from "./Dashboard/Layouts/Auth.js";
 import Home from "./Website/Pages/Home/Home";
@@ -24,7 +23,7 @@ import PropertyDetails from "./Website/Pages/PropertyDetails/PropertyDetails"
 import PropertiesSellList from "./Website/Pages/PropertiesSell/PropertiesSellList"
 import PropertiesRentList from "./Website/Pages/PropertiesRent/PropertiesRentList"
 import ResetPasswordDash from "./Dashboard/Pages/ResetPassword/ResetPassword";
-import PropertiesSearch from "./Website/Pages/PropertiesSearch/PropertiesSearch"
+import PropertiesSearch from "./Website/Pages/PropertiesSearch/PropertiesSearch";
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 import 'typeface-poppins';

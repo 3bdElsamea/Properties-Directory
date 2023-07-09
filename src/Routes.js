@@ -51,6 +51,13 @@ var routes = [
     layout: "/dashboard",
   },
   {
+    path: "/",
+    name: "hiddenRoute",
+    icon: "ni ni-tv-2 text-primary",
+    component: <Index />,
+    layout: "/dashboard",
+  },
+  {
     path: "/ErrorPage",
     name: "hiddenRoute",
     icon: "ni ni-tv-2 text-primary",
