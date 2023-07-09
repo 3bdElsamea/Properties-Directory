@@ -103,6 +103,7 @@ const PropertiesList = () => {
           <PropertiesListFilter
             setFilteredPropertyList={setFilteredPropertyList}
             filteredPropertyList={filteredPropertyList}
+            className='filterClass'
           />
         </Col>
         <Col>
