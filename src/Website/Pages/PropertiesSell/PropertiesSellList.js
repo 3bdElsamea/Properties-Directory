@@ -118,7 +118,7 @@ const PropertiesList = () => {
                       width="100"
                       height="100"
                     />
-                    <div className="cardImageText">${property.price} / mo</div>
+                    <div className="cardImageText">${property.price}</div>
                   </div>
                   <div className="cardContent">
                     <a href={`/PropertyDetails/${property.id}`}>{property.title}</a>

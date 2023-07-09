@@ -35,7 +35,7 @@ const PropertiesList = () => {
       const categories = response.data;
       setCategoriesList(categories);
 
-      const names = categories.map(category => category.name);
+      const names = categories.map((category) => category.name);
       setCategoryNames(names);
     } catch (error) {
       console.log(error);
@@ -59,10 +59,10 @@ const PropertiesList = () => {
     }
   };
 
-  const getCityNames = async properties => {
+  const getCityNames = async (properties) => {
     try {
       const cityNames = await Promise.all(
-        properties.map(async property => {
+        properties.map(async (property) => {
           const response = await AxiosWeb.get(`/cities/${property.cityId}`);
           return response.data.name;
         })
@@ -77,7 +77,7 @@ const PropertiesList = () => {
     try {
       const response = await AxiosWeb.get("/requests");
       const requestedPropertyIds = response.data.map(
-        request => request.property_id
+        (request) => request.property_id
       );
       setRequestedProperties(requestedPropertyIds);
     } catch (error) {
@@ -85,11 +85,11 @@ const PropertiesList = () => {
     }
   };
 
-  const handleRequest = async property_id => {
+  const handleRequest = async (property_id) => {
     try {
       await AxiosWeb.post(`/requests/${property_id}`);
       console.log("Request submitted successfully!");
-      setRequestedProperties(prevState => [...prevState, property_id]);
+      setRequestedProperties((prevState) => [...prevState, property_id]);
     } catch (error) {
       console.log(error);
     }
@@ -119,10 +119,22 @@ const PropertiesList = () => {
                       width="100"
                       height="100"
                     />
-                    <div className="cardImageText">${property.price} / mo</div>
+                    <div className="cardImageText">
+                      ${property.price}
+                      {categoriesList.map(
+                        (category) =>
+                          property.category_id === category.id && (
+                            <span key={category.id}>
+                              {category.name === "rent" && <span>/ mo</span>}
+                            </span>
+                          )
+                      )}
+                    </div>
                   </div>
                   <div className="cardContent">
-                    <a href={`/PropertyDetails/${property.id}`}>{property.title}</a>
+                    <a href={`/PropertyDetails/${property.id}`}>
+                      {property.title}
+                    </a>
                     <span>
                       <FontAwesomeIcon icon={faBed} /> {property.bedrooms}{" "}
                       <span className="details">bed</span>
@@ -137,13 +149,14 @@ const PropertiesList = () => {
                     </span>
                     <hr className="cardHr" />
                     <FontAwesomeIcon icon={faKey} />
-                    {categoriesList.map(category => (
-                      property.category_id === category.id && (
-                        <span className="mr-5" key={category.id}>
-                          {category.name}
-                        </span>
-                      )
-                    ))}
+                    {categoriesList.map(
+                      (category) =>
+                        property.category_id === category.id && (
+                          <span className="mr-5" key={category.id}>
+                            {category.name}
+                          </span>
+                        )
+                    )}
                     {requestedProperties.includes(property.id) ? (
                       <span className="requestedSpan">Already requested</span>
                     ) : isLoggedIn ? (
