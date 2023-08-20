@@ -57,7 +57,6 @@ const authMiddleware = async (req, res, next) => {
 
       req.decodedData.customer = customer;
     }
-
     next();
   } catch (error) {
     return next(new AppError('Invalid token', 400));
